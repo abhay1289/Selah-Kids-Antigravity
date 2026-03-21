@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&family=Montserrat+Alternates:wght@400;500;600;700;800;900&family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Quicksand", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fredoka", sans-serif;
+  --font-accent: "Montserrat Alternates", sans-serif;
+  --font-outfit: "Outfit", sans-serif;
+  
+  --color-selah-dark: #1c4425;
+  --color-selah-muted: #46664e;
+  --color-selah-light: #93d35c;
+  --color-selah-orange: #ff5c00;
+  --color-selah-yellow: #feb835;
+  --color-selah-bg: #f1f8e7;
+  --color-selah-border: #d0d8d3;
+  
+  --color-coral: #FF7F50;
+  --color-gold: #FFD700;
+  --color-mint: #E8F5E9;
+  --color-soft-pink: #FFE4E1;
+  --color-light-blue: #E0F7FA;
+  --color-cream: #FFFDF5;
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-spin-slow: spin 12s linear infinite;
+  --animate-wiggle: wiggle 4s ease-in-out infinite;
+  --animate-sparkle: sparkle 3s ease-in-out infinite;
+  --animate-blob: blob 25s ease-in-out infinite;
+  --animate-ripple: ripple 0.6s linear;
+  --animate-shimmer: shimmer 2.5s infinite linear;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-2deg); }
+    50% { transform: rotate(2deg); }
+  }
+
+  @keyframes sparkle {
+    0%, 100% { opacity: 0.2; transform: scale(0.8) rotate(0deg); }
+    50% { opacity: 0.8; transform: scale(1.2) rotate(180deg); }
+  }
+
+  @keyframes blob {
+    0% { transform: translate(0px, 0px) scale(1); }
+    33% { transform: translate(50px, -70px) scale(1.2); }
+    66% { transform: translate(-40px, 40px) scale(0.8); }
+    100% { transform: translate(0px, 0px) scale(1); }
+  }
+
+  @keyframes ripple {
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+}
+
+.ease-bounce {
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.ease-apple {
+  transition-timing-function: cubic-bezier(0.28, 0.11, 0.32, 1);
+}
+
+.bg-sunrise {
+  background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-soft-pink) 35%, var(--color-light-blue) 70%, var(--color-mint) 100%);
+}
+
+.text-gradient-coral-gold {
+  background: linear-gradient(to right, var(--color-coral), var(--color-gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bg-gradient-coral {
+  background: linear-gradient(to right, #FF7F50, #FF6347);
+}
+
+.glass-morphism {
+  @apply backdrop-blur-2xl bg-white/40 border border-white/60 shadow-[0_8px_32px_rgba(0,0,0,0.04)];
+}
+
+.glass-morphism-dark {
+  @apply backdrop-blur-2xl bg-black/20 border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.2)];
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply font-sans text-selah-muted bg-white selection:bg-selah-orange/30 overflow-x-hidden antialiased;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-selah-bg;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-selah-orange/20 rounded-full hover:bg-selah-orange/40 transition-colors;
+  }
+}
+
+@layer components {
+  .premium-blur {
+    @apply backdrop-blur-xl bg-white/70 border border-white/20 shadow-[0_8px_32px_0_rgba(28,68,37,0.08)];
+  }
+  
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .mask-blob {
+    mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23FF0066' d='M44.7,-76.4C58.8,-69.2,71.8,-59.1,79.6,-46.2C87.4,-33.3,90.1,-17.6,89.2,-2.4C88.3,12.8,83.8,27.5,76.2,40.8C68.6,54.1,57.9,65.9,44.8,73.8C31.7,81.7,16.2,85.7,0.4,85C-15.4,84.3,-30.8,78.9,-44.4,71.2C-58,63.5,-69.8,53.5,-77.4,41.2C-85,28.9,-88.4,14.4,-88.7,-0.2C-89,-14.8,-86.2,-29.6,-78.9,-42.5C-71.6,-55.4,-59.8,-66.4,-46.2,-73.9C-32.6,-81.4,-17.2,-85.4,-1.2,-83.3C14.8,-81.2,29.6,-83.6,44.7,-76.4Z' transform='translate(100 100)' /%3E%3C/svg%3E");
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+  }
+
+  .shimmer-effect {
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 2.5s infinite linear;
+  }
+}

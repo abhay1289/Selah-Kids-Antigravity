@@ -1,9 +1,9 @@
 import React from 'react';
-import { ParentsHero } from '../components/parents/ParentsHero';
-import { ParentsTrustBadges } from '../components/parents/ParentsTrustBadges';
-import { ParentsAccordion } from '../components/parents/ParentsAccordion';
+import { ParentsHero } from '../../components/parents/ParentsHero';
+import { ParentsTrustBadges } from '../../components/parents/ParentsTrustBadges';
+import { ParentsAccordion } from '../../components/parents/ParentsAccordion';
 
-export const ParentsPage = () => {
+export default function ParentsPage() {
   return (
     <div className="bg-[#FAF9F6] min-h-screen pt-32 pb-20 relative overflow-hidden">
       {/* Soft Background Elements */}
@@ -15,4 +15,4 @@ export const ParentsPage = () => {
       <ParentsAccordion />
     </div>
   );
-};
+}

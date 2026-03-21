@@ -1,8 +1,10 @@
+'use client';
+
 import React, { useState } from 'react';
 import { Sparkles, Globe, BookOpen } from 'lucide-react';
-import { DonateHero } from '../components/donate/DonateHero';
-import { DonateCard } from '../components/donate/DonateCard';
-import { DonateImpact } from '../components/donate/DonateImpact';
+import { DonateHero } from '../../components/donate/DonateHero';
+import { DonateCard } from '../../components/donate/DonateCard';
+import { DonateImpact } from '../../components/donate/DonateImpact';
 
 const AMOUNTS = [10, 20, 30, 50];
 
@@ -33,7 +35,7 @@ const IMPACTS = [
   }
 ];
 
-export const DonatePage = () => {
+export default function DonatePage() {
   const [frequency, setFrequency] = useState<'One-Time' | 'Monthly' | 'Annual'>('Monthly');
   const [amount, setAmount] = useState<number>(30);
 
@@ -54,4 +56,4 @@ export const DonatePage = () => {
       <DonateImpact impacts={IMPACTS} amount={amount} />
     </div>
   );
-};
+}

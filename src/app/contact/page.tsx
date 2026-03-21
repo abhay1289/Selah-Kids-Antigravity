@@ -1,9 +1,9 @@
 import React from 'react';
-import { ContactHero } from '../components/contact/ContactHero';
-import { ContactForm } from '../components/contact/ContactForm';
-import { ContactSidebar } from '../components/contact/ContactSidebar';
+import { ContactHero } from '../../components/contact/ContactHero';
+import { ContactForm } from '../../components/contact/ContactForm';
+import { ContactSidebar } from '../../components/contact/ContactSidebar';
 
-export const ContactPage = () => {
+export default function ContactPage() {
   return (
     <div className="bg-[#FAF9F6] min-h-screen pt-32 pb-20 relative overflow-hidden">
       {/* Premium Background Elements */}
@@ -22,4 +22,4 @@ export const ContactPage = () => {
       </section>
     </div>
   );
-};
+}

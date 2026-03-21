@@ -1,7 +1,10 @@
-import { motion, AnimatePresence } from "motion/react";
+'use client';
+
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Menu, X } from "lucide-react";
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useRouter, usePathname } from "next/navigation";
+import Link from "next/link";
 import { useLanguage } from "../contexts/LanguageContext";
 import { Button } from "./UI";
 
@@ -10,8 +13,8 @@ export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
   const { language, setLanguage, t } = useLanguage();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -53,7 +56,7 @@ export function Navbar() {
 
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: "smooth" });
-      navigate(href);
+      router.push(href);
     }, 600);
   };
 
@@ -66,7 +69,7 @@ export function Navbar() {
           pointer-events-auto
           flex items-center justify-between w-full max-w-7xl px-6 py-2
           rounded-[2rem] transition-all duration-700
-          ${isScrolled || location.pathname !== '/'
+          ${isScrolled || pathname !== '/'
             ? "bg-white/70 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] border border-white/40" 
             : "bg-white/10 backdrop-blur-md border border-white/10"
           }
@@ -128,7 +131,7 @@ export function Navbar() {
           <div className="hidden sm:flex items-center gap-3">
             {/* Language Toggle */}
             <div 
-              className={`flex items-center p-1 rounded-full cursor-pointer transition-colors duration-300 ${isScrolled || location.pathname !== '/' ? 'bg-black/5 hover:bg-black/10' : 'bg-selah-dark/5 hover:bg-selah-dark/10 backdrop-blur-md'}`}
+              className={`flex items-center p-1 rounded-full cursor-pointer transition-colors duration-300 ${isScrolled || pathname !== '/' ? 'bg-black/5 hover:bg-black/10' : 'bg-selah-dark/5 hover:bg-selah-dark/10 backdrop-blur-md'}`}
               onClick={() => setLanguage(l => l === 'EN' ? 'ES' : 'EN')}
             >
               <div className={`relative px-4 py-2 rounded-full text-sm font-accent font-bold uppercase tracking-wider transition-all duration-300 z-10 ${language === 'EN' ? 'text-selah-dark' : 'text-selah-dark/60 hover:text-selah-dark/80'}`}>
@@ -149,7 +152,7 @@ export function Navbar() {
               variant="primary" 
               className="!py-3 !px-8 !text-base !rounded-2xl font-accent font-bold uppercase tracking-wider shadow-lg shadow-selah-orange/20 hover:shadow-xl hover:shadow-selah-orange/30 hover:-translate-y-0.5 transition-all whitespace-nowrap"
               icon={ArrowRight}
-              onClick={() => navigate("/donate")}
+              onClick={() => router.push("/donate")}
             >
               Donate
             </Button>
@@ -159,7 +162,7 @@ export function Navbar() {
           <motion.button 
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.9 }}
-            className={`lg:hidden p-3 rounded-2xl transition-all duration-300 ${isScrolled || location.pathname !== '/' ? "bg-selah-dark/5 text-selah-dark" : "bg-selah-dark/5 text-selah-dark backdrop-blur-md"}`} 
+            className={`lg:hidden p-3 rounded-2xl transition-all duration-300 ${isScrolled || pathname !== '/' ? "bg-selah-dark/5 text-selah-dark" : "bg-selah-dark/5 text-selah-dark backdrop-blur-md"}`} 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -185,7 +188,7 @@ export function Navbar() {
                   transition={{ delay: i * 0.1 }}
                   href={link.href} 
                   onClick={(e) => handleNavClick(e as any, link.href)}
-                  className={`text-selah-dark font-display text-2xl sm:text-3xl tracking-tight hover:text-selah-orange transition-colors ${location.pathname === link.href ? 'text-selah-orange' : ''}`} 
+                  className={`text-selah-dark font-display text-2xl sm:text-3xl tracking-tight hover:text-selah-orange transition-colors ${pathname === link.href ? 'text-selah-orange' : ''}`} 
                 >
                   {link.name}
                 </motion.a>
@@ -209,7 +212,7 @@ export function Navbar() {
                   variant="primary" 
                   className="w-full font-accent font-bold uppercase tracking-wider whitespace-nowrap" 
                   icon={ArrowRight}
-                  onClick={() => { setIsMenuOpen(false); navigate("/donate"); }}
+                  onClick={() => { setIsMenuOpen(false); router.push("/donate"); }}
                 >
                   Donate Now
                 </Button>

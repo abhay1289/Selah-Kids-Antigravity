@@ -1,10 +1,13 @@
-import { motion } from "motion/react";
-import { Link, useNavigate } from "react-router-dom";
+'use client';
+
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Facebook, Instagram, Youtube, Music, Star, Heart, Play, Users, Shield, BookOpen, Book, Mail } from "lucide-react";
 import { Button } from "./UI";
 
 export function Footer() {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <footer className="relative bg-selah-dark pt-32 pb-16 overflow-hidden">
@@ -22,7 +25,7 @@ export function Footer() {
             viewport={{ once: true }}
             className="lg:col-span-5 bg-white/5 border border-white/10 rounded-[2.5rem] p-10 backdrop-blur-xl group hover:border-white/20 transition-all duration-500 shadow-2xl"
           >
-            <Link to="/" className="flex items-center gap-4 mb-8 group/logo">
+            <Link href="/" className="flex items-center gap-4 mb-8 group/logo">
               <motion.div
                 whileHover={{ rotate: [0, -15, 15, 0], scale: 1.1 }}
                 className="w-14 h-14 bg-selah-orange rounded-2xl flex items-center justify-center shadow-[0_10px_30px_-10px_rgba(255,107,0,0.6)] group-hover/logo:shadow-[0_20px_40px_-10px_rgba(255,107,0,0.8)] transition-shadow duration-500"
@@ -79,11 +82,11 @@ export function Footer() {
                 { label: "Contact Us", icon: Mail, href: "/contact" }
               ].map((link, i) => (
                 <li key={i}>
-                  <motion.a 
+                  <Link 
                     href={link.href} 
                     onClick={(e) => {
                       e.preventDefault();
-                      navigate(link.href);
+                      router.push(link.href);
                       window.scrollTo(0, 0);
                     }}
                     whileHover={{ x: 8, color: "#fff" }}
@@ -93,7 +96,7 @@ export function Footer() {
                       <link.icon size={14} />
                     </span>
                     {link.label}
-                  </motion.a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -152,11 +155,11 @@ export function Footer() {
               © {new Date().getFullYear()} Selah Kids. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
-              <Link to="/privacy" className="text-white/30 hover:text-white text-sm font-bold transition-colors relative group">
+              <Link href="/privacy" className="text-white/30 hover:text-white text-sm font-bold transition-colors relative group">
                 Privacy Policy
                 <span className="absolute -bottom-1 left-0 w-0 h-px bg-selah-orange transition-all duration-300 group-hover:w-full" />
               </Link>
-              <Link to="/terms" className="text-white/30 hover:text-white text-sm font-bold transition-colors relative group">
+              <Link href="/terms" className="text-white/30 hover:text-white text-sm font-bold transition-colors relative group">
                 Terms of Service
                 <span className="absolute -bottom-1 left-0 w-0 h-px bg-selah-orange transition-all duration-300 group-hover:w-full" />
               </Link>

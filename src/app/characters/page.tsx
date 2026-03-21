@@ -1,6 +1,8 @@
+'use client';
+
 import React from 'react';
-import { motion } from 'motion/react';
-import { Badge } from '../components/UI';
+import { motion } from 'framer-motion';
+import { Badge } from '../../components/UI';
 
 const CHARACTERS = [
   {
@@ -41,7 +43,7 @@ const CHARACTERS = [
   }
 ];
 
-export const CharactersPage = () => {
+export default function CharactersPage() {
   return (
     <div className="bg-selah-bg min-h-screen pt-32 pb-0 overflow-hidden">
       {/* Hero Section */}
@@ -157,4 +159,4 @@ export const CharactersPage = () => {
       </div>
     </div>
   );
-};
+}

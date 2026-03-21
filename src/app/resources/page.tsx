@@ -1,9 +1,11 @@
+'use client';
+
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, BookOpen, Music, PenTool, School, Palette } from 'lucide-react';
-import { Button } from '../components/UI';
-import { ResourcesHero } from '../components/resources/ResourcesHero';
-import { ResourceCard } from '../components/resources/ResourceCard';
+import { Button } from '../../components/UI';
+import { ResourcesHero } from '../../components/resources/ResourcesHero';
+import { ResourceCard } from '../../components/resources/ResourceCard';
 
 const CATEGORIES = ['All', 'Lyrics', 'Coloring', 'Guides', 'Printables'];
 
@@ -70,7 +72,7 @@ const RESOURCES = [
   }
 ];
 
-export const ResourcesPage = () => {
+export default function ResourcesPage() {
   const [activeCategory, setActiveCategory] = useState('All');
 
   const filteredResources = RESOURCES.filter(res => 
@@ -162,4 +164,4 @@ export const ResourcesPage = () => {
       </section>
     </div>
   );
-};
+}

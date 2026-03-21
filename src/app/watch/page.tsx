@@ -1,8 +1,10 @@
+'use client';
+
 import React, { useState } from 'react';
-import { WatchHero } from '../components/watch/WatchHero';
-import { WatchCategories } from '../components/watch/WatchCategories';
-import { WatchGrid } from '../components/watch/WatchGrid';
-import { WatchCTA } from '../components/watch/WatchCTA';
+import { WatchHero } from '../../components/watch/WatchHero';
+import { WatchCategories } from '../../components/watch/WatchCategories';
+import { WatchGrid } from '../../components/watch/WatchGrid';
+import { WatchCTA } from '../../components/watch/WatchCTA';
 
 const VIDEOS = [
   {
@@ -73,7 +75,7 @@ const VIDEOS = [
   }
 ];
 
-export const WatchPage = () => {
+export default function WatchPage() {
   const [activeCategory, setActiveCategory] = useState('all');
 
   const filteredVideos = VIDEOS.filter(video => 
@@ -97,4 +99,4 @@ export const WatchPage = () => {
       <WatchCTA />
     </div>
   );
-};
+}

@@ -1,9 +1,11 @@
+'use client';
+
 import React, { useState } from 'react';
 import { BookOpen, Users, Clapperboard, Music, Smartphone, Mic } from 'lucide-react';
-import { Button } from '../components/UI';
-import { BlogHero } from '../components/blog/BlogHero';
-import { BlogCategories } from '../components/blog/BlogCategories';
-import { BlogGrid } from '../components/blog/BlogGrid';
+import { Button } from '../../components/UI';
+import { BlogHero } from '../../components/blog/BlogHero';
+import { BlogCategories } from '../../components/blog/BlogCategories';
+import { BlogGrid } from '../../components/blog/BlogGrid';
 
 const BLOG_CATEGORIES = [
   { id: 'all', label: 'All Posts' },
@@ -76,7 +78,7 @@ const BLOG_POSTS = [
   }
 ];
 
-export const BlogPage = () => {
+export default function BlogPage() {
   const [activeCategory, setActiveCategory] = useState('all');
 
   const filteredPosts = BLOG_POSTS.filter(post => 
@@ -101,4 +103,4 @@ export const BlogPage = () => {
       </div>
     </div>
   );
-};
+}
