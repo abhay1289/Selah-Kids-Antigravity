@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { SparklesIcon, Heart, Star } from 'lucide-react';
 
 export const AboutMarqueeSection = () => {

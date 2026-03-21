@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Leaf, ShieldCheck, Lightbulb, ChevronDown, CheckCircle2 } from 'lucide-react';
 
 const ACCORDION_DATA = [

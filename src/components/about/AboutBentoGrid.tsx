@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { Music, Video } from 'lucide-react';
 import { Badge } from '../UI';
 

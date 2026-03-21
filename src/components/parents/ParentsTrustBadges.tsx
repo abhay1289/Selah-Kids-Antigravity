@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { Shield, BookOpen, Smile, Heart } from 'lucide-react';
 
 const TRUST_BADGES = [

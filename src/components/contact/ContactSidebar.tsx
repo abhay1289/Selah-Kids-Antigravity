@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { Mail, Handshake, Newspaper, Youtube, Instagram, Music } from 'lucide-react';
 
 export const ContactSidebar = () => {

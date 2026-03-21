@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion, useTransform, MotionValue } from 'motion/react';
+import { motion, useTransform, MotionValue } from 'framer-motion';
 import { SparklesIcon, Cloud, Sun } from 'lucide-react';
 
 interface AboutHeroSectionProps {
