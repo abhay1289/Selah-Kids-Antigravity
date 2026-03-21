@@ -1,3 +1,5 @@
+"use client";
+
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Cloud, Sun, SparklesIcon } from "lucide-react";
 import { Badge } from "../UI";

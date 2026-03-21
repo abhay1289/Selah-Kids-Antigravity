@@ -1,3 +1,5 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { Music, BookOpen, ArrowRight } from "lucide-react";
 import { Button } from "../UI";

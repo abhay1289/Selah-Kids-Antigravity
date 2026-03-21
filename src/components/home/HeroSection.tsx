@@ -1,3 +1,5 @@
+"use client";
+
 import { motion, useTransform, MotionValue } from "framer-motion";
 import { Play, SparklesIcon, Cloud, Sun, Music } from "lucide-react";
 import { Button } from "../UI";

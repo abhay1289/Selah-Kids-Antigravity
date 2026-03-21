@@ -1,3 +1,5 @@
+"use client";
+
 import { motion, AnimatePresence } from "framer-motion";
 import { Music, Star, Heart, SparklesIcon, Mail, ArrowRight } from "lucide-react";
 import { Button, Badge } from "../UI";
