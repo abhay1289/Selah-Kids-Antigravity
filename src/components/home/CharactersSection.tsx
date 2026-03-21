@@ -1,0 +1,133 @@
+import { motion } from "motion/react";
+import { ArrowRight } from "lucide-react";
+import { Badge } from "../UI";
+import { SectionHeader } from "../SectionHeader";
+import { CHARACTERS } from "../../constants";
+
+const sectionVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { 
+      duration: 0.8, 
+      ease: [0.16, 1, 0.3, 1] 
+    }
+  }
+};
+
+export function CharactersSection() {
+  return (
+    <motion.section 
+      id="characters" 
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={sectionVariants}
+      className="py-16 md:py-32 bg-selah-bg relative overflow-hidden"
+    >
+      {/* Playful Background Shapes */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.2, 1],
+            rotate: [0, 90, 0],
+            x: [0, 50, 0]
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -top-20 -left-20 w-96 h-96 bg-selah-orange/5 rounded-full blur-[100px]"
+        />
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.3, 1],
+            rotate: [0, -90, 0],
+            x: [0, -50, 0]
+          }}
+          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -bottom-20 -right-20 w-[500px] h-[500px] bg-selah-light/10 rounded-full blur-[120px]"
+        />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <SectionHeader 
+          badge="Meet the Characters"
+          title="Andy, Libni, and Shiloh"
+          description="Say hello to Andy, Libni, and Shiloh! These fun friends go on exciting adventures to help kids learn about God, friendship, and faith in a way that's easy to understand."
+          align="center"
+        />
+
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-10 mt-20">
+          {CHARACTERS.map((char, i) => (
+            <motion.div
+              key={char.name}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true }}
+              whileHover={{ 
+                y: -20,
+                scale: 1.02,
+                transition: { type: "spring", stiffness: 300, damping: 15 }
+              }}
+              className="group relative"
+            >
+              <a href="#characters-full" className="block h-full">
+                <div className={`relative h-full rounded-[48px] overflow-hidden bg-gradient-to-br ${char.color} p-8 pt-12 flex flex-col items-center text-center transition-all duration-500 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1),0_10px_15px_-3px_rgba(0,0,0,0.05)] group-hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.2),0_20px_30px_-5px_rgba(0,0,0,0.1)]`}>
+                  {/* Character Image Container */}
+                  <div className="relative w-full aspect-[4/5] mb-8 flex items-center justify-center">
+                    {/* Glow effect behind character */}
+                    <div className="absolute inset-0 bg-white/20 blur-[60px] rounded-full scale-75 group-hover:scale-100 transition-transform duration-700" />
+                    
+                    <motion.img 
+                      src={char.img} 
+                      alt={char.name}
+                      className="relative z-10 w-full h-full object-contain drop-shadow-2xl"
+                      animate={{ 
+                        y: [0, -15, 0],
+                        rotate: [0, 2, 0]
+                      }}
+                      whileHover={{
+                        scale: 1.1,
+                        rotate: [0, -5, 5, 0],
+                        transition: { duration: 0.5 }
+                      }}
+                      transition={{ 
+                        duration: 4 + i, 
+                        repeat: Infinity, 
+                        ease: "easeInOut",
+                        delay: char.delay 
+                      }}
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+
+                  {/* Personality Badge */}
+                  <div className="mb-6">
+                    <Badge color="light" className="!rotate-0 !px-6 !py-2.5 !text-xs border-white/40 shadow-sm backdrop-blur-sm">
+                      {char.trait}
+                    </Badge>
+                  </div>
+
+                  <h3 className="text-5xl font-display text-white mb-4 drop-shadow-sm tracking-tight">{char.name}</h3>
+                  <p className="text-white/90 text-lg leading-relaxed mb-8 max-w-[240px] mx-auto font-sans font-medium">
+                    {char.description}
+                  </p>
+
+                  <div className="mt-auto">
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      className="inline-flex items-center gap-2 text-white font-accent font-bold tracking-widest uppercase text-xs bg-white/20 backdrop-blur-md px-6 py-3 rounded-full border border-white/30 group-hover:bg-white group-hover:text-selah-dark transition-all duration-300 shadow-[0_4px_12px_rgba(0,0,0,0.1)] group-hover:shadow-[0_8px_24px_rgba(0,0,0,0.2)]"
+                    >
+                      Who's that? <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                    </motion.div>
+                  </div>
+                </div>
+              </a>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </motion.section>
+  );
+}

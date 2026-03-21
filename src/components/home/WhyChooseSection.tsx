@@ -1,0 +1,178 @@
+import { motion, useScroll, useTransform } from "motion/react";
+import { Cloud, Sun, SparklesIcon } from "lucide-react";
+import { Badge } from "../UI";
+import { WHY_FEATURES } from "../../constants";
+
+const sectionVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { 
+      duration: 0.8, 
+      ease: [0.16, 1, 0.3, 1] 
+    }
+  }
+};
+
+const FeatureCard: React.FC<{ feature: typeof WHY_FEATURES[0], index: number }> = ({ feature, index }) => {
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      whileHover={{ y: -10 }}
+      transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once: true }}
+      className="group relative h-full"
+    >
+      <div className="bg-white p-12 h-full border border-selah-dark/5 overflow-hidden relative flex flex-col transition-all duration-500 rounded-[40px] shadow-[0_10px_30px_-5px_rgba(0,0,0,0.03),0_4px_6px_-2px_rgba(0,0,0,0.01)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1),0_10px_20px_-5px_rgba(0,0,0,0.05)]">
+        {/* Subtle background glow on hover */}
+        <div 
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+          style={{ background: `radial-gradient(circle at top right, ${feature.color}15, transparent 70%)` }}
+        />
+
+        <div className="relative mb-10 self-start">
+          <div className={`w-24 h-24 ${feature.bgColor} rounded-3xl flex items-center justify-center text-5xl relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)] group-hover:shadow-[0_8px_24px_rgba(0,0,0,0.1)]`}>
+            {feature.icon}
+          </div>
+        </div>
+
+        <div className="flex-grow relative z-10">
+          <h3 className="text-3xl font-display text-selah-dark mb-4 group-hover:text-selah-orange transition-colors duration-300 tracking-tight">
+            {feature.title}
+          </h3>
+          
+          <p className="text-xl text-selah-muted font-sans leading-relaxed">
+            {feature.desc}
+          </p>
+        </div>
+
+        <div className="mt-10 flex items-end justify-between relative z-10">
+          <div className="text-8xl font-display text-selah-dark/[0.03] select-none pointer-events-none group-hover:text-selah-orange/[0.08] transition-all duration-700 leading-none -mb-4 -mr-4 group-hover:scale-110 origin-bottom-right">
+            {index + 1}
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+export function WhyChooseSection() {
+  const { scrollYProgress } = useScroll();
+
+  return (
+    <motion.section 
+      id="why-selah" 
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={sectionVariants}
+      className="py-16 md:py-40 lg:py-56 bg-[#FAF9F6] relative overflow-hidden"
+    >
+      {/* Naturalistic Texture Overlay */}
+      <div className="absolute inset-0 opacity-[0.05] pointer-events-none z-50 mix-blend-multiply" 
+           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }} />
+
+      {/* Organic Floating Elements with Parallax */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <motion.div 
+          style={{ y: useTransform(scrollYProgress, [0, 1], [0, -200]) }}
+          className="absolute -top-[15%] -left-[10%] w-[60%] h-[60%] bg-selah-yellow/10 rounded-[40%_60%_70%_30%/40%_50%_60%_50%] blur-[120px]"
+        />
+        <motion.div 
+          style={{ y: useTransform(scrollYProgress, [0, 1], [0, 200]) }}
+          className="absolute -bottom-[15%] -right-[10%] w-[70%] h-[70%] bg-selah-orange/5 rounded-[60%_40%_30%_70%/50%_60%_40%_50%] blur-[140px]"
+        />
+
+        {/* Floating Nature Elements */}
+        {[...Array(10)].map((_, i) => (
+          <motion.div
+            key={i}
+            style={{ 
+              y: useTransform(scrollYProgress, [0, 1], [0, (i + 1) * -50]),
+              x: (i * 100) % 200 - 100,
+              top: `${(i * 12) % 100}%`, 
+              left: `${(i * 19) % 100}%`,
+            }}
+            animate={{ 
+              rotate: [0, 20, -20, 0],
+              opacity: [0.05, 0.2, 0.05]
+            }}
+            transition={{ duration: 10 + i, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute text-selah-orange/20"
+          >
+            {i % 3 === 0 ? <Cloud size={40 + i * 5} /> : i % 3 === 1 ? <Sun size={30 + i * 5} /> : <SparklesIcon size={20 + i * 5} />}
+          </motion.div>
+        ))}
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="flex flex-col items-center text-center mb-32">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="mb-10"
+          >
+            <Badge color="yellow" className="!rotate-0 !scale-125 px-8 py-3 shadow-sm border border-selah-yellow/20">OUR CORE VALUES</Badge>
+          </motion.div>
+          
+          <div className="relative">
+            <motion.h2 
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+              className="text-5xl md:text-6xl lg:text-7xl font-display text-selah-dark mb-12 leading-[1.1] tracking-tight drop-shadow-sm"
+            >
+              Why <span className="text-selah-orange italic relative inline-block">
+                Selah
+                <motion.svg 
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  whileInView={{ pathLength: 1, opacity: 1 }}
+                  transition={{ duration: 1.5, delay: 0.5, ease: "easeInOut" }}
+                  className="absolute -bottom-4 left-0 w-full h-4 text-selah-yellow/40 -z-10" 
+                  viewBox="0 0 100 20" 
+                  preserveAspectRatio="none"
+                >
+                  <path d="M0,10 Q25,0 50,10 T100,10" fill="none" stroke="currentColor" strokeWidth="8" strokeLinecap="round" />
+                </motion.svg>
+              </span> Kids?
+            </motion.h2>
+          </div>
+          
+          <motion.p 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="text-xl sm:text-2xl md:text-3xl text-selah-muted max-w-4xl mx-auto leading-tight font-sans font-semibold tracking-tight"
+          >
+            Created by parents who wanted better shows for their own kids, Selah Kids mixes awesome Christian cartoons with important lessons from the Bible.
+          </motion.p>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+          {WHY_FEATURES.map((feature, i) => (
+            <FeatureCard key={i} feature={feature} index={i} />
+          ))}
+        </div>
+
+        {/* Bottom Decorative Element */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          className="mt-32 flex justify-center gap-4"
+        >
+          {[...Array(3)].map((_, i) => (
+            <motion.div
+              key={i}
+              animate={{ scale: [1, 1.5, 1], opacity: [0.3, 0.6, 0.3] }}
+              transition={{ duration: 2, repeat: Infinity, delay: i * 0.4 }}
+              className="w-2 h-2 rounded-full bg-selah-orange"
+            />
+          ))}
+        </motion.div>
+      </div>
+    </motion.section>
+  );
+}

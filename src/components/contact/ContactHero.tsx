@@ -1,0 +1,16 @@
+import React from 'react';
+import { Badge } from '../UI';
+
+export const ContactHero = () => {
+  return (
+    <section className="text-center px-6 mb-20 relative z-10">
+      <Badge color="light" className="mb-8 shadow-sm bg-white border border-black/5">GET IN TOUCH</Badge>
+      <h1 className="text-5xl md:text-6xl lg:text-7xl font-display text-selah-dark mb-6 tracking-tight leading-[1.1] drop-shadow-sm">
+        Let's <span className="text-transparent bg-clip-text bg-gradient-to-r from-selah-blue to-selah-pink">Connect</span>
+      </h1>
+      <p className="text-xl md:text-2xl lg:text-3xl text-selah-muted font-sans font-medium max-w-3xl mx-auto leading-relaxed tracking-tight mb-8">
+        We'd love to hear from you! Whether you have a question, want to partner, or just want to say hi.
+      </p>
+    </section>
+  );
+};

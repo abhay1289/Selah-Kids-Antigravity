@@ -1,0 +1,121 @@
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Leaf, ShieldCheck, Lightbulb, ChevronDown, CheckCircle2 } from 'lucide-react';
+
+const ACCORDION_DATA = [
+  {
+    id: "learn",
+    icon: Leaf,
+    title: "What Your Kids Will Learn",
+    items: [
+      "God's unconditional love and grace",
+      "Key stories and characters from the Bible",
+      "The fruit of the Spirit (love, joy, peace...)",
+      "How to pray and talk to God",
+      "Kindness, sharing, and loving others"
+    ]
+  },
+  {
+    id: "promise",
+    icon: ShieldCheck,
+    title: "Our Content Promise",
+    items: [
+      "100% safe, ad-free viewing experience",
+      "Theologically sound lyrics checked by pastors",
+      "High-quality animation that respects kids' intelligence",
+      "No scary imagery or inappropriate themes",
+      "Calming pacing suitable for young developing minds"
+    ]
+  },
+  {
+    id: "usage",
+    icon: Lightbulb,
+    title: "How to Use Selah Kids",
+    items: [
+      "Morning worship to start the day right",
+      "Sing-alongs during long car rides",
+      "Engaging content for Sunday School classes",
+      "Calming sensory videos before bedtime",
+      "Family worship nights together"
+    ]
+  }
+];
+
+export const ParentsAccordion = () => {
+  const [openSection, setOpenSection] = useState<string | null>("learn");
+
+  const toggleSection = (id: string) => {
+    setOpenSection(openSection === id ? null : id);
+  };
+
+  return (
+    <section className="max-w-4xl mx-auto px-6 relative z-10">
+      <div className="text-center mb-16">
+        <h2 className="text-5xl md:text-6xl font-display text-selah-dark tracking-tight mb-6">What to Expect</h2>
+        <p className="text-xl text-selah-muted font-sans font-medium">Everything you need to know about our content and philosophy.</p>
+      </div>
+      <div className="space-y-6">
+        {ACCORDION_DATA.map((section, i) => (
+          <motion.div
+            key={section.id}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.1 }}
+            className={`bg-white rounded-[2rem] border transition-all duration-500 overflow-hidden ${openSection === section.id ? 'border-selah-orange/30 shadow-[0_20px_40px_-15px_rgba(255,127,80,0.15)]' : 'border-black/5 shadow-sm hover:border-black/10 hover:shadow-md'}`}
+          >
+            <button
+              onClick={() => toggleSection(section.id)}
+              className="w-full px-8 py-8 flex items-center justify-between text-left focus:outline-none group"
+            >
+              <div className="flex items-center gap-6">
+                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 ${openSection === section.id ? 'bg-selah-orange text-white scale-110 rotate-3' : 'bg-selah-orange/10 text-selah-orange group-hover:scale-105'}`}>
+                  <section.icon size={28} />
+                </div>
+                <h2 className={`text-2xl md:text-3xl font-display transition-colors duration-300 ${openSection === section.id ? 'text-selah-orange' : 'text-selah-dark group-hover:text-selah-orange'}`}>
+                  {section.title}
+                </h2>
+              </div>
+              <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-500 ${openSection === section.id ? 'bg-selah-orange/10 rotate-180' : 'bg-selah-bg group-hover:bg-white group-hover:shadow-sm'}`}>
+                <ChevronDown size={24} className={`transition-colors duration-300 ${openSection === section.id ? 'text-selah-orange' : 'text-selah-muted group-hover:text-selah-dark'}`} />
+              </div>
+            </button>
+
+            <AnimatePresence>
+              {openSection === section.id && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  className="overflow-hidden"
+                >
+                  <div className="px-8 pb-10 pt-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12 mt-4 border-t border-black/5 pt-8">
+                      {section.items.map((item, i) => (
+                        <motion.div 
+                          key={i} 
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.1 + (i * 0.05) }}
+                          className="flex items-start gap-4"
+                        >
+                          <div className="w-6 h-6 rounded-full bg-[#93D35C]/20 flex items-center justify-center flex-shrink-0 mt-1">
+                            <CheckCircle2 size={16} className="text-[#93D35C]" />
+                          </div>
+                          <p className="text-selah-muted font-sans font-medium text-lg leading-relaxed">
+                            {item}
+                          </p>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  );
+};

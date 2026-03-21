@@ -1,0 +1,13 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+dependencies/
+false/
+test_folder_root/
+test_node_modules/
+.pnpm-store/
