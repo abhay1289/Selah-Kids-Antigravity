@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Badge } from "../UI";
 import { SectionHeader } from "../SectionHeader";
@@ -24,7 +24,7 @@ export function CharactersSection() {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={sectionVariants}
-      className="py-16 md:py-32 bg-selah-bg relative overflow-hidden"
+      className="py-12 md:py-20 bg-selah-bg relative overflow-hidden"
     >
       {/* Playful Background Shapes */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">

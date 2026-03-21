@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Cloud, Sun, SparklesIcon } from "lucide-react";
 import { Badge } from "../UI";
 import { WHY_FEATURES } from "../../constants";
@@ -68,7 +68,7 @@ export function WhyChooseSection() {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={sectionVariants}
-      className="py-16 md:py-40 lg:py-56 bg-[#FAF9F6] relative overflow-hidden"
+      className="py-12 md:py-20 lg:py-24 bg-[#FAF9F6] relative overflow-hidden"
     >
       {/* Naturalistic Texture Overlay */}
       <div className="absolute inset-0 opacity-[0.05] pointer-events-none z-50 mix-blend-multiply" 

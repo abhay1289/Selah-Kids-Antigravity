@@ -1,8 +1,8 @@
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { Music, BookOpen, ArrowRight } from "lucide-react";
 import { Button } from "../UI";
 import { SectionHeader } from "../SectionHeader";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -17,7 +17,7 @@ const sectionVariants = {
 };
 
 export function AboutSection() {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <motion.section 
@@ -26,7 +26,7 @@ export function AboutSection() {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={sectionVariants}
-      className="py-20 md:py-32 bg-white relative overflow-hidden"
+      className="py-16 md:py-24 bg-white relative overflow-hidden"
     >
       {/* Decorative Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-5">
@@ -111,7 +111,7 @@ export function AboutSection() {
             className="mt-4"
           >
             <Button 
-              onClick={() => navigate("/about")}
+              onClick={() => router.push("/about")}
               className="!px-10 !py-5 !text-lg shadow-[0_10px_30px_-10px_rgba(255,92,0,0.4)] hover:shadow-[0_20px_40px_-10px_rgba(255,92,0,0.7)] hover:scale-105 transition-all flex items-center gap-3 group whitespace-nowrap"
             >
               Read Our Full Story

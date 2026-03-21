@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Music, Star, Heart, SparklesIcon, Mail, ArrowRight } from "lucide-react";
 import { Button, Badge } from "../UI";
 import { useState } from "react";
@@ -24,7 +24,7 @@ export function NewsletterSection() {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={sectionVariants}
-      className="py-20 md:py-48 bg-selah-orange relative overflow-hidden"
+      className="py-12 md:py-20 bg-selah-orange relative overflow-hidden"
     >
       {/* Playful Animated Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">

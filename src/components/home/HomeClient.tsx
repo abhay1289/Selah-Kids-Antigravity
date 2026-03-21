@@ -2,14 +2,14 @@
 
 import { motion, useScroll, useSpring, useMotionValue } from "framer-motion";
 import React, { useState, useRef, useEffect } from "react";
-import { HeroSection } from "../components/home/HeroSection";
-import { LatestVideosSection } from "../components/home/LatestVideosSection";
-import { AboutSection } from "../components/home/AboutSection";
-import { CharactersSection } from "../components/home/CharactersSection";
-import { WhyChooseSection } from "../components/home/WhyChooseSection";
-import { JoinYouTubeSection } from "../components/home/JoinYouTubeSection";
-import { TestimonialsSection } from "../components/home/TestimonialsSection";
-import { NewsletterSection } from "../components/home/NewsletterSection";
+import { HeroSection } from "./HeroSection";
+import { LatestVideosSection } from "./LatestVideosSection";
+import { AboutSection } from "./AboutSection";
+import { CharactersSection } from "./CharactersSection";
+import { WhyChooseSection } from "./WhyChooseSection";
+import { JoinYouTubeSection } from "./JoinYouTubeSection";
+import { TestimonialsSection } from "./TestimonialsSection";
+import { NewsletterSection } from "./NewsletterSection";
 
 export default function HomeClient() {
   const containerRef = useRef<HTMLDivElement>(null);

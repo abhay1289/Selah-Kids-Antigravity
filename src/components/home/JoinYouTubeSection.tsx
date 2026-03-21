@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { Youtube, Play } from "lucide-react";
 import { Button, Badge } from "../UI";
 
@@ -21,7 +21,7 @@ export function JoinYouTubeSection() {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={sectionVariants}
-      className="py-20 md:py-32 bg-white relative overflow-hidden"
+      className="py-12 md:py-20 bg-white relative overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-6">
         <div className="bg-selah-dark rounded-[64px] overflow-hidden relative shadow-[0_20px_80px_-20px_rgba(0,0,0,0.3)]">

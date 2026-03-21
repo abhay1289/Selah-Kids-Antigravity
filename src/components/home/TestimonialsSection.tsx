@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { Star, Shield, Users } from "lucide-react";
 import { SectionHeader } from "../SectionHeader";
 import { TESTIMONIALS } from "../../constants";
@@ -23,7 +23,7 @@ export function TestimonialsSection() {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={sectionVariants}
-      className="py-24 md:py-48 bg-white relative overflow-hidden"
+      className="py-12 md:py-20 bg-white relative overflow-hidden"
     >
       {/* Creative Background Elements */}
       <div className="absolute inset-0 pointer-events-none">

@@ -1,7 +1,7 @@
-import { motion, useTransform, MotionValue } from "motion/react";
+import { motion, useTransform, MotionValue } from "framer-motion";
 import { Play, SparklesIcon, Cloud, Sun, Music } from "lucide-react";
 import { Button } from "../UI";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 
 interface HeroSectionProps {
   scrollYProgress: MotionValue<number>;
@@ -9,7 +9,7 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({ scrollYProgress, handleMouseMove }: HeroSectionProps) {
-  const navigate = useNavigate();
+  const router = useRouter();
   
   const heroY = useTransform(scrollYProgress, [0, 0.2], [0, 200]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
@@ -21,7 +21,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove }: HeroSectionPro
       animate={{ opacity: 1 }}
       transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
       onMouseMove={handleMouseMove}
-      className="relative min-h-[100svh] md:min-h-[900px] flex items-center justify-center overflow-hidden bg-selah-bg py-20 md:py-0"
+      className="relative min-h-[100svh] md:min-h-[900px] flex items-center justify-center overflow-hidden bg-selah-bg"
     >
       {/* Storytelling Background - Paper Texture & Soft Elements */}
       <div className="absolute inset-0 opacity-[0.04] pointer-events-none z-0 mix-blend-multiply" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
@@ -71,6 +71,52 @@ export function HeroSection({ scrollYProgress, handleMouseMove }: HeroSectionPro
           className="w-full h-full object-cover object-[20%_90%]"
           referrerPolicy="no-referrer"
         />
+        
+        {/* Floating Characters - NEW! */}
+        <motion.div 
+          initial={{ opacity: 0, x: -100, y: 100 }}
+          animate={{ opacity: 1, x: 0, y: 0 }}
+          transition={{ duration: 1.5, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="absolute bottom-0 left-[2%] w-[25%] md:w-[20%] z-20 pointer-events-none hidden md:block"
+        >
+          <motion.img 
+            animate={{ y: [0, -20, 0], rotate: [-2, 2, -2] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            src="/SK_Libni_Intro_Pose-removebg-preview.png" 
+            alt="Libni"
+            className="w-full h-auto drop-shadow-2xl"
+          />
+        </motion.div>
+
+        <motion.div 
+          initial={{ opacity: 0, x: 100, y: 100 }}
+          animate={{ opacity: 1, x: 0, y: 0 }}
+          transition={{ duration: 1.5, delay: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="absolute bottom-0 right-[2%] w-[25%] md:w-[22%] z-20 pointer-events-none hidden md:block"
+        >
+          <motion.img 
+            animate={{ y: [0, -25, 0], rotate: [2, -2, 2] }}
+            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            src="/SK_Andy_Intro_Pose-removebg-preview.png" 
+            alt="Andy"
+            className="w-full h-auto drop-shadow-2xl"
+          />
+        </motion.div>
+
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, delay: 2, ease: "easeOut" }}
+          className="absolute bottom-10 left-[45%] w-[12%] md:w-[8%] z-10 pointer-events-none hidden md:block"
+        >
+          <motion.img 
+            animate={{ y: [0, -10, 0], scale: [1, 1.05, 1] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+            src="/SK_Shiloh_Intro_Pose-removebg-preview.png" 
+            alt="Shiloh"
+            className="w-full h-auto drop-shadow-xl"
+          />
+        </motion.div>
         
         {/* Gradient Overlay for Text Readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-selah-dark/5 via-transparent to-selah-dark/10" />
@@ -157,7 +203,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove }: HeroSectionPro
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
             >
               <Button 
-                onClick={() => navigate("/about")}
+                onClick={() => router.push("/about")}
                 variant="white" 
                 className="!px-12 !py-6 !text-xl flex items-center justify-center whitespace-nowrap shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] hover:scale-105 transition-all w-full sm:w-auto"
               >

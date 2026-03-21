@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { Play, SparklesIcon, Music, ArrowRight } from "lucide-react";
 import { Button } from "../UI";
 import { SectionHeader } from "../SectionHeader";
@@ -6,23 +6,23 @@ import { SectionHeader } from "../SectionHeader";
 const LATEST_VIDEOS = [
   {
     id: 1,
-    title: "God is So Good",
-    description: "A fun, upbeat song about God's amazing love for us! Perfect for singing and dancing along.",
-    img: "/TGN_SingleFrames+(9).jpg",
-    category: "Worship Song",
+    title: "This Is How We Praise The Lord",
+    description: "A high-energy sing-along that gets kids moving and praising God with all their heart! Join Andy and Libni in this catchy worship song.",
+    img: "/TGN_SingleFrames+28729.jpg",
+    category: "Sing-Along",
     language: "English",
     gradient: "from-selah-orange to-rose-500",
-    date: "NEW RELEASE"
+    date: "LATEST"
   },
   {
     id: 2,
-    title: "Dios es Tan Bueno",
-    description: "¡Una canción divertida y alegre sobre el increíble amor de Dios por nosotros! Perfecta para cantar y bailar.",
-    img: "/TGN_SingleFrames+(1).jpg",
-    category: "Canción de Adoración",
-    language: "Español",
+    title: "The Good News | Jesus Loves Me",
+    description: "Experience the timeless message of God's love through this beautiful, animated version of the beloved classic.",
+    img: "/TGN_SingleFrames+28329.jpg",
+    category: "Bible Song",
+    language: "English / Spanish",
     gradient: "from-selah-yellow to-selah-orange",
-    date: "NUEVO LANZAMIENTO"
+    date: "FEATURED"
   }
 ];
 
@@ -47,7 +47,7 @@ export function LatestVideosSection() {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={sectionVariants}
-      className="py-24 md:py-48 bg-white relative overflow-hidden"
+      className="py-16 md:py-24 bg-white relative overflow-hidden"
     >
       {/* Artistic Background Elements - Playful & Creative */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">

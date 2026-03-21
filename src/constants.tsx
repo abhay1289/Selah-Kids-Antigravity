@@ -6,7 +6,7 @@ export const CHARACTERS = [
     trait: "The Friendly Leader",
     description: "Andy is a smart and friendly boy who loves to lead. He spends his days playing outside in the garden with his best friend and pet sheep, Shiloh.",
     color: "from-[#00BFFF] to-[#87CEEB]", // Sky Blue
-    img: "/TGN_SingleFrames+28229.jpg",
+    img: "/SK_Andy_Intro_Pose-removebg-preview.png",
     delay: 0.1
   },
   {
@@ -14,7 +14,7 @@ export const CHARACTERS = [
     trait: "The Musical Neighbor",
     description: "Libni is Andy’s creative and giggly next-door neighbor who loves music. She spends her time picking flowers, singing, and making up fun dances.",
     color: "from-[#E6E6FA] to-[#D8BFD8]", // Lavender
-    img: "/TGN_SingleFrames+28329.jpg",
+    img: "/SK_Libni_Intro_Pose-removebg-preview.png",
     delay: 0.2
   },
   {
@@ -22,7 +22,7 @@ export const CHARACTERS = [
     trait: "The Funny Sheep",
     description: "Shiloh is Andy’s pet sheep and best friend. He is curious, helpful, and very funny! Shiloh loves resting in the warm sun and finding yummy snacks.",
     color: "from-[#98FF98] to-[#93D35C]", // Mint
-    img: "/TGN_SingleFrames+28729.jpg",
+    img: "/SK_Shiloh_Intro_Pose-removebg-preview.png",
     delay: 0.3
   }
 ];
@@ -30,43 +30,23 @@ export const CHARACTERS = [
 export const LATEST_VIDEOS = [
   {
     id: 1,
-    title: "Jesus Loves Me",
-    date: "March 15, 2026",
-    description: "A fun, upbeat version of the classic hymn that kids will love to sing along to.",
-    category: "Music Video",
+    title: "This Is How We Praise The Lord",
+    date: "LATEST",
+    description: "A fun, high-energy sing-along that gets kids moving and praising God with all their heart!",
+    category: "Sing-Along",
     language: "EN",
     gradient: "from-[#FF7F50] to-[#FF5C00]", // Coral
     img: "/TGN_SingleFrames+28729.jpg"
   },
   {
     id: 2,
-    title: "The Fruit of the Spirit",
-    date: "March 10, 2026",
-    description: "Learn about love, joy, peace, and more in this catchy song based on Galatians 5:22-23.",
+    title: "Jesus Loves Me",
+    date: "FEATURED",
+    description: "The classic hymn brought to life with beautiful animation and soulful vocals for the whole family.",
     category: "Bible Song",
-    language: "EN",
+    language: "EN / ES",
     gradient: "from-[#00BFFF] to-[#87CEEB]", // Sky Blue
     img: "/TGN_SingleFrames+28329.jpg"
-  },
-  {
-    id: 3,
-    title: "He's Got the Whole World",
-    date: "March 5, 2026",
-    description: "A beautiful reminder of God's care for all of creation in this classic worship song.",
-    category: "Worship",
-    language: "EN",
-    gradient: "from-[#FFD700] to-[#FEB835]", // Gold
-    img: "/TGN_SingleFrames+28229.jpg"
-  },
-  {
-    id: 4,
-    title: "This Little Light of Mine",
-    date: "March 1, 2026",
-    description: "Encouraging children to let their light shine for Jesus every day through music.",
-    category: "Music Video",
-    language: "EN",
-    gradient: "from-[#98FF98] to-[#93D35C]", // Mint
-    img: "/TGN_SingleFrames+28729.jpg"
   }
 ];
 

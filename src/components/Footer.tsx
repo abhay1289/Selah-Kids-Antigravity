@@ -10,7 +10,7 @@ export function Footer() {
   const router = useRouter();
 
   return (
-    <footer className="relative bg-selah-dark pt-32 pb-16 overflow-hidden">
+    <footer className="relative bg-selah-dark pt-20 pb-12 overflow-hidden">
       {/* Artistic Background Elements */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
       <div className="absolute -top-48 -left-48 w-[600px] h-[600px] bg-selah-orange/10 blur-[150px] rounded-full animate-pulse" />
@@ -89,7 +89,6 @@ export function Footer() {
                       router.push(link.href);
                       window.scrollTo(0, 0);
                     }}
-                    whileHover={{ x: 8, color: "#fff" }}
                     className="text-lg text-white/50 font-bold hover:text-white transition-all duration-300 flex items-center gap-3 group cursor-pointer"
                   >
                     <span className="w-8 h-8 rounded-xl bg-white/5 flex items-center justify-center group-hover:bg-selah-orange/20 group-hover:text-selah-orange transition-colors shadow-sm">
