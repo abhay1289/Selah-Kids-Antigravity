@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import NextImage from 'next/image';
 import { Badge } from '../UI';
 import { staggerContainer, zoomInUp } from '../../utils/animations';
 
@@ -58,7 +59,7 @@ export const AboutCharacters = () => {
             <div className="absolute inset-0 bg-gradient-to-b from-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <div className={`w-48 h-48 rounded-full mb-8 overflow-hidden ${char.color}/10 flex items-center justify-center p-2 group-hover:scale-110 transition-transform duration-700 ease-out relative z-10`}>
               <div className={`w-full h-full rounded-full overflow-hidden ${char.color}/20 flex items-center justify-center`}>
-                <img src={char.image} alt={char.name} className="w-full h-full object-cover" />
+                <NextImage src={char.image} alt={char.name} width={192} height={192} className="w-full h-full object-cover" loading="lazy" />
               </div>
             </div>
             <h3 className="content-h3-playful mb-2 relative z-10">{char.name}</h3>

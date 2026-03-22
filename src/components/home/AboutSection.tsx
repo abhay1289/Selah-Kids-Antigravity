@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import NextImage from "next/image";
 import { Music, BookOpen, ArrowRight } from "lucide-react";
 import { Button } from "../UI";
 import { SectionHeader } from "../SectionHeader";
@@ -61,11 +62,13 @@ export function AboutSection() {
           className="relative group mt-10 md:mt-0"
         >
           <div className="aspect-[4/5] rounded-[40px] md:rounded-[80px] overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1),0_10px_15px_-3px_rgba(0,0,0,0.05)] transition-all duration-1000 group-hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.2),0_20px_40px_-10px_rgba(0,0,0,0.1)] group-hover:rotate-1">
-            <img 
+            <NextImage 
               src="/TGN_SingleFrames+28329.jpg" 
               alt="Selah Kids" 
-              className="w-full h-full object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-105"
-              referrerPolicy="no-referrer"
+              fill
+              className="object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-105"
+              sizes="(max-width: 768px) 100vw, 40vw"
+              loading="lazy"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-selah-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
           </div>

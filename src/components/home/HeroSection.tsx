@@ -2,6 +2,7 @@
 
 import { motion, useTransform, MotionValue } from "framer-motion";
 import { Play, SparklesIcon, Cloud, Sun, Music } from "lucide-react";
+import Image from "next/image";
 import { Button } from "../UI";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "../../contexts/LanguageContext";
@@ -29,7 +30,6 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
   const sunY = useTransform(scrollYProgress, [0, 0.5], [0, -200]);
   const musicY = useTransform(scrollYProgress, [0, 0.5], [0, -250]);
   const bgImgScale = useTransform(scrollYProgress, [0, 1], [1.05, 1.2]);
-  const bgImgFilter = useTransform(scrollYProgress, [0, 0.5], ["blur(2px)", "blur(16px)"]);
   const contentY = useTransform(scrollYProgress, [0, 0.5], [0, -50]);
 
   if (isLoading) {
@@ -79,19 +79,25 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
         </motion.div>
         
         {/* Cinematic Background Image */}
-        <motion.img 
-          initial={{ scale: 1.2, filter: "blur(20px)", opacity: 0 }}
-          animate={{ scale: 1.05, filter: "blur(2px)", opacity: 0.18 }}
-          transition={{ duration: 3, ease: [0.16, 1, 0.3, 1] as const }}
-          style={{ 
-            scale: bgImgScale,
-            filter: bgImgFilter
-          }}
-          src="/TGN_SingleFrames+(9).jpg" 
-          alt="Hero" 
-          className="w-full h-full object-cover object-[20%_90%]"
-          referrerPolicy="no-referrer"
-        />
+        <div className="absolute inset-0 overflow-hidden">
+          <motion.div
+            initial={{ scale: 1.2, opacity: 0 }}
+            animate={{ scale: 1.05, opacity: 0.18 }}
+            transition={{ duration: 3, ease: [0.16, 1, 0.3, 1] as const }}
+            style={{ scale: bgImgScale }}
+            className="absolute inset-0"
+          >
+            <Image
+              src="/TGN_SingleFrames+(9).jpg"
+              alt="Hero background"
+              fill
+              className="object-cover object-[20%_90%] blur-[2px]"
+              priority
+              quality={75}
+              sizes="100vw"
+            />
+          </motion.div>
+        </div>
         
         {/* Floating Characters - NEW! */}
         <motion.div 
@@ -101,13 +107,19 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
           transition={{ type: "spring", stiffness: 50, damping: 14, delay: 0.1, mass: 1.2 }}
           className="absolute top-[45%] md:top-[50%] -translate-y-1/2 left-0 ml-4 md:ml-12 w-[25%] md:w-[22%] z-20 pointer-events-none hidden md:block"
         >
-          <motion.img 
+          <motion.div
             animate={{ y: [0, -20, 0], rotate: [-2, 2, -2] }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            src="/SK_Libni_Intro_Pose-removebg-preview.png" 
-            alt="Libni"
-            className="w-full h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.3)]"
-          />
+          >
+            <Image
+              src="/SK_Libni_Intro_Pose-removebg-preview.png" 
+              alt="Libni"
+              width={320}
+              height={480}
+              className="w-full h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.3)]"
+              loading="lazy"
+            />
+          </motion.div>
         </motion.div>
 
         <motion.div 
@@ -117,13 +129,19 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
           transition={{ type: "spring", stiffness: 50, damping: 14, delay: 0.15, mass: 1.2 }}
           className="absolute top-[45%] md:top-[50%] -translate-y-1/2 right-0 mr-4 md:mr-12 w-[25%] md:w-[22%] z-20 pointer-events-none hidden md:block"
         >
-          <motion.img 
+          <motion.div
             animate={{ y: [0, -25, 0], rotate: [2, -2, 2] }}
             transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            src="/SK_Andy_Intro_Pose-removebg-preview.png" 
-            alt="Andy"
-            className="w-full h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.3)]"
-          />
+          >
+            <Image
+              src="/SK_Andy_Intro_Pose-removebg-preview.png" 
+              alt="Andy"
+              width={320}
+              height={480}
+              className="w-full h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.3)]"
+              loading="lazy"
+            />
+          </motion.div>
         </motion.div>
 
         {/* Shiloh removed to balance the left/right composition */}

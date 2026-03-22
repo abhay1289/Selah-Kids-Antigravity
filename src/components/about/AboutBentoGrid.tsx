@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import NextImage from 'next/image';
 import { Music, Video } from 'lucide-react';
 import { Badge } from '../UI';
 import { staggerContainer, zoomInUp, rollIn, slideInRight, fadeIn } from '../../utils/animations';
@@ -69,10 +70,13 @@ export const AboutBentoGrid = () => {
         >
           <div className="absolute -right-40 -bottom-40 w-[600px] h-[600px] bg-selah-pink/10 rounded-full blur-3xl pointer-events-none" />
           <div className="w-full md:w-1/2 rounded-[2.5rem] md:rounded-[3.5rem] overflow-hidden relative group">
-            <img 
+            <NextImage 
               src="/TGN_SingleFrames+28729.jpg" 
               alt="Beautiful Animation" 
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" 
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-1000"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              loading="lazy"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
             <div className="absolute bottom-8 left-8 bg-white/90 backdrop-blur-md px-6 py-3 rounded-full flex items-center gap-2 shadow-lg transform group-hover:-translate-y-2 transition-transform duration-500">

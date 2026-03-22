@@ -123,6 +123,27 @@
   
   body {
     @apply font-sans text-selah-muted bg-white selection:bg-selah-orange/30 overflow-x-hidden antialiased;
+    /* Promote body to its own compositor layer */
+    transform: translateZ(0);
+  }
+
+  /* Respect user motion preference – disables all animations/transitions */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* GPU compositing hint for animated elements */
+  [data-animate],
+  .animate-float,
+  .animate-wiggle,
+  .animate-sparkle,
+  .animate-blob {
+    will-change: transform;
   }
 
   /* Focus-visible ring for accessibility (WCAG AA) */

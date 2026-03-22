@@ -2,16 +2,20 @@
 
 import { motion, useScroll, useSpring, useMotionValue, AnimatePresence, useTransform } from "framer-motion";
 import React, { useState, useRef, useEffect } from "react";
+import dynamic from "next/dynamic";
+import Image from "next/image";
 import { CHARACTERS } from "../../constants";
 import { BouncingDots } from "../UI";
 import { HeroSection } from "./HeroSection";
-import { LatestVideosSection } from "./LatestVideosSection";
-import { AboutSection } from "./AboutSection";
-import { CharactersSection } from "./CharactersSection";
-import { WhyChooseSection } from "./WhyChooseSection";
-import { JoinYouTubeSection } from "./JoinYouTubeSection";
-import { TestimonialsSection } from "./TestimonialsSection";
-import { NewsletterSection } from "./NewsletterSection";
+
+// Lazy-load all below-the-fold sections to minimise initial bundle
+const LatestVideosSection  = dynamic(() => import("./LatestVideosSection").then(m => ({ default: m.LatestVideosSection })), { ssr: false });
+const AboutSection         = dynamic(() => import("./AboutSection").then(m => ({ default: m.AboutSection })), { ssr: false });
+const CharactersSection    = dynamic(() => import("./CharactersSection").then(m => ({ default: m.CharactersSection })), { ssr: false });
+const WhyChooseSection     = dynamic(() => import("./WhyChooseSection").then(m => ({ default: m.WhyChooseSection })), { ssr: false });
+const JoinYouTubeSection   = dynamic(() => import("./JoinYouTubeSection").then(m => ({ default: m.JoinYouTubeSection })), { ssr: false });
+const TestimonialsSection  = dynamic(() => import("./TestimonialsSection").then(m => ({ default: m.TestimonialsSection })), { ssr: false });
+const NewsletterSection    = dynamic(() => import("./NewsletterSection").then(m => ({ default: m.NewsletterSection })), { ssr: false });
 
 export default function HomeClient() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -203,10 +207,13 @@ export default function HomeClient() {
                     }}
                   >
                     <div className={`absolute inset-0 bg-gradient-to-br ${char.color} rounded-full blur-[40px] opacity-40`} />
-                    <img 
+                    <Image 
                       src={char.img} 
                       alt={char.name} 
+                      width={208}
+                      height={208}
                       className="relative w-full h-full object-contain"
+                      priority
                     />
                   </motion.div>
                 );

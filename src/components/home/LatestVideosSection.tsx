@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import Image from "next/image";
 import { Play, SparklesIcon, Music, ArrowRight } from "lucide-react";
 import { Button } from "../UI";
 import { SectionHeader } from "../SectionHeader";
@@ -150,11 +151,13 @@ export function LatestVideosSection() {
                   <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-[1500ms] ease-in-out" />
                 </div>
 
-                <img 
+                <Image 
                   src={video.img} 
                   alt={video.title} 
-                  className="w-full h-full object-cover mix-blend-overlay transition-transform duration-1000 group-hover:scale-110"
-                  referrerPolicy="no-referrer"
+                  fill
+                  className="object-cover mix-blend-overlay transition-transform duration-1000 group-hover:scale-110"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  loading="lazy"
                 />
 
                 {/* Play Button Overlay - Floating & Animated */}

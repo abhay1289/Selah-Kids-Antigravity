@@ -17,9 +17,19 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        {/* Preconnect for faster Google Fonts */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://www.transparenttextures.com" />
+      </head>
       <body className="antialiased">
         <LanguageProvider>
-          <Script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module" strategy="lazyOnload" />
+          <Script
+            src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs"
+            type="module"
+            strategy="lazyOnload"
+          />
           <div className="min-h-screen overflow-x-hidden selection:bg-selah-orange selection:text-white bg-selah-bg">
             <Navbar />
             <main>{children}</main>

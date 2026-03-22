@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import NextImage from 'next/image';
 import { Play } from 'lucide-react';
 
 interface Video {
@@ -38,7 +39,7 @@ export const WatchGrid = ({ filteredVideos }: WatchGridProps) => {
             >
               <div className="relative aspect-video rounded-3xl overflow-hidden mb-6 shadow-sm group-hover:shadow-2xl transition-all duration-500">
                 <div className={`absolute inset-0 bg-gradient-to-br ${video.gradient} opacity-80 mix-blend-multiply z-10`} />
-                <img src={video.img} alt={video.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
+                <NextImage src={video.img} alt={video.title} fill className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out" sizes="(max-width: 768px) 100vw, 33vw" loading="lazy" />
                 
                 {/* Shimmer Effect */}
                 <div className="absolute inset-0 z-20 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">

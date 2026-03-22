@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import NextImage from 'next/image';
 import { Badge } from '../../components/UI';
 
 const CHARACTERS = [
@@ -95,11 +96,13 @@ export default function CharactersPage() {
                       transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                       className="relative z-10 w-full max-w-[500px] aspect-[4/5] rounded-[4rem] overflow-hidden shadow-[0_40px_80px_-20px_rgba(0,0,0,0.3)] border-8 border-white/40 transform transition-transform duration-700 hover:scale-105 hover:rotate-2"
                     >
-                      <img 
+                      <NextImage 
                         src={char.image} 
                         alt={char.imageAlt}
-                        className="w-full h-full object-cover"
-                        referrerPolicy="no-referrer"
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        loading="lazy"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60" />
                     </motion.div>
