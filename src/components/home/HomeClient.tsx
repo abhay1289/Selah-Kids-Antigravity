@@ -207,13 +207,11 @@ export default function HomeClient() {
                     }}
                   >
                     <div className={`absolute inset-0 bg-gradient-to-br ${char.color} rounded-full blur-[40px] opacity-40`} />
-                    <Image 
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img 
                       src={char.img} 
                       alt={char.name} 
-                      width={208}
-                      height={208}
                       className="relative w-full h-full object-contain"
-                      priority
                     />
                   </motion.div>
                 );
