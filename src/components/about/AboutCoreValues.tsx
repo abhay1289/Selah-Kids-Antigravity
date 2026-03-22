@@ -33,6 +33,33 @@ const CORE_VALUES = [
   }
 ];
 
+const CreativeIcon: React.FC<{ children: React.ReactNode, color: string }> = ({ children, color }) => {
+  return (
+    <motion.div
+      animate={{ 
+        y: [0, -4, 0],
+        rotate: [0, 2, -2, 0],
+      }}
+      transition={{ 
+        duration: 4, 
+        ease: "easeInOut", 
+        repeat: Infinity 
+      }}
+      className="relative flex items-center justify-center w-full h-full"
+    >
+      <motion.div
+        animate={{ scale: [1, 1.15, 1], opacity: [0.15, 0.35, 0.15] }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute inset-0 rounded-3xl"
+        style={{ backgroundColor: color }}
+      />
+      <div className="relative z-10 flex items-center justify-center w-full h-full">
+        {children}
+      </div>
+    </motion.div>
+  );
+};
+
 export const AboutCoreValues = () => {
   return (
     <section className="max-w-[1400px] mx-auto px-6 py-16 md:py-28 relative z-10">
@@ -57,8 +84,11 @@ export const AboutCoreValues = () => {
             className="bg-white/80 backdrop-blur-lg rounded-[3rem] p-10 border border-white/80 shadow-sm flex flex-col items-start group hover:bg-selah-orange transition-colors duration-500 relative overflow-hidden"
           >
             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-0 group-hover:opacity-20 mix-blend-overlay transition-opacity duration-500" />
+            
             <div className={`w-20 h-20 rounded-[2rem] flex items-center justify-center mb-8 ${value.color} text-white group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500 ease-out relative z-10 shadow-lg`}>
-              <value.icon size={36} strokeWidth={1.5} />
+              <CreativeIcon color="#ffffff">
+                <value.icon size={36} strokeWidth={1.5} />
+              </CreativeIcon>
             </div>
             <h3 className="content-h3-playful mb-4 leading-none group-hover:text-white transition-colors duration-500 relative z-10">{value.title}</h3>
             <p className="body-text leading-relaxed group-hover:text-white/70 transition-colors duration-500 relative z-10">

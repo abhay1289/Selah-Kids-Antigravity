@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { LanguageProvider } from "../contexts/LanguageContext";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
+import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -18,6 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="antialiased">
         <LanguageProvider>
+          <Script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module" strategy="lazyOnload" />
           <div className="min-h-screen overflow-x-hidden selection:bg-selah-orange selection:text-white bg-selah-bg">
             <Navbar />
             <main>{children}</main>

@@ -19,6 +19,33 @@ const sectionVariants = {
   }
 };
 
+const CreativeIcon: React.FC<{ icon: React.ReactNode, color: string }> = ({ icon, color }) => {
+  return (
+    <motion.div
+      animate={{ 
+        y: [0, -6, 0],
+        rotate: [0, 3, -3, 0],
+      }}
+      transition={{ 
+        duration: 4, 
+        ease: "easeInOut", 
+        repeat: Infinity 
+      }}
+      className="relative"
+    >
+      <motion.div
+        animate={{ scale: [1, 1.15, 1], opacity: [0.15, 0.35, 0.15] }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute inset-0 rounded-3xl blur-md"
+        style={{ backgroundColor: color }}
+      />
+      <div className="relative z-10">
+        {icon}
+      </div>
+    </motion.div>
+  );
+};
+
 const FeatureCard: React.FC<{ feature: typeof WHY_FEATURES[0], index: number }> = ({ feature, index }) => {
   return (
     <motion.div 
@@ -38,7 +65,7 @@ const FeatureCard: React.FC<{ feature: typeof WHY_FEATURES[0], index: number }> 
 
         <div className="relative mb-10 self-start">
           <div className={`w-24 h-24 ${feature.bgColor} rounded-3xl flex items-center justify-center text-5xl relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)] group-hover:shadow-[0_8px_24px_rgba(0,0,0,0.1)]`}>
-            {feature.icon}
+            <CreativeIcon icon={feature.icon} color={feature.color} />
           </div>
         </div>
 
