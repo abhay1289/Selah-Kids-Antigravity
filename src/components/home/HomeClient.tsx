@@ -240,9 +240,9 @@ export default function HomeClient() {
       <HeroSection scrollYProgress={scrollYProgress} handleMouseMove={handleMouseMove} isLoading={isLoading} />
       <LatestVideosSection />
       <AboutSection />
+      <JoinYouTubeSection />
       <CharactersSection />
       <WhyChooseSection />
-      <JoinYouTubeSection />
       <TestimonialsSection />
       <NewsletterSection />
     </div>
