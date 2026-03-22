@@ -243,8 +243,8 @@ export default function HomeClient() {
       <JoinYouTubeSection />
       <CharactersSection />
       <WhyChooseSection />
-      <TestimonialsSection />
       <NewsletterSection />
+      <TestimonialsSection />
     </div>
   );
 }
