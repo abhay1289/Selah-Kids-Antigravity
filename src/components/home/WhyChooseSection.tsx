@@ -78,12 +78,6 @@ const FeatureCard: React.FC<{ feature: typeof WHY_FEATURES[0], index: number }> 
             {feature.desc}
           </p>
         </div>
-
-        <div className="mt-10 flex items-end justify-between relative z-10">
-          <div className="content-h2/[0.03] select-none pointer-events-none group-hover:text-selah-orange/[0.08] transition-all duration-700 leading-none -mb-4 -mr-4 group-hover:scale-110 origin-bottom-right">
-            {index + 1}
-          </div>
-        </div>
       </div>
     </motion.div>
   );
