@@ -116,7 +116,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
               alt="Libni"
               width={320}
               height={480}
-              className="w-full h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.3)]"
+              className="w-full h-auto drop-shadow-[0_15px_40px_rgba(255,100,150,0.5)]"
               loading="lazy"
             />
           </motion.div>
@@ -138,7 +138,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
               alt="Andy"
               width={320}
               height={480}
-              className="w-full h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.3)]"
+              className="w-full h-auto drop-shadow-[0_15px_40px_rgba(0,180,255,0.4)]"
               loading="lazy"
             />
           </motion.div>
@@ -146,8 +146,39 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
 
         {/* Shiloh removed to balance the left/right composition */}
         
+        {/* Cinematic Lighting: Magical Ambient Sun Rays */}
+        <motion.div 
+          animate={{ opacity: [0.2, 0.5, 0.2] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-0 inset-x-0 h-[120%] pointer-events-none mix-blend-overlay z-10 hidden md:block" 
+          style={{ background: "radial-gradient(circle at 50% -10%, rgba(255,255,255,0.9) 0%, rgba(255,220,150,0.3) 35%, transparent 60%)" }} 
+        />
         {/* Gradient Overlay for Text Readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-selah-bg/60 via-selah-bg/20 to-selah-bg/40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-selah-bg/50 via-selah-bg/10 to-selah-bg/40 z-10 pointer-events-none" />
+
+        {/* Cinematic Foreground Depth - Magical Floating Bokeh/Dust */}
+        {[...Array(6)].map((_, i) => (
+          <motion.div
+            key={`bokeh-${i}`}
+            className="absolute rounded-full bg-white/60 blur-[6px] mix-blend-screen pointer-events-none z-[60] hidden sm:block"
+            style={{
+              width: 30 + (i * 15),
+              height: 30 + (i * 15),
+              top: `${10 * i + 10}%`,
+              left: `${15 * i + 5}%`,
+              y: useTransform(scrollYProgress, [0, 1], [0, -300 - (i * 100)]) /* Intense foreground parallax */
+            }}
+            animate={{
+              x: [0, (i % 2 === 0 ? 50 : -50), 0],
+              opacity: [0.1, 0.4, 0.1],
+            }}
+            transition={{
+              duration: 8 + i * 2,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+        ))}
       </motion.div>
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 text-center flex flex-col items-center justify-center mt-24 md:mt-32">
@@ -171,46 +202,42 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
             <span className="ui-label text-selah-dark/90 relative z-10">{t("FAITH-FILLED MUSIC FOR LITTLE ONES", "MÚSICA DE FE PARA LOS PEQUEÑOS")}</span>
           </motion.div>
           
-          {/* Cinematic Title Reveal with Interactive Playful Words */}
-          <div className="relative">
-            <h1 className="hero-headline flex flex-wrap justify-center gap-x-3 lg:gap-x-4 mb-6 drop-shadow-sm relative z-10">
-              {t("Christian", "Música").split(" ").concat(t("Music for", "Cristiana para").split(" ")).map((word, i) => (
-                <span key={i} className="overflow-visible inline-block pb-4 px-1">
-                  <motion.span
-                    initial={{ y: "150%", opacity: 0, rotateZ: 15, scale: 0.8, filter: "blur(8px)" }}
-                    animate={{ y: 0, opacity: 1, rotateZ: 0, scale: 1, filter: "blur(0px)" }}
-                    transition={{ type: "spring", bounce: 0.4, duration: 1.2, delay: i * 0.1 + 0.4 }}
-                    whileHover={{ 
-                      y: -12, 
-                      scale: 1.15, 
-                      rotate: i % 2 === 0 ? 5 : -5, 
-                      color: ["#FF7F50", "#20B2AA", "#FFA500"][i % 3], // Cycle through fun kids colors
-                      transition: { type: "spring", stiffness: 400, damping: 10 }
-                    }}
-                    className="inline-block origin-bottom cursor-default transition-colors duration-200"
-                  >
-                    {word}
-                  </motion.span>
-                </span>
-              ))}
-              <span className="overflow-visible inline-block pb-4">
+          {/* Cinematic Title Reveal with Magical Aura */}
+          <div className="relative mt-2">
+            {/* Glowing magic storytelling aura behind the wordmark */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: [0, 0.5, 0.2, 0.6, 0.3], scale: [0.9, 1.1, 1, 1.05, 1], filter: ["blur(40px)", "blur(70px)", "blur(50px)"] }}
+              transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[160%] bg-[radial-gradient(ellipse_at_center,rgba(255,180,100,0.25)_0%,rgba(255,100,150,0.05)_50%,transparent_70%)] pointer-events-none mix-blend-screen -z-10"
+            />
+            
+            <h1 className="hero-headline flex flex-wrap justify-center gap-x-3 lg:gap-x-4 mb-6 drop-shadow-lg relative z-10">
+            {t("Christian", "Música").split(" ").concat(t("Music for", "Cristiana para").split(" ")).map((word, i) => (
+              <span key={i} className="overflow-hidden inline-block pb-4 px-1">
                 <motion.span
-                  initial={{ y: "150%", opacity: 0, rotateZ: -10, scale: 0.5, filter: "blur(12px)" }}
+                  initial={{ y: "150%", opacity: 0, rotateZ: 15, scale: 0.8, filter: "blur(8px)" }}
                   animate={{ y: 0, opacity: 1, rotateZ: 0, scale: 1, filter: "blur(0px)" }}
-                  transition={{ type: "spring", bounce: 0.5, duration: 1.5, delay: 0.7 }}
-                  whileHover={{ 
-                    scale: 1.2, 
-                    rotate: [0, -10, 10, -10, 0], 
-                    transition: { duration: 0.5 }
-                  }}
-                  className="inline-block origin-center pr-4 drop-shadow-[0_10px_20px_rgba(255,107,0,0.4)] cursor-default"
+                  transition={{ type: "spring", bounce: 0.4, duration: 1.2, delay: i * 0.1 + 0.4 }}
+                  className="inline-block origin-bottom-left"
                 >
-                  {t("Kids", "Niños")}
+                  {word}
                 </motion.span>
               </span>
-            </h1>
+            ))}
+            <span className="overflow-hidden inline-block pb-4">
+              <motion.span
+                initial={{ y: "150%", opacity: 0, rotateZ: -10, scale: 0.5, filter: "blur(12px)" }}
+                animate={{ y: 0, opacity: 1, rotateZ: 0, scale: 1, filter: "blur(0px)" }}
+                transition={{ type: "spring", bounce: 0.5, duration: 1.5, delay: 0.7 }}
+                whileHover={{ scale: 1.1, rotate: 2 }}
+                className="inline-block origin-bottom-left pr-4 drop-shadow-[0_10px_20px_rgba(255,107,0,0.4)]"
+              >
+                {t("Kids", "Niños")}
+              </motion.span>
+            </span>
+          </h1>
           </div>
-
           
           {/* Refined Description */}
           <motion.p 
