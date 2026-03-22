@@ -60,6 +60,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
   // 3D Tilts for Andy (Right) - Opposite Y rotation for depth
   const andyRotateX = useTransform(smoothMouseY, [-0.5, 0.5], [10, -10]);
   const andyRotateY = useTransform(smoothMouseX, [-0.5, 0.5], [-10, 15]);
+  const charRightTranslateX = useTransform(charTranslateX, (val) => -val);
 
   // Spotlight coordinates in percentages
   const spotX = useTransform(smoothMouseX, [-0.5, 0.5], ["0%", "100%"]);
@@ -174,7 +175,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
         <motion.div 
           style={{ 
             y: charRightY, 
-            x: useTransform(charTranslateX, (val) => -val), // Opposite pan
+            x: charRightTranslateX, // Opposite pan
             rotateX: andyRotateX, 
             rotateY: andyRotateY,
             perspective: 800
