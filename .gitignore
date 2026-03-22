@@ -11,3 +11,4 @@ false/
 test_folder_root/
 test_node_modules/
 .pnpm-store/
+.vercel
