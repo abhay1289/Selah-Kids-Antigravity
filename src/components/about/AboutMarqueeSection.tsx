@@ -6,7 +6,7 @@ import { SparklesIcon, Heart, Star } from 'lucide-react';
 
 export const AboutMarqueeSection = () => {
   return (
-    <div className="w-full overflow-hidden bg-selah-orange py-6 md:py-10 -rotate-2 scale-105 my-10 shadow-xl relative z-20">
+    <div className="w-full overflow-hidden bg-selah-orange py-6 md:py-10 -rotate-2 scale-105 my-8 md:my-12 shadow-xl relative z-20">
       <motion.div 
         className="flex whitespace-nowrap gap-8 items-center"
         animate={{ x: ["0%", "-50%"] }}

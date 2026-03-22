@@ -52,7 +52,7 @@ export const ContactSidebar = () => {
       </motion.div>
 
       {/* Follow Us Box */}
-      <motion.div variants={fadeInRight} className="bg-selah-dark rounded-[3rem] p-10 text-center shadow-[0_20px_40px_-15px_rgba(0,0,0,0.4)] mt-10 relative overflow-hidden group">
+      <motion.div variants={fadeInRight} className="bg-gradient-to-br from-selah-orange to-selah-yellow rounded-[3rem] p-10 text-center shadow-[0_20px_40px_-15px_rgba(255,92,0,0.3)] mt-10 relative overflow-hidden group">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10 mix-blend-overlay" />
         <div className="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-bl-full pointer-events-none transition-transform duration-700 group-hover:scale-150" />
         

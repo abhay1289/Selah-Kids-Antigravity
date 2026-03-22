@@ -3,7 +3,7 @@ import { Badge } from '../UI';
 
 export const ResourcesHero = () => {
   return (
-    <section className="text-center px-6 mb-16 relative z-10">
+    <section className="text-center px-6 mb-20 relative z-10">
       <Badge color="orange" className="mb-6 shadow-md">FREE DOWNLOADS</Badge>
       <h1 className="hero-headline mb-6 tracking-tight leading-[1.1] drop-shadow-sm">
         Resources for Families

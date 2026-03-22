@@ -7,7 +7,7 @@ import { Button } from '../UI';
 
 export const AboutCTA = () => {
   return (
-    <section className="max-w-[1400px] mx-auto px-6 py-20 mb-20 relative z-10">
+    <section className="max-w-[1400px] mx-auto px-6 py-16 md:py-28 mb-16 relative z-10">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}

@@ -22,7 +22,7 @@ interface WatchGridProps {
 
 export const WatchGrid = ({ filteredVideos }: WatchGridProps) => {
   return (
-    <section className="max-w-7xl mx-auto px-6 mb-32 relative z-10">
+    <section className="max-w-7xl mx-auto px-6 mb-20 md:mb-28 relative z-10">
       <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <AnimatePresence mode="popLayout">
           {filteredVideos.map((video) => (
@@ -66,13 +66,13 @@ export const WatchGrid = ({ filteredVideos }: WatchGridProps) => {
               </div>
               
               <div className="flex-grow flex flex-col mt-2">
-                <h3 className="content-h3 text-white mb-3 group-hover:text-selah-blue transition-colors drop-shadow-sm">
+                <h3 className="content-h3 text-selah-dark mb-3 group-hover:text-selah-orange transition-colors drop-shadow-sm">
                   {video.title}
                 </h3>
-                <div className="ui-label text-white/40 mb-4">
+                <div className="ui-label text-selah-muted/60 mb-4">
                   {video.date}
                 </div>
-                <p className="text-white/60 body-text line-clamp-2">
+                <p className="text-selah-muted body-text line-clamp-2">
                   {video.description}
                 </p>
               </div>

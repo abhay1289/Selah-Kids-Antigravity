@@ -78,7 +78,7 @@ export function WhyChooseSection() {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={sectionVariants}
-      className="py-12 md:py-20 lg:py-24 bg-[#FAF9F6] relative overflow-hidden"
+      className="py-10 md:py-16 bg-[#FAF9F6] relative overflow-hidden"
     >
       {/* Naturalistic Texture Overlay */}
       <div className="absolute inset-0 opacity-[0.05] pointer-events-none z-50 mix-blend-multiply" 
@@ -118,7 +118,7 @@ export function WhyChooseSection() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="flex flex-col items-center text-center mb-32">
+        <div className="flex flex-col items-center text-center mb-16">
           <motion.div
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             whileInView={{ opacity: 1, scale: 1, y: 0 }}
@@ -174,7 +174,7 @@ export function WhyChooseSection() {
         <motion.div 
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          className="mt-32 flex justify-center gap-4"
+          className="mt-16 flex justify-center gap-4"
         >
           {[...Array(3)].map((_, i) => (
             <motion.div

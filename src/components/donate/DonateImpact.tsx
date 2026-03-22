@@ -21,7 +21,7 @@ interface DonateImpactProps {
 
 export const DonateImpact: React.FC<DonateImpactProps> = ({ impacts, amount }) => {
   return (
-    <section className="max-w-[1400px] mx-auto px-6 relative z-10">
+    <section className="max-w-[1400px] mx-auto px-6 pb-8 relative z-10">
       <div className="text-center mb-16">
         <Badge color="light" className="mb-6 shadow-sm bg-white border border-black/5">YOUR IMPACT</Badge>
         <h2 className="content-h2 tracking-tight">

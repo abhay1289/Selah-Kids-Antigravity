@@ -9,9 +9,10 @@ import { useLanguage } from "../../contexts/LanguageContext";
 interface HeroSectionProps {
   scrollYProgress: MotionValue<number>;
   handleMouseMove: (e: React.MouseEvent) => void;
+  isLoading?: boolean;
 }
 
-export function HeroSection({ scrollYProgress, handleMouseMove }: HeroSectionProps) {
+export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: HeroSectionProps) {
   const router = useRouter();
   const { t } = useLanguage();
   
@@ -22,6 +23,18 @@ export function HeroSection({ scrollYProgress, handleMouseMove }: HeroSectionPro
   // New Character Parallax
   const charLeftY = useTransform(scrollYProgress, [0, 1], [0, -150]);
   const charRightY = useTransform(scrollYProgress, [0, 1], [0, -250]);
+
+  // Extract all useTransform hooks so they run on every render (Rules of Hooks)
+  const cloudY = useTransform(scrollYProgress, [0, 0.5], [0, -150]);
+  const sunY = useTransform(scrollYProgress, [0, 0.5], [0, -200]);
+  const musicY = useTransform(scrollYProgress, [0, 0.5], [0, -250]);
+  const bgImgScale = useTransform(scrollYProgress, [0, 1], [1.05, 1.2]);
+  const bgImgFilter = useTransform(scrollYProgress, [0, 0.5], ["blur(2px)", "blur(16px)"]);
+  const contentY = useTransform(scrollYProgress, [0, 0.5], [0, -50]);
+
+  if (isLoading) {
+    return <section className="relative min-h-[100svh] md:min-h-[900px] bg-selah-bg" />;
+  }
 
   return (
     <motion.section 
@@ -40,7 +53,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove }: HeroSectionPro
       >
         {/* Floating Background Elements */}
         <motion.div 
-          style={{ y: useTransform(scrollYProgress, [0, 0.5], [0, -150]) }}
+          style={{ y: cloudY }}
           animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
           className="absolute top-32 left-[10%] text-selah-dark/5"
@@ -48,7 +61,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove }: HeroSectionPro
           <Cloud size={140} fill="currentColor" />
         </motion.div>
         <motion.div 
-          style={{ y: useTransform(scrollYProgress, [0, 0.5], [0, -200]), rotate: sunRotate }}
+          style={{ y: sunY, rotate: sunRotate }}
           animate={{ scale: [1, 1.05, 1] }}
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
           className="absolute top-48 right-[12%] text-selah-yellow/20"
@@ -57,7 +70,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove }: HeroSectionPro
         </motion.div>
 
         <motion.div
-          style={{ y: useTransform(scrollYProgress, [0, 0.5], [0, -250]) }}
+          style={{ y: musicY }}
           animate={{ y: [0, -40, 0], rotate: [0, 10, 0] }}
           transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
           className="absolute top-[35%] left-[20%] text-selah-dark/5"
@@ -71,8 +84,8 @@ export function HeroSection({ scrollYProgress, handleMouseMove }: HeroSectionPro
           animate={{ scale: 1.05, filter: "blur(2px)", opacity: 0.18 }}
           transition={{ duration: 3, ease: [0.16, 1, 0.3, 1] as const }}
           style={{ 
-            scale: useTransform(scrollYProgress, [0, 1], [1.05, 1.2]),
-            filter: useTransform(scrollYProgress, [0, 0.5], ["blur(2px)", "blur(16px)"])
+            scale: bgImgScale,
+            filter: bgImgFilter
           }}
           src="/TGN_SingleFrames+(9).jpg" 
           alt="Hero" 
@@ -83,10 +96,10 @@ export function HeroSection({ scrollYProgress, handleMouseMove }: HeroSectionPro
         {/* Floating Characters - NEW! */}
         <motion.div 
           style={{ y: charLeftY }}
-          initial={{ opacity: 0, x: -100, scale: 0.8, rotate: -15 }}
-          animate={{ opacity: 1, x: 0, scale: 1, rotate: 0 }}
-          transition={{ type: "spring", stiffness: 60, damping: 12, delay: 0.4 }}
-          className="absolute bottom-0 left-0 ml-4 md:ml-12 w-[25%] md:w-[22%] z-20 pointer-events-none hidden md:block"
+          initial={{ opacity: 0, x: "35vw", scale: 0.2, rotate: 30, filter: "blur(20px)" }}
+          animate={{ opacity: 1, x: 0, scale: 1, rotate: 0, filter: "blur(0px)" }}
+          transition={{ type: "spring", stiffness: 50, damping: 14, delay: 0.1, mass: 1.2 }}
+          className="absolute top-[45%] md:top-[50%] -translate-y-1/2 left-0 ml-4 md:ml-12 w-[25%] md:w-[22%] z-20 pointer-events-none hidden md:block"
         >
           <motion.img 
             animate={{ y: [0, -20, 0], rotate: [-2, 2, -2] }}
@@ -99,10 +112,10 @@ export function HeroSection({ scrollYProgress, handleMouseMove }: HeroSectionPro
 
         <motion.div 
           style={{ y: charRightY }}
-          initial={{ opacity: 0, x: 100, scale: 0.8, rotate: 15 }}
-          animate={{ opacity: 1, x: 0, scale: 1, rotate: 0 }}
-          transition={{ type: "spring", stiffness: 60, damping: 12, delay: 0.6 }}
-          className="absolute bottom-0 right-0 mr-4 md:mr-12 w-[25%] md:w-[22%] z-20 pointer-events-none hidden md:block"
+          initial={{ opacity: 0, x: "-35vw", scale: 0.2, rotate: -30, filter: "blur(20px)" }}
+          animate={{ opacity: 1, x: 0, scale: 1, rotate: 0, filter: "blur(0px)" }}
+          transition={{ type: "spring", stiffness: 50, damping: 14, delay: 0.15, mass: 1.2 }}
+          className="absolute top-[45%] md:top-[50%] -translate-y-1/2 right-0 mr-4 md:mr-12 w-[25%] md:w-[22%] z-20 pointer-events-none hidden md:block"
         >
           <motion.img 
             animate={{ y: [0, -25, 0], rotate: [2, -2, 2] }}
@@ -119,16 +132,16 @@ export function HeroSection({ scrollYProgress, handleMouseMove }: HeroSectionPro
         <div className="absolute inset-0 bg-gradient-to-b from-selah-bg/60 via-selah-bg/20 to-selah-bg/40" />
       </motion.div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center flex flex-col items-center justify-center mt-32 md:mt-40">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center flex flex-col items-center justify-center mt-24 md:mt-32">
         <motion.div
-          style={{ opacity: heroOpacity, y: useTransform(scrollYProgress, [0, 0.5], [0, -50]) }}
+          style={{ opacity: heroOpacity, y: contentY }}
           className="flex flex-col items-center"
         >
           {/* Premium Pill Badge */}
           <motion.div 
-            initial={{ scale: 0.9, opacity: 0, y: 20 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] as const }}
+            initial={{ scale: 0.8, opacity: 0, y: 30, filter: "blur(10px)" }}
+            animate={{ scale: 1, opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ type: "spring", stiffness: 70, damping: 15, delay: 0.3 }}
             className="relative inline-flex items-center gap-3 px-6 py-2.5 bg-white/60 backdrop-blur-2xl border border-white/80 shadow-[0_8px_32px_rgba(0,0,0,0.08)] rounded-full mb-8 cursor-default overflow-hidden group hover:shadow-[0_16px_48px_rgba(0,0,0,0.12)] transition-shadow duration-500"
           >
             <motion.div
@@ -145,9 +158,9 @@ export function HeroSection({ scrollYProgress, handleMouseMove }: HeroSectionPro
             {t("Christian", "Música").split(" ").concat(t("Music for", "Cristiana para").split(" ")).map((word, i) => (
               <span key={i} className="overflow-hidden inline-block pb-4 px-1">
                 <motion.span
-                  initial={{ y: "150%", opacity: 0, rotateZ: 10, scale: 0.8 }}
-                  animate={{ y: 0, opacity: 1, rotateZ: 0, scale: 1 }}
-                  transition={{ type: "spring", bounce: 0.5, duration: 1.2, delay: i * 0.1 }}
+                  initial={{ y: "150%", opacity: 0, rotateZ: 15, scale: 0.8, filter: "blur(8px)" }}
+                  animate={{ y: 0, opacity: 1, rotateZ: 0, scale: 1, filter: "blur(0px)" }}
+                  transition={{ type: "spring", bounce: 0.4, duration: 1.2, delay: i * 0.1 + 0.4 }}
                   className="inline-block origin-bottom-left"
                 >
                   {word}
@@ -156,9 +169,9 @@ export function HeroSection({ scrollYProgress, handleMouseMove }: HeroSectionPro
             ))}
             <span className="overflow-hidden inline-block pb-4">
               <motion.span
-                initial={{ y: "150%", opacity: 0, rotateZ: 10, scale: 0.5 }}
-                animate={{ y: 0, opacity: 1, rotateZ: 0, scale: 1 }}
-                transition={{ type: "spring", bounce: 0.6, duration: 1.5, delay: 0.5 }}
+                initial={{ y: "150%", opacity: 0, rotateZ: -10, scale: 0.5, filter: "blur(12px)" }}
+                animate={{ y: 0, opacity: 1, rotateZ: 0, scale: 1, filter: "blur(0px)" }}
+                transition={{ type: "spring", bounce: 0.5, duration: 1.5, delay: 0.7 }}
                 whileHover={{ scale: 1.1, rotate: 2 }}
                 className="inline-block origin-bottom-left pr-4 drop-shadow-[0_10px_20px_rgba(255,107,0,0.4)]"
               >
@@ -169,9 +182,9 @@ export function HeroSection({ scrollYProgress, handleMouseMove }: HeroSectionPro
           
           {/* Refined Description */}
           <motion.p 
-            initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 1.2, delay: 1.1, ease: [0.16, 1, 0.3, 1] as const }}
+            initial={{ opacity: 0, y: 30, filter: "blur(10px)", scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
+            transition={{ type: "spring", stiffness: 60, damping: 20, delay: 0.9 }}
             className="body-text mx-auto mb-8 text-center text-balance"
           >
             {t(
@@ -182,9 +195,9 @@ export function HeroSection({ scrollYProgress, handleMouseMove }: HeroSectionPro
           
           {/* Premium Buttons */}
           <motion.div 
-            initial={{ opacity: 0, y: 30, filter: "blur(4px)", scale: 0.95 }}
+            initial={{ opacity: 0, y: 40, filter: "blur(10px)", scale: 0.9 }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
-            transition={{ duration: 1.2, delay: 1.3, ease: [0.16, 1, 0.3, 1] as const }}
+            transition={{ type: "spring", stiffness: 60, damping: 20, delay: 1.1 }}
             className="flex flex-col sm:flex-row justify-center gap-4 relative z-20 w-full sm:w-auto px-6 mb-10"
           >
             <motion.div
@@ -215,9 +228,9 @@ export function HeroSection({ scrollYProgress, handleMouseMove }: HeroSectionPro
 
           {/* Platform Links */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 1.5, ease: [0.16, 1, 0.3, 1] as const }}
+            initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ type: "spring", stiffness: 60, damping: 20, delay: 1.3 }}
             className="flex flex-col items-center gap-4 bg-white/40 backdrop-blur-md px-8 sm:px-12 py-4 rounded-[2.5rem] sm:rounded-[3rem] border border-white/60 shadow-[0_8px_32px_rgba(0,0,0,0.02)]"
           >
             <span className="ui-label text-selah-dark/40">{t("AVAILABLE ON", "DISPONIBLE EN")}</span>

@@ -25,12 +25,12 @@ export const WatchCategories = ({ activeCategory, setActiveCategory }: WatchCate
           <button
             key={cat.id}
             onClick={() => setActiveCategory(cat.id)}
-            className={`flex items-center gap-2 px-6 py-3 rounded-full ui-button whitespace-nowrap transition-all duration-300 ${ isActive ? 'bg-white text-[#0B0F19] shadow-[0_0_20px_rgba(255,255,255,0.3)] scale-105' : 'bg-white/5 text-white/70 border border-white/10 hover:bg-white/10 hover:text-white' }`}
+            className={`flex items-center gap-2 px-6 py-3 rounded-full ui-button whitespace-nowrap transition-all duration-300 ${ isActive ? 'bg-selah-orange text-white shadow-[0_0_20px_rgba(255,92,0,0.3)] scale-105' : 'bg-white text-selah-muted border border-selah-border/30 hover:bg-selah-orange/10 hover:text-selah-dark' }`}
           >
             {isActive && (
               <motion.div
                 layoutId="activeCategory"
-                className="absolute inset-0 bg-white rounded-full -z-10"
+                className="absolute inset-0 bg-selah-orange rounded-full -z-10"
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
               />
             )}

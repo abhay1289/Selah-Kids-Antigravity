@@ -83,15 +83,15 @@ export default function WatchPage() {
   );
 
   return (
-    <div className="bg-[#0B0F19] min-h-screen pt-32 pb-20 relative overflow-hidden">
+    <div className="bg-gradient-to-b from-selah-bg via-white to-selah-light/10 min-h-screen pt-36 md:pt-44 pb-20 relative overflow-hidden">
       {/* Cinematic Background Glows */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-selah-blue/20 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-selah-pink/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-selah-orange/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-selah-yellow/10 rounded-full blur-[100px] pointer-events-none" />
 
       <WatchHero />
       
       {/* Filter Bar */}
-      <div className="sticky top-20 z-40 bg-[#0B0F19]/80 backdrop-blur-xl py-4 mb-16 border-b border-white/5">
+      <div className="sticky top-20 z-40 bg-selah-bg/90 backdrop-blur-xl py-4 mb-20 border-b border-selah-border/20">
         <WatchCategories activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
       </div>
 

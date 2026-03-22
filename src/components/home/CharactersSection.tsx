@@ -39,7 +39,7 @@ export function CharactersSection() {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={sectionVariants}
-      className="py-12 md:py-20 bg-selah-bg relative overflow-hidden"
+      className="py-10 md:py-16 bg-selah-bg relative overflow-hidden"
     >
       {/* Playful Background Shapes */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -74,7 +74,7 @@ export function CharactersSection() {
           align="center"
         />
 
-        <motion.div style={{ y: cardsY }} className="grid sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-10 mt-20">
+        <motion.div style={{ y: cardsY }} className="grid sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-10 mt-10">
           {CHARACTERS.map((char, i) => (
             <motion.div
               key={char.name}

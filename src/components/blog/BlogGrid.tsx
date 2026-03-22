@@ -22,7 +22,7 @@ interface BlogGridProps {
 
 export const BlogGrid: React.FC<BlogGridProps> = ({ posts, activeCategory }) => {
   return (
-    <section className="max-w-[1400px] mx-auto px-6 mb-32 relative z-10">
+    <section className="max-w-[1400px] mx-auto px-6 mb-20 md:mb-28 relative z-10">
       <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-16">
         <AnimatePresence mode="popLayout">
           {posts.map((post, index) => (

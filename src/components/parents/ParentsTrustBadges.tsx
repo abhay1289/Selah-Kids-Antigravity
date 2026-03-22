@@ -13,7 +13,7 @@ const TRUST_BADGES = [
 
 export const ParentsTrustBadges = () => {
   return (
-    <section className="max-w-7xl mx-auto px-6 mb-32 relative z-10">
+    <section className="max-w-7xl mx-auto px-6 mb-20 md:mb-28 relative z-10">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
         {TRUST_BADGES.map((badge, i) => (
           <motion.div

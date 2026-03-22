@@ -14,7 +14,7 @@ export const BlogCategories: React.FC<BlogCategoriesProps> = ({ categories, acti
           <button
             key={cat.id}
             onClick={() => setActiveCategory(cat.id)}
-            className={`px-8 py-3 rounded-full ui-label whitespace-nowrap transition-all duration-500 ${ activeCategory === cat.id ? 'bg-selah-dark text-white shadow-[0_8px_20px_rgba(0,0,0,0.2)] scale-105' : 'bg-transparent text-selah-muted border border-black/10 hover:border-selah-dark/50 hover:text-selah-dark' }`}
+            className={`px-8 py-3 rounded-full ui-label whitespace-nowrap transition-all duration-500 ${ activeCategory === cat.id ? 'bg-selah-orange text-white shadow-[0_8px_20px_rgba(255,92,0,0.3)] scale-105' : 'bg-transparent text-selah-muted border border-selah-border/30 hover:border-selah-orange/50 hover:text-selah-dark' }`}
           >
             {cat.label}
           </button>

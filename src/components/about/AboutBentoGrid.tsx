@@ -8,7 +8,7 @@ import { staggerContainer, zoomInUp, rollIn, slideInRight, fadeIn } from '../../
 
 export const AboutBentoGrid = () => {
   return (
-    <section className="max-w-[1400px] mx-auto px-6 py-20 relative z-10">
+    <section className="max-w-[1400px] mx-auto px-6 py-16 md:py-28 relative z-10">
       <motion.div 
         variants={staggerContainer}
         initial="hidden"
@@ -20,7 +20,7 @@ export const AboutBentoGrid = () => {
         {/* Bento 1: The Mission (Large) */}
         <motion.div 
           variants={zoomInUp}
-          className="md:col-span-8 bg-selah-dark rounded-[3rem] md:rounded-[4rem] p-10 md:p-16 flex flex-col justify-between relative overflow-hidden group min-h-[500px] md:min-h-[600px] shadow-2xl"
+          className="md:col-span-8 bg-gradient-to-br from-selah-orange/90 via-[#FF7F50] to-selah-yellow rounded-[3rem] md:rounded-[4rem] p-10 md:p-16 flex flex-col justify-between relative overflow-hidden group min-h-[500px] md:min-h-[600px] shadow-2xl"
         >
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 mix-blend-overlay" />
           <div className="absolute -right-20 -top-20 w-[600px] h-[600px] bg-selah-orange/20 rounded-full blur-3xl opacity-30 group-hover:bg-selah-orange/40 transition-colors duration-700" />

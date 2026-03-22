@@ -35,7 +35,7 @@ const CORE_VALUES = [
 
 export const AboutCoreValues = () => {
   return (
-    <section className="max-w-[1400px] mx-auto px-6 py-20 relative z-10">
+    <section className="max-w-[1400px] mx-auto px-6 py-16 md:py-28 relative z-10">
       <div className="text-center mb-20">
         <Badge color="yellow" className="mb-6">OUR VALUES</Badge>
         <h2 className="content-h2 leading-[1.1] tracking-tight">
@@ -54,7 +54,7 @@ export const AboutCoreValues = () => {
           <motion.div
             key={i}
             variants={zoomInUp}
-            className="bg-white/80 backdrop-blur-lg rounded-[3rem] p-10 border border-white/80 shadow-sm flex flex-col items-start group hover:bg-selah-dark transition-colors duration-500 relative overflow-hidden"
+            className="bg-white/80 backdrop-blur-lg rounded-[3rem] p-10 border border-white/80 shadow-sm flex flex-col items-start group hover:bg-selah-orange transition-colors duration-500 relative overflow-hidden"
           >
             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-0 group-hover:opacity-20 mix-blend-overlay transition-opacity duration-500" />
             <div className={`w-20 h-20 rounded-[2rem] flex items-center justify-center mb-8 ${value.color} text-white group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500 ease-out relative z-10 shadow-lg`}>

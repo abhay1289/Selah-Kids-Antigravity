@@ -40,7 +40,7 @@ export function TestimonialsSection() {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={sectionVariants}
-      className="py-12 md:py-32 bg-white relative overflow-hidden"
+      className="py-10 md:py-16 bg-white relative overflow-hidden"
     >
       {/* Creative Background Elements */}
       <div className="absolute inset-0 pointer-events-none">
@@ -65,7 +65,7 @@ export function TestimonialsSection() {
       </div>
       
       <motion.div style={{ y: contY }} className="relative z-10">
-        <div className="max-w-7xl mx-auto px-6 mb-24">
+        <div className="max-w-7xl mx-auto px-6 mb-12">
           <SectionHeader 
             badge={t("LOVED BY FAMILIES", "AMADO POR LAS FAMILIAS")}
             title={t("What Parents Are Saying", "Lo Que Dicen Los Padres")}
@@ -203,7 +203,7 @@ export function TestimonialsSection() {
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ type: "spring", stiffness: 60, damping: 12, delay: 0.4 }}
-            className="flex flex-wrap justify-center items-center gap-16 mt-32 opacity-50 grayscale hover:grayscale-0 transition-all duration-700"
+            className="flex flex-wrap justify-center items-center gap-16 mt-16 opacity-50 grayscale hover:grayscale-0 transition-all duration-700"
           >
             <motion.div whileHover={{ scale: 1.1, y: -5 }} className="flex items-center gap-3 ui-label cursor-pointer">
               <Shield size={24} className="text-selah-orange" /> {t("Safe Content", "Contenido Seguro")}

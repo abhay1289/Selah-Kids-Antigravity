@@ -86,7 +86,7 @@ export default function BlogPage() {
   );
 
   return (
-    <div className="bg-[#FDFBF7] min-h-screen pt-32 pb-20 relative overflow-hidden">
+    <div className="bg-[#FDFBF7] min-h-screen pt-36 md:pt-44 pb-20 relative overflow-hidden">
       {/* Editorial Background Texture */}
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] opacity-40 pointer-events-none" />
       <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-[#F3EFE6] to-transparent pointer-events-none" />
@@ -96,8 +96,8 @@ export default function BlogPage() {
       <BlogGrid posts={filteredPosts} activeCategory={activeCategory} />
 
       {/* Load More */}
-      <div className="text-center px-6 relative z-10">
-        <Button className="!bg-transparent hover:!bg-selah-dark !text-selah-dark hover:!text-white border border-selah-dark/20 shadow-none hover:shadow-xl px-16 py-5 ui-label transition-all duration-500">
+      <div className="text-center px-6 pb-8 relative z-10">
+        <Button className="!bg-transparent hover:!bg-selah-orange !text-selah-orange hover:!text-white border border-selah-orange/20 shadow-none hover:shadow-xl px-16 py-5 ui-label transition-all duration-500">
           Load More Posts
         </Button>
       </div>

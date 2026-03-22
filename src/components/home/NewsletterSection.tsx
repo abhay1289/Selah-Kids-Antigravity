@@ -39,7 +39,7 @@ export function NewsletterSection() {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={sectionVariants}
-      className="py-12 md:py-20 bg-selah-orange relative overflow-hidden"
+      className="py-10 md:py-16 bg-selah-orange relative overflow-hidden"
     >
       {/* Playful Animated Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">

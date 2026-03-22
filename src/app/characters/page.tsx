@@ -45,9 +45,9 @@ const CHARACTERS = [
 
 export default function CharactersPage() {
   return (
-    <div className="bg-selah-bg min-h-screen pt-32 pb-0 overflow-hidden">
+    <div className="bg-selah-bg min-h-screen pt-36 md:pt-44 pb-0 overflow-hidden">
       {/* Hero Section */}
-      <section className="text-center px-6 mb-12 relative z-10">
+      <section className="text-center px-6 mb-16 md:mb-20 relative z-10">
         <Badge color="orange" className="mb-6 shadow-md">MEET THE CREW</Badge>
         <h1 className="hero-headline text-selah-dark mb-6 tracking-tight leading-[1.1] drop-shadow-sm">
           Our Characters

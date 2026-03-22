@@ -61,7 +61,7 @@ export const ContactForm = () => {
 
         <Button 
           icon={MessageSquare}
-          className="w-full md:w-auto !bg-selah-dark hover:!bg-black !text-white !border-none !py-6 !px-12 !text-xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.4)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.6)] transition-all duration-500 hover:scale-[1.02] mt-8 rounded-full"
+          className="w-full md:w-auto !bg-selah-orange hover:!bg-[#e65300] !text-white !border-none !py-6 !px-12 !text-xl shadow-[0_20px_40px_-15px_rgba(255,92,0,0.4)] hover:shadow-[0_30px_60px_-15px_rgba(255,92,0,0.6)] transition-all duration-500 hover:scale-[1.02] mt-8 rounded-full"
         >
           Send Message
         </Button>

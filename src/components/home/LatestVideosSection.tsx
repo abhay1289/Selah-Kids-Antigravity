@@ -69,7 +69,7 @@ export function LatestVideosSection() {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={sectionVariants}
-      className="py-16 md:py-32 bg-white relative overflow-hidden"
+      className="py-10 md:py-16 bg-white relative overflow-hidden"
     >
       {/* Artistic Background Elements - Playful & Creative */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -119,7 +119,7 @@ export function LatestVideosSection() {
           align="center"
         />
 
-        <motion.div style={{ y: videoContY }} className="grid md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 mt-24">
+        <motion.div style={{ y: videoContY }} className="grid md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 mt-12">
           {LATEST_VIDEOS.map((video, i) => (
             <motion.div
               key={video.id}
@@ -214,7 +214,7 @@ export function LatestVideosSection() {
           ))}
         </motion.div>
 
-        <div className="flex justify-center mt-24">
+        <div className="flex justify-center mt-12">
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

@@ -80,7 +80,7 @@ export default function ResourcesPage() {
   );
 
   return (
-    <div className="bg-selah-bg min-h-screen pt-32 pb-20 relative overflow-hidden selection:bg-selah-orange selection:text-white">
+    <div className="bg-selah-bg min-h-screen pt-36 md:pt-44 pb-20 relative overflow-hidden selection:bg-selah-orange selection:text-white">
       {/* Natural Paper Texture Background */}
       <div className="absolute inset-0 opacity-[0.04] pointer-events-none z-0 mix-blend-multiply" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
       
@@ -91,7 +91,7 @@ export default function ResourcesPage() {
       <ResourcesHero />
 
       {/* Filter Bar (Premium Segmented Control) */}
-      <section className="max-w-4xl mx-auto px-6 mb-16 relative z-20">
+      <section className="max-w-4xl mx-auto px-6 mb-20 relative z-20">
         <div className="flex flex-wrap justify-center gap-1 p-1.5 bg-white rounded-full border border-selah-dark/5 shadow-[0_8px_24px_rgba(0,0,0,0.04)]">
           {CATEGORIES.map((category) => (
             <button
@@ -113,7 +113,7 @@ export default function ResourcesPage() {
       </section>
 
       {/* Resources Bento Grid */}
-      <section className="max-w-[1400px] mx-auto px-6 mb-32 relative z-10" style={{ perspective: "2000px" }}>
+      <section className="max-w-[1400px] mx-auto px-6 mb-20 md:mb-28 relative z-10" style={{ perspective: "2000px" }}>
         <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 auto-rows-[400px] md:auto-rows-[450px]">
           <AnimatePresence mode="popLayout">
             {filteredResources.map((resource, i) => (

@@ -232,7 +232,7 @@ export default function HomeClient() {
         className="fixed top-0 left-0 right-0 h-1 bg-selah-orange z-[100] origin-left rounded-r-full shadow-[0_1px_8px_rgba(255,92,0,0.4)]"
         style={{ scaleX }}
       />
-      <HeroSection scrollYProgress={scrollYProgress} handleMouseMove={handleMouseMove} />
+      <HeroSection scrollYProgress={scrollYProgress} handleMouseMove={handleMouseMove} isLoading={isLoading} />
       <LatestVideosSection />
       <AboutSection />
       <CharactersSection />
