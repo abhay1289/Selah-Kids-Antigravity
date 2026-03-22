@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useTransform, MotionValue } from "framer-motion";
+import { motion, useTransform, MotionValue, useMotionValue, useSpring, useMotionTemplate } from "framer-motion";
 import { Play, SparklesIcon, Cloud, Sun, Music } from "lucide-react";
 import Image from "next/image";
 import { Button } from "../UI";
@@ -42,6 +42,39 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
     useTransform(scrollYProgress, [0, 1], [0, -800])
   ];
 
+  /* ------------------------------------------------------------- 
+     ULTRA-PREMIUM 3D TRACKING & CINEMATIC PHYSICS 
+  ------------------------------------------------------------- */
+  const mouseX = useMotionValue(0.5);
+  const mouseY = useMotionValue(0.5);
+
+  const springConfig = { damping: 25, stiffness: 200, mass: 0.5 };
+  const smoothMouseX = useSpring(mouseX, springConfig);
+  const smoothMouseY = useSpring(mouseY, springConfig);
+
+  // 3D Tilts for Libni (Left)
+  const libniRotateX = useTransform(smoothMouseY, [-0.5, 0.5], [10, -10]);
+  const libniRotateY = useTransform(smoothMouseX, [-0.5, 0.5], [-15, 10]);
+  const charTranslateX = useTransform(smoothMouseX, [-0.5, 0.5], [-30, 30]);
+  
+  // 3D Tilts for Andy (Right) - Opposite Y rotation for depth
+  const andyRotateX = useTransform(smoothMouseY, [-0.5, 0.5], [10, -10]);
+  const andyRotateY = useTransform(smoothMouseX, [-0.5, 0.5], [-10, 15]);
+
+  // Spotlight coordinates in percentages
+  const spotX = useTransform(smoothMouseX, [-0.5, 0.5], ["0%", "100%"]);
+  const spotY = useTransform(smoothMouseY, [-0.5, 0.5], ["0%", "100%"]);
+  const spotlightBackground = useMotionTemplate`radial-gradient(1200px circle at ${spotX} ${spotY}, rgba(255,255,255,0.08), transparent 40%)`;
+
+  const onHeroMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    handleMouseMove(e); // Maintain the global original parallax if any
+    const { clientX, clientY } = e;
+    const { innerWidth, innerHeight } = window;
+    // Normalize to [-0.5, 0.5]
+    mouseX.set(clientX / innerWidth - 0.5);
+    mouseY.set(clientY / innerHeight - 0.5);
+  };
+
   if (isLoading) {
     return <section className="relative min-h-[100svh] md:min-h-[900px] bg-selah-bg" />;
   }
@@ -51,8 +84,8 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] as const }}
-      onMouseMove={handleMouseMove}
-      className="relative min-h-[100svh] md:min-h-[900px] flex items-center justify-center overflow-hidden bg-selah-bg"
+      onMouseMove={onHeroMouseMove}
+      className="relative min-h-[100svh] md:min-h-[900px] flex items-center justify-center overflow-hidden bg-selah-bg perspective-1000"
     >
       {/* Storytelling Background - Paper Texture & Soft Elements */}
       <div className="absolute inset-0 opacity-[0.04] pointer-events-none z-0 mix-blend-multiply" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
@@ -109,16 +142,22 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
           </motion.div>
         </div>
         
-        {/* Floating Characters - NEW! */}
+        {/* Floating Characters - True 3D Interactive Parallax */}
         <motion.div 
-          style={{ y: charLeftY }}
+          style={{ 
+            y: charLeftY, 
+            x: charTranslateX,
+            rotateX: libniRotateX, 
+            rotateY: libniRotateY,
+            perspective: 800
+          }}
           initial={{ opacity: 0, x: "35vw", scale: 0.2, rotate: 30, filter: "blur(20px)" }}
           animate={{ opacity: 1, x: 0, scale: 1, rotate: 0, filter: "blur(0px)" }}
           transition={{ type: "spring", stiffness: 50, damping: 14, delay: 0.1, mass: 1.2 }}
-          className="absolute top-[45%] md:top-[50%] -translate-y-1/2 left-0 ml-4 md:ml-12 w-[25%] md:w-[22%] z-20 pointer-events-none hidden md:block"
+          className="absolute top-[45%] md:top-[50%] -translate-y-1/2 left-0 ml-4 md:ml-12 w-[25%] md:w-[22%] z-20 hidden md:block"
         >
           <motion.div
-            animate={{ y: [0, -20, 0], rotate: [-2, 2, -2] }}
+            animate={{ y: [0, -15, 0], rotate: [-1, 1, -1] }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
           >
             <Image
@@ -133,14 +172,20 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
         </motion.div>
 
         <motion.div 
-          style={{ y: charRightY }}
+          style={{ 
+            y: charRightY, 
+            x: useTransform(charTranslateX, (val) => -val), // Opposite pan
+            rotateX: andyRotateX, 
+            rotateY: andyRotateY,
+            perspective: 800
+          }}
           initial={{ opacity: 0, x: "-35vw", scale: 0.2, rotate: -30, filter: "blur(20px)" }}
           animate={{ opacity: 1, x: 0, scale: 1, rotate: 0, filter: "blur(0px)" }}
           transition={{ type: "spring", stiffness: 50, damping: 14, delay: 0.15, mass: 1.2 }}
-          className="absolute top-[45%] md:top-[50%] -translate-y-1/2 right-0 mr-4 md:mr-12 w-[25%] md:w-[22%] z-20 pointer-events-none hidden md:block"
+          className="absolute top-[45%] md:top-[50%] -translate-y-1/2 right-0 mr-4 md:mr-12 w-[25%] md:w-[22%] z-20 hidden md:block"
         >
           <motion.div
-            animate={{ y: [0, -25, 0], rotate: [2, -2, 2] }}
+            animate={{ y: [0, -18, 0], rotate: [1, -1, 1] }}
             transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
           >
             <Image
@@ -156,6 +201,12 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
 
         {/* Shiloh removed to balance the left/right composition */}
         
+        {/* Dynamic Cursor Spotlight (Interactive Lighting) */}
+        <motion.div
+          className="absolute inset-0 pointer-events-none mix-blend-screen z-20 hidden md:block"
+          style={{ background: spotlightBackground }}
+        />
+
         {/* Cinematic Lighting: Magical Ambient Sun Rays */}
         <motion.div 
           animate={{ opacity: [0.2, 0.5, 0.2] }}
