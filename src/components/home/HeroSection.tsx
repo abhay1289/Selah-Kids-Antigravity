@@ -244,46 +244,75 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
             </motion.div>
           </motion.div>
 
-          {/* Platform Links */}
+          {/* Platform Links - Sleek Floating Glass Pill */}
           <motion.div
-            initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 40, filter: "blur(10px)", scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
             transition={{ type: "spring", stiffness: 60, damping: 20, delay: 1.3 }}
-            className="flex flex-col items-center gap-4 bg-white/40 backdrop-blur-md px-8 sm:px-12 py-4 rounded-[2.5rem] sm:rounded-[3rem] border border-white/60 shadow-[0_8px_32px_rgba(0,0,0,0.02)]"
+            className="mt-6 md:mt-8"
           >
-            <span className="ui-label text-selah-dark/40">{t("AVAILABLE ON", "DISPONIBLE EN")}</span>
-            <div className="flex items-center gap-6">
-              <motion.a 
-                whileHover={{ scale: 1.15, color: "#FF0000", y: -2 }} 
-                whileTap={{ scale: 0.95 }}
-                href="#" 
-                className="text-selah-dark/40 transition-all duration-300 drop-shadow-sm hover:drop-shadow-md"
-              >
-                <svg viewBox="0 0 24 24" fill="currentColor" width="36" height="36">
-                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                </svg>
-              </motion.a>
-              <motion.a 
-                whileHover={{ scale: 1.15, color: "#1DB954", y: -2 }} 
-                whileTap={{ scale: 0.95 }}
-                href="#" 
-                className="text-selah-dark/40 transition-all duration-300 drop-shadow-sm hover:drop-shadow-md"
-              >
-                <svg viewBox="0 0 24 24" fill="currentColor" width="36" height="36">
-                  <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.503 17.31c-.223.366-.703.482-1.069.259-2.841-1.737-6.417-2.13-10.631-1.168-.418.096-.838-.168-.934-.586-.096-.418.168-.838.586-.934 4.613-1.055 8.568-.604 11.789 1.365.366.223.482.703.259 1.064zm1.468-3.258c-.281.456-.881.604-1.337.323-3.251-1.998-8.208-2.578-12.053-1.411-.513.156-1.053-.134-1.209-.646-.156-.513.134-1.053.646-1.209 4.394-1.333 9.858-.684 13.623 1.631.456.281.604.881.33 1.312zm.129-3.41c-3.899-2.316-10.322-2.529-14.075-1.391-.598.181-1.234-.149-1.415-.747-.181-.598.149-1.234.747-1.415 4.3-1.304 11.41-1.051 15.897 1.613.538.319.714 1.011.395 1.549-.319.538-1.011.714-1.549.391z"/>
-                </svg>
-              </motion.a>
-              <motion.a 
-                whileHover={{ scale: 1.15, color: "#FA243C", y: -2 }} 
-                whileTap={{ scale: 0.95 }}
-                href="#" 
-                className="text-selah-dark/40 transition-all duration-300 drop-shadow-sm hover:drop-shadow-md"
-              >
-                <svg viewBox="0 0 24 24" fill="currentColor" width="36" height="36">
-                  <path d="M17.05 20.28c-.98.95-2.05 1.61-3.22 1.61-1.14 0-1.53-.67-2.82-.67-1.3 0-1.75.66-2.82.66-1.14 0-2.18-.64-3.22-1.61C2.73 18.11 1.04 14.19 1.04 10.6c0-3.59 1.83-5.5 3.61-5.5 1.14 0 2.05.66 2.82.66.75 0 1.56-.66 2.82-.66 1.63 0 3.1 1.3 3.75 2.82-3.32 1.61-2.77 6.13.55 7.42-.64 1.61-1.61 3.54-2.54 4.94zM12.03 4.45c-.02-2.13 1.53-3.95 3.42-4.05.18 2.13-1.53 4.15-3.42 4.05z"/>
-                </svg>
-              </motion.a>
-            </div>
+            <motion.div 
+              animate={{ y: [0, -8, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              className="relative group cursor-pointer"
+            >
+              {/* Glowing Background Ring */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-selah-pink via-selah-orange to-selah-yellow rounded-full blur-md opacity-20 group-hover:opacity-40 transition-opacity duration-700 pointer-events-none" />
+              
+              <div className="relative flex flex-col sm:flex-row items-center gap-4 sm:gap-6 bg-white/70 backdrop-blur-xl px-8 py-3.5 rounded-[2rem] border-2 border-white shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] overflow-hidden">
+                {/* Internal Hover Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-r from-selah-pink/10 via-selah-orange/10 to-selah-yellow/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                {/* Label Segment */}
+                <div className="flex items-center gap-3 relative z-10">
+                  <span className="relative flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-selah-orange opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-selah-orange border-2 border-white"></span>
+                  </span>
+                  <span className="ui-label text-selah-dark/50 tracking-[0.2em] whitespace-nowrap">
+                    {t("AVAILABLE ON", "DISPONIBLE EN")}
+                  </span>
+                </div>
+
+                <div className="w-px h-6 bg-selah-dark/10 hidden sm:block relative z-10" />
+
+                {/* Icons Segment */}
+                <div className="flex items-center gap-5 relative z-10">
+                  <motion.a 
+                    whileHover={{ scale: 1.25, rotate: -5, color: "#FF0000" }} 
+                    whileTap={{ scale: 0.9 }}
+                    href="#" 
+                    className="text-selah-dark/30 transition-colors duration-300 drop-shadow-sm hover:drop-shadow-[0_4px_12px_rgba(255,0,0,0.4)]"
+                  >
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
+                      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                  </motion.a>
+                  
+                  <motion.a 
+                    whileHover={{ scale: 1.25, rotate: 5, color: "#1DB954" }} 
+                    whileTap={{ scale: 0.9 }}
+                    href="#" 
+                    className="text-selah-dark/30 transition-colors duration-300 drop-shadow-sm hover:drop-shadow-[0_4px_12px_rgba(29,185,84,0.4)]"
+                  >
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
+                      <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.503 17.31c-.223.366-.703.482-1.069.259-2.841-1.737-6.417-2.13-10.631-1.168-.418.096-.838-.168-.934-.586-.096-.418.168-.838.586-.934 4.613-1.055 8.568-.604 11.789 1.365.366.223.482.703.259 1.064zm1.468-3.258c-.281.456-.881.604-1.337.323-3.251-1.998-8.208-2.578-12.053-1.411-.513.156-1.053-.134-1.209-.646-.156-.513.134-1.053.646-1.209 4.394-1.333 9.858-.684 13.623 1.631.456.281.604.881.33 1.312zm.129-3.41c-3.899-2.316-10.322-2.529-14.075-1.391-.598.181-1.234-.149-1.415-.747-.181-.598.149-1.234.747-1.415 4.3-1.304 11.41-1.051 15.897 1.613.538.319.714 1.011.395 1.549-.319.538-1.011.714-1.549.391z"/>
+                    </svg>
+                  </motion.a>
+                  
+                  <motion.a 
+                    whileHover={{ scale: 1.25, rotate: -3, color: "#FA243C" }} 
+                    whileTap={{ scale: 0.9 }}
+                    href="#" 
+                    className="text-selah-dark/30 transition-colors duration-300 drop-shadow-sm hover:drop-shadow-[0_4px_12px_rgba(250,36,60,0.4)]"
+                  >
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
+                      <path d="M17.05 20.28c-.98.95-2.05 1.61-3.22 1.61-1.14 0-1.53-.67-2.82-.67-1.3 0-1.75.66-2.82.66-1.14 0-2.18-.64-3.22-1.61C2.73 18.11 1.04 14.19 1.04 10.6c0-3.59 1.83-5.5 3.61-5.5 1.14 0 2.05.66 2.82.66.75 0 1.56-.66 2.82-.66 1.63 0 3.1 1.3 3.75 2.82-3.32 1.61-2.77 6.13.55 7.42-.64 1.61-1.61 3.54-2.54 4.94zM12.03 4.45c-.02-2.13 1.53-3.95 3.42-4.05.18 2.13-1.53 4.15-3.42 4.05z"/>
+                    </svg>
+                  </motion.a>
+                </div>
+              </div>
+            </motion.div>
           </motion.div>
         </motion.div>
       </div>
