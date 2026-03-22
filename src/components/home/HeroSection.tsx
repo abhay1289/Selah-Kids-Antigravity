@@ -173,22 +173,6 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
           
           {/* Cinematic Title Reveal with Interactive Playful Words */}
           <div className="relative">
-            {/* Ambient Sparkles around Title */}
-            <motion.div 
-              animate={{ opacity: [0, 1, 0], scale: [0.5, 1.2, 0.5], rotate: [0, 90, 180] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              className="absolute -top-8 -left-12 text-selah-yellow"
-            >
-              <SparklesIcon size={32} />
-            </motion.div>
-            <motion.div 
-              animate={{ opacity: [0, 1, 0], scale: [0.5, 1.2, 0.5], rotate: [0, -90, -180] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 2.5 }}
-              className="absolute -bottom-4 -right-8 text-selah-pink"
-            >
-              <SparklesIcon size={24} />
-            </motion.div>
-
             <h1 className="hero-headline flex flex-wrap justify-center gap-x-3 lg:gap-x-4 mb-6 drop-shadow-sm relative z-10">
               {t("Christian", "Música").split(" ").concat(t("Music for", "Cristiana para").split(" ")).map((word, i) => (
                 <span key={i} className="overflow-visible inline-block pb-4 px-1">
