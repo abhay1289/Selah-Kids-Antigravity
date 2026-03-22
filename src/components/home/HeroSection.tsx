@@ -31,6 +31,16 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
   const musicY = useTransform(scrollYProgress, [0, 0.5], [0, -250]);
   const bgImgScale = useTransform(scrollYProgress, [0, 1], [1.05, 1.2]);
   const contentY = useTransform(scrollYProgress, [0, 0.5], [0, -50]);
+  
+  // Static parallax arrays to satisfy React Rules of Hooks
+  const bokehTransforms = [
+    useTransform(scrollYProgress, [0, 1], [0, -300]),
+    useTransform(scrollYProgress, [0, 1], [0, -400]),
+    useTransform(scrollYProgress, [0, 1], [0, -500]),
+    useTransform(scrollYProgress, [0, 1], [0, -600]),
+    useTransform(scrollYProgress, [0, 1], [0, -700]),
+    useTransform(scrollYProgress, [0, 1], [0, -800])
+  ];
 
   if (isLoading) {
     return <section className="relative min-h-[100svh] md:min-h-[900px] bg-selah-bg" />;
@@ -166,7 +176,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
               height: 30 + (i * 15),
               top: `${10 * i + 10}%`,
               left: `${15 * i + 5}%`,
-              y: useTransform(scrollYProgress, [0, 1], [0, -300 - (i * 100)]) /* Intense foreground parallax */
+              y: bokehTransforms[i] /* Intense foreground parallax */
             }}
             animate={{
               x: [0, (i % 2 === 0 ? 50 : -50), 0],
