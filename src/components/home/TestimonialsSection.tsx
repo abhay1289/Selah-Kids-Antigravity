@@ -1,7 +1,11 @@
-import { motion } from "framer-motion";
+"use client";
+
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import { Star, Shield, Users } from "lucide-react";
 import { SectionHeader } from "../SectionHeader";
 import { TESTIMONIALS } from "../../constants";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -10,24 +14,38 @@ const sectionVariants = {
     y: 0,
     transition: { 
       duration: 0.8, 
-      ease: [0.16, 1, 0.3, 1] 
+      ease: [0.16, 1, 0.3, 1] as const
     }
   }
 };
 
 export function TestimonialsSection() {
+  const { t } = useLanguage();
+  const containerRef = useRef<HTMLElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const bgY1 = useTransform(scrollYProgress, [0, 1], ["20%", "-20%"]);
+  const bgY2 = useTransform(scrollYProgress, [0, 1], ["-20%", "20%"]);
+  const contY = useTransform(scrollYProgress, [0, 1], ["10%", "-10%"]);
+
   return (
     <motion.section 
+      ref={containerRef}
       id="testimonials"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={sectionVariants}
-      className="py-12 md:py-20 bg-white relative overflow-hidden"
+      className="py-12 md:py-32 bg-white relative overflow-hidden"
     >
       {/* Creative Background Elements */}
       <div className="absolute inset-0 pointer-events-none">
         <motion.div 
+          style={{ y: bgY1 }}
           animate={{ 
             scale: [1, 1.2, 1],
             opacity: [0.05, 0.1, 0.05]
@@ -36,6 +54,7 @@ export function TestimonialsSection() {
           className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-selah-orange rounded-full blur-[150px]"
         />
         <motion.div 
+          style={{ y: bgY2 }}
           animate={{ 
             scale: [1, 1.3, 1],
             opacity: [0.05, 0.1, 0.05]
@@ -45,12 +64,15 @@ export function TestimonialsSection() {
         />
       </div>
       
-      <div className="relative z-10">
+      <motion.div style={{ y: contY }} className="relative z-10">
         <div className="max-w-7xl mx-auto px-6 mb-24">
           <SectionHeader 
-            badge="LOVED BY FAMILIES"
-            title="What Parents Are Saying"
-            description="Real stories from families who have found joy and faith through Selah Kids."
+            badge={t("LOVED BY FAMILIES", "AMADO POR LAS FAMILIAS")}
+            title={t("What Parents Are Saying", "Lo Que Dicen Los Padres")}
+            description={t(
+              "Real stories from families who have found joy and faith through Selah Kids.",
+              "Historias reales de familias que han encontrado alegría y fe a través de Selah Kids."
+            )}
             align="center"
           />
         </div>
@@ -97,17 +119,17 @@ export function TestimonialsSection() {
                   </div>
                 </div>
                 
-                <p className="text-lg sm:text-xl md:text-2xl text-selah-dark leading-relaxed font-sans font-medium whitespace-normal italic relative z-10 tracking-tight">
+                <p className="body-quote whitespace-normal relative z-10 tracking-tight">
                   "{t.quote}"
                 </p>
                 
                 <div className="mt-auto pt-8 border-t border-selah-bg flex items-center gap-5 relative z-10">
-                  <div className={`w-16 h-16 rounded-full ${t.color} flex items-center justify-center ${t.iconColor} font-display text-3xl border-2 border-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-500`}>
+                  <div className={`w-16 h-16 rounded-full ${t.color} flex items-center justify-center ${t.iconColor} content-h3 border-2 border-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-500`}>
                     {t.author.charAt(0)}
                   </div>
                   <div>
-                    <h5 className="text-2xl font-display text-selah-dark group-hover:text-selah-orange transition-colors duration-300 tracking-tight">{t.author}</h5>
-                    <p className="text-xs text-selah-muted font-accent font-bold uppercase tracking-[0.2em] mt-1">{t.role}</p>
+                    <h5 className="content-h3 text-selah-dark group-hover:text-selah-orange transition-colors duration-300 tracking-tight">{t.author}</h5>
+                    <p className="text-selah-muted ui-label mt-1">{t.role}</p>
                   </div>
                 </div>
               </motion.div>
@@ -157,17 +179,17 @@ export function TestimonialsSection() {
                   </div>
                 </div>
                 
-                <p className="text-lg sm:text-xl md:text-2xl text-selah-dark leading-relaxed font-sans font-medium whitespace-normal italic relative z-10 tracking-tight">
+                <p className="body-quote whitespace-normal relative z-10 tracking-tight">
                   "{t.quote}"
                 </p>
                 
                 <div className="mt-auto pt-8 border-t border-selah-bg flex items-center gap-5 relative z-10">
-                  <div className={`w-16 h-16 rounded-full ${t.color} flex items-center justify-center ${t.iconColor} font-display text-3xl border-2 border-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-500`}>
+                  <div className={`w-16 h-16 rounded-full ${t.color} flex items-center justify-center ${t.iconColor} content-h3 border-2 border-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-500`}>
                     {t.author.charAt(0)}
                   </div>
                   <div>
-                    <h5 className="text-2xl font-display text-selah-dark group-hover:text-selah-orange transition-colors duration-300 tracking-tight">{t.author}</h5>
-                    <p className="text-xs text-selah-muted font-accent font-bold uppercase tracking-[0.2em] mt-1">{t.role}</p>
+                    <h5 className="content-h3 text-selah-dark group-hover:text-selah-orange transition-colors duration-300 tracking-tight">{t.author}</h5>
+                    <p className="text-selah-muted ui-label mt-1">{t.role}</p>
                   </div>
                 </div>
               </motion.div>
@@ -178,23 +200,23 @@ export function TestimonialsSection() {
         {/* Trust Badges */}
         <div className="max-w-7xl mx-auto px-6">
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ type: "spring", stiffness: 60, damping: 12, delay: 0.4 }}
             className="flex flex-wrap justify-center items-center gap-16 mt-32 opacity-50 grayscale hover:grayscale-0 transition-all duration-700"
           >
-            <motion.div whileHover={{ scale: 1.1, y: -5 }} className="flex items-center gap-3 font-accent font-bold text-base tracking-[0.2em] uppercase cursor-pointer">
-              <Shield size={24} className="text-selah-orange" /> Safe Content
+            <motion.div whileHover={{ scale: 1.1, y: -5 }} className="flex items-center gap-3 ui-label cursor-pointer">
+              <Shield size={24} className="text-selah-orange" /> {t("Safe Content", "Contenido Seguro")}
             </motion.div>
-            <motion.div whileHover={{ scale: 1.1, y: -5 }} className="flex items-center gap-3 font-accent font-bold text-base tracking-[0.2em] uppercase cursor-pointer">
-              <Star size={24} className="text-selah-yellow" /> 4.9/5 Rating
+            <motion.div whileHover={{ scale: 1.1, y: -5 }} className="flex items-center gap-3 ui-label cursor-pointer">
+              <Star size={24} className="text-selah-yellow" /> {t("4.9/5 Rating", "4.9/5 Calificación")}
             </motion.div>
-            <motion.div whileHover={{ scale: 1.1, y: -5 }} className="flex items-center gap-3 font-accent font-bold text-base tracking-[0.2em] uppercase cursor-pointer">
-              <Users size={24} className="text-selah-light" /> 100k+ Families
+            <motion.div whileHover={{ scale: 1.1, y: -5 }} className="flex items-center gap-3 ui-label cursor-pointer">
+              <Users size={24} className="text-[#3fc0df]" /> {t("Loved by Kids", "Amado por Niños")}
             </motion.div>
           </motion.div>
         </div>
-      </div>
+      </motion.div>
     </motion.section>
   );
 }

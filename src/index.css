@@ -1,11 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&family=Montserrat+Alternates:wght@400;500;600;700;800;900&family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@600;700;800;900&family=Lora:ital,wght@0,400;1,400&family=DM+Sans:wght@400;500;700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Quicksand", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Fredoka", sans-serif;
-  --font-accent: "Montserrat Alternates", sans-serif;
-  --font-outfit: "Outfit", sans-serif;
+  --font-display: "Boogaloo", cursive;
+  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Lora", serif;
+  --font-accent: "DM Sans", sans-serif;
+  --font-playful: "Nunito", sans-serif;
   
   --color-selah-dark: #1c4425;
   --color-selah-muted: #46664e;
@@ -29,6 +30,8 @@
   --animate-blob: blob 25s ease-in-out infinite;
   --animate-ripple: ripple 0.6s linear;
   --animate-shimmer: shimmer 2.5s infinite linear;
+  --animate-gentle-bounce: gentle-bounce 2s ease-in-out infinite;
+  --animate-underline-grow: underline-grow 0.4s ease-out forwards;
 
   @keyframes float {
     0%, 100% { transform: translateY(0); }
@@ -60,6 +63,16 @@
   @keyframes shimmer {
     0% { background-position: -200% 0; }
     100% { background-position: 200% 0; }
+  }
+
+  @keyframes gentle-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  @keyframes underline-grow {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
   }
 }
 
@@ -96,10 +109,20 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   
   body {
     @apply font-sans text-selah-muted bg-white selection:bg-selah-orange/30 overflow-x-hidden antialiased;
+  }
+
+  /* Focus-visible ring for accessibility (WCAG AA) */
+  :focus-visible {
+    outline: 3px solid var(--color-selah-orange);
+    outline-offset: 2px;
+    border-radius: 8px;
   }
 
   /* Custom Scrollbar */
@@ -121,6 +144,45 @@
   
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* Hover lift micro-interaction */
+  .hover-lift {
+    @apply transition-all duration-300;
+  }
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Animated underline on hover */
+  .underline-grow {
+    position: relative;
+    display: inline-block;
+  }
+  .underline-grow::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--color-selah-orange);
+    border-radius: 1px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .underline-grow:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* Playful letter-spacing hover for headings */
+  .tracking-hover {
+    transition: letter-spacing 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .tracking-hover:hover {
+    letter-spacing: 0.02em;
   }
 
   .mask-blob {

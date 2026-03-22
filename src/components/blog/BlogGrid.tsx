@@ -31,7 +31,7 @@ export const BlogGrid: React.FC<BlogGridProps> = ({ posts, activeCategory }) => 
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] as const }}
               key={post.id}
               className={`group cursor-pointer flex flex-col ${index === 0 && activeCategory === 'all' ? 'md:col-span-2 lg:col-span-3 lg:flex-row gap-12 items-center mb-12' : ''}`}
             >
@@ -50,7 +50,7 @@ export const BlogGrid: React.FC<BlogGridProps> = ({ posts, activeCategory }) => 
                 
                 {/* Category Badge overlay */}
                 <div className="absolute top-6 left-6 z-20">
-                  <span className="px-4 py-2 bg-white/90 backdrop-blur-xl rounded-full text-xs font-bold text-selah-dark font-sans tracking-widest uppercase shadow-lg">
+                  <span className="px-4 py-2 bg-white/90 backdrop-blur-xl rounded-full ui-label text-selah-dark shadow-lg">
                     {post.categoryLabel}
                   </span>
                 </div>
@@ -58,12 +58,12 @@ export const BlogGrid: React.FC<BlogGridProps> = ({ posts, activeCategory }) => 
 
               {/* Content Area */}
               <div className={`flex flex-col flex-grow ${index === 0 && activeCategory === 'all' ? 'w-full lg:w-2/5 py-8' : 'pt-8'}`}>
-                <div className="flex items-center gap-3 text-selah-muted text-sm font-sans font-semibold tracking-widest uppercase mb-6">
+                <div className="flex items-center gap-3 text-selah-muted ui-label mb-6">
                   <Calendar size={16} />
                   {post.date}
                 </div>
                 
-                <h3 className={`${index === 0 && activeCategory === 'all' ? 'text-5xl lg:text-7xl' : 'text-3xl'} font-display text-selah-dark mb-6 leading-[1.1] group-hover:text-selah-orange transition-colors duration-300`}>
+                <h3 className={`${index === 0 && activeCategory === 'all' ? ' ' : ''} content-h2 mb-6 leading-[1.1] group-hover:text-selah-orange transition-colors duration-300`}>
                   {post.title}
                 </h3>
                 
@@ -71,7 +71,7 @@ export const BlogGrid: React.FC<BlogGridProps> = ({ posts, activeCategory }) => 
                   {post.excerpt}
                 </p>
                 
-                <div className="flex items-center gap-3 text-selah-dark font-sans font-bold text-sm tracking-widest uppercase group-hover:text-selah-orange transition-colors duration-300">
+                <div className="flex items-center gap-3 text-selah-dark ui-label group-hover:text-selah-orange transition-colors duration-300">
                   <span className="relative overflow-hidden">
                     <span className="inline-block transition-transform duration-300 group-hover:-translate-y-full">Read Article</span>
                     <span className="inline-block absolute left-0 top-0 transition-transform duration-300 translate-y-full group-hover:translate-y-0">Read Article</span>

@@ -49,10 +49,10 @@ export default function CharactersPage() {
       {/* Hero Section */}
       <section className="text-center px-6 mb-12 relative z-10">
         <Badge color="orange" className="mb-6 shadow-md">MEET THE CREW</Badge>
-        <h1 className="text-5xl md:text-6xl lg:text-7xl font-display text-selah-dark mb-6 tracking-tight leading-[1.1] drop-shadow-sm">
+        <h1 className="hero-headline text-selah-dark mb-6 tracking-tight leading-[1.1] drop-shadow-sm">
           Our Characters
         </h1>
-        <p className="text-xl md:text-2xl lg:text-3xl text-selah-muted font-sans font-medium max-w-3xl mx-auto leading-relaxed tracking-tight mb-8">
+        <p className="text-selah-muted body-text max-w-3xl mx-auto leading-relaxed tracking-tight mb-8">
           Get to know the friends who make learning about Jesus so much fun!
         </p>
       </section>
@@ -71,7 +71,7 @@ export default function CharactersPage() {
                 transition={{ duration: 1.5, ease: "easeOut" }}
                 className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden"
               >
-                <span className="text-[20vw] font-display text-black whitespace-nowrap tracking-tighter leading-none select-none">
+                <span className="text-[20vw] hero-headline text-black whitespace-nowrap tracking-tighter leading-none select-none">
                   {char.name.toUpperCase()}
                 </span>
               </motion.div>
@@ -84,7 +84,7 @@ export default function CharactersPage() {
                     initial={{ opacity: 0, x: isEven ? -100 : 100, rotateY: isEven ? -15 : 15 }}
                     whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] as const }}
                     className="w-full lg:w-1/2 relative flex justify-center perspective-1000"
                   >
                     {/* Soft Gradient Blob Background */}
@@ -110,17 +110,17 @@ export default function CharactersPage() {
                     initial={{ opacity: 0, x: isEven ? 100 : -100 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] as const }}
                     className="w-full lg:w-1/2 space-y-10"
                   >
                     <div>
                       <Badge color={char.color as any} className="mb-6 shadow-md text-sm px-6 py-2">{char.role}</Badge>
-                      <h2 className="text-7xl md:text-9xl font-display text-selah-dark tracking-tighter leading-[0.85] drop-shadow-sm">
+                      <h2 className="hero-headline text-selah-dark tracking-tighter leading-[0.85] drop-shadow-sm">
                         {char.name}
                       </h2>
                     </div>
                     
-                    <p className="text-2xl text-selah-muted font-sans font-medium leading-relaxed max-w-xl">
+                    <p className="text-selah-muted body-text leading-relaxed max-w-xl">
                       {char.bio}
                     </p>
 
@@ -129,7 +129,7 @@ export default function CharactersPage() {
                       className="bg-white/80 backdrop-blur-xl rounded-[3rem] p-10 border border-white shadow-xl transition-all duration-500 max-w-xl relative overflow-hidden group"
                     >
                       <div className={`absolute inset-0 ${char.blobColor} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
-                      <h3 className="text-xl font-accent font-bold text-selah-dark tracking-widest uppercase mb-6 flex items-center gap-3">
+                      <h3 className="ui-label text-selah-dark mb-6 flex items-center gap-3">
                         <span className={`w-3 h-3 rounded-full ${char.blobColor} shadow-sm`} />
                         Favorite Things
                       </h3>
@@ -141,7 +141,7 @@ export default function CharactersPage() {
                             whileInView={{ opacity: 1, x: 0 }}
                             transition={{ delay: 0.4 + (i * 0.1), duration: 0.5 }}
                             viewport={{ once: true }}
-                            className="flex items-center gap-4 text-xl text-selah-muted font-sans font-medium hover:text-selah-dark transition-colors cursor-default"
+                            className="flex items-center gap-4 text-selah-muted body-text hover:text-selah-dark transition-colors cursor-default"
                           >
                             <span className="text-2xl opacity-40">0{i + 1}</span>
                             {fav}

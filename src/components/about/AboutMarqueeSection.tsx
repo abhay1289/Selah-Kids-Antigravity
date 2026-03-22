@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { SparklesIcon, Heart, Star } from 'lucide-react';
@@ -12,11 +14,11 @@ export const AboutMarqueeSection = () => {
       >
         {[...Array(6)].map((_, i) => (
           <div key={i} className="flex items-center gap-8">
-            <span className="text-4xl md:text-6xl font-display text-white uppercase tracking-widest">Joyful</span>
+            <span className="content-h3 text-white uppercase tracking-widest">Joyful</span>
             <SparklesIcon className="text-selah-yellow" size={40} />
-            <span className="text-4xl md:text-6xl font-display text-white uppercase tracking-widest">Faith-Filled</span>
+            <span className="content-h3 text-white uppercase tracking-widest">Faith-Filled</span>
             <Star className="text-selah-yellow" size={40} />
-            <span className="text-4xl md:text-6xl font-display text-white uppercase tracking-widest">Creative</span>
+            <span className="content-h3 text-white uppercase tracking-widest">Creative</span>
             <Heart className="text-selah-yellow" size={40} />
           </div>
         ))}

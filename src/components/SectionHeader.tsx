@@ -1,3 +1,5 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { Badge } from "./UI";
 import { ReactNode } from "react";
@@ -42,7 +44,7 @@ export function SectionHeader({
             animate: { opacity: 1, y: 0 }
           }}
           transition={{ duration: 0.8, delay: 0.1 }}
-          className={`text-5xl md:text-6xl lg:text-7xl font-display leading-[1.1] tracking-tight drop-shadow-sm ${dark ? 'text-white' : 'text-selah-dark'}`}
+          className="content-h2 drop-shadow-sm"
         >
           {title}
         </motion.h2>
@@ -67,7 +69,7 @@ export function SectionHeader({
             animate: { opacity: 1, y: 0 }
           }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className={`text-lg md:text-xl lg:text-2xl max-w-2xl font-sans font-medium leading-relaxed tracking-normal ${dark ? 'text-selah-border' : 'text-selah-muted'}`}
+          className={`body-text mx-auto ${dark ? '!text-selah-border' : ''}`}
         >
           {description}
         </motion.p>

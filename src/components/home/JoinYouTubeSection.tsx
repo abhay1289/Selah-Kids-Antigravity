@@ -1,6 +1,10 @@
-import { motion } from "framer-motion";
+"use client";
+
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import { Youtube, Play } from "lucide-react";
 import { Button, Badge } from "../UI";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -9,14 +13,26 @@ const sectionVariants = {
     y: 0,
     transition: { 
       duration: 0.8, 
-      ease: [0.16, 1, 0.3, 1] 
+      ease: [0.16, 1, 0.3, 1] as const
     }
   }
 };
 
 export function JoinYouTubeSection() {
+  const { t } = useLanguage();
+  const containerRef = useRef<HTMLElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const textY = useTransform(scrollYProgress, [0, 1], ["15%", "-15%"]);
+  const videoY = useTransform(scrollYProgress, [0, 1], ["30%", "-30%"]);
+
   return (
     <motion.section 
+      ref={containerRef}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
@@ -30,19 +46,23 @@ export function JoinYouTubeSection() {
           
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center p-8 md:p-16 lg:p-24 relative z-10">
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
+              style={{ y: textY }}
+              initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ type: "spring", stiffness: 50, damping: 15 }}
               viewport={{ once: true }}
             >
               <div className="inline-block mb-8">
-                <Badge color="yellow" className="!rotate-0 shadow-sm">SUBSCRIBE & WORSHIP</Badge>
+                <Badge color="yellow" className="!rotate-0 shadow-sm">{t("SUBSCRIBE & WORSHIP", "SUSCRÍBETE Y ADORA")}</Badge>
               </div>
-              <h2 className="text-5xl md:text-6xl lg:text-7xl font-display text-white mb-8 leading-[1.1] tracking-tight drop-shadow-sm">
-                Join Our YouTube <br /> Family!
+              <h2 className="content-h2 mb-8 leading-[1.05] tracking-[-0.02em] drop-shadow-sm">
+                {t("Join Our YouTube", "Únete a Nuestra")} <br /> {t("Family!", "Familia de YouTube!")}
               </h2>
-              <p className="text-xl text-white/70 mb-12 max-w-lg leading-relaxed">
-                Get new Bible songs, English and Spanish worship videos, and awesome Christian cartoons every single week! Subscribe to our channel so you never miss out on the fun.
+              <p className="text-xl text-white/70 mb-12 max-w-lg leading-relaxed text-balance">
+                {t(
+                  "Get new Bible songs, English and Spanish worship videos, and awesome Christian cartoons every single week! Subscribe to our channel so you never miss out on the fun.",
+                  "¡Obtén nuevas canciones bíblicas, videos de adoración en inglés y español, y dibujos animados cristianos increíbles cada semana! Suscríbete a nuestro canal para que nunca te pierdas la diversión."
+                )}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-6">
@@ -50,7 +70,7 @@ export function JoinYouTubeSection() {
                   onClick={() => window.open("https://www.youtube.com/@selahkidsworship", "_blank")}
                   className="!bg-[#FF0000] !border-none !px-12 !py-6 !text-xl shadow-[0_10px_30px_-10px_rgba(255,0,0,0.5)] hover:shadow-[0_20px_40px_-10px_rgba(255,0,0,0.7)] hover:scale-105 transition-all flex items-center gap-3 group whitespace-nowrap"
                 >
-                  <Youtube size={28} className="group-hover:scale-110 transition-transform duration-300" /> Subscribe Now
+                  <Youtube size={28} className="group-hover:scale-110 transition-transform duration-300" /> {t("Subscribe Now", "Suscríbete Ahora")}
                 </Button>
                 <div className="flex items-center gap-4 text-white/60">
                   <div className="flex -space-x-3">
@@ -64,15 +84,16 @@ export function JoinYouTubeSection() {
                       </motion.div>
                     ))}
                   </div>
-                  <motion.span whileHover={{ scale: 1.05, color: "#fff" }} className="text-sm font-accent font-bold tracking-wider cursor-default transition-colors">JOIN THE COMMUNITY</motion.span>
+                  <motion.span whileHover={{ scale: 1.05, color: "#fff" }} className="ui-labelr cursor-default transition-colors">{t("JOIN THE COMMUNITY", "ÚNETE A LA COMUNIDAD")}</motion.span>
                 </div>
               </div>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, rotate: -2 }}
+              style={{ y: videoY }}
+              initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
               whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-              transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ type: "spring", stiffness: 50, damping: 12, delay: 0.2 }}
               viewport={{ once: true }}
               className="relative"
             >
@@ -103,7 +124,7 @@ export function JoinYouTubeSection() {
                       className="h-full bg-[#FF0000]"
                     />
                   </div>
-                  <div className="flex justify-between items-center text-white/60 text-xs font-bold tracking-widest">
+                  <div className="flex justify-between items-center text-white/60 ui-button tracking-widest">
                     <span>04:20 / 10:00</span>
                     <div className="flex gap-4">
                       <div className="w-4 h-4 rounded-sm border border-current" />
@@ -119,14 +140,14 @@ export function JoinYouTubeSection() {
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute -top-10 -right-10 z-20"
               >
-                <Badge color="light" className="!px-8 !py-4 !text-lg shadow-lg border border-white/20">New Weekly!</Badge>
+                <Badge color="light" className="!px-8 !py-4 !text-lg shadow-lg border border-white/20">{t("New Weekly!", "¡Nuevo Cada Semana!")}</Badge>
               </motion.div>
               <motion.div
                 animate={{ y: [10, -10, 10] }}
                 transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
                 className="absolute -bottom-10 -left-10 z-20"
               >
-                <Badge color="yellow" className="!px-8 !py-4 !text-lg shadow-lg border border-selah-yellow/20">Bilingual</Badge>
+                <Badge color="yellow" className="!px-8 !py-4 !text-lg shadow-lg border border-selah-yellow/20">{t("Bilingual", "Bilingüe")}</Badge>
               </motion.div>
             </motion.div>
           </div>

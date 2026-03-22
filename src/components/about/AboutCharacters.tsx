@@ -1,6 +1,9 @@
+"use client";
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Badge } from '../UI';
+import { staggerContainer, zoomInUp } from '../../utils/animations';
 
 const CHARACTERS = [
   {
@@ -31,22 +34,25 @@ export const AboutCharacters = () => {
     <section className="max-w-[1400px] mx-auto px-6 py-20 relative z-10">
       <div className="text-center mb-20">
         <Badge color="orange" className="mb-6">OUR FRIENDS</Badge>
-        <h2 className="text-5xl md:text-6xl font-display text-selah-dark leading-[1.1] tracking-tight">
+        <h2 className="content-h2 leading-[1.1] tracking-tight">
           Meet the Characters
         </h2>
-        <p className="text-lg text-selah-muted font-sans font-medium mt-6 max-w-2xl mx-auto">
+        <p className="body-text mt-6 max-w-2xl mx-auto">
           Join Andy, Libni, and Shiloh on their fun adventures as they sing, play, and learn about God's love!
         </p>
       </div>
       
-      <div className="grid md:grid-cols-3 gap-8">
+      <motion.div 
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        className="grid md:grid-cols-3 gap-8"
+      >
         {CHARACTERS.map((char, i) => (
           <motion.div
             key={i}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ delay: i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            variants={zoomInUp}
             className="bg-white/60 backdrop-blur-xl rounded-[3rem] p-8 border border-white/80 shadow-[0_8px_32px_rgba(0,0,0,0.04)] flex flex-col items-center text-center group hover:-translate-y-4 hover:shadow-[0_16px_48px_rgba(0,0,0,0.1)] transition-all duration-500 relative overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-b from-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -55,14 +61,14 @@ export const AboutCharacters = () => {
                 <img src={char.image} alt={char.name} className="w-full h-full object-cover" />
               </div>
             </div>
-            <h3 className="text-4xl font-display text-selah-dark mb-2 relative z-10">{char.name}</h3>
-            <div className="text-sm font-accent font-bold tracking-widest text-selah-orange uppercase mb-6 relative z-10">{char.role}</div>
-            <p className="text-lg text-selah-muted font-sans font-medium leading-relaxed relative z-10">
+            <h3 className="content-h2 mb-2 relative z-10">{char.name}</h3>
+            <div className="ui-labelst text-selah-orange uppercase mb-6 relative z-10">{char.role}</div>
+            <p className="body-text leading-relaxed relative z-10">
               {char.desc}
             </p>
           </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   );
 };

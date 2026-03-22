@@ -36,7 +36,7 @@ export function Footer() {
                 SELAH<span className="text-selah-orange group-hover/logo:text-white transition-colors duration-500">KIDS</span>
               </span>
             </Link>
-            <p className="text-xl text-white/70 max-w-md leading-relaxed mb-10 font-medium">
+            <p className="text-xl text-white/70 max-w-md leading-relaxed mb-10 font-medium text-balance">
               We're on a mission to fill every home with faith-filled melodies and stories that spark wonder in the hearts of children.
             </p>
             <div className="flex gap-4">
@@ -69,7 +69,7 @@ export function Footer() {
             transition={{ delay: 0.1 }}
             className="lg:col-span-3 bg-white/5 border border-white/10 rounded-[2.5rem] p-10 backdrop-blur-xl hover:border-white/20 transition-all duration-500 shadow-2xl"
           >
-            <h4 className="text-white font-black text-2xl mb-8 tracking-tight">Explore</h4>
+            <h4 className="text-white content-h3 mb-8 tracking-tight">Explore</h4>
             <ul className="space-y-5">
               {[
                 { label: "Home", icon: Star, href: "/" },
@@ -89,7 +89,7 @@ export function Footer() {
                       router.push(link.href);
                       window.scrollTo(0, 0);
                     }}
-                    className="text-lg text-white/50 font-bold hover:text-white transition-all duration-300 flex items-center gap-3 group cursor-pointer"
+                    className="text-white/50 ui-button hover:text-white transition-all duration-300 flex items-center gap-3 group cursor-pointer"
                   >
                     <span className="w-8 h-8 rounded-xl bg-white/5 flex items-center justify-center group-hover:bg-selah-orange/20 group-hover:text-selah-orange transition-colors shadow-sm">
                       <link.icon size={14} />
@@ -111,15 +111,15 @@ export function Footer() {
           >
             {/* Contact Mini-Card */}
             <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 backdrop-blur-xl hover:border-white/20 transition-all duration-500 flex-1 shadow-2xl">
-              <h4 className="text-white font-black text-2xl mb-6 tracking-tight">Get in Touch</h4>
+              <h4 className="text-white content-h3 mb-6 tracking-tight">Get in Touch</h4>
               <div className="space-y-4">
                 <a href="mailto:hello@selahkids.com" className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-selah-orange/10 hover:border-selah-orange/20 transition-all duration-300 group shadow-sm hover:shadow-md">
                   <div className="w-10 h-10 rounded-xl bg-selah-orange/20 flex items-center justify-center text-selah-orange group-hover:scale-110 transition-transform">
                     <Mail size={20} />
                   </div>
                   <div>
-                    <p className="text-xs text-white/40 font-accent font-bold tracking-wider uppercase mb-0.5">Email Us</p>
-                    <span className="text-white font-bold">hello@selahkids.com</span>
+                    <p className="text-white/40 ui-label mb-0.5">Email Us</p>
+                    <span className="text-white ui-button">hello@selahkids.com</span>
                   </div>
                 </a>
               </div>
@@ -128,7 +128,7 @@ export function Footer() {
             {/* Newsletter Mini-Card */}
             <div className="bg-selah-orange rounded-[2.5rem] p-8 shadow-[0_20px_40px_-10px_rgba(255,107,0,0.4)] relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl group-hover:scale-150 transition-transform duration-700" />
-              <h4 className="text-white font-black text-xl mb-3 tracking-tight relative z-10">Join the Family</h4>
+              <h4 className="text-white content-h3 mb-3 tracking-tight relative z-10">Join the Family</h4>
               <div className="relative z-10 flex gap-2">
                 <input 
                   type="email" 
@@ -154,11 +154,11 @@ export function Footer() {
               © {new Date().getFullYear()} Selah Kids. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
-              <Link href="/privacy" className="text-white/30 hover:text-white text-sm font-bold transition-colors relative group">
+              <Link href="/privacy" className="text-white/30 hover:text-white ui-button transition-colors relative group">
                 Privacy Policy
                 <span className="absolute -bottom-1 left-0 w-0 h-px bg-selah-orange transition-all duration-300 group-hover:w-full" />
               </Link>
-              <Link href="/terms" className="text-white/30 hover:text-white text-sm font-bold transition-colors relative group">
+              <Link href="/terms" className="text-white/30 hover:text-white ui-button transition-colors relative group">
                 Terms of Service
                 <span className="absolute -bottom-1 left-0 w-0 h-px bg-selah-orange transition-all duration-300 group-hover:w-full" />
               </Link>
@@ -167,7 +167,7 @@ export function Footer() {
           
           <motion.div 
             whileHover={{ scale: 1.05 }}
-            className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-white/40 text-sm font-bold shadow-sm"
+            className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-white/40 ui-button shadow-sm"
           >
             <span>Made with</span>
             <motion.div

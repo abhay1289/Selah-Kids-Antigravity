@@ -53,8 +53,8 @@ export const ParentsAccordion = () => {
   return (
     <section className="max-w-4xl mx-auto px-6 relative z-10">
       <div className="text-center mb-16">
-        <h2 className="text-5xl md:text-6xl font-display text-selah-dark tracking-tight mb-6">What to Expect</h2>
-        <p className="text-xl text-selah-muted font-sans font-medium">Everything you need to know about our content and philosophy.</p>
+        <h2 className="content-h2 tracking-tight mb-6">What to Expect</h2>
+        <p className="body-text">Everything you need to know about our content and philosophy.</p>
       </div>
       <div className="space-y-6">
         {ACCORDION_DATA.map((section, i) => (
@@ -74,7 +74,7 @@ export const ParentsAccordion = () => {
                 <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 ${openSection === section.id ? 'bg-selah-orange text-white scale-110 rotate-3' : 'bg-selah-orange/10 text-selah-orange group-hover:scale-105'}`}>
                   <section.icon size={28} />
                 </div>
-                <h2 className={`text-2xl md:text-3xl font-display transition-colors duration-300 ${openSection === section.id ? 'text-selah-orange' : 'text-selah-dark group-hover:text-selah-orange'}`}>
+                <h2 className={`content-h3 transition-colors duration-300 ${openSection === section.id ? 'text-selah-orange' : 'text-selah-dark group-hover:text-selah-orange'}`}>
                   {section.title}
                 </h2>
               </div>
@@ -89,7 +89,7 @@ export const ParentsAccordion = () => {
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] as const }}
                   className="overflow-hidden"
                 >
                   <div className="px-8 pb-10 pt-2">
@@ -105,7 +105,7 @@ export const ParentsAccordion = () => {
                           <div className="w-6 h-6 rounded-full bg-[#93D35C]/20 flex items-center justify-center flex-shrink-0 mt-1">
                             <CheckCircle2 size={16} className="text-[#93D35C]" />
                           </div>
-                          <p className="text-selah-muted font-sans font-medium text-lg leading-relaxed">
+                          <p className="body-text leading-relaxed">
                             {item}
                           </p>
                         </motion.div>

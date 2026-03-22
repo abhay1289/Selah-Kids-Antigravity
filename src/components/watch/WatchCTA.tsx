@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Youtube } from 'lucide-react';
@@ -17,8 +19,8 @@ export const WatchCTA = () => {
           >
             <Youtube size={48} className="text-[#FF0000]" />
           </motion.div>
-          <h2 className="text-5xl md:text-7xl font-display text-white mb-6 tracking-tight">Want more videos?</h2>
-          <p className="text-xl md:text-2xl text-white/70 font-sans font-medium mb-12 max-w-2xl mx-auto leading-relaxed">
+          <h2 className="content-h2 mb-6 tracking-tight">Want more videos?</h2>
+          <p className="text-xl md:text-2xl text-white/70 font-body italic mb-12 max-w-2xl mx-auto leading-relaxed">
             Subscribe to our YouTube channel to never miss a new release!
           </p>
           <Button 

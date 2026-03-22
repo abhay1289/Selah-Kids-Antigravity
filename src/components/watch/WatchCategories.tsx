@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Film, Music, Mic, Sparkles } from 'lucide-react';
@@ -23,11 +25,7 @@ export const WatchCategories = ({ activeCategory, setActiveCategory }: WatchCate
           <button
             key={cat.id}
             onClick={() => setActiveCategory(cat.id)}
-            className={`flex items-center gap-2 px-6 py-3 rounded-full font-accent font-bold text-sm tracking-wide whitespace-nowrap transition-all duration-300 ${
-              isActive
-                ? 'bg-white text-[#0B0F19] shadow-[0_0_20px_rgba(255,255,255,0.3)] scale-105'
-                : 'bg-white/5 text-white/70 border border-white/10 hover:bg-white/10 hover:text-white'
-            }`}
+            className={`flex items-center gap-2 px-6 py-3 rounded-full ui-button whitespace-nowrap transition-all duration-300 ${ isActive ? 'bg-white text-[#0B0F19] shadow-[0_0_20px_rgba(255,255,255,0.3)] scale-105' : 'bg-white/5 text-white/70 border border-white/10 hover:bg-white/10 hover:text-white' }`}
           >
             {isActive && (
               <motion.div

@@ -1,9 +1,11 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import { Cloud, Sun, SparklesIcon } from "lucide-react";
 import { Badge } from "../UI";
 import { WHY_FEATURES } from "../../constants";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -12,7 +14,7 @@ const sectionVariants = {
     y: 0,
     transition: { 
       duration: 0.8, 
-      ease: [0.16, 1, 0.3, 1] 
+      ease: [0.16, 1, 0.3, 1] as const
     }
   }
 };
@@ -20,11 +22,11 @@ const sectionVariants = {
 const FeatureCard: React.FC<{ feature: typeof WHY_FEATURES[0], index: number }> = ({ feature, index }) => {
   return (
     <motion.div 
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 60, scale: 0.95 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
       whileHover={{ y: -10 }}
-      transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-      viewport={{ once: true }}
+      transition={{ type: "spring", stiffness: 60, damping: 14, delay: index * 0.15 }}
+      viewport={{ once: true, margin: "-50px" }}
       className="group relative h-full"
     >
       <div className="bg-white p-12 h-full border border-selah-dark/5 overflow-hidden relative flex flex-col transition-all duration-500 rounded-[40px] shadow-[0_10px_30px_-5px_rgba(0,0,0,0.03),0_4px_6px_-2px_rgba(0,0,0,0.01)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1),0_10px_20px_-5px_rgba(0,0,0,0.05)]">
@@ -41,17 +43,17 @@ const FeatureCard: React.FC<{ feature: typeof WHY_FEATURES[0], index: number }> 
         </div>
 
         <div className="flex-grow relative z-10">
-          <h3 className="text-3xl font-display text-selah-dark mb-4 group-hover:text-selah-orange transition-colors duration-300 tracking-tight">
+          <h3 className="content-h3 text-selah-dark mb-4 group-hover:text-selah-orange transition-colors duration-300 tracking-tight">
             {feature.title}
           </h3>
           
-          <p className="text-xl text-selah-muted font-sans leading-relaxed">
+          <p className="body-text text-balance">
             {feature.desc}
           </p>
         </div>
 
         <div className="mt-10 flex items-end justify-between relative z-10">
-          <div className="text-8xl font-display text-selah-dark/[0.03] select-none pointer-events-none group-hover:text-selah-orange/[0.08] transition-all duration-700 leading-none -mb-4 -mr-4 group-hover:scale-110 origin-bottom-right">
+          <div className="content-h2/[0.03] select-none pointer-events-none group-hover:text-selah-orange/[0.08] transition-all duration-700 leading-none -mb-4 -mr-4 group-hover:scale-110 origin-bottom-right">
             {index + 1}
           </div>
         </div>
@@ -61,10 +63,16 @@ const FeatureCard: React.FC<{ feature: typeof WHY_FEATURES[0], index: number }> 
 };
 
 export function WhyChooseSection() {
-  const { scrollYProgress } = useScroll();
+  const containerRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+  const { t } = useLanguage();
 
   return (
     <motion.section 
+      ref={containerRef}
       id="why-selah" 
       initial="hidden"
       whileInView="visible"
@@ -114,20 +122,20 @@ export function WhyChooseSection() {
           <motion.div
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             whileInView={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
             className="mb-10"
           >
-            <Badge color="yellow" className="!rotate-0 !scale-125 px-8 py-3 shadow-sm border border-selah-yellow/20">OUR CORE VALUES</Badge>
+            <Badge color="yellow" className="!rotate-0 !scale-125 px-8 py-3 shadow-sm border border-selah-yellow/20">{t("OUR CORE VALUES", "NUESTROS VALORES")}</Badge>
           </motion.div>
           
           <div className="relative">
             <motion.h2 
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-              className="text-5xl md:text-6xl lg:text-7xl font-display text-selah-dark mb-12 leading-[1.1] tracking-tight drop-shadow-sm"
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] as const }}
+              className="content-h2 mb-12 leading-[1.05] tracking-[-0.02em] drop-shadow-sm"
             >
-              Why <span className="text-selah-orange italic relative inline-block">
+              {t("Why", "¿Por Qué")} <span className="text-selah-orange italic relative inline-block">
                 Selah
                 <motion.svg 
                   initial={{ pathLength: 0, opacity: 0 }}
@@ -139,17 +147,20 @@ export function WhyChooseSection() {
                 >
                   <path d="M0,10 Q25,0 50,10 T100,10" fill="none" stroke="currentColor" strokeWidth="8" strokeLinecap="round" />
                 </motion.svg>
-              </span> Kids?
+              </span> Kids{t("?", "?")}
             </motion.h2>
           </div>
           
           <motion.p 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="text-xl sm:text-2xl md:text-3xl text-selah-muted max-w-4xl mx-auto leading-tight font-sans font-semibold tracking-tight"
+            transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] as const }}
+            className="body-text max-w-4xl mx-auto text-selah-muted text-balance"
           >
-            Created by parents who wanted better shows for their own kids, Selah Kids mixes awesome Christian cartoons with important lessons from the Bible.
+            {t(
+              "Created by parents who wanted better shows for their own kids, Selah Kids mixes awesome Christian cartoons with important lessons from the Bible.",
+              "Creado por padres que querían mejores programas para sus propios hijos, Selah Kids mezcla increíbles dibujos animados cristianos con lecciones importantes de la Biblia."
+            )}
           </motion.p>
         </div>
 

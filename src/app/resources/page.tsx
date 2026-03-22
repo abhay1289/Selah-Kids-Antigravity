@@ -97,9 +97,7 @@ export default function ResourcesPage() {
             <button
               key={category}
               onClick={() => setActiveCategory(category)}
-              className={`relative px-6 py-2.5 rounded-full text-sm sm:text-base font-bold transition-colors duration-300 z-10 ${
-                activeCategory === category ? 'text-white' : 'text-selah-muted hover:text-selah-dark'
-              }`}
+              className={`relative px-6 py-2.5 rounded-full ui-button transition-colors duration-300 z-10 ${ activeCategory === category ? 'text-white' : 'text-selah-muted hover:text-selah-dark' }`}
             >
               {activeCategory === category && (
                 <motion.div
@@ -131,7 +129,7 @@ export default function ResourcesPage() {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] as const }}
           className="relative rounded-[3rem] p-16 md:p-24 text-center overflow-hidden group bg-white border border-selah-dark/5 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)]"
         >
           {/* Animated Gradient Background */}
@@ -150,10 +148,10 @@ export default function ResourcesPage() {
             <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-8 shadow-sm border border-selah-dark/5">
               <Sparkles size={32} className="text-selah-orange" />
             </div>
-            <h2 className="text-5xl md:text-7xl font-display text-selah-dark mb-6 tracking-tighter drop-shadow-sm">
+            <h2 className="hero-headline text-selah-dark mb-6 tracking-tighter drop-shadow-sm">
               More Magic Coming!
             </h2>
-            <p className="text-xl md:text-2xl text-selah-muted font-sans font-medium max-w-2xl mx-auto leading-relaxed mb-10 tracking-tight">
+            <p className="text-selah-muted body-text max-w-2xl mx-auto leading-relaxed mb-10 tracking-tight">
               We are constantly creating new coloring pages, devotionals, and activity sheets. Join our newsletter to get notified when they drop!
             </p>
             <Button className="!px-10 !py-5 !text-xl shadow-[0_10px_30px_-10px_rgba(255,92,0,0.4)]">

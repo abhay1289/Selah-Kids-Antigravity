@@ -87,13 +87,7 @@ export function Button({ children, variant = 'primary', icon: Icon, className = 
         transition: { type: "spring", stiffness: 400, damping: 10 }
       }}
       whileTap={{ scale: 0.95 }}
-      className={`
-        relative px-6 py-3 sm:px-8 sm:py-4 rounded-full font-bold text-base sm:text-lg 
-        flex items-center justify-center gap-3 
-        transition-all duration-300 cursor-pointer overflow-hidden group
-        whitespace-nowrap flex-shrink-0
-        ${variants[variant]} ${className}
-      `}
+      className={`relative px-6 py-3 sm:px-8 sm:py-4 rounded-full ui-button flex items-center justify-center gap-3 transition-all duration-300 cursor-pointer overflow-hidden group whitespace-nowrap flex-shrink-0 ${variants[variant]} ${className}`}
     >
       {/* Ripple Effect */}
       <AnimatePresence>
@@ -164,7 +158,7 @@ export function BouncingDots() {
             duration: 0.6, 
             repeat: Infinity, 
             delay: i * 0.15,
-            ease: [0.34, 1.56, 0.64, 1]
+            ease: [0.34, 1.56, 0.64, 1] as const
           }}
         />
       ))}
@@ -197,7 +191,7 @@ export function Badge({ children, className = "", color = 'yellow' }: BadgeProps
       className={`${colors[color]} px-5 py-2 rounded-xl inline-flex items-center justify-center transform border relative overflow-hidden group ${className}`}
     >
       <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
-      <span className="relative z-10 font-accent font-bold uppercase tracking-[0.2em] text-xs sm:text-sm select-none">
+      <span className="relative z-10 ui-label select-none">
         {children}
       </span>
     </motion.div>

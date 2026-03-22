@@ -1,9 +1,10 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { useRef, useState } from "react";
 import { Music, Star, Heart, SparklesIcon, Mail, ArrowRight } from "lucide-react";
 import { Button, Badge } from "../UI";
-import { useState } from "react";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -12,16 +13,28 @@ const sectionVariants = {
     y: 0,
     transition: { 
       duration: 0.8, 
-      ease: [0.16, 1, 0.3, 1] 
+      ease: [0.16, 1, 0.3, 1] as const
     }
   }
 };
 
 export function NewsletterSection() {
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const { t } = useLanguage();
+  const containerRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const floatY1 = useTransform(scrollYProgress, [0, 1], ["50%", "-50%"]);
+  const floatY2 = useTransform(scrollYProgress, [0, 1], ["-30%", "30%"]);
+  const formY = useTransform(scrollYProgress, [0, 1], ["10%", "-10%"]);
 
   return (
     <motion.section 
+      ref={containerRef}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
@@ -39,21 +52,32 @@ export function NewsletterSection() {
         />
         
         {/* Floating Elements */}
-        <motion.div animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} className="absolute top-20 left-[10%] text-white/40">
-          <Music size={64} />
+        <motion.div style={{ y: floatY1 }} className="absolute top-20 left-[10%] text-white/40">
+          <motion.div animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}>
+            <Music size={64} />
+          </motion.div>
         </motion.div>
-        <motion.div animate={{ y: [0, 30, 0], rotate: [0, -15, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }} className="absolute bottom-32 left-[20%] text-white/30">
-          <Star size={48} fill="currentColor" />
+        
+        <motion.div style={{ y: floatY2 }} className="absolute bottom-32 left-[20%] text-white/30">
+          <motion.div animate={{ y: [0, 30, 0], rotate: [0, -15, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}>
+            <Star size={48} fill="currentColor" />
+          </motion.div>
         </motion.div>
-        <motion.div animate={{ y: [0, -25, 0], rotate: [0, 20, 0] }} transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 2 }} className="absolute top-40 right-[15%] text-white/40">
-          <Heart size={56} fill="currentColor" />
+
+        <motion.div style={{ y: floatY1 }} className="absolute top-40 right-[15%] text-white/40">
+          <motion.div animate={{ y: [0, -25, 0], rotate: [0, 20, 0] }} transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 2 }}>
+            <Heart size={56} fill="currentColor" />
+          </motion.div>
         </motion.div>
-        <motion.div animate={{ y: [0, 20, 0], rotate: [0, -10, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.5 }} className="absolute bottom-20 right-[25%] text-white/30">
-          <Music size={40} />
+
+        <motion.div style={{ y: floatY2 }} className="absolute bottom-20 right-[25%] text-white/30">
+          <motion.div animate={{ y: [0, 20, 0], rotate: [0, -10, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}>
+            <Music size={40} />
+          </motion.div>
         </motion.div>
       </div>
       
-      <div className="max-w-5xl mx-auto px-6 text-center relative z-10">
+      <motion.div style={{ y: formY }} className="max-w-5xl mx-auto px-6 text-center relative z-10">
         <AnimatePresence mode="wait">
           {!isSubscribed ? (
             <motion.div
@@ -86,13 +110,13 @@ export function NewsletterSection() {
               <motion.div whileHover={{ scale: 1.05, y: -2 }} className="inline-block mb-6">
                 <Badge color="orange" className="!text-sm !px-6 !py-2 shadow-sm">
                   <SparklesIcon size={16} className="inline mr-2" />
-                  STAY IN THE LOOP
+                  {t("STAY IN THE LOOP", "MANTENTE INFORMADO")}
                 </Badge>
               </motion.div>
               
-              <h2 className="text-5xl md:text-6xl lg:text-7xl font-display text-selah-dark mb-6 leading-[1.1] tracking-tight drop-shadow-sm">
-                Stay in <br /> the <span className="text-selah-orange relative inline-block">
-                  Loop!
+              <h2 className="content-h2 mb-6 leading-[1.05] tracking-[-0.02em] drop-shadow-sm">
+                {t("Stay in", "Mantente en")} <br /> {t("the", "el")} <span className="text-selah-orange relative inline-block">
+                  {t("Loop!", "¡Contacto!")}
                   <motion.svg 
                     className="absolute -bottom-2 left-0 w-full h-4 text-selah-yellow -z-10" 
                     viewBox="0 0 100 20" 
@@ -106,8 +130,11 @@ export function NewsletterSection() {
                 </span>
               </h2>
               
-              <p className="text-xl md:text-2xl text-selah-muted mb-12 max-w-2xl mx-auto font-sans font-medium leading-relaxed">
-                Enter your email address to be the first to know about all things Selah Kids! Get updates on new Christian kids music and fun videos straight to your inbox.
+              <p className="text-selah-muted mb-12 max-w-2xl mx-auto body-text text-balance">
+                {t(
+                  "Enter your email address to be the first to know about all things Selah Kids! Get updates on new Christian kids music and fun videos straight to your inbox.",
+                  "¡Ingresa tu correo electrónico para ser el primero en saber todo sobre Selah Kids! Recibe actualizaciones sobre nueva música cristiana para niños y videos divertidos directamente en tu bandeja de entrada."
+                )}
               </p>
               
               <form 
@@ -124,15 +151,15 @@ export function NewsletterSection() {
                   <input 
                     type="email" 
                     required
-                    placeholder="Your email address" 
-                    className="w-full pl-16 pr-8 py-6 rounded-full bg-selah-bg text-selah-dark font-sans font-bold text-xl focus:outline-none focus:ring-[6px] focus:ring-selah-orange/30 transition-all border-2 border-transparent focus:border-selah-orange shadow-inner"
+                    placeholder={t("Your email address", "Tu correo electrónico")} 
+                    className="w-full pl-16 pr-8 py-6 rounded-full bg-selah-bg text-selah-dark content-h3 focus:outline-none focus:ring-[6px] focus:ring-selah-orange/30 transition-all border-2 border-transparent focus:border-selah-orange shadow-inner"
                   />
                 </div>
                 <Button 
                   type="submit"
                   className="!bg-selah-orange hover:!bg-[#e65300] !text-white !border-none !px-12 !py-6 !text-xl hover:-translate-y-1 active:translate-y-0 transition-all group shadow-[0_10px_30px_-10px_rgba(255,107,0,0.5)] hover:shadow-[0_20px_40px_-10px_rgba(255,107,0,0.7)] hover:scale-105 whitespace-nowrap"
                 >
-                  Join Now
+                  {t("Join Now", "Únete Ahora")}
                   <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </form>
@@ -149,8 +176,8 @@ export function NewsletterSection() {
                     </motion.div>
                   ))}
                 </div>
-                <p className="text-selah-dark font-sans font-bold text-sm">
-                  <SparklesIcon className="inline-block w-5 h-5 text-selah-yellow mr-2 animate-pulse" /> Join <span className="text-selah-orange">100,000+</span> families
+                <p className="text-selah-dark content-h3">
+                  <SparklesIcon className="inline-block w-5 h-5 text-selah-yellow mr-2 animate-pulse" />{t("Join", "Únete a")} <span className="text-selah-orange">100,000+</span> {t("families", "familias")}
                 </p>
               </div>
             </motion.div>
@@ -195,8 +222,8 @@ export function NewsletterSection() {
               >
                 <SparklesIcon className="inline-block w-8 h-8 text-selah-yellow" />
               </motion.div>
-              <h3 className="text-4xl md:text-5xl lg:text-6xl font-display text-selah-dark mb-6 leading-[1.1] tracking-tight drop-shadow-sm">
-                Welcome to the <br /> <span className="text-selah-orange relative inline-block">
+              <h3 className="content-h2 mb-6 leading-[1.05] tracking-[-0.02em] drop-shadow-sm">
+                {t("Welcome to the", "Bienvenidos a la")} <br /> <span className="text-selah-orange relative inline-block">
                   Selah Kids
                   <motion.svg 
                     className="absolute -bottom-2 left-0 w-full h-4 text-selah-yellow -z-10" 
@@ -208,21 +235,24 @@ export function NewsletterSection() {
                   >
                     <path d="M0 10 Q 50 20 100 10" fill="none" stroke="currentColor" strokeWidth="8" strokeLinecap="round" />
                   </motion.svg>
-                </span> family!
+                </span> {t("family!", "¡familia!")}
               </h3>
-              <p className="text-xl md:text-2xl text-selah-muted font-sans font-medium mb-12 max-w-lg mx-auto leading-relaxed">
-                Check your inbox for a special welcome gift from Andy and the gang. We're so glad you're here!
+              <p className="body-text mb-12 max-w-lg mx-auto leading-relaxed text-balance">
+                {t(
+                  "Check your inbox for a special welcome gift from Andy and the gang. We're so glad you're here!",
+                  "¡Revisa tu bandeja de entrada para un regalo especial de bienvenida de Andy y el grupo. ¡Estamos muy contentos de que estés aquí!"
+                )}
               </p>
               <Button 
                 onClick={() => setIsSubscribed(false)}
                 className="!bg-selah-light hover:!bg-[#7ebd4e] !text-white !border-none !px-12 !py-5 !text-xl hover:-translate-y-1 transition-all shadow-[0_10px_30px_-10px_rgba(147,211,92,0.5)] hover:shadow-[0_20px_40px_-10px_rgba(147,211,92,0.7)] hover:scale-105 whitespace-nowrap"
               >
-                Back to Website
+                {t("Back to Website", "Volver al Sitio")}
               </Button>
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+      </motion.div>
     </motion.section>
   );
 }

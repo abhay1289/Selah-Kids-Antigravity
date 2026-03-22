@@ -4,6 +4,7 @@ import { motion, useTransform, MotionValue } from "framer-motion";
 import { Play, SparklesIcon, Cloud, Sun, Music } from "lucide-react";
 import { Button } from "../UI";
 import { useRouter } from "next/navigation";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 interface HeroSectionProps {
   scrollYProgress: MotionValue<number>;
@@ -12,16 +13,21 @@ interface HeroSectionProps {
 
 export function HeroSection({ scrollYProgress, handleMouseMove }: HeroSectionProps) {
   const router = useRouter();
+  const { t } = useLanguage();
   
-  const heroY = useTransform(scrollYProgress, [0, 0.2], [0, 200]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 300]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const sunRotate = useTransform(scrollYProgress, [0, 1], [0, 360]);
+  
+  // New Character Parallax
+  const charLeftY = useTransform(scrollYProgress, [0, 1], [0, -150]);
+  const charRightY = useTransform(scrollYProgress, [0, 1], [0, -250]);
 
   return (
     <motion.section 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] as const }}
       onMouseMove={handleMouseMove}
       className="relative min-h-[100svh] md:min-h-[900px] flex items-center justify-center overflow-hidden bg-selah-bg"
     >
@@ -62,8 +68,8 @@ export function HeroSection({ scrollYProgress, handleMouseMove }: HeroSectionPro
         {/* Cinematic Background Image */}
         <motion.img 
           initial={{ scale: 1.2, filter: "blur(20px)", opacity: 0 }}
-          animate={{ scale: 1.05, filter: "blur(2px)", opacity: 0.3 }}
-          transition={{ duration: 3, ease: [0.16, 1, 0.3, 1] }}
+          animate={{ scale: 1.05, filter: "blur(2px)", opacity: 0.18 }}
+          transition={{ duration: 3, ease: [0.16, 1, 0.3, 1] as const }}
           style={{ 
             scale: useTransform(scrollYProgress, [0, 1], [1.05, 1.2]),
             filter: useTransform(scrollYProgress, [0, 0.5], ["blur(2px)", "blur(16px)"])
@@ -76,52 +82,41 @@ export function HeroSection({ scrollYProgress, handleMouseMove }: HeroSectionPro
         
         {/* Floating Characters - NEW! */}
         <motion.div 
-          initial={{ opacity: 0, x: -100, y: 100 }}
-          animate={{ opacity: 1, x: 0, y: 0 }}
-          transition={{ duration: 1.5, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="absolute bottom-0 left-[2%] w-[25%] md:w-[20%] z-20 pointer-events-none hidden md:block"
+          style={{ y: charLeftY }}
+          initial={{ opacity: 0, x: -100, scale: 0.8, rotate: -15 }}
+          animate={{ opacity: 1, x: 0, scale: 1, rotate: 0 }}
+          transition={{ type: "spring", stiffness: 60, damping: 12, delay: 0.4 }}
+          className="absolute bottom-0 left-0 ml-4 md:ml-12 w-[25%] md:w-[22%] z-20 pointer-events-none hidden md:block"
         >
           <motion.img 
             animate={{ y: [0, -20, 0], rotate: [-2, 2, -2] }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
             src="/SK_Libni_Intro_Pose-removebg-preview.png" 
             alt="Libni"
-            className="w-full h-auto drop-shadow-2xl"
+            className="w-full h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.3)]"
           />
         </motion.div>
 
         <motion.div 
-          initial={{ opacity: 0, x: 100, y: 100 }}
-          animate={{ opacity: 1, x: 0, y: 0 }}
-          transition={{ duration: 1.5, delay: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="absolute bottom-0 right-[2%] w-[25%] md:w-[22%] z-20 pointer-events-none hidden md:block"
+          style={{ y: charRightY }}
+          initial={{ opacity: 0, x: 100, scale: 0.8, rotate: 15 }}
+          animate={{ opacity: 1, x: 0, scale: 1, rotate: 0 }}
+          transition={{ type: "spring", stiffness: 60, damping: 12, delay: 0.6 }}
+          className="absolute bottom-0 right-0 mr-4 md:mr-12 w-[25%] md:w-[22%] z-20 pointer-events-none hidden md:block"
         >
           <motion.img 
             animate={{ y: [0, -25, 0], rotate: [2, -2, 2] }}
             transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
             src="/SK_Andy_Intro_Pose-removebg-preview.png" 
             alt="Andy"
-            className="w-full h-auto drop-shadow-2xl"
+            className="w-full h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.3)]"
           />
         </motion.div>
 
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 2, ease: "easeOut" }}
-          className="absolute bottom-10 left-[45%] w-[12%] md:w-[8%] z-10 pointer-events-none hidden md:block"
-        >
-          <motion.img 
-            animate={{ y: [0, -10, 0], scale: [1, 1.05, 1] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            src="/SK_Shiloh_Intro_Pose-removebg-preview.png" 
-            alt="Shiloh"
-            className="w-full h-auto drop-shadow-xl"
-          />
-        </motion.div>
+        {/* Shiloh removed to balance the left/right composition */}
         
         {/* Gradient Overlay for Text Readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-selah-dark/5 via-transparent to-selah-dark/10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-selah-bg/60 via-selah-bg/20 to-selah-bg/40" />
       </motion.div>
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 text-center flex flex-col items-center justify-center mt-32 md:mt-40">
@@ -133,7 +128,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove }: HeroSectionPro
           <motion.div 
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] as const }}
             className="relative inline-flex items-center gap-3 px-6 py-2.5 bg-white/60 backdrop-blur-2xl border border-white/80 shadow-[0_8px_32px_rgba(0,0,0,0.08)] rounded-full mb-8 cursor-default overflow-hidden group hover:shadow-[0_16px_48px_rgba(0,0,0,0.12)] transition-shadow duration-500"
           >
             <motion.div
@@ -142,31 +137,32 @@ export function HeroSection({ scrollYProgress, handleMouseMove }: HeroSectionPro
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", repeatDelay: 2 }}
             />
             <SparklesIcon size={16} className="text-selah-orange relative z-10" />
-            <span className="text-xs font-accent font-bold tracking-[0.25em] text-selah-dark/90 uppercase relative z-10">FAITH-FILLED MUSIC FOR LITTLE ONES</span>
+            <span className="ui-label text-selah-dark/90 relative z-10">{t("FAITH-FILLED MUSIC FOR LITTLE ONES", "MÚSICA DE FE PARA LOS PEQUEÑOS")}</span>
           </motion.div>
           
           {/* Cinematic Title Reveal */}
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-display text-selah-dark mb-6 tracking-tight leading-[1.1] drop-shadow-sm flex flex-wrap justify-center gap-x-3 lg:gap-x-4">
-            {["Christian", "Music", "for"].map((word, i) => (
-              <span key={i} className="overflow-hidden inline-block pb-2">
+          <h1 className="hero-headline flex flex-wrap justify-center gap-x-3 lg:gap-x-4 mb-6 drop-shadow-sm">
+            {t("Christian", "Música").split(" ").concat(t("Music for", "Cristiana para").split(" ")).map((word, i) => (
+              <span key={i} className="overflow-hidden inline-block pb-4 px-1">
                 <motion.span
-                  initial={{ y: "100%", opacity: 0, rotateZ: 5, scale: 0.9, filter: "blur(4px)" }}
-                  animate={{ y: 0, opacity: 1, rotateZ: 0, scale: 1, filter: "blur(0px)" }}
-                  transition={{ duration: 1.2, delay: 0.3 + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                  className="inline-block origin-bottom-left tracking-tight"
+                  initial={{ y: "150%", opacity: 0, rotateZ: 10, scale: 0.8 }}
+                  animate={{ y: 0, opacity: 1, rotateZ: 0, scale: 1 }}
+                  transition={{ type: "spring", bounce: 0.5, duration: 1.2, delay: i * 0.1 }}
+                  className="inline-block origin-bottom-left"
                 >
                   {word}
                 </motion.span>
               </span>
             ))}
-            <span className="overflow-hidden inline-block pb-2">
+            <span className="overflow-hidden inline-block pb-4">
               <motion.span
-                initial={{ y: "100%", opacity: 0, rotateZ: 5, scale: 0.9, filter: "blur(4px)" }}
-                animate={{ y: 0, opacity: 1, rotateZ: 0, scale: 1, filter: "blur(0px)" }}
-                transition={{ duration: 1.2, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="inline-block origin-bottom-left tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-selah-orange to-rose-500 italic pr-4"
+                initial={{ y: "150%", opacity: 0, rotateZ: 10, scale: 0.5 }}
+                animate={{ y: 0, opacity: 1, rotateZ: 0, scale: 1 }}
+                transition={{ type: "spring", bounce: 0.6, duration: 1.5, delay: 0.5 }}
+                whileHover={{ scale: 1.1, rotate: 2 }}
+                className="inline-block origin-bottom-left pr-4 drop-shadow-[0_10px_20px_rgba(255,107,0,0.4)]"
               >
-                Kids
+                {t("Kids", "Niños")}
               </motion.span>
             </span>
           </h1>
@@ -175,17 +171,20 @@ export function HeroSection({ scrollYProgress, handleMouseMove }: HeroSectionPro
           <motion.p 
             initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 1.2, delay: 1.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-lg md:text-xl lg:text-2xl text-selah-muted font-sans font-medium max-w-3xl mx-auto leading-relaxed tracking-normal mb-8"
+            transition={{ duration: 1.2, delay: 1.1, ease: [0.16, 1, 0.3, 1] as const }}
+            className="body-text mx-auto mb-8 text-center text-balance"
           >
-            Welcome to Selah Kids! We create fun, original Bible songs and Christian cartoons that the whole family will love. Get ready to sing, dance, and learn about God with our catchy music and exciting videos!
+            {t(
+              "Welcome to Selah Kids! We create fun, original Bible songs and Christian cartoons that the whole family will love. Get ready to sing, dance, and learn about God with our catchy music and exciting videos!",
+              "¡Bienvenidos a Selah Kids! Creamos canciones bíblicas originales y divertidas y dibujos animados cristianos que encantarán a toda la familia. ¡Prepárate para cantar, bailar y aprender sobre Dios con nuestra música pegajosa y videos emocionantes!"
+            )}
           </motion.p>
           
           {/* Premium Buttons */}
           <motion.div 
             initial={{ opacity: 0, y: 30, filter: "blur(4px)", scale: 0.95 }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
-            transition={{ duration: 1.2, delay: 1.3, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 1.2, delay: 1.3, ease: [0.16, 1, 0.3, 1] as const }}
             className="flex flex-col sm:flex-row justify-center gap-4 relative z-20 w-full sm:w-auto px-6 mb-10"
           >
             <motion.div
@@ -197,7 +196,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove }: HeroSectionPro
                 className="!px-12 !py-6 !text-xl flex items-center justify-center gap-3 whitespace-nowrap shadow-[0_20px_40px_-15px_rgba(255,92,0,0.5)] hover:shadow-[0_30px_60px_-15px_rgba(255,92,0,0.7)] hover:scale-105 transition-all w-full sm:w-auto"
               >
                 <Play size={22} className="fill-white" />
-                Watch Now
+                {t("Watch Now", "Ver Ahora")}
               </Button>
             </motion.div>
             <motion.div
@@ -209,7 +208,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove }: HeroSectionPro
                 variant="white" 
                 className="!px-12 !py-6 !text-xl flex items-center justify-center whitespace-nowrap shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] hover:scale-105 transition-all w-full sm:w-auto"
               >
-                Our Story
+                {t("Our Story", "Nuestra Historia")}
               </Button>
             </motion.div>
           </motion.div>
@@ -218,10 +217,10 @@ export function HeroSection({ scrollYProgress, handleMouseMove }: HeroSectionPro
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 1.5, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 1.2, delay: 1.5, ease: [0.16, 1, 0.3, 1] as const }}
             className="flex flex-col items-center gap-4 bg-white/40 backdrop-blur-md px-8 sm:px-12 py-4 rounded-[2.5rem] sm:rounded-[3rem] border border-white/60 shadow-[0_8px_32px_rgba(0,0,0,0.02)]"
           >
-            <span className="text-xs font-sans font-bold tracking-[0.3em] text-selah-dark/40 uppercase">AVAILABLE ON</span>
+            <span className="ui-label text-selah-dark/40">{t("AVAILABLE ON", "DISPONIBLE EN")}</span>
             <div className="flex items-center gap-6">
               <motion.a 
                 whileHover={{ scale: 1.15, color: "#FF0000", y: -2 }} 

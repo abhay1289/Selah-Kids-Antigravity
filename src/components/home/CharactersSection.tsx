@@ -1,8 +1,12 @@
-import { motion } from "framer-motion";
+"use client";
+
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { Badge } from "../UI";
 import { SectionHeader } from "../SectionHeader";
 import { CHARACTERS } from "../../constants";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -11,14 +15,25 @@ const sectionVariants = {
     y: 0,
     transition: { 
       duration: 0.8, 
-      ease: [0.16, 1, 0.3, 1] 
+      ease: [0.16, 1, 0.3, 1] as const
     }
   }
 };
 
 export function CharactersSection() {
+  const { t } = useLanguage();
+  const containerRef = useRef<HTMLElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const cardsY = useTransform(scrollYProgress, [0, 1], ["5%", "-5%"]);
+
   return (
     <motion.section 
+      ref={containerRef}
       id="characters" 
       initial="hidden"
       whileInView="visible"
@@ -50,20 +65,23 @@ export function CharactersSection() {
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <SectionHeader 
-          badge="Meet the Characters"
-          title="Andy, Libni, and Shiloh"
-          description="Say hello to Andy, Libni, and Shiloh! These fun friends go on exciting adventures to help kids learn about God, friendship, and faith in a way that's easy to understand."
+          badge={t("Meet the Characters", "Conoce a los Personajes")}
+          title={t("Andy, Libni, and Shiloh", "Andy, Libni y Shiloh")}
+          description={t(
+            "Say hello to Andy, Libni, and Shiloh! These fun friends go on exciting adventures to help kids learn about God, friendship, and faith in a way that's easy to understand.",
+            "¡Saluda a Andy, Libni y Shiloh! Estos divertidos amigos van en emocionantes aventuras para ayudar a los niños a aprender sobre Dios, la amistad y la fe de una manera fácil de entender."
+          )}
           align="center"
         />
 
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-10 mt-20">
+        <motion.div style={{ y: cardsY }} className="grid sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-10 mt-20">
           {CHARACTERS.map((char, i) => (
             <motion.div
               key={char.name}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              viewport={{ once: true }}
+              initial={{ opacity: 0, y: 80, scale: 0.9 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ type: "spring", stiffness: 60, damping: 14, delay: i * 0.15 }}
+              viewport={{ once: true, margin: "-50px" }}
               whileHover={{ 
                 y: -20,
                 scale: 1.02,
@@ -108,8 +126,8 @@ export function CharactersSection() {
                     </Badge>
                   </div>
 
-                  <h3 className="text-5xl font-display text-white mb-4 drop-shadow-sm tracking-tight">{char.name}</h3>
-                  <p className="text-white/90 text-lg leading-relaxed mb-8 max-w-[240px] mx-auto font-sans font-medium">
+                  <h3 className="content-h3 text-white mb-4 drop-shadow-sm tracking-tight">{char.name}</h3>
+                  <p className="body-text mb-8 max-w-[240px] mx-auto text-white/90 text-balance">
                     {char.description}
                   </p>
 
@@ -117,16 +135,16 @@ export function CharactersSection() {
                     <motion.div 
                       initial={{ opacity: 0, y: 10 }}
                       whileInView={{ opacity: 1, y: 0 }}
-                      className="inline-flex items-center gap-2 text-white font-accent font-bold tracking-widest uppercase text-xs bg-white/20 backdrop-blur-md px-6 py-3 rounded-full border border-white/30 group-hover:bg-white group-hover:text-selah-dark transition-all duration-300 shadow-[0_4px_12px_rgba(0,0,0,0.1)] group-hover:shadow-[0_8px_24px_rgba(0,0,0,0.2)]"
+                      className="inline-flex items-center gap-2 text-white ui-label bg-white/20 backdrop-blur-md px-6 py-3 rounded-full border border-white/30 group-hover:bg-white group-hover:text-selah-dark transition-all duration-300 shadow-[0_4px_12px_rgba(0,0,0,0.1)] group-hover:shadow-[0_8px_24px_rgba(0,0,0,0.2)]"
                     >
-                      Who's that? <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                      {t("Who's that?", "¿Quién es?")} <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
                     </motion.div>
                   </div>
                 </div>
               </a>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </motion.section>
   );

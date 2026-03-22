@@ -97,7 +97,7 @@ export default function BlogPage() {
 
       {/* Load More */}
       <div className="text-center px-6 relative z-10">
-        <Button className="!bg-transparent hover:!bg-selah-dark !text-selah-dark hover:!text-white border border-selah-dark/20 shadow-none hover:shadow-xl px-16 py-5 text-lg font-sans tracking-widest uppercase transition-all duration-500">
+        <Button className="!bg-transparent hover:!bg-selah-dark !text-selah-dark hover:!text-white border border-selah-dark/20 shadow-none hover:shadow-xl px-16 py-5 ui-label transition-all duration-500">
           Load More Posts
         </Button>
       </div>

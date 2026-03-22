@@ -48,7 +48,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index }) =
       initial={{ opacity: 0, y: 50, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.2 } }}
-      transition={{ delay: index * 0.05, duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
+      transition={{ delay: index * 0.05, duration: 0.6, ease: [0.23, 1, 0.32, 1] as const }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
@@ -71,10 +71,10 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index }) =
         
         {/* Badges */}
         <div className="absolute top-4 left-4 right-4 flex justify-between items-start z-20">
-          <div className="px-4 py-1.5 bg-white/20 backdrop-blur-md rounded-full text-xs font-bold text-white border border-white/30 shadow-sm">
+          <div className="px-4 py-1.5 bg-white/20 backdrop-blur-md rounded-full ui-button text-white border border-white/30 shadow-sm">
             {resource.category}
           </div>
-          <div className="px-4 py-1.5 bg-white shadow-sm rounded-full text-xs font-bold text-selah-dark font-accent tracking-widest">
+          <div className="px-4 py-1.5 bg-white shadow-sm rounded-full ui-label text-selah-dark">
             {resource.type}
           </div>
         </div>
@@ -90,16 +90,16 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index }) =
       {/* Bottom Content Area */}
       <div className="px-4 pb-2 flex flex-col flex-grow">
         <div className="flex-grow">
-          <h3 className={`font-display text-selah-dark mb-2 leading-tight ${resource.featured ? 'text-4xl' : 'text-2xl'}`}>
+          <h3 className={`content-h2 mb-2 leading-tight ${resource.featured ? '' : ''}`}>
             {resource.title}
           </h3>
-          <p className="text-selah-muted font-sans font-medium mb-6 line-clamp-2">
+          <p className="body-text mb-6 line-clamp-2">
             {resource.description}
           </p>
         </div>
         
         <div className="flex items-center justify-between pt-4 border-t border-selah-dark/5 mt-auto">
-          <span className="text-selah-dark font-bold flex items-center gap-2 group-hover:text-selah-orange transition-colors duration-300 text-sm sm:text-base">
+          <span className="text-selah-dark ui-button">
             Download <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
           </span>
           <div className="w-10 h-10 rounded-full bg-selah-bg flex items-center justify-center group-hover:bg-selah-orange group-hover:text-white text-selah-dark transition-colors duration-300 shadow-sm border border-selah-dark/5">

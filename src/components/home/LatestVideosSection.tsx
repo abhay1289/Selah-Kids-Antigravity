@@ -1,30 +1,11 @@
-import { motion } from "framer-motion";
+"use client";
+
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import { Play, SparklesIcon, Music, ArrowRight } from "lucide-react";
 import { Button } from "../UI";
 import { SectionHeader } from "../SectionHeader";
-
-const LATEST_VIDEOS = [
-  {
-    id: 1,
-    title: "This Is How We Praise The Lord",
-    description: "A high-energy sing-along that gets kids moving and praising God with all their heart! Join Andy and Libni in this catchy worship song.",
-    img: "/TGN_SingleFrames+28729.jpg",
-    category: "Sing-Along",
-    language: "English",
-    gradient: "from-selah-orange to-rose-500",
-    date: "LATEST"
-  },
-  {
-    id: 2,
-    title: "The Good News | Jesus Loves Me",
-    description: "Experience the timeless message of God's love through this beautiful, animated version of the beloved classic.",
-    img: "/TGN_SingleFrames+28329.jpg",
-    category: "Bible Song",
-    language: "English / Spanish",
-    gradient: "from-selah-yellow to-selah-orange",
-    date: "FEATURED"
-  }
-];
+import { useLanguage } from "../../contexts/LanguageContext";
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -33,45 +14,94 @@ const sectionVariants = {
     y: 0,
     transition: { 
       duration: 0.8, 
-      ease: [0.16, 1, 0.3, 1],
+      ease: [0.16, 1, 0.3, 1] as const,
       staggerChildren: 0.2
     }
   }
 };
 
 export function LatestVideosSection() {
+  const { t } = useLanguage();
+  const containerRef = useRef<HTMLElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const float1Y = useTransform(scrollYProgress, [0, 1], ["50%", "-50%"]);
+  const float2Y = useTransform(scrollYProgress, [0, 1], ["100%", "-100%"]);
+  const videoContY = useTransform(scrollYProgress, [0, 1], ["5%", "-5%"]);
+
+  const LATEST_VIDEOS = [
+    {
+      id: 1,
+      title: t("This Is How We Praise The Lord", "Así Es Como Alabamos Al Señor"),
+      description: t(
+        "A high-energy sing-along that gets kids moving and praising God with all their heart! Join Andy and Libni in this catchy worship song.",
+        "¡Un canto lleno de energía que hace que los niños se muevan y alaben a Dios con todo su corazón! Únete a Andy y Libni en esta pegajosa canción de adoración."
+      ),
+      img: "/TGN_SingleFrames+28729.jpg",
+      category: t("Sing-Along", "Canta Conmigo"),
+      language: t("English", "Inglés"),
+      gradient: "from-selah-orange to-rose-500",
+      date: t("LATEST", "NUEVO")
+    },
+    {
+      id: 2,
+      title: t("The Good News | Jesus Loves Me", "Las Buenas Nuevas | Jesús Me Ama"),
+      description: t(
+        "Experience the timeless message of God's love through this beautiful, animated version of the beloved classic.",
+        "Experimenta el mensaje eterno del amor de Dios a través de esta hermosa versión animada del clásico querido."
+      ),
+      img: "/TGN_SingleFrames+28329.jpg",
+      category: t("Bible Song", "Canción Bíblica"),
+      language: t("English / Spanish", "Inglés / Español"),
+      gradient: "from-selah-yellow to-selah-orange",
+      date: t("FEATURED", "DESTACADO")
+    }
+  ];
   return (
     <motion.section 
+      ref={containerRef}
       id="videos" 
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={sectionVariants}
-      className="py-16 md:py-24 bg-white relative overflow-hidden"
+      className="py-16 md:py-32 bg-white relative overflow-hidden"
     >
       {/* Artistic Background Elements - Playful & Creative */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <motion.div 
-          animate={{ 
-            y: [0, -20, 0],
-            rotate: [0, 10, 0],
-            scale: [1, 1.1, 1]
-          }}
-          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+          style={{ y: float1Y }}
           className="absolute top-20 right-[5%] text-selah-orange/5"
         >
-          <Music size={200} />
+          <motion.div
+            animate={{ 
+              y: [0, -20, 0],
+              rotate: [0, 10, 0],
+              scale: [1, 1.1, 1]
+            }}
+            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <Music size={200} />
+          </motion.div>
         </motion.div>
         <motion.div 
-          animate={{ 
-            y: [0, 30, 0],
-            rotate: [0, -15, 0],
-            scale: [1, 1.2, 1]
-          }}
-          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          style={{ y: float2Y }}
           className="absolute bottom-40 left-[2%] text-selah-light/10"
         >
-          <SparklesIcon size={150} />
+          <motion.div
+            animate={{ 
+              y: [0, 30, 0],
+              rotate: [0, -15, 0],
+              scale: [1, 1.2, 1]
+            }}
+            transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          >
+            <SparklesIcon size={150} />
+          </motion.div>
         </motion.div>
         
         {/* Subtle Background Pattern */}
@@ -80,25 +110,30 @@ export function LatestVideosSection() {
       
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <SectionHeader 
-          badge="FRESH CONTENT"
-          title="Our Latest Videos"
-          description="Check out our newest Christian kids music and fun Bible stories! We have awesome worship videos in both English and Spanish. They are perfect for Sunday school songs or hanging out with your family!"
+          badge={t("FRESH CONTENT", "CONTENIDO NUEVO")}
+          title={t("Our Latest Videos", "Nuestros Últimos Videos")}
+          description={t(
+            "Check out our newest Christian kids music and fun Bible stories! We have awesome worship videos in both English and Spanish. They are perfect for Sunday school songs or hanging out with your family!",
+            "¡Mira nuestra nueva música cristiana para niños e historias bíblicas divertidas! Tenemos increíbles videos de adoración en inglés y español. ¡Son perfectos para canciones de la escuela dominical o para pasar tiempo con tu familia!"
+          )}
           align="center"
         />
 
-        <div className="grid md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 mt-24">
+        <motion.div style={{ y: videoContY }} className="grid md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 mt-24">
           {LATEST_VIDEOS.map((video, i) => (
             <motion.div
               key={video.id}
               variants={{
-                hidden: { opacity: 0, scale: 0.9, y: 50 },
+                hidden: { opacity: 0, scale: 0.9, y: 100 },
                 visible: { 
                   opacity: 1, 
                   scale: 1, 
                   y: 0,
                   transition: { 
-                    duration: 0.8, 
-                    ease: [0.16, 1, 0.3, 1] 
+                    type: "spring",
+                    stiffness: 70,
+                    damping: 14,
+                    delay: i * 0.2
                   }
                 }
               }}
@@ -108,7 +143,7 @@ export function LatestVideosSection() {
               {/* Thumbnail Area - Large & Prominent */}
               <div className="relative aspect-[16/10] rounded-[48px] overflow-hidden transition-all duration-500 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1),0_10px_15px_-3px_rgba(0,0,0,0.05)] group-hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.2),0_20px_30px_-5px_rgba(0,0,0,0.1)] group-hover:-translate-y-2">
                 {/* Color-coded Gradient Overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${video.gradient} opacity-40 group-hover:opacity-60 transition-opacity duration-700 z-10`} />
+                <div className={`absolute inset-0 bg-gradient-to-br ${video.gradient} opacity-30 group-hover:opacity-50 transition-opacity duration-700 z-10`} />
                 
                 {/* Shimmer Effect on Hover */}
                 <div className="absolute inset-0 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none">
@@ -145,7 +180,7 @@ export function LatestVideosSection() {
                 <div className="absolute top-6 right-6 z-30">
                   <motion.div 
                     whileHover={{ scale: 1.05, y: -2 }}
-                    className="px-5 py-2 bg-white/30 backdrop-blur-xl rounded-full border border-white/40 text-xs font-accent font-bold text-white uppercase tracking-[0.2em] cursor-default shadow-sm"
+                    className="px-5 py-2 bg-white/30 backdrop-blur-xl rounded-full border border-white/40 ui-label text-white cursor-default shadow-sm"
                   >
                     {video.language}
                   </motion.div>
@@ -155,7 +190,7 @@ export function LatestVideosSection() {
                 <div className="absolute bottom-6 left-6 z-30">
                   <motion.div 
                     whileHover={{ scale: 1.05, y: -2 }}
-                    className="px-6 py-2.5 bg-white/90 backdrop-blur-md rounded-2xl text-xs font-accent font-bold text-selah-dark uppercase tracking-widest cursor-default shadow-sm"
+                    className="px-6 py-2.5 bg-white/90 backdrop-blur-md rounded-2xl ui-label text-selah-dark cursor-default shadow-sm"
                   >
                     {video.category}
                   </motion.div>
@@ -165,19 +200,19 @@ export function LatestVideosSection() {
               {/* Content Below - Refined Typography */}
               <div className="mt-6 md:mt-10 px-2 md:px-4">
                 <div className="flex items-center gap-4 mb-4">
-                  <span className="text-xs font-accent font-bold text-selah-orange uppercase tracking-[0.3em]">{video.date}</span>
+                  <span className="ui-label text-selah-orange">{video.date}</span>
                   <div className="h-px flex-1 bg-gradient-to-r from-selah-orange/20 to-transparent" />
                 </div>
-                <h3 className="text-4xl font-display text-selah-dark mb-4 group-hover:text-selah-orange transition-colors duration-300 leading-tight tracking-tight">
+                <h3 className="content-h3 text-selah-dark mb-4 group-hover:text-selah-orange transition-colors duration-300 leading-tight tracking-tight tracking-hover">
                   {video.title}
                 </h3>
-                <p className="text-xl text-selah-muted font-sans leading-relaxed line-clamp-2 opacity-80 group-hover:opacity-100 transition-opacity">
+                <p className="body-text line-clamp-2 opacity-80 group-hover:opacity-100 transition-opacity text-balance">
                   {video.description}
                 </p>
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         <div className="flex justify-center mt-24">
           <motion.div
@@ -189,7 +224,7 @@ export function LatestVideosSection() {
               className="!px-16 !py-6 !text-xl !border-2 !border-selah-orange !text-selah-orange hover:!bg-selah-orange hover:!text-white transition-all group shadow-[0_10px_30px_-10px_rgba(255,107,0,0.3)] hover:shadow-[0_20px_40px_-10px_rgba(255,107,0,0.5)] whitespace-nowrap"
               onClick={() => window.open("https://www.youtube.com/@selahkidsworship", "_blank")}
             >
-              See All Videos
+              {t("See All Videos", "Ver Todos Los Videos")}
               <ArrowRight className="inline-block ml-3 transition-transform group-hover:translate-x-2" size={24} />
             </Button>
           </motion.div>

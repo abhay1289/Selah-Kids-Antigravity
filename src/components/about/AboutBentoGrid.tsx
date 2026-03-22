@@ -1,19 +1,25 @@
+"use client";
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Music, Video } from 'lucide-react';
 import { Badge } from '../UI';
+import { staggerContainer, zoomInUp, rollIn, slideInRight, fadeIn } from '../../utils/animations';
 
 export const AboutBentoGrid = () => {
   return (
     <section className="max-w-[1400px] mx-auto px-6 py-20 relative z-10">
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8">
+      <motion.div 
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8"
+      >
         
         {/* Bento 1: The Mission (Large) */}
         <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          variants={zoomInUp}
           className="md:col-span-8 bg-selah-dark rounded-[3rem] md:rounded-[4rem] p-10 md:p-16 flex flex-col justify-between relative overflow-hidden group min-h-[500px] md:min-h-[600px] shadow-2xl"
         >
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 mix-blend-overlay" />
@@ -22,13 +28,13 @@ export const AboutBentoGrid = () => {
           
           <div className="relative z-10">
             <Badge color="yellow" className="mb-8 border-none shadow-lg">OUR MISSION</Badge>
-            <h2 className="text-5xl md:text-6xl font-display text-white leading-[1.1] tracking-tight mb-8">
+            <h2 className="content-h2 text-white leading-[1.1] tracking-tight mb-8">
               Learning About God <br /> Through Fun Songs
             </h2>
           </div>
           
           <div className="relative z-10 max-w-2xl">
-            <p className="text-xl text-white/80 font-sans font-medium leading-relaxed">
+            <p className="text-xl text-white/80 font-body italic leading-relaxed">
               Started in 2024 by parents looking for better Christian media, Selah Kids! is a safe place for children to enjoy faith-based videos. We want kids and parents to get up, move, and worship God together with our catchy Sunday school songs.
             </p>
           </div>
@@ -36,10 +42,7 @@ export const AboutBentoGrid = () => {
 
         {/* Bento 2: Music & Joy (Tall) */}
         <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          variants={rollIn}
           className="md:col-span-4 bg-selah-yellow rounded-[3rem] md:rounded-[4rem] p-10 md:p-16 flex flex-col items-center justify-center relative overflow-hidden min-h-[500px] md:min-h-[600px] shadow-2xl"
         >
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10 mix-blend-overlay" />
@@ -52,8 +55,8 @@ export const AboutBentoGrid = () => {
             >
               <Music size={64} className="text-selah-orange" />
             </motion.div>
-            <h3 className="text-4xl font-display text-selah-dark leading-none mb-6">Sing & Dance</h3>
-            <p className="text-selah-dark/80 font-sans font-medium text-lg">
+            <h3 className="content-h2 leading-none mb-6">Sing & Dance</h3>
+            <p className="text-selah-dark/80 body-text">
               Catchy tunes that make learning about the Bible super fun!
             </p>
           </div>
@@ -61,10 +64,7 @@ export const AboutBentoGrid = () => {
 
         {/* Bento 3: Animation Quality (Wide) */}
         <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          variants={slideInRight}
           className="md:col-span-12 bg-white rounded-[3rem] md:rounded-[4rem] border border-black/5 p-4 md:p-6 flex flex-col md:flex-row items-stretch gap-6 min-h-[500px] shadow-2xl relative overflow-hidden"
         >
           <div className="absolute -right-40 -bottom-40 w-[600px] h-[600px] bg-selah-pink/10 rounded-full blur-3xl pointer-events-none" />
@@ -77,34 +77,34 @@ export const AboutBentoGrid = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
             <div className="absolute bottom-8 left-8 bg-white/90 backdrop-blur-md px-6 py-3 rounded-full flex items-center gap-2 shadow-lg transform group-hover:-translate-y-2 transition-transform duration-500">
               <Video size={16} className="text-selah-dark" />
-              <span className="text-selah-dark text-sm font-accent font-bold tracking-widest uppercase">Beautiful Cartoons</span>
+              <span className="text-selah-dark ui-label">Beautiful Cartoons</span>
             </div>
           </div>
           
           <div className="w-full md:w-1/2 p-8 md:p-16 flex flex-col justify-center relative z-10">
             <Badge color="orange" className="mb-6 self-start shadow-md">TOP QUALITY</Badge>
-            <h2 className="text-5xl md:text-6xl font-display text-selah-dark mb-8 leading-[1.1] tracking-tight">
+            <h2 className="content-h2 mb-8 leading-[1.1] tracking-tight">
               Stunning Animation
             </h2>
-            <p className="text-xl text-selah-muted font-sans font-medium leading-relaxed mb-12">
+            <p className="body-text leading-relaxed mb-12">
               Kids deserve the best! That's why our kids worship videos feature stunning animation made by amazing artists from around the world. Every colorful video is designed to catch your eye and make learning about Jesus fun and exciting.
             </p>
             
             <div className="flex items-center gap-12">
               <div className="group">
-                <div className="text-6xl font-display text-selah-orange mb-2 group-hover:scale-110 transition-transform origin-left">4K</div>
-                <div className="text-sm font-accent font-bold tracking-widest text-selah-muted uppercase">Resolution</div>
+                <div className="content-h2 mb-2 group-hover:scale-110 transition-transform origin-left">4K</div>
+                <div className="ui-label text-selah-muted uppercase">Resolution</div>
               </div>
               <div className="w-px h-16 bg-black/10" />
               <div className="group">
-                <div className="text-6xl font-display text-selah-light mb-2 group-hover:scale-110 transition-transform origin-left">60</div>
-                <div className="text-sm font-accent font-bold tracking-widest text-selah-muted uppercase">FPS</div>
+                <div className="content-h3 text-selah-light mb-2 group-hover:scale-110 transition-transform origin-left">60</div>
+                <div className="ui-labelst text-selah-muted uppercase">FPS</div>
               </div>
             </div>
           </div>
         </motion.div>
 
-      </div>
+      </motion.div>
     </section>
   );
 };

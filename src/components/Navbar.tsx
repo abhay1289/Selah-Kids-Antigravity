@@ -94,7 +94,7 @@ export function Navbar() {
         {/* Desktop Nav */}
         <div className="hidden lg:flex items-center gap-1 xl:gap-2">
           {navLinks.map((link) => {
-            const isActive = location.pathname === link.href;
+            const isActive = pathname === link.href;
             return (
               <a 
                 key={link.name} 
@@ -102,15 +102,9 @@ export function Navbar() {
                 onClick={(e) => handleNavClick(e, link.href)}
                 onMouseEnter={() => setHoveredLink(link.name)}
                 onMouseLeave={() => setHoveredLink(null)}
-                className={`
-                  group relative px-3 xl:px-4 py-2 font-accent font-bold uppercase tracking-wider transition-all duration-500 rounded-xl
-                  ${isActive 
-                    ? "text-selah-orange bg-selah-orange/5" 
-                    : isScrolled || location.pathname !== '/' ? "text-selah-dark hover:text-selah-orange" : "text-selah-dark hover:text-selah-orange"
-                  }
-                `}
+                className={`group relative px-3 xl:px-4 py-2 ui-nav transition-all duration-500 rounded-xl ${isActive ? "text-selah-orange bg-selah-orange/5" : isScrolled || pathname !== '/' ? "text-selah-dark hover:text-selah-orange" : "text-selah-dark hover:text-selah-orange" }`}
               >
-                <span className="relative z-10 text-sm xl:text-base">{link.name}</span>
+                <span className="relative z-10">{link.name}</span>
                 {isActive && (
                   <motion.div
                     layoutId="nav-active-pill"
@@ -134,13 +128,13 @@ export function Navbar() {
               className={`flex items-center p-1 rounded-full cursor-pointer transition-colors duration-300 ${isScrolled || pathname !== '/' ? 'bg-black/5 hover:bg-black/10' : 'bg-selah-dark/5 hover:bg-selah-dark/10 backdrop-blur-md'}`}
               onClick={() => setLanguage(l => l === 'EN' ? 'ES' : 'EN')}
             >
-              <div className={`relative px-4 py-2 rounded-full text-sm font-accent font-bold uppercase tracking-wider transition-all duration-300 z-10 ${language === 'EN' ? 'text-selah-dark' : 'text-selah-dark/60 hover:text-selah-dark/80'}`}>
+              <div className={`relative px-4 py-2 rounded-full ui-label transition-all duration-300 z-10 ${language === 'EN' ? 'text-selah-dark' : 'text-selah-dark/60 hover:text-selah-dark/80'}`}>
                 EN
                 {language === 'EN' && (
                   <motion.div layoutId="lang-pill" className="absolute inset-0 bg-white rounded-full -z-10 shadow-sm" transition={{ type: "spring", bounce: 0.2, duration: 0.6 }} />
                 )}
               </div>
-              <div className={`relative px-4 py-2 rounded-full text-sm font-accent font-bold uppercase tracking-wider transition-all duration-300 z-10 ${language === 'ES' ? 'text-selah-dark' : 'text-selah-dark/60 hover:text-selah-dark/80'}`}>
+              <div className={`relative px-4 py-2 rounded-full ui-label transition-all duration-300 z-10 ${language === 'ES' ? 'text-selah-dark' : 'text-selah-dark/60 hover:text-selah-dark/80'}`}>
                 ES
                 {language === 'ES' && (
                   <motion.div layoutId="lang-pill" className="absolute inset-0 bg-white rounded-full -z-10 shadow-sm" transition={{ type: "spring", bounce: 0.2, duration: 0.6 }} />
@@ -150,7 +144,7 @@ export function Navbar() {
 
             <Button 
               variant="primary" 
-              className="!py-3 !px-8 !text-base !rounded-2xl font-accent font-bold uppercase tracking-wider shadow-lg shadow-selah-orange/20 hover:shadow-xl hover:shadow-selah-orange/30 hover:-translate-y-0.5 transition-all whitespace-nowrap"
+              className="!py-3 !px-8 !rounded-2xl ui-button shadow-lg shadow-selah-orange/20 hover:shadow-xl hover:shadow-selah-orange/30 hover:-translate-y-0.5 transition-all whitespace-nowrap"
               icon={ArrowRight}
               onClick={() => router.push("/donate")}
             >
@@ -188,29 +182,29 @@ export function Navbar() {
                   transition={{ delay: i * 0.1 }}
                   href={link.href} 
                   onClick={(e) => handleNavClick(e as any, link.href)}
-                  className={`text-selah-dark font-display text-2xl sm:text-3xl tracking-tight hover:text-selah-orange transition-colors ${pathname === link.href ? 'text-selah-orange' : ''}`} 
+                  className={`text-selah-dark content-h3 hover:text-selah-orange transition-colors ${pathname === link.href ? 'text-selah-orange' : ''}`} 
                 >
                   {link.name}
                 </motion.a>
               ))}
               <div className="flex flex-col gap-4 pt-6 mt-2 border-t border-black/5">
                 <div className="flex items-center justify-between px-2">
-                  <span className="text-selah-dark font-accent font-bold uppercase tracking-widest text-sm">Language</span>
+                  <span className="text-selah-dark ui-label">Language</span>
                   <div 
                     className="flex items-center p-1 rounded-full cursor-pointer bg-black/5"
                     onClick={() => setLanguage(l => l === 'EN' ? 'ES' : 'EN')}
                   >
-                    <div className={`px-4 py-2 rounded-full text-xs font-accent font-bold uppercase tracking-widest transition-all duration-300 ${language === 'EN' ? 'bg-white text-selah-dark shadow-sm' : 'text-selah-dark/60'}`}>
+                    <div className={`px-4 py-2 rounded-full ui-label transition-all duration-300 ${language === 'EN' ? 'bg-white text-selah-dark shadow-sm' : 'text-selah-dark/60'}`}>
                       EN
                     </div>
-                    <div className={`px-4 py-2 rounded-full text-xs font-accent font-bold uppercase tracking-widest transition-all duration-300 ${language === 'ES' ? 'bg-white text-selah-dark shadow-sm' : 'text-selah-dark/60'}`}>
+                    <div className={`px-4 py-2 rounded-full ui-label transition-all duration-300 ${language === 'ES' ? 'bg-white text-selah-dark shadow-sm' : 'text-selah-dark/60'}`}>
                       ES
                     </div>
                   </div>
                 </div>
                 <Button 
                   variant="primary" 
-                  className="w-full font-accent font-bold uppercase tracking-wider whitespace-nowrap" 
+                  className="w-full ui-button whitespace-nowrap" 
                   icon={ArrowRight}
                   onClick={() => { setIsMenuOpen(false); router.push("/donate"); }}
                 >

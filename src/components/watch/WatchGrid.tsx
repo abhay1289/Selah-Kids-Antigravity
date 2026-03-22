@@ -54,25 +54,25 @@ export const WatchGrid = ({ filteredVideos }: WatchGridProps) => {
 
                 {/* Badges */}
                 <div className="absolute top-4 right-4 z-30">
-                  <span className="px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-xs font-bold text-selah-dark font-accent tracking-wider">
+                  <span className="px-3 py-1 bg-white/90 backdrop-blur-md rounded-full ui-label text-selah-dark">
                     {video.language}
                   </span>
                 </div>
                 <div className="absolute bottom-4 left-4 z-30">
-                  <span className="px-3 py-1 bg-black/50 backdrop-blur-md rounded-full text-xs font-bold text-white font-accent tracking-wider">
+                  <span className="px-3 py-1 bg-black/50 backdrop-blur-md rounded-full ui-label text-white">
                     {video.categoryLabel}
                   </span>
                 </div>
               </div>
               
               <div className="flex-grow flex flex-col mt-2">
-                <h3 className="text-3xl font-display text-white mb-3 group-hover:text-selah-blue transition-colors drop-shadow-sm">
+                <h3 className="content-h3 text-white mb-3 group-hover:text-selah-blue transition-colors drop-shadow-sm">
                   {video.title}
                 </h3>
-                <div className="text-xs font-accent font-bold text-white/40 uppercase tracking-widest mb-4">
+                <div className="ui-label text-white/40 mb-4">
                   {video.date}
                 </div>
-                <p className="text-white/60 font-sans font-medium line-clamp-2 text-lg">
+                <p className="text-white/60 body-text line-clamp-2">
                   {video.description}
                 </p>
               </div>

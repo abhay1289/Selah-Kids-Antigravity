@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Star, ArrowRight } from 'lucide-react';
@@ -10,7 +12,7 @@ export const AboutCTA = () => {
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] as const }}
         className="bg-selah-orange rounded-[4rem] md:rounded-[5rem] p-16 md:p-32 text-center relative overflow-hidden"
       >
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 mix-blend-overlay" />
@@ -24,10 +26,10 @@ export const AboutCTA = () => {
           >
             <Star size={64} className="text-white mb-10 fill-white" />
           </motion.div>
-          <h2 className="text-5xl md:text-6xl font-display text-white mb-10 leading-[1.1] tracking-tight">
+          <h2 className="content-h2 text-white mb-10 leading-[1.1] tracking-tight">
             Join Our Growing Family
           </h2>
-          <p className="text-lg md:text-xl text-white/90 mb-16 font-sans font-medium leading-relaxed max-w-2xl">
+          <p className="text-white/90 mb-16 body-text max-w-2xl">
             We're just getting started on this incredible journey. Subscribe and be part of the Selah Kids community today!
           </p>
           <Button 

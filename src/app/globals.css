@@ -1,11 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&family=Montserrat+Alternates:wght@400;500;600;700;800;900&family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@600;700;800;900&family=Lora:ital,wght@0,400;1,400&family=DM+Sans:wght@400;500;700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Quicksand", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Fredoka", sans-serif;
-  --font-accent: "Montserrat Alternates", sans-serif;
-  --font-outfit: "Outfit", sans-serif;
+  /* LAYER 1 — LOGO LAYER: Boogaloo for H1 hero headlines ONLY */
+  --font-display: "Boogaloo", cursive;
+  /* LAYER 2 — CONTENT LAYER: Nunito for H2/H3 headings */
+  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
+  /* LAYER 2 — CONTENT LAYER: Lora for body paragraphs */
+  --font-body: "Lora", serif;
+  /* LAYER 3 — UI LAYER: DM Sans for nav, buttons, labels, captions */
+  --font-accent: "DM Sans", sans-serif;
+  /* Legacy aliases pointing to closest new font */
+  --font-playful: "Nunito", sans-serif;
+  --font-outfit: "DM Sans", sans-serif;
   
   --color-selah-dark: #1c4425;
   --color-selah-muted: #46664e;
@@ -29,6 +36,8 @@
   --animate-blob: blob 25s ease-in-out infinite;
   --animate-ripple: ripple 0.6s linear;
   --animate-shimmer: shimmer 2.5s infinite linear;
+  --animate-gentle-bounce: gentle-bounce 2s ease-in-out infinite;
+  --animate-underline-grow: underline-grow 0.4s ease-out forwards;
 
   @keyframes float {
     0%, 100% { transform: translateY(0); }
@@ -60,6 +69,16 @@
   @keyframes shimmer {
     0% { background-position: -200% 0; }
     100% { background-position: 200% 0; }
+  }
+
+  @keyframes gentle-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  @keyframes underline-grow {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
   }
 }
 
@@ -96,10 +115,20 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   
   body {
     @apply font-sans text-selah-muted bg-white selection:bg-selah-orange/30 overflow-x-hidden antialiased;
+  }
+
+  /* Focus-visible ring for accessibility (WCAG AA) */
+  :focus-visible {
+    outline: 3px solid var(--color-selah-orange);
+    outline-offset: 2px;
+    border-radius: 8px;
   }
 
   /* Custom Scrollbar */
@@ -123,6 +152,45 @@
     text-wrap: balance;
   }
 
+  /* Hover lift micro-interaction */
+  .hover-lift {
+    @apply transition-all duration-300;
+  }
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Animated underline on hover */
+  .underline-grow {
+    position: relative;
+    display: inline-block;
+  }
+  .underline-grow::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--color-selah-orange);
+    border-radius: 1px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .underline-grow:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* Playful letter-spacing hover for headings */
+  .tracking-hover {
+    transition: letter-spacing 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .tracking-hover:hover {
+    letter-spacing: 0.02em;
+  }
+
   .mask-blob {
     mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23FF0066' d='M44.7,-76.4C58.8,-69.2,71.8,-59.1,79.6,-46.2C87.4,-33.3,90.1,-17.6,89.2,-2.4C88.3,12.8,83.8,27.5,76.2,40.8C68.6,54.1,57.9,65.9,44.8,73.8C31.7,81.7,16.2,85.7,0.4,85C-15.4,84.3,-30.8,78.9,-44.4,71.2C-58,63.5,-69.8,53.5,-77.4,41.2C-85,28.9,-88.4,14.4,-88.7,-0.2C-89,-14.8,-86.2,-29.6,-78.9,-42.5C-71.6,-55.4,-59.8,-66.4,-46.2,-73.9C-32.6,-81.4,-17.2,-85.4,-1.2,-83.3C14.8,-81.2,29.6,-83.6,44.7,-76.4Z' transform='translate(100 100)' /%3E%3C/svg%3E");
     mask-size: contain;
@@ -134,5 +202,84 @@
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
     background-size: 200% 100%;
     animation: shimmer 2.5s infinite linear;
+  }
+
+  /* ====== TYPOGRAPHY SYSTEM — 4 Fonts, 3 Layers ====== */
+
+  /* Logo color rotation */
+  @keyframes logoColorRotate {
+    0%, 100% { color: #feb835; } /* Yellow */
+    33% { color: #FF69B4; }      /* Pink */
+    66% { color: #ffffff; }      /* White */
+  }
+
+  /* LAYER 1 — Boogaloo H1 hero headline with text-stroke */
+  .hero-headline {
+    font-family: "Boogaloo", cursive;
+    font-size: clamp(52px, 8vw, 100px);
+    line-height: 1.0;
+    -webkit-text-stroke: 3px #1A1A1A;
+    paint-order: stroke fill;
+    animation: logoColorRotate 6s linear infinite;
+  }
+
+  /* LAYER 1 EXTENDED — Boogaloo for ALL Main Headings (H2) */
+  .content-h2 {
+    font-family: "Boogaloo", cursive;
+    font-size: clamp(40px, 6vw, 76px);
+    line-height: 1.05;
+    -webkit-text-stroke: 3px #1A1A1A;
+    paint-order: stroke fill;
+    animation: logoColorRotate 6s linear infinite;
+  }
+  .content-h3 {
+    font-family: "Nunito", sans-serif;
+    font-weight: 900;
+    font-size: clamp(18px, 2.2vw, 24px);
+    line-height: 1.25;
+  }
+
+  /* LAYER 2 — Lora body paragraphs */
+  .body-text {
+    font-family: "Lora", serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(15px, 1.6vw, 17px);
+    line-height: 1.8;
+    color: #3D3550;
+    max-width: 640px;
+  }
+  .body-quote {
+    font-family: "Lora", serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(18px, 2vw, 20px);
+    line-height: 1.8;
+    color: #3D3550;
+  }
+
+  /* LAYER 3 — DM Sans UI */
+  .ui-nav {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+  }
+  .ui-button {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.03em;
+  }
+  .ui-label {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .ui-caption {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 400;
+    font-size: 13px;
   }
 }
