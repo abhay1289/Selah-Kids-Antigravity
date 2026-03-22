@@ -135,7 +135,7 @@ export function AboutSection() {
           >
             <Button 
               onClick={() => router.push("/about")}
-              className="!px-10 !py-5 !text-lg shadow-[0_10px_30px_-10px_rgba(255,92,0,0.4)] hover:shadow-[0_20px_40px_-10px_rgba(255,92,0,0.7)] hover:scale-105 transition-all flex items-center gap-3 group whitespace-nowrap"
+              className="!px-10 !py-5 !text-lg shadow-[0_10px_30px_-10px_rgba(255,92,0,0.4)] hover:shadow-[0_20px_40px_-10px_rgba(255,92,0,0.7)] hover:-translate-y-1 transition-all flex items-center justify-center gap-3 group whitespace-nowrap w-full sm:w-auto"
             >
               {t("Read Our Full Story", "Lee Nuestra Historia Completa")}
               <ArrowRight size={20} className="transition-transform duration-300 group-hover:translate-x-1" />

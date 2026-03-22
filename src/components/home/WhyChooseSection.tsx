@@ -56,7 +56,7 @@ const FeatureCard: React.FC<{ feature: typeof WHY_FEATURES[0], index: number }> 
       viewport={{ once: true, margin: "-50px" }}
       className="group relative h-full"
     >
-      <div className="bg-white p-12 h-full border border-selah-dark/5 overflow-hidden relative flex flex-col transition-all duration-500 rounded-[40px] shadow-[0_10px_30px_-5px_rgba(0,0,0,0.03),0_4px_6px_-2px_rgba(0,0,0,0.01)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1),0_10px_20px_-5px_rgba(0,0,0,0.05)]">
+      <div className="bg-white p-8 sm:p-10 lg:p-12 h-full border border-selah-dark/5 overflow-hidden relative flex flex-col transition-all duration-500 rounded-[30px] sm:rounded-[40px] shadow-[0_10px_30px_-5px_rgba(0,0,0,0.03),0_4px_6px_-2px_rgba(0,0,0,0.01)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1),0_10px_20px_-5px_rgba(0,0,0,0.05)]">
         {/* Subtle background glow on hover */}
         <div 
           className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
