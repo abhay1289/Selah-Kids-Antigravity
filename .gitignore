@@ -5,7 +5,7 @@ coverage/
 .DS_Store
 *.log
 .env*
-!.env.example
+.next/
 dependencies/
 false/
 test_folder_root/
