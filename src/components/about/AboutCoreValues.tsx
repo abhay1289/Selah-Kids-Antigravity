@@ -60,7 +60,7 @@ export const AboutCoreValues = () => {
             <div className={`w-20 h-20 rounded-[2rem] flex items-center justify-center mb-8 ${value.color} text-white group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500 ease-out relative z-10 shadow-lg`}>
               <value.icon size={36} strokeWidth={1.5} />
             </div>
-            <h3 className="content-h2 mb-4 leading-none group-hover:text-white transition-colors duration-500 relative z-10">{value.title}</h3>
+            <h3 className="content-h3-playful mb-4 leading-none group-hover:text-white transition-colors duration-500 relative z-10">{value.title}</h3>
             <p className="body-text leading-relaxed group-hover:text-white/70 transition-colors duration-500 relative z-10">
               {value.desc}
             </p>

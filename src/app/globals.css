@@ -233,6 +233,14 @@
     paint-order: stroke fill;
     animation: logoColorRotate 6s linear infinite;
   }
+  .content-h3-playful {
+    font-family: "Boogaloo", cursive;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.05;
+    -webkit-text-stroke: 1.5px #5A3E1B;
+    paint-order: stroke fill;
+    animation: logoColorRotate 6s linear infinite;
+  }
   .content-h3 {
     font-family: "Nunito", sans-serif;
     font-weight: 900;

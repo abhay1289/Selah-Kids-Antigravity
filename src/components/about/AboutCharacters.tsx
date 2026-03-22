@@ -61,7 +61,7 @@ export const AboutCharacters = () => {
                 <img src={char.image} alt={char.name} className="w-full h-full object-cover" />
               </div>
             </div>
-            <h3 className="content-h2 mb-2 relative z-10">{char.name}</h3>
+            <h3 className="content-h3-playful mb-2 relative z-10">{char.name}</h3>
             <div className="ui-labelst text-selah-orange uppercase mb-6 relative z-10">{char.role}</div>
             <p className="body-text leading-relaxed relative z-10">
               {char.desc}
