@@ -77,7 +77,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
   };
 
   if (isLoading) {
-    return <section className="relative min-h-[100svh] md:min-h-[900px] bg-selah-bg" />;
+    return <section className="relative min-h-[105svh] md:min-h-[900px] bg-selah-bg" />;
   }
 
   return (
@@ -86,7 +86,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
       animate={{ opacity: 1 }}
       transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] as const }}
       onMouseMove={onHeroMouseMove}
-      className="relative min-h-[100svh] md:min-h-[900px] flex items-center justify-center overflow-hidden bg-selah-bg perspective-1000"
+      className="relative min-h-[105svh] md:min-h-[900px] pb-10 md:pb-0 flex items-center justify-center overflow-hidden bg-selah-bg perspective-1000"
     >
       {/* Storytelling Background - Paper Texture & Soft Elements */}
       <div className="absolute inset-0 opacity-[0.04] pointer-events-none z-0 mix-blend-multiply" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />

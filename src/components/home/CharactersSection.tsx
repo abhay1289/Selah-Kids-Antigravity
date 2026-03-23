@@ -90,11 +90,11 @@ export function CharactersSection() {
               className="group relative"
             >
               <a href="#characters-full" className="block h-full">
-                <div className={`relative h-full rounded-[48px] overflow-hidden bg-gradient-to-br ${char.color} p-8 pt-12 flex flex-col items-center text-center transition-all duration-500 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1),0_10px_15px_-3px_rgba(0,0,0,0.05)] group-hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.2),0_20px_30px_-5px_rgba(0,0,0,0.1)]`}>
+                <div className={`relative h-full rounded-[36px] sm:rounded-[48px] overflow-hidden bg-gradient-to-br ${char.color} p-6 sm:p-8 pt-8 sm:pt-12 flex flex-col items-center text-center transition-all duration-500 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1),0_10px_15px_-3px_rgba(0,0,0,0.05)] group-hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.2),0_20px_30px_-5px_rgba(0,0,0,0.1)]`}>
                   {/* Character Image Container */}
-                  <div className="relative w-full aspect-[4/5] mb-8 flex items-center justify-center">
+                  <div className="relative w-[65%] sm:w-full max-w-[200px] sm:max-w-none aspect-[4/5] mb-5 sm:mb-8 flex items-center justify-center">
                     {/* Glow effect behind character */}
-                    <div className="absolute inset-0 bg-white/20 blur-[60px] rounded-full scale-75 group-hover:scale-100 transition-transform duration-700" />
+                    <div className="absolute inset-0 bg-white/20 blur-[40px] sm:blur-[60px] rounded-full scale-75 group-hover:scale-100 transition-transform duration-700" />
                     
                     <motion.img 
                       src={char.img} 
