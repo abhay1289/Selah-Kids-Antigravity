@@ -95,6 +95,7 @@ export function Navbar() {
         <div className="hidden lg:flex items-center gap-1 xl:gap-2">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
+            const isHovered = hoveredLink === link.name;
             return (
               <a 
                 key={link.name} 
@@ -102,20 +103,30 @@ export function Navbar() {
                 onClick={(e) => handleNavClick(e, link.href)}
                 onMouseEnter={() => setHoveredLink(link.name)}
                 onMouseLeave={() => setHoveredLink(null)}
-                className={`group relative px-3 xl:px-4 py-2 ui-nav transition-all duration-500 rounded-xl ${isActive ? "text-selah-orange bg-selah-orange/5" : isScrolled || pathname !== '/' ? "text-selah-dark hover:text-selah-orange" : "text-selah-dark hover:text-selah-orange" }`}
+                className={`group relative px-4 xl:px-5 py-2.5 ui-nav rounded-xl transition-colors duration-300 ${isActive ? "text-selah-orange" : "text-selah-dark hover:text-selah-orange"}`}
               >
                 <span className="relative z-10">{link.name}</span>
+                
+                {/* Active Pill Background */}
                 {isActive && (
                   <motion.div
                     layoutId="nav-active-pill"
-                    className="absolute inset-0 bg-selah-orange/10 rounded-xl -z-0"
+                    className="absolute inset-0 bg-selah-orange/10 rounded-xl z-0"
                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                   />
                 )}
-                <motion.div 
-                  className="absolute bottom-1 left-4 right-4 h-0.5 bg-selah-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
-                  animate={{ scaleX: hoveredLink === link.name ? 1 : 0 }}
-                />
+                
+                {/* Magnetic Hover Underline */}
+                {isHovered && (
+                  <motion.div 
+                    layoutId="nav-hover-underline"
+                    className="absolute bottom-1.5 left-4 right-4 h-0.5 bg-selah-orange rounded-full z-10"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
+                  />
+                )}
               </a>
             );
           })}
