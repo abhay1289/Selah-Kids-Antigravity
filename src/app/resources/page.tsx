@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, BookOpen, Music, PenTool, School, Palette } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { Button } from '../../components/UI';
 import { ResourcesHero } from '../../components/resources/ResourcesHero';
 import { ResourceCard } from '../../components/resources/ResourceCard';
@@ -16,7 +16,6 @@ const RESOURCES = [
     description: "Printable lyric sheet for our most popular song. Perfect for singing along at home or church.",
     type: "PDF",
     category: "Lyrics",
-    iconLarge: Music,
     gradient: "from-[#FF7F50] to-[#FF5C00]", // Coral
     featured: true,
   },
@@ -26,7 +25,6 @@ const RESOURCES = [
     description: "A fun, high-quality coloring page featuring Andy and his pet sheep, Shiloh.",
     type: "PDF",
     category: "Coloring",
-    iconLarge: PenTool,
     gradient: "from-[#00BFFF] to-[#87CEEB]", // Sky Blue
     featured: false,
   },
@@ -36,7 +34,6 @@ const RESOURCES = [
     description: "A set of 10 beautifully illustrated memory verse cards to help kids learn Scripture.",
     type: "PDF",
     category: "Printables",
-    iconLarge: BookOpen,
     gradient: "from-[#FFD700] to-[#FEB835]", // Gold
     featured: false,
   },
@@ -46,7 +43,6 @@ const RESOURCES = [
     description: "A 4-week curriculum guide using Selah Kids videos for children's ministry.",
     type: "PDF",
     category: "Guides",
-    iconLarge: School,
     gradient: "from-[#98FF98] to-[#93D35C]", // Mint
     featured: true,
   },
@@ -56,7 +52,6 @@ const RESOURCES = [
     description: "Spanish lyric sheet for 'Jesus Loves Me'. Great for bilingual families.",
     type: "PDF",
     category: "Lyrics",
-    iconLarge: Music,
     gradient: "from-[#E6E6FA] to-[#D8BFD8]", // Lavender
     featured: false,
   },
@@ -66,7 +61,6 @@ const RESOURCES = [
     description: "Color in Libni as she dances and sings her favorite worship songs.",
     type: "PDF",
     category: "Coloring",
-    iconLarge: Palette,
     gradient: "from-[#FFB6C1] to-[#FF69B4]", // Pink
     featured: false,
   }

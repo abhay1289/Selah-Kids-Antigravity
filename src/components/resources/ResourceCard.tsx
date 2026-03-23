@@ -21,8 +21,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index }) =
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-4deg", "4deg"]);
   const glareX = useTransform(mouseXSpring, [-0.5, 0.5], ["0%", "100%"]);
   const glareY = useTransform(mouseYSpring, [-0.5, 0.5], ["0%", "100%"]);
-  const iconTranslateX = useTransform(mouseXSpring, [-0.5, 0.5], ["-10px", "10px"]);
-  const iconTranslateY = useTransform(mouseYSpring, [-0.5, 0.5], ["-10px", "10px"]);
+
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
@@ -79,12 +78,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index }) =
           </div>
         </div>
 
-        {/* Center Parallax Icon */}
-        <div className="absolute inset-0 flex items-center justify-center z-10" style={{ transformStyle: "preserve-3d" }}>
-          <motion.div style={{ x: iconTranslateX, y: iconTranslateY, transform: "translateZ(40px)" }}>
-            <resource.iconLarge size={resource.featured ? 120 : 80} className="text-white drop-shadow-[0_10px_20px_rgba(0,0,0,0.15)]" strokeWidth={1.5} />
-          </motion.div>
-        </div>
+
       </div>
 
       {/* Bottom Content Area */}
