@@ -77,8 +77,7 @@ export function AboutSection() {
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
             className="absolute -bottom-8 -right-8 z-20"
           >
-            <div className="bg-white/90 backdrop-blur-md px-8 py-4 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.08)] border border-white/50 flex items-center gap-3">
-              <div className="w-3 h-3 rounded-full bg-selah-orange animate-pulse" />
+            <div className="bg-white/90 backdrop-blur-md px-8 py-4 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.08)] border border-white/50 flex items-center justify-center">
               <span className="content-h3 text-selah-dark tracking-widest uppercase">{t("Nature First", "Naturaleza Primero")}</span>
             </div>
           </motion.div>
