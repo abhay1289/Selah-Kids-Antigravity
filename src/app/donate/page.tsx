@@ -13,7 +13,9 @@ const IMPACTS = [
     amount: 10,
     icon: Sparkles,
     title: "One Day of Animation",
+    titleEs: "Un Día de Animación",
     desc: "Helps fund a day of work for our talented animators bringing Bible stories to life.",
+    descEs: "Ayuda a financiar un día de trabajo para nuestros talentosos animadores que dan vida a historias bíblicas.",
     color: "text-[#FFD700]",
     bg: "bg-[#FFD700]/10"
   },
@@ -21,7 +23,9 @@ const IMPACTS = [
     amount: 30,
     icon: Globe,
     title: "A Song Translation",
+    titleEs: "Una Traducción de Canción",
     desc: "Covers the cost of translating and recording a song into Spanish for bilingual families.",
+    descEs: "Cubre el costo de traducir y grabar una canción al español para familias bilingües.",
     color: "text-[#00BFFF]",
     bg: "bg-[#00BFFF]/10"
   },
@@ -29,7 +33,9 @@ const IMPACTS = [
     amount: 50,
     icon: BookOpen,
     title: "Resources for 100 Schools",
+    titleEs: "Recursos para 100 Escuelas",
     desc: "Provides free Sunday School curriculum and printables to 100 under-resourced churches.",
+    descEs: "Proporciona currículo gratuito de Escuela Dominical e imprimibles a 100 iglesias con recursos limitados.",
     color: "text-[#98FF98]",
     bg: "bg-[#98FF98]/10"
   }

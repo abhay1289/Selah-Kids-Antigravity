@@ -4,8 +4,10 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Star, ArrowRight } from 'lucide-react';
 import { Button } from '../UI';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export const AboutCTA = () => {
+  const { t } = useLanguage();
   return (
     <section className="max-w-[1400px] mx-auto px-6 py-12 md:py-16 relative z-10">
       <motion.div
@@ -27,10 +29,13 @@ export const AboutCTA = () => {
             <Star size={64} className="text-white mb-10 fill-white" />
           </motion.div>
           <h2 className="content-h2 text-white mb-10 leading-[1.1] tracking-tight">
-            Join Our Growing Family
+            {t("Join Our Growing Family", "Únete a Nuestra Familia")}
           </h2>
           <p className="text-white/90 mb-12 body-text max-w-2xl">
-            We're just getting started on this incredible journey. Subscribe and be part of the Selah Kids community today!
+            {t(
+              "We're just getting started on this incredible journey. Subscribe and be part of the Selah Kids community today!",
+              "Apenas estamos comenzando este increíble viaje. ¡Suscríbete y sé parte de la comunidad Selah Kids hoy!"
+            )}
           </p>
           <motion.div
             whileHover={{ scale: 1.05, y: -3 }}
@@ -41,7 +46,7 @@ export const AboutCTA = () => {
               onClick={() => { window.location.href = "/watch"; }}
               className="!bg-white hover:!bg-selah-dark !text-selah-dark hover:!text-white !border-none !px-10 !py-4 ui-button transition-all duration-500 whitespace-nowrap shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)]"
             >
-              Explore Our Videos
+              {t("Explore Our Videos", "Explora Nuestros Videos")}
             </Button>
           </motion.div>
         </div>

@@ -6,6 +6,7 @@ import { BookOpen, Users, Clapperboard, Music, Smartphone, Mic, ChevronDown } fr
 import { BlogHero } from '../../components/blog/BlogHero';
 import { BlogCategories } from '../../components/blog/BlogCategories';
 import { BlogGrid } from '../../components/blog/BlogGrid';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const BLOG_CATEGORIES = [
   { id: 'all', label: 'All Posts' },
@@ -81,8 +82,17 @@ const BLOG_POSTS = [
 const POSTS_PER_PAGE = 2;
 
 export default function BlogPage() {
+  const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState('all');
   const [visibleCount, setVisibleCount] = useState(POSTS_PER_PAGE);
+
+  const BLOG_CATEGORIES_DISPLAY = [
+    { id: 'all', label: t('All Posts', 'Todas las Publicaciones') },
+    { id: 'parenting', label: t('Parenting', 'Crianza') },
+    { id: 'bts', label: t('Behind the Scenes', 'Detrás de Escenas') },
+    { id: 'faith', label: t('Faith & Learning', 'Fe y Aprendizaje') },
+    { id: 'devotional', label: t('Devotional', 'Devocional') }
+  ];
 
   const filteredPosts = BLOG_POSTS.filter(post => 
     activeCategory === 'all' || post.category === activeCategory
@@ -112,7 +122,7 @@ export default function BlogPage() {
       </motion.div>
       
       <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}>
-        <BlogCategories categories={BLOG_CATEGORIES} activeCategory={activeCategory} setActiveCategory={handleCategoryChange} />
+        <BlogCategories categories={BLOG_CATEGORIES_DISPLAY} activeCategory={activeCategory} setActiveCategory={handleCategoryChange} />
       </motion.div>
       
       <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}>
@@ -126,7 +136,7 @@ export default function BlogPage() {
             onClick={handleLoadMore}
             className="flex items-center gap-2 px-10 py-4 rounded-full text-selah-orange border border-selah-orange/20 bg-transparent hover:bg-selah-orange hover:text-white ui-button uppercase transition-all duration-500 hover:shadow-xl hover:shadow-selah-orange/20"
           >
-            Load More Posts
+            {t("Load More Posts", "Cargar Más Publicaciones")}
             <ChevronDown size={16} />
           </button>
         </div>

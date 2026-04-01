@@ -3,6 +3,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, ArrowRight } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface BlogPost {
   id: number;
@@ -21,6 +22,7 @@ interface BlogGridProps {
 }
 
 export const BlogGrid: React.FC<BlogGridProps> = ({ posts, activeCategory }) => {
+  const { t } = useLanguage();
   return (
     <section className="max-w-3xl mx-auto px-6 mb-12 relative z-10">
       <motion.div layout className="flex flex-col gap-8">
@@ -65,7 +67,7 @@ export const BlogGrid: React.FC<BlogGridProps> = ({ posts, activeCategory }) => 
                 </p>
                 
                 <div className="flex items-center gap-2 text-selah-dark ui-label group-hover:text-selah-orange transition-colors duration-300">
-                  Read Article
+                  {t("Read Article", "Leer Artículo")}
                   <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
                 </div>
               </div>

@@ -6,14 +6,16 @@ import NextImage from 'next/image';
 import { Music, Video, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Badge } from '../UI';
 import { staggerContainer, zoomInUp, rollIn, slideInRight, fadeIn } from '../../utils/animations';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const CAROUSEL_IMAGES = [
-  { src: "/TGN_SingleFrames+28729.jpg", caption: "Colorful Character Design" },
-  { src: "/TGN_SingleFrames+28229.jpg", caption: "Cinematic Storytelling" },
-  { src: "/TGN_SingleFrames+28329.jpg", caption: "Vibrant World-Building" },
+  { src: "/TGN_SingleFrames+28729.jpg", caption: "Colorful Character Design", captionEs: "Diseño de Personajes Colorido" },
+  { src: "/TGN_SingleFrames+28229.jpg", caption: "Cinematic Storytelling", captionEs: "Narrativa Cinematográfica" },
+  { src: "/TGN_SingleFrames+28329.jpg", caption: "Vibrant World-Building", captionEs: "Construcción de Mundos Vibrantes" },
 ];
 
 const ImageCarousel = () => {
+  const { language } = useLanguage();
   const [current, setCurrent] = useState(0);
   const prev = () => setCurrent((c) => (c - 1 + CAROUSEL_IMAGES.length) % CAROUSEL_IMAGES.length);
   const next = () => setCurrent((c) => (c + 1) % CAROUSEL_IMAGES.length);
@@ -25,7 +27,7 @@ const ImageCarousel = () => {
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60" />
           <div className="absolute bottom-8 left-8 bg-white/90 backdrop-blur-md px-6 py-3 rounded-full flex items-center gap-2 shadow-lg">
             <Video size={16} className="text-selah-dark" />
-            <span className="text-selah-dark ui-label">{CAROUSEL_IMAGES[current].caption}</span>
+            <span className="text-selah-dark ui-label">{language === 'ES' ? CAROUSEL_IMAGES[current].captionEs : CAROUSEL_IMAGES[current].caption}</span>
           </div>
         </motion.div>
       </AnimatePresence>
@@ -45,6 +47,7 @@ const ImageCarousel = () => {
 };
 
 export const AboutBentoGrid = () => {
+  const { t } = useLanguage();
   return (
     <section className="max-w-[1400px] mx-auto px-6 py-12 md:py-16 relative z-10">
       <motion.div 
@@ -54,7 +57,6 @@ export const AboutBentoGrid = () => {
         viewport={{ once: true, margin: "-100px" }}
         className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8"
       >
-        
         {/* Bento 1: The Mission (Large) */}
         <motion.div 
           variants={zoomInUp}
@@ -65,15 +67,18 @@ export const AboutBentoGrid = () => {
           <div className="absolute -left-20 -bottom-20 w-[400px] h-[400px] bg-selah-blue/20 rounded-full blur-3xl opacity-30 group-hover:bg-selah-blue/40 transition-colors duration-700" />
           
           <div className="relative z-10">
-            <Badge color="yellow" className="mb-8 border-none shadow-lg">OUR MISSION</Badge>
+            <Badge color="yellow" className="mb-8 border-none shadow-lg">{t("OUR MISSION", "NUESTRA MISIÓN")}</Badge>
             <h2 className="content-h2 text-white leading-[1.1] tracking-tight mb-8">
-              Learning About God <br /> Through Worship & Song
+              {t("Learning About God", "Aprendiendo Sobre Dios")} <br /> {t("Through Worship & Song", "A Través de Adoración y Canción")}
             </h2>
           </div>
           
           <div className="relative z-10 max-w-2xl">
             <p className="text-xl text-white/80 font-body italic leading-relaxed max-w-2xl">
-              Started in 2024 by parents longing for better Christian media, Selah Kids! is a safe place for children to grow in faith. We create bilingual content — in English and Spanish — so families can sing, worship, and learn about God together.
+              {t(
+                "Started in 2024 by parents longing for better Christian media, Selah Kids! is a safe place for children to grow in faith. We create bilingual content — in English and Spanish — so families can sing, worship, and learn about God together.",
+                "Iniciado en 2024 por padres que anhelaban mejores medios cristianos, ¡Selah Kids! es un lugar seguro para que los niños crezcan en la fe. Creamos contenido bilingüe — en inglés y español — para que las familias puedan cantar, adorar y aprender sobre Dios juntos."
+              )}
             </p>
           </div>
         </motion.div>
@@ -93,9 +98,12 @@ export const AboutBentoGrid = () => {
             >
               <Music size={64} className="text-selah-orange" />
             </motion.div>
-            <h3 className="content-h2 leading-none mb-6">Sing & Dance</h3>
+            <h3 className="content-h2 leading-none mb-6">{t("Sing & Dance", "Canta y Baila")}</h3>
             <p className="text-selah-dark/80 body-text !max-w-none">
-              Songs that make learning about the Bible meaningful and joyful.
+              {t(
+                "Songs that make learning about the Bible meaningful and joyful.",
+                "Canciones que hacen que aprender sobre la Biblia sea significativo y gozoso."
+              )}
             </p>
           </div>
         </motion.div>
@@ -111,21 +119,27 @@ export const AboutBentoGrid = () => {
           </div>
 
           <div className="w-full md:w-1/2 p-8 md:p-16 flex flex-col justify-center relative z-10">
-            <Badge color="orange" className="mb-6 self-start shadow-md">TOP QUALITY</Badge>
+            <Badge color="orange" className="mb-6 self-start shadow-md">{t("TOP QUALITY", "MÁXIMA CALIDAD")}</Badge>
             <h2 className="content-h2 mb-8 leading-[1.1] tracking-tight">
-              Stunning Animation
+              {t("Stunning Animation", "Animación Impresionante")}
             </h2>
             <p className="body-text !max-w-none leading-relaxed mb-6">
-              Children deserve the very best. Our videos feature breathtaking animation crafted by talented artists from around the world, designed to spark imagination and bring biblical stories to life.
+              {t(
+                "Children deserve the very best. Our videos feature breathtaking animation crafted by talented artists from around the world, designed to spark imagination and bring biblical stories to life.",
+                "Los niños merecen lo mejor. Nuestros videos presentan animación impresionante creada por artistas talentosos de todo el mundo, diseñada para despertar la imaginación y dar vida a las historias bíblicas."
+              )}
             </p>
             <p className="body-text !max-w-none leading-relaxed mb-12">
-              From vibrant character design to rich, detailed backgrounds — every visual is intentionally created to build a world where children love to return.
+              {t(
+                "From vibrant character design to rich, detailed backgrounds — every visual is intentionally created to build a world where children love to return.",
+                "Desde un diseño de personajes vibrante hasta fondos ricos y detallados — cada visual está creado intencionalmente para construir un mundo al que los niños aman regresar."
+              )}
             </p>
             
             <div className="flex items-center gap-12">
               <div className="group">
                 <div className="content-h2 mb-2 group-hover:scale-110 transition-transform origin-left">4K</div>
-                <div className="ui-label text-selah-muted uppercase">Resolution</div>
+                <div className="ui-label text-selah-muted uppercase">{t("Resolution", "Resolución")}</div>
               </div>
               <div className="w-px h-16 bg-black/10" />
               <div className="group">

@@ -3,12 +3,14 @@
 import React from 'react';
 import { motion, useTransform, MotionValue } from 'framer-motion';
 import { SparklesIcon, Cloud, Sun } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface AboutHeroSectionProps {
   scrollYProgress: MotionValue<number>;
 }
 
 export const AboutHeroSection = ({ scrollYProgress }: AboutHeroSectionProps) => {
+  const { t, language } = useLanguage();
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center pt-48 md:pt-56 pb-12 px-6">
       {/* Storytelling Background - Paper Texture */}
@@ -47,11 +49,11 @@ export const AboutHeroSection = ({ scrollYProgress }: AboutHeroSectionProps) => 
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", repeatDelay: 2 }}
           />
           <SparklesIcon size={16} className="text-selah-orange relative z-10" />
-          <span className="ui-label text-selah-dark/90 relative z-10">The Selah Kids Story</span>
+          <span className="ui-label text-selah-dark/90 relative z-10">{t("The Selah Kids Story", "La Historia de Selah Kids")}</span>
         </motion.div>
 
         <h1 className="hero-headline mb-6 drop-shadow-sm flex flex-wrap justify-center gap-x-3 lg:gap-x-4">
-          {["Bible", "Songs"].map((word, i) => (
+          {(language === 'ES' ? ["Canciones", "Bíblicas"] : ["Bible", "Songs"]).map((word, i) => (
             <span key={i} className="overflow-hidden inline-block pb-2">
               <motion.span
                 initial={{ y: "100%", opacity: 0, rotateZ: 5, scale: 0.9, filter: "blur(4px)" }}
@@ -71,7 +73,7 @@ export const AboutHeroSection = ({ scrollYProgress }: AboutHeroSectionProps) => 
               transition={{ duration: 1.5, delay: 0.5, ease: [0.16, 1, 0.3, 1] as const }}
               className="inline-block tracking-tight"
             >
-              & Christian <span>Cartoons</span>
+              {t("& Christian Cartoons", "y Caricaturas Cristianas")}
             </motion.span>
           </span>
         </h1>
@@ -82,7 +84,10 @@ export const AboutHeroSection = ({ scrollYProgress }: AboutHeroSectionProps) => 
           transition={{ duration: 1.2, delay: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
           className="body-text mx-auto text-center mb-8"
         >
-          We are parents and creators on a mission to fill every home with faith-filled melodies and stories that spark wonder in the hearts of children. Together, we worship, learn, and grow.
+          {t(
+            "We are parents and creators on a mission to fill every home with faith-filled melodies and stories that spark wonder in the hearts of children. Together, we worship, learn, and grow.",
+            "Somos padres y creadores con la misión de llenar cada hogar con melodías llenas de fe e historias que despiertan asombro en los corazones de los niños. Juntos, adoramos, aprendemos y crecemos."
+          )}
         </motion.p>
       </div>
     </section>

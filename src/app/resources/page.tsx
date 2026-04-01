@@ -6,6 +6,7 @@ import { Sparkles } from 'lucide-react';
 import { Button } from '../../components/UI';
 import { ResourcesHero } from '../../components/resources/ResourcesHero';
 import { ResourceCard } from '../../components/resources/ResourceCard';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const CATEGORIES = ['All', 'Printables', 'Lessons'];
 
@@ -67,6 +68,7 @@ const RESOURCES = [
 ];
 
 export default function ResourcesPage() {
+  const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState('All');
 
   const filteredResources = RESOURCES.filter(res => 
@@ -100,7 +102,7 @@ export default function ResourcesPage() {
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
-              <span className="relative z-20">{category}</span>
+              <span className="relative z-20">{category === 'All' ? t('All', 'Todos') : category === 'Printables' ? t('Printables', 'Imprimibles') : t('Lessons', 'Lecciones')}</span>
             </button>
           ))}
         </div>
@@ -142,13 +144,16 @@ export default function ResourcesPage() {
               <Sparkles size={32} className="text-selah-orange" />
             </div>
             <h2 className="hero-headline text-selah-dark mb-6 tracking-tighter drop-shadow-sm">
-              More Coming Soon!
+              {t("More Coming Soon!", "¡Más Próximamente!")}
             </h2>
             <p className="text-selah-muted body-text max-w-2xl mx-auto leading-relaxed mb-10 tracking-tight">
-              We are constantly creating new printables, lessons, and activity sheets. Join our newsletter to get notified!
+              {t(
+                "We are constantly creating new printables, lessons, and activity sheets. Join our newsletter to get notified!",
+                "Constantemente creamos nuevos imprimibles, lecciones y hojas de actividades. ¡Únete a nuestro boletín para recibir notificaciones!"
+              )}
             </p>
             <Button className="!px-10 !py-4 ui-button shadow-[0_10px_30px_-10px_rgba(255,92,0,0.4)]">
-              Subscribe Now
+              {t("Subscribe Now", "Suscríbete Ahora")}
             </Button>
           </div>
         </motion.div>

@@ -5,14 +5,18 @@ import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'fram
 import NextImage from 'next/image';
 import { Badge } from '../../components/UI';
 import { Star, Heart, Music, Sparkles } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const CHARACTERS = [
   {
     id: 'andy',
     name: 'Andy',
     role: 'The Worship Leader',
+    roleEs: 'El Líder de Adoración',
     bio: "Andy is full of energy and loves to lead his friends in worship! He's always ready with a song and a smile, teaching kids that praising God is the most exciting thing you can do. He plays the guitar and loves to jump around.",
+    bioEs: "¡Andy está lleno de energía y le encanta guiar a sus amigos en la adoración! Siempre está listo con una canción y una sonrisa, enseñando a los niños que alabar a Dios es lo más emocionante que puedes hacer. Toca la guitarra y le encanta saltar.",
     favorites: ['Playing his acoustic guitar', 'Building epic pillow forts', 'Singing as loud as he can'],
+    favoritesEs: ['Tocar su guitarra acústica', 'Construir fuertes épicos de almohadas', 'Cantar lo más fuerte que pueda'],
     color: 'orange',
     accentColor: '#FF7F50',
     gradient: 'from-[#FF7F50]/15 via-[#FFF5EE] to-[#FFE4CC]/20',
@@ -21,14 +25,18 @@ const CHARACTERS = [
     image: '/SK_Andy_Intro_Pose-removebg-preview.png',
     imageAlt: 'Andy – The Worship Leader',
     icon: Music,
-    funFact: 'Andy once sang so loud that Shiloh fell off the couch!'
+    funFact: 'Andy once sang so loud that Shiloh fell off the couch!',
+    funFactEs: '¡Andy una vez cantó tan fuerte que Shiloh se cayó del sofá!'
   },
   {
     id: 'libni',
     name: 'Libni',
     role: 'The Joyful Dancer',
+    roleEs: 'La Bailarina Alegre',
     bio: "Libni expresses her love for Jesus through movement and dance! She's creative, kind-hearted, and always encourages others to join in. She teaches kids that worship isn't just about singing, but about expressing joy with your whole body.",
+    bioEs: "¡Libni expresa su amor por Jesús a través del movimiento y la danza! Es creativa, bondadosa y siempre anima a los demás a participar. Enseña a los niños que la adoración no es solo cantar, sino expresar alegría con todo el cuerpo.",
     favorites: ['Choreographing new dances', 'Painting colorful pictures', 'Helping her friends'],
+    favoritesEs: ['Coreografiar nuevos bailes', 'Pintar cuadros coloridos', 'Ayudar a sus amigos'],
     color: 'blue',
     accentColor: '#00BFFF',
     gradient: 'from-[#00BFFF]/15 via-[#F0FBFF] to-[#E0F7FF]/20',
@@ -37,14 +45,18 @@ const CHARACTERS = [
     image: '/SK_Libni_Intro_Pose-removebg-preview.png',
     imageAlt: 'Libni – The Joyful Dancer',
     icon: Heart,
-    funFact: 'Libni can invent a new dance in under 10 seconds!'
+    funFact: 'Libni can invent a new dance in under 10 seconds!',
+    funFactEs: '¡Libni puede inventar un nuevo baile en menos de 10 segundos!'
   },
   {
     id: 'shiloh',
     name: 'Shiloh',
     role: 'The Faithful Friend',
+    roleEs: 'El Amigo Fiel',
     bio: "Shiloh is Andy's loyal pet sheep. He might not say much, but he's always there to lend a listening ear or a fluffy hug. Shiloh reminds us that God is our Good Shepherd who always watches over us.",
+    bioEs: "Shiloh es la oveja mascota leal de Andy. Quizás no diga mucho, pero siempre está ahí para prestar un oído atento o dar un abrazo esponjoso. Shiloh nos recuerda que Dios es nuestro Buen Pastor que siempre nos cuida.",
     favorites: ['Eating fresh green grass', 'Taking long naps in the sun', 'Following Andy everywhere'],
+    favoritesEs: ['Comer pasto verde fresco', 'Tomar largas siestas al sol', 'Seguir a Andy a todas partes'],
     color: 'yellow',
     accentColor: '#FFD700',
     gradient: 'from-[#FFD700]/15 via-[#FFFDF0] to-[#FFF8DC]/20',
@@ -53,7 +65,8 @@ const CHARACTERS = [
     image: '/SK_Shiloh_Intro_Pose-removebg-preview.png',
     imageAlt: 'Shiloh – The Faithful Friend',
     icon: Star,
-    funFact: 'Shiloh\'s favorite snack is apples straight from the tree!'
+    funFact: 'Shiloh\'s favorite snack is apples straight from the tree!',
+    funFactEs: '¡La merienda favorita de Shiloh son las manzanas directo del árbol!'
   }
 ];
 
@@ -153,6 +166,7 @@ function CharacterImage({ char, index }: { char: typeof CHARACTERS[0]; index: nu
 
 /* ── Character detail section ──────────────────────── */
 function CharacterSection({ char, index }: { char: typeof CHARACTERS[0]; index: number }) {
+  const { t, language } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const isEven = index % 2 === 0;
 
@@ -220,7 +234,7 @@ function CharacterSection({ char, index }: { char: typeof CHARACTERS[0]; index: 
             >
               <Badge color={char.color as any} className="shadow-md text-sm px-6 py-2.5 backdrop-blur">
                 <char.icon size={14} className="inline mr-2 -mt-0.5" />
-                {char.role}
+                {language === 'ES' && char.roleEs ? char.roleEs : char.role}
               </Badge>
             </motion.div>
 
@@ -243,7 +257,7 @@ function CharacterSection({ char, index }: { char: typeof CHARACTERS[0]; index: 
               transition={{ duration: 0.7, delay: 0.2 }}
               className="body-text leading-relaxed max-w-xl text-balance"
             >
-              {char.bio}
+              {language === 'ES' && char.bioEs ? char.bioEs : char.bio}
             </motion.p>
 
             {/* Fun fact pill */}
@@ -255,7 +269,7 @@ function CharacterSection({ char, index }: { char: typeof CHARACTERS[0]; index: 
               className="inline-flex items-center gap-3 px-6 py-3 rounded-full border border-black/5 bg-white/70 backdrop-blur-sm shadow-sm"
             >
               <Sparkles size={16} className="text-selah-yellow" />
-              <span className="ui-caption text-selah-dark">{char.funFact}</span>
+              <span className="ui-caption text-selah-dark">{language === 'ES' && char.funFactEs ? char.funFactEs : char.funFact}</span>
             </motion.div>
 
             {/* Favorites card */}
@@ -272,11 +286,11 @@ function CharacterSection({ char, index }: { char: typeof CHARACTERS[0]; index: 
 
               <h3 className="ui-label text-selah-dark mb-6 flex items-center gap-3 relative z-10">
                 <span className={`w-2.5 h-2.5 rounded-full ${char.blobColor} shadow-sm`} />
-                Favorite Things
+                {t("Favorite Things", "Cosas Favoritas")}
               </h3>
 
               <ul className="space-y-5 relative z-10">
-                {char.favorites.map((fav, i) => (
+                {(language === 'ES' && char.favoritesEs ? char.favoritesEs : char.favorites).map((fav: string, i: number) => (
                   <motion.li
                     key={i}
                     initial={{ opacity: 0, x: -30 }}
@@ -307,34 +321,19 @@ function CharacterSection({ char, index }: { char: typeof CHARACTERS[0]; index: 
 
 /* ── Main page ─────────────────────────────────────── */
 export default function CharactersPage() {
+  const { t, language } = useLanguage();
   return (
     <div className="bg-white min-h-screen overflow-hidden">
       {/* Hero Section */}
       <section className="pt-36 md:pt-44 pb-8 relative z-10 text-center px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <Badge color="orange" className="mb-8 shadow-md">MEET THE CREW</Badge>
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+          <Badge color="orange" className="mb-8 shadow-md">{t("MEET THE CREW", "CONOCE AL EQUIPO")}</Badge>
         </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 40, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] as const }}
-          className="hero-headline mb-6 tracking-tight leading-[1.1] drop-shadow-sm"
-        >
-          Our Characters
+        <motion.h1 initial={{ opacity: 0, y: 40, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] as const }} className="hero-headline mb-6 tracking-tight leading-[1.1] drop-shadow-sm">
+          {t("Our Characters", "Nuestros Personajes")}
         </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.25 }}
-          className="body-text max-w-2xl mx-auto leading-relaxed tracking-tight mb-12"
-        >
-          Get to know the friends who make learning about Jesus an exciting adventure!
+        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.25 }} className="body-text max-w-2xl mx-auto leading-relaxed tracking-tight mb-12">
+          {t("Get to know the friends who make learning about Jesus an exciting adventure!", "¡Conoce a los amigos que hacen del aprendizaje sobre Jesús una aventura emocionante!")}
         </motion.p>
       </section>
 
@@ -353,9 +352,12 @@ export default function CharactersPage() {
         transition={{ duration: 0.8 }}
         className="py-20 px-6 text-center bg-gradient-to-b from-selah-bg/50 to-white"
       >
-        <h2 className="content-h2 mb-4 tracking-tight">Want to see them in action?</h2>
+        <h2 className="content-h2 mb-4 tracking-tight">{t("Want to see them in action?", "¿Quieres verlos en acción?")}</h2>
         <p className="body-text mx-auto mb-10 max-w-lg">
-          Watch Andy, Libni, and Shiloh sing, dance, and worship together on our YouTube channel!
+          {t(
+            "Watch Andy, Libni, and Shiloh sing, dance, and worship together on our YouTube channel!",
+            "¡Mira a Andy, Libni y Shiloh cantar, bailar y adorar juntos en nuestro canal de YouTube!"
+          )}
         </p>
         <motion.a
           href="/watch"
@@ -364,7 +366,7 @@ export default function CharactersPage() {
           whileTap={{ scale: 0.97 }}
           className="inline-flex items-center gap-3 px-10 py-4 bg-selah-orange text-white rounded-2xl ui-button shadow-[0_20px_40px_-10px_rgba(255,92,0,0.4)] hover:shadow-[0_30px_60px_-10px_rgba(255,92,0,0.5)] transition-all duration-300"
         >
-          Watch Our Videos
+          {t("Watch Our Videos", "Ver Nuestros Videos")}
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
         </motion.a>
       </motion.section>
