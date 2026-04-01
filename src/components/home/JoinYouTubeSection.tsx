@@ -54,7 +54,7 @@ export function JoinYouTubeSection() {
               <div className="inline-block mb-8">
                 <Badge color="yellow" className="!rotate-0 shadow-sm">{t("SUBSCRIBE & WORSHIP", "SUSCRÍBETE Y ADORA")}</Badge>
               </div>
-              <h2 className="content-h2 mb-8 leading-[1.05] tracking-[-0.02em] drop-shadow-sm">
+              <h2 className="content-h2 text-white mb-8 leading-[1.05] tracking-[-0.02em] drop-shadow-sm">
                 {t("Join Our YouTube", "Únete a Nuestra")} <br /> {t("Family!", "Familia de YouTube!")}
               </h2>
               <p className="text-xl text-white/70 mb-12 max-w-lg leading-relaxed text-balance">
