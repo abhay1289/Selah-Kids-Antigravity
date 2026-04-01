@@ -41,7 +41,7 @@ const MUSIC_PLATFORMS = [
 
 export default function MusicPage() {
   return (
-    <div className="bg-[#FDFBF7] min-h-screen pt-36 md:pt-44 pb-16">
+    <div className="bg-gradient-to-b from-[#FFF5EE] via-[#FDFBF7] to-[#F5FBF0] min-h-screen pt-36 md:pt-44 pb-16">
       <div className="max-w-3xl mx-auto px-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

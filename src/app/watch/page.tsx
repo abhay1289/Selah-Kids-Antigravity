@@ -1,12 +1,21 @@
 'use client';
 
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { WatchHero } from '../../components/watch/WatchHero';
 import { WatchCategories } from '../../components/watch/WatchCategories';
 import { WatchGrid } from '../../components/watch/WatchGrid';
 import { WatchCTA } from '../../components/watch/WatchCTA';
 import { WatchLanguageBanner } from '../../components/watch/WatchLanguageBanner';
 import { useLanguage } from '../../contexts/LanguageContext';
+
+const sectionEntrance = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { 
+    opacity: 1, y: 0,
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }
+  }
+};
 
 const VIDEOS = [
   {
@@ -17,7 +26,7 @@ const VIDEOS = [
     category: "music",
     categoryLabel: "Music Video",
     language: "EN",
-    gradient: "from-[#FF7F50] to-[#FF5C00]", // Coral
+    gradient: "from-[#FF7F50] to-[#FF5C00]",
     img: "/TGN_SingleFrames+28729.jpg"
   },
   {
@@ -28,7 +37,7 @@ const VIDEOS = [
     category: "music",
     categoryLabel: "Video Musical",
     language: "ES",
-    gradient: "from-[#00BFFF] to-[#87CEEB]", // Sky Blue
+    gradient: "from-[#00BFFF] to-[#87CEEB]",
     img: "/TGN_SingleFrames+28329.jpg"
   },
   {
@@ -39,7 +48,7 @@ const VIDEOS = [
     category: "singalong",
     categoryLabel: "Sing-Along",
     language: "EN",
-    gradient: "from-[#FFD700] to-[#FEB835]", // Gold
+    gradient: "from-[#FFD700] to-[#FEB835]",
     img: "/TGN_SingleFrames+28229.jpg"
   },
   {
@@ -50,7 +59,7 @@ const VIDEOS = [
     category: "sensory",
     categoryLabel: "Sensory",
     language: "EN",
-    gradient: "from-[#98FF98] to-[#93D35C]", // Mint
+    gradient: "from-[#98FF98] to-[#93D35C]",
     img: "/TGN_SingleFrames+28729.jpg"
   },
   {
@@ -61,7 +70,7 @@ const VIDEOS = [
     category: "music",
     categoryLabel: "Music Video",
     language: "EN",
-    gradient: "from-[#FF7F50] to-[#FF5C00]", // Coral
+    gradient: "from-[#FF7F50] to-[#FF5C00]",
     img: "/TGN_SingleFrames+28229.jpg"
   },
   {
@@ -72,7 +81,7 @@ const VIDEOS = [
     category: "singalong",
     categoryLabel: "Sing-Along",
     language: "EN",
-    gradient: "from-[#FFD700] to-[#FEB835]", // Gold
+    gradient: "from-[#FFD700] to-[#FEB835]",
     img: "/TGN_SingleFrames+28329.jpg"
   },
   {
@@ -83,7 +92,7 @@ const VIDEOS = [
     category: "singalong",
     categoryLabel: "Canta Conmigo",
     language: "ES",
-    gradient: "from-[#FFD700] to-[#FEB835]", // Gold
+    gradient: "from-[#FFD700] to-[#FEB835]",
     img: "/TGN_SingleFrames+28229.jpg"
   },
   {
@@ -94,7 +103,7 @@ const VIDEOS = [
     category: "sensory",
     categoryLabel: "Sensorial",
     language: "ES",
-    gradient: "from-[#98FF98] to-[#93D35C]", // Mint
+    gradient: "from-[#98FF98] to-[#93D35C]",
     img: "/TGN_SingleFrames+28729.jpg"
   },
   {
@@ -105,7 +114,7 @@ const VIDEOS = [
     category: "music",
     categoryLabel: "Video Musical",
     language: "ES",
-    gradient: "from-[#FF7F50] to-[#FF5C00]", // Coral
+    gradient: "from-[#FF7F50] to-[#FF5C00]",
     img: "/TGN_SingleFrames+28229.jpg"
   },
   {
@@ -116,7 +125,7 @@ const VIDEOS = [
     category: "singalong",
     categoryLabel: "Canta Conmigo",
     language: "ES",
-    gradient: "from-[#FFD700] to-[#FEB835]", // Gold
+    gradient: "from-[#FFD700] to-[#FEB835]",
     img: "/TGN_SingleFrames+28329.jpg"
   }
 ];
@@ -125,30 +134,36 @@ export default function WatchPage() {
   const [activeCategory, setActiveCategory] = useState('all');
   const { language } = useLanguage();
 
-  // Filter videos by current language first, then by category
   const filteredVideos = VIDEOS.filter(video => 
     video.language === language && (activeCategory === 'all' || video.category === activeCategory)
   );
 
   return (
-    <div className="bg-gradient-to-b from-selah-bg via-white to-selah-light/10 min-h-screen pt-36 md:pt-44 pb-16 relative overflow-hidden">
+    <div className="bg-gradient-to-b from-[#FFF5EE] via-white to-[#FFF8F0] min-h-screen pt-36 md:pt-44 pb-16 relative overflow-hidden">
       {/* Cinematic Background Glows */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-selah-orange/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-selah-yellow/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-selah-orange/8 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-selah-yellow/8 rounded-full blur-[100px] pointer-events-none" />
 
-      <WatchHero />
+      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={sectionEntrance}>
+        <WatchHero />
+      </motion.div>
       
       {/* Filter Bar */}
-      <div className="sticky top-20 z-40 bg-selah-bg/90 backdrop-blur-xl py-4 mb-12 border-b border-selah-border/20">
+      <div className="sticky top-20 z-40 bg-white/80 backdrop-blur-xl py-4 mb-12 border-b border-selah-orange/10">
         <WatchCategories activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
       </div>
 
-      <WatchGrid filteredVideos={filteredVideos} />
+      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={sectionEntrance}>
+        <WatchGrid filteredVideos={filteredVideos} />
+      </motion.div>
 
-      {/* Cross-Language Promo Banner */}
-      <WatchLanguageBanner />
+      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={sectionEntrance}>
+        <WatchLanguageBanner />
+      </motion.div>
 
-      <WatchCTA />
+      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={sectionEntrance}>
+        <WatchCTA />
+      </motion.div>
     </div>
   );
 }

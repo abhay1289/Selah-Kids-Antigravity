@@ -74,7 +74,7 @@ export default function ResourcesPage() {
   );
 
   return (
-    <div className="bg-selah-bg min-h-screen pt-36 md:pt-44 pb-16 relative overflow-hidden selection:bg-selah-orange selection:text-white">
+    <div className="bg-gradient-to-b from-[#FFF8EE] via-selah-bg to-[#F0FAE6] min-h-screen pt-36 md:pt-44 pb-16 relative overflow-hidden selection:bg-selah-orange selection:text-white">
       {/* Natural Paper Texture Background */}
       <div className="absolute inset-0 opacity-[0.04] pointer-events-none z-0 mix-blend-multiply" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
       
