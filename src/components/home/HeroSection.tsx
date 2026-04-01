@@ -77,7 +77,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
   };
 
   if (isLoading) {
-    return <section className="relative min-h-[105svh] md:min-h-[900px] bg-[#FFF8EE]" />;
+    return <section className="relative min-h-[105svh] md:min-h-[900px] bg-[#FFF5EE]" />;
   }
 
   return (
@@ -86,10 +86,12 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
       animate={{ opacity: 1 }}
       transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] as const }}
       onMouseMove={onHeroMouseMove}
-      className="relative min-h-[105svh] md:min-h-[900px] pb-10 md:pb-0 flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#FFF8EE] via-[#FFF5E6] to-[#FFFDF5] perspective-1000"
+      className="relative min-h-[105svh] md:min-h-[900px] pb-10 md:pb-0 flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#FFF5EE] via-[#FFEFDB] to-[#F0FAE6] perspective-1000"
     >
-      {/* Storytelling Background - Paper Texture & Soft Elements */}
-      <div className="absolute inset-0 opacity-[0.04] pointer-events-none z-0 mix-blend-multiply" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
+      {/* Warm color washes */}
+      <div className="absolute top-0 right-0 w-[60vw] h-[60vh] bg-gradient-to-bl from-[#FF7F50]/8 via-transparent to-transparent rounded-full blur-[80px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[50vw] h-[50vh] bg-gradient-to-tr from-[#93D35C]/8 via-transparent to-transparent rounded-full blur-[80px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40vw] h-[40vh] bg-[#FEB835]/6 rounded-full blur-[100px] pointer-events-none" />
       
       <motion.div 
         style={{ y: heroY, opacity: heroOpacity }}
@@ -101,7 +103,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
         <div className="absolute inset-0 overflow-hidden">
           <motion.div
             initial={{ scale: 1.2, opacity: 0 }}
-            animate={{ scale: 1.05, opacity: 0.18 }}
+            animate={{ scale: 1.05, opacity: 0.10 }}
             transition={{ duration: 3, ease: [0.16, 1, 0.3, 1] as const }}
             style={{ scale: bgImgScale }}
             className="absolute inset-0"
