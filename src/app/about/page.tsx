@@ -5,7 +5,7 @@ import { useScroll } from 'framer-motion';
 import { AboutHeroSection } from '../../components/about/AboutHeroSection';
 import { AboutMarqueeSection } from '../../components/about/AboutMarqueeSection';
 import { AboutBentoGrid } from '../../components/about/AboutBentoGrid';
-import { AboutCharacters } from '../../components/about/AboutCharacters';
+
 import { AboutCoreValues } from '../../components/about/AboutCoreValues';
 import { AboutCTA } from '../../components/about/AboutCTA';
 import { AboutPhotoCarousel } from '../../components/about/AboutPhotoCarousel';
@@ -22,7 +22,7 @@ export default function AboutPage() {
       <AboutHeroSection scrollYProgress={scrollYProgress} />
       <AboutMarqueeSection />
       <AboutBentoGrid />
-      <AboutCharacters />
+
       <AboutPhotoCarousel />
       <AboutCoreValues />
       <AboutCTA />
