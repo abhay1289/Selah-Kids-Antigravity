@@ -39,7 +39,7 @@ export function CharactersSection() {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={sectionVariants}
-      className="py-10 md:py-16 bg-selah-bg relative overflow-hidden"
+      className="py-10 md:py-16 bg-gradient-to-b from-[#FFF5E6] to-[#FFF0DB] relative overflow-hidden"
     >
       {/* Playful Background Shapes */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">

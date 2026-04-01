@@ -77,7 +77,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
   };
 
   if (isLoading) {
-    return <section className="relative min-h-[105svh] md:min-h-[900px] bg-selah-bg" />;
+    return <section className="relative min-h-[105svh] md:min-h-[900px] bg-[#FFF8EE]" />;
   }
 
   return (
@@ -86,7 +86,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
       animate={{ opacity: 1 }}
       transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] as const }}
       onMouseMove={onHeroMouseMove}
-      className="relative min-h-[105svh] md:min-h-[900px] pb-10 md:pb-0 flex items-center justify-center overflow-hidden bg-selah-bg perspective-1000"
+      className="relative min-h-[105svh] md:min-h-[900px] pb-10 md:pb-0 flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#FFF8EE] via-[#FFF5E6] to-[#FFFDF5] perspective-1000"
     >
       {/* Storytelling Background - Paper Texture & Soft Elements */}
       <div className="absolute inset-0 opacity-[0.04] pointer-events-none z-0 mix-blend-multiply" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
@@ -95,32 +95,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
         style={{ y: heroY, opacity: heroOpacity }}
         className="absolute inset-0 z-0 overflow-hidden pointer-events-none"
       >
-        {/* Floating Background Elements */}
-        <motion.div 
-          style={{ y: cloudY }}
-          animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-32 left-[10%] text-selah-dark/5"
-        >
-          <Cloud size={140} fill="currentColor" />
-        </motion.div>
-        <motion.div 
-          style={{ y: sunY, rotate: sunRotate }}
-          animate={{ scale: [1, 1.05, 1] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute top-48 right-[12%] text-selah-yellow/20"
-        >
-          <Sun size={180} fill="currentColor" />
-        </motion.div>
 
-        <motion.div
-          style={{ y: musicY }}
-          animate={{ y: [0, -40, 0], rotate: [0, 10, 0] }}
-          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[35%] left-[20%] text-selah-dark/5"
-        >
-          <Music size={40} />
-        </motion.div>
         
         {/* Cinematic Background Image */}
         <div className="absolute inset-0 overflow-hidden">
@@ -216,31 +191,9 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
           style={{ background: "radial-gradient(circle at 50% -10%, rgba(255,255,255,0.9) 0%, rgba(255,220,150,0.3) 35%, transparent 60%)" }} 
         />
         {/* Gradient Overlay for Text Readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-selah-bg/50 via-selah-bg/10 to-selah-bg/40 z-10 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#FFF8EE]/50 via-transparent to-[#FFFDF5]/40 z-10 pointer-events-none" />
 
-        {/* Cinematic Foreground Depth - Magical Floating Bokeh/Dust */}
-        {[...Array(6)].map((_, i) => (
-          <motion.div
-            key={`bokeh-${i}`}
-            className="absolute rounded-full bg-white/60 blur-[6px] mix-blend-screen pointer-events-none z-[60] hidden sm:block"
-            style={{
-              width: 30 + (i * 15),
-              height: 30 + (i * 15),
-              top: `${10 * i + 10}%`,
-              left: `${15 * i + 5}%`,
-              y: bokehTransforms[i] /* Intense foreground parallax */
-            }}
-            animate={{
-              x: [0, (i % 2 === 0 ? 50 : -50), 0],
-              opacity: [0.1, 0.4, 0.1],
-            }}
-            transition={{
-              duration: 8 + i * 2,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-        ))}
+
       </motion.div>
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 text-center flex flex-col items-center justify-center mt-24 md:mt-32">
@@ -266,13 +219,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
           
           {/* Cinematic Title Reveal with Magical Aura */}
           <div className="relative mt-2">
-            {/* Glowing magic storytelling aura behind the wordmark */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: [0, 0.5, 0.2, 0.6, 0.3], scale: [0.9, 1.1, 1, 1.05, 1], filter: ["blur(40px)", "blur(70px)", "blur(50px)"] }}
-              transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[160%] bg-[radial-gradient(ellipse_at_center,rgba(255,180,100,0.25)_0%,rgba(255,100,150,0.05)_50%,transparent_70%)] pointer-events-none mix-blend-screen -z-10"
-            />
+
             
             <h1 className="hero-headline flex flex-wrap justify-center gap-x-3 lg:gap-x-4 mb-6 drop-shadow-lg relative z-10">
             {t("Christian", "Música").split(" ").concat(t("Music for", "Cristiana para").split(" ")).map((word, i) => (
@@ -435,7 +382,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
               >
                 <div className="absolute inset-0 bg-gradient-to-t from-white via-[#FA243C]/10 to-[#FA243C]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 sm:w-8 sm:h-8 text-[#FA243C] relative z-10 group-hover:scale-110 transition-transform duration-300 drop-shadow-sm">
-                  <path d="M17.05 20.28c-.98.95-2.05 1.61-3.22 1.61-1.14 0-1.53-.67-2.82-.67-1.3 0-1.75.66-2.82.66-1.14 0-2.18-.64-3.22-1.61C2.73 18.11 1.04 14.19 1.04 10.6c0-3.59 1.83-5.5 3.61-5.5 1.14 0 2.05.66 2.82.66.75 0 1.56-.66 2.82-.66 1.63 0 3.1 1.3 3.75 2.82-3.32 1.61-2.77 6.13.55 7.42-.64 1.61-1.61 3.54-2.54 4.94zM12.03 4.45c-.02-2.13 1.53-3.95 3.42-4.05.18 2.13-1.53 4.15-3.42 4.05z"/>
+                  <path d="M23.994 6.124a9.23 9.23 0 0 0-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043A5.022 5.022 0 0 0 19.7.263C19.07.124 18.43.07 17.79.04 17.47.023 17.15.013 16.83.003h-9.65C6.86.01 6.54.02 6.22.04c-.65.03-1.29.09-1.92.23a5.022 5.022 0 0 0-1.87.628C1.31 1.69.56 2.7.24 4.01A9.23 9.23 0 0 0 0 6.12v11.75a9.23 9.23 0 0 0 .24 2.19c.32 1.31 1.07 2.31 2.18 3.04.57.37 1.19.64 1.87.83.63.14 1.27.2 1.92.23.32.02.64.03.96.04h9.65c.32-.01.64-.02.96-.04.65-.03 1.29-.09 1.92-.23.68-.19 1.3-.46 1.87-.83 1.12-.73 1.86-1.73 2.18-3.04a9.23 9.23 0 0 0 .24-2.19V6.124zM16.96 14.81c0 .2-.04.39-.12.57a1.36 1.36 0 0 1-.83.76 4.7 4.7 0 0 1-1.31.39 5.3 5.3 0 0 1-.69.06c-.82 0-1.43-.41-1.43-1.13 0-.38.16-.73.45-.99.4-.36.94-.53 1.48-.61.35-.05.7-.08.96-.17V12.8l-4.47.96v3.28c0 .2-.04.39-.12.57a1.36 1.36 0 0 1-.83.76 4.7 4.7 0 0 1-1.31.39 5.3 5.3 0 0 1-.69.06c-.82 0-1.43-.41-1.43-1.13 0-.38.16-.73.45-.99.4-.36.94-.53 1.48-.61.35-.05.7-.08.96-.17V8.72c0-.29.16-.54.41-.67l5.37-1.87a.5.5 0 0 1 .17-.03c.16 0 .29.08.37.21a.59.59 0 0 1 .07.28v8.17z"/>
                 </svg>
               </motion.a>
             </div>

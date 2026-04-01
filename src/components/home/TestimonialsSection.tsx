@@ -40,7 +40,7 @@ export function TestimonialsSection() {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={sectionVariants}
-      className="py-10 md:py-16 bg-white relative overflow-hidden"
+      className="py-10 md:py-16 bg-[#FFFDF7] relative overflow-hidden"
     >
       {/* Creative Background Elements */}
       <div className="absolute inset-0 pointer-events-none">

@@ -99,13 +99,13 @@ export function WhyChooseSection() {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={sectionVariants}
-      className="py-10 md:py-16 bg-[#FAF9F6] relative overflow-hidden"
+      className="py-10 md:py-16 bg-[#FFFBF0] relative overflow-hidden"
     >
       {/* Naturalistic Texture Overlay */}
       <div className="absolute inset-0 opacity-[0.05] pointer-events-none z-50 mix-blend-multiply" 
            style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }} />
 
-      {/* Organic Floating Elements with Parallax */}
+      {/* Soft Background Glows */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <motion.div 
           style={{ y: useTransform(scrollYProgress, [0, 1], [0, -200]) }}
@@ -115,28 +115,8 @@ export function WhyChooseSection() {
           style={{ y: useTransform(scrollYProgress, [0, 1], [0, 200]) }}
           className="absolute -bottom-[15%] -right-[10%] w-[70%] h-[70%] bg-selah-orange/5 rounded-[60%_40%_30%_70%/50%_60%_40%_50%] blur-[140px]"
         />
-
-        {/* Floating Nature Elements */}
-        {[...Array(10)].map((_, i) => (
-          <motion.div
-            key={i}
-            style={{ 
-              y: useTransform(scrollYProgress, [0, 1], [0, (i + 1) * -50]),
-              x: (i * 100) % 200 - 100,
-              top: `${(i * 12) % 100}%`, 
-              left: `${(i * 19) % 100}%`,
-            }}
-            animate={{ 
-              rotate: [0, 20, -20, 0],
-              opacity: [0.05, 0.2, 0.05]
-            }}
-            transition={{ duration: 10 + i, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute text-selah-orange/20"
-          >
-            {i % 3 === 0 ? <Cloud size={40 + i * 5} /> : i % 3 === 1 ? <Sun size={30 + i * 5} /> : <SparklesIcon size={20 + i * 5} />}
-          </motion.div>
-        ))}
       </div>
+
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="flex flex-col items-center text-center mb-12">
@@ -191,21 +171,8 @@ export function WhyChooseSection() {
           ))}
         </div>
 
-        {/* Bottom Decorative Element */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          className="mt-12 flex justify-center gap-4"
-        >
-          {[...Array(3)].map((_, i) => (
-            <motion.div
-              key={i}
-              animate={{ scale: [1, 1.5, 1], opacity: [0.3, 0.6, 0.3] }}
-              transition={{ duration: 2, repeat: Infinity, delay: i * 0.4 }}
-              className="w-2 h-2 rounded-full bg-selah-orange"
-            />
-          ))}
-        </motion.div>
+
+
       </div>
     </motion.section>
   );

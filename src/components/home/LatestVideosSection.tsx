@@ -70,7 +70,7 @@ export function LatestVideosSection() {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={sectionVariants}
-      className="py-10 md:py-16 bg-white relative overflow-hidden"
+      className="py-10 md:py-16 bg-[#FFF9F0] relative overflow-hidden"
     >
       {/* Artistic Background Elements - Playful & Creative */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">

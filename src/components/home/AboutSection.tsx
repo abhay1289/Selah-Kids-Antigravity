@@ -42,7 +42,7 @@ export function AboutSection() {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={sectionVariants}
-      className="py-10 md:py-16 bg-white relative overflow-hidden"
+      className="py-10 md:py-16 bg-[#FFFDF7] relative overflow-hidden"
     >
       {/* Decorative Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-5">

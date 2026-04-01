@@ -275,8 +275,6 @@
     font-weight: 500;
     line-height: 1.1;
     color: #ff5c00;
-    -webkit-text-stroke: 1px #5A3E1B;
-    paint-order: stroke fill;
   }
 
   /* LAYER 1 EXTENDED — Fredoka for ALL Main Headings (H2) */
@@ -286,8 +284,6 @@
     font-weight: 500;
     line-height: 1.1;
     color: #ff5c00;
-    -webkit-text-stroke: 1px #5A3E1B;
-    paint-order: stroke fill;
   }
   .content-h3-playful {
     font-family: "Fredoka", sans-serif;
@@ -295,8 +291,6 @@
     font-weight: 500;
     line-height: 1.15;
     color: #ff5c00;
-    -webkit-text-stroke: 1px #5A3E1B;
-    paint-order: stroke fill;
   }
   .content-h3 {
     font-family: "Fredoka", sans-serif;
