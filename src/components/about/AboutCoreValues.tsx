@@ -87,17 +87,16 @@ export const AboutCoreValues = () => {
           <motion.div
             key={i}
             variants={zoomInUp}
-            className="bg-white/80 backdrop-blur-lg rounded-[3rem] p-10 border border-white/80 shadow-sm flex flex-col items-start group hover:bg-selah-orange transition-colors duration-500 relative overflow-hidden"
+            whileHover={{ y: -6, transition: { duration: 0.3 } }}
+            className="bg-white/80 backdrop-blur-lg rounded-[2.5rem] p-8 border border-white/80 shadow-sm flex flex-col items-start group hover:bg-selah-orange transition-colors duration-500 relative"
           >
-            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-0 group-hover:opacity-20 mix-blend-overlay transition-opacity duration-500" />
-            
-            <div className={`w-20 h-20 rounded-[2rem] flex items-center justify-center mb-8 ${value.color} text-white group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500 ease-out relative z-10 shadow-lg`}>
+            <div className={`w-16 h-16 rounded-[1.5rem] flex items-center justify-center mb-6 ${value.color} text-white group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500 ease-out relative z-10 shadow-lg`}>
               <CreativeIcon color="#ffffff">
-                <value.icon size={36} strokeWidth={1.5} />
+                <value.icon size={28} strokeWidth={1.5} />
               </CreativeIcon>
             </div>
-            <h3 className="content-h3-playful mb-4 leading-none group-hover:text-white transition-colors duration-500 relative z-10">{value.title}</h3>
-            <p className="body-text leading-relaxed group-hover:text-white/70 transition-colors duration-500 relative z-10">
+            <h3 className="content-h3 text-selah-orange mb-3 leading-tight group-hover:text-white transition-colors duration-500 relative z-10">{value.title}</h3>
+            <p className="body-text !max-w-none leading-relaxed group-hover:text-white/80 transition-colors duration-500 relative z-10">
               {value.desc}
             </p>
           </motion.div>

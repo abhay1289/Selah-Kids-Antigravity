@@ -73,7 +73,7 @@ export const WatchGrid = ({ filteredVideos }: WatchGridProps) => {
                 <div className="ui-label text-selah-muted/60 mb-4">
                   {video.date}
                 </div>
-                <p className="text-selah-muted body-text line-clamp-2">
+                <p className="body-text !max-w-none leading-relaxed line-clamp-2 mb-3">
                   {video.description}
                 </p>
               </div>

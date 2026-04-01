@@ -87,7 +87,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index }) =
           <h3 className={`content-h3 mb-2 leading-tight truncate`}>
             {resource.title}
           </h3>
-          <p className="body-text mb-6 line-clamp-2">
+          <p className="body-text !max-w-none mb-6 line-clamp-2">
             {resource.description}
           </p>
         </div>

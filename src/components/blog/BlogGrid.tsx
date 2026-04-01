@@ -33,7 +33,7 @@ export const BlogGrid: React.FC<BlogGridProps> = ({ posts, activeCategory }) => 
               exit={{ opacity: 0, scale: 0.97 }}
               transition={{ duration: 0.5, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] as const }}
               key={post.id}
-              className="group cursor-pointer flex flex-col sm:flex-row gap-6 bg-white rounded-2xl border border-black/5 p-4 shadow-[0_4px_16px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)] transition-all duration-500"
+              className="group cursor-pointer flex flex-col sm:flex-row gap-6 bg-white rounded-2xl border border-black/5 p-4 shadow-[0_4px_16px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)] hover:border-selah-orange/10 transition-all duration-500"
             >
               {/* Thumbnail */}
               <div className={`relative shrink-0 w-full sm:w-44 h-36 sm:h-36 rounded-xl overflow-hidden`}>
@@ -60,7 +60,7 @@ export const BlogGrid: React.FC<BlogGridProps> = ({ posts, activeCategory }) => 
                   {post.title}
                 </h3>
                 
-                <p className="body-text leading-relaxed line-clamp-2 mb-3">
+                <p className="body-text !max-w-none leading-relaxed line-clamp-2 mb-3">
                   {post.excerpt}
                 </p>
                 

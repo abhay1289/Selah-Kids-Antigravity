@@ -72,7 +72,7 @@ export const AboutBentoGrid = () => {
           </div>
           
           <div className="relative z-10 max-w-2xl">
-            <p className="text-xl text-white/80 font-body italic leading-relaxed">
+            <p className="text-xl text-white/80 font-body italic leading-relaxed max-w-2xl">
               Started in 2024 by parents longing for better Christian media, Selah Kids! is a safe place for children to grow in faith. We create bilingual content — in English and Spanish — so families can sing, worship, and learn about God together.
             </p>
           </div>
@@ -94,7 +94,7 @@ export const AboutBentoGrid = () => {
               <Music size={64} className="text-selah-orange" />
             </motion.div>
             <h3 className="content-h2 leading-none mb-6">Sing & Dance</h3>
-            <p className="text-selah-dark/80 body-text">
+            <p className="text-selah-dark/80 body-text !max-w-none">
               Songs that make learning about the Bible meaningful and joyful.
             </p>
           </div>
@@ -115,10 +115,10 @@ export const AboutBentoGrid = () => {
             <h2 className="content-h2 mb-8 leading-[1.1] tracking-tight">
               Stunning Animation
             </h2>
-            <p className="body-text leading-relaxed mb-6">
+            <p className="body-text !max-w-none leading-relaxed mb-6">
               Children deserve the very best. Our videos feature breathtaking animation crafted by talented artists from around the world, designed to spark imagination and bring biblical stories to life.
             </p>
-            <p className="body-text leading-relaxed mb-12">
+            <p className="body-text !max-w-none leading-relaxed mb-12">
               From vibrant character design to rich, detailed backgrounds — every visual is intentionally created to build a world where children love to return.
             </p>
             

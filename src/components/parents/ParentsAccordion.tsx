@@ -54,7 +54,7 @@ export const ParentsAccordion = () => {
     <section className="max-w-4xl mx-auto px-6 pb-8 relative z-10">
       <div className="text-center mb-12">
         <h2 className="content-h2 tracking-tight mb-6">What to Expect</h2>
-        <p className="body-text">Everything you need to know about our content and philosophy.</p>
+        <p className="body-text mx-auto">Everything you need to know about our content and philosophy.</p>
       </div>
       <div className="space-y-6">
         {ACCORDION_DATA.map((section, i) => (
@@ -105,7 +105,7 @@ export const ParentsAccordion = () => {
                           <div className="w-6 h-6 rounded-full bg-[#93D35C]/20 flex items-center justify-center flex-shrink-0 mt-1">
                             <CheckCircle2 size={16} className="text-[#93D35C]" />
                           </div>
-                          <p className="body-text leading-relaxed">
+                          <p className="body-text !max-w-none leading-relaxed">
                             {item}
                           </p>
                         </motion.div>

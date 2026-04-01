@@ -32,13 +32,18 @@ export const AboutCTA = () => {
           <p className="text-white/90 mb-12 body-text max-w-2xl">
             We're just getting started on this incredible journey. Subscribe and be part of the Selah Kids community today!
           </p>
-          <Button 
-            icon={ArrowRight}
-            onClick={() => window.open("https://www.youtube.com/@selahkidsworship", "_blank")}
-            className="!bg-white hover:!bg-selah-dark !text-selah-dark hover:!text-white !border-none !px-16 !py-8 !text-2xl transition-all duration-500 hover:scale-105 whitespace-nowrap shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)]"
+          <motion.div
+            whileHover={{ scale: 1.05, y: -3 }}
+            whileTap={{ scale: 0.97 }}
           >
-            Explore Our Videos
-          </Button>
+            <Button 
+              icon={ArrowRight}
+              onClick={() => window.open("https://www.youtube.com/@selahkidsworship", "_blank")}
+              className="!bg-white hover:!bg-selah-dark !text-selah-dark hover:!text-white !border-none !px-10 !py-4 ui-button transition-all duration-500 whitespace-nowrap shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)]"
+            >
+              Explore Our Videos
+            </Button>
+          </motion.div>
         </div>
       </motion.div>
     </section>

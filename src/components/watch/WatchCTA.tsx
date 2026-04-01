@@ -25,19 +25,21 @@ export const WatchCTA = () => {
           <h2 className="content-h2 mb-6 tracking-tight">
             {t("Want more videos?", "¿Quieres más videos?")}
           </h2>
-          <p className="text-base md:text-lg text-selah-muted font-body italic mb-12 max-w-2xl mx-auto leading-relaxed">
+          <p className="body-text !max-w-none mb-12 mx-auto leading-relaxed">
             {t(
               "Subscribe to our YouTube channel to never miss a new release!",
               "¡Suscríbete a nuestro canal de YouTube para no perderte ningún estreno!"
             )}
           </p>
           <div className="flex justify-center w-full">
-            <Button 
-              onClick={() => window.open("https://www.youtube.com/@selahkidsworship", "_blank")}
-              className="!bg-[#FF0000] hover:!bg-white !text-white hover:!text-[#FF0000] !border-none !px-10 !py-4 ui-button transition-all duration-500 hover:scale-105 shadow-[0_20px_40px_-15px_rgba(255,0,0,0.3)] hover:shadow-[0_30px_60px_-15px_rgba(255,255,255,0.4)]"
-            >
-              {t("Subscribe Now", "Suscríbete Ahora")}
-            </Button>
+            <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }}>
+              <Button 
+                onClick={() => window.open("https://www.youtube.com/@selahkidsworship", "_blank")}
+                className="!bg-[#FF0000] hover:!bg-white !text-white hover:!text-[#FF0000] !border-none !px-10 !py-4 ui-button transition-all duration-500 shadow-[0_20px_40px_-15px_rgba(255,0,0,0.3)] hover:shadow-[0_30px_60px_-15px_rgba(255,255,255,0.4)]"
+              >
+                {t("Subscribe Now", "Suscríbete Ahora")}
+              </Button>
+            </motion.div>
           </div>
         </div>
       </div>
