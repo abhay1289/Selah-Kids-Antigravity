@@ -86,15 +86,15 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
       animate={{ opacity: 1 }}
       transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] as const }}
       onMouseMove={onHeroMouseMove}
-      className="relative min-h-[90svh] md:min-h-[750px] pb-10 md:pb-0 flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#FFE8D0] via-[#FFDDB8] to-[#DFF2D0] perspective-1000"
+      className="relative min-h-[90svh] md:min-h-[750px] pb-10 md:pb-0 flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#FFE0C0] via-[#FFD4A8] to-[#D4EDC0] perspective-1000"
     >
-      {/* Vivid color washes — bold and energetic */}
-      <div className="absolute top-0 right-0 w-[70vw] h-[60vh] bg-gradient-to-bl from-[#FF7F50]/25 via-[#FF5C00]/12 to-transparent rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[60vw] h-[55vh] bg-gradient-to-tr from-[#93D35C]/25 via-[#98FF98]/12 to-transparent rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute top-[15%] left-[5%] w-[40vw] h-[40vh] bg-[#FEB835]/20 rounded-full blur-[90px] pointer-events-none" />
-      <div className="absolute bottom-[15%] right-[5%] w-[35vw] h-[35vh] bg-[#FF69B4]/15 rounded-full blur-[80px] pointer-events-none" />
-      <div className="absolute top-[35%] right-[20%] w-[30vw] h-[30vh] bg-[#00BFFF]/15 rounded-full blur-[90px] pointer-events-none" />
-      <div className="absolute top-[10%] left-[40%] w-[25vw] h-[25vh] bg-[#9B59B6]/10 rounded-full blur-[80px] pointer-events-none" />
+      {/* Vivid color washes — enterprise-grade vibrancy */}
+      <div className="absolute top-0 right-0 w-[70vw] h-[65vh] bg-gradient-to-bl from-[#FF7F50]/30 via-[#FF5C00]/15 to-transparent rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[65vw] h-[60vh] bg-gradient-to-tr from-[#93D35C]/30 via-[#98FF98]/15 to-transparent rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-[10%] left-[5%] w-[45vw] h-[45vh] bg-[#FEB835]/25 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-[10%] right-[5%] w-[40vw] h-[40vh] bg-[#FF69B4]/20 rounded-full blur-[90px] pointer-events-none" />
+      <div className="absolute top-[30%] right-[15%] w-[35vw] h-[35vh] bg-[#00BFFF]/18 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-[5%] left-[35%] w-[30vw] h-[30vh] bg-[#9B59B6]/14 rounded-full blur-[90px] pointer-events-none" />
       
       <motion.div 
         style={{ y: heroY, opacity: heroOpacity }}
