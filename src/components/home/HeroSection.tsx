@@ -86,12 +86,14 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
       animate={{ opacity: 1 }}
       transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] as const }}
       onMouseMove={onHeroMouseMove}
-      className="relative min-h-[105svh] md:min-h-[900px] pb-10 md:pb-0 flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#FFF5EE] via-[#FFEFDB] to-[#F0FAE6] perspective-1000"
+      className="relative min-h-[105svh] md:min-h-[900px] pb-10 md:pb-0 flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#FFF0E0] via-[#FFE8CC] to-[#E8F5E0] perspective-1000"
     >
-      {/* Warm color washes */}
-      <div className="absolute top-0 right-0 w-[60vw] h-[60vh] bg-gradient-to-bl from-[#FF7F50]/8 via-transparent to-transparent rounded-full blur-[80px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[50vw] h-[50vh] bg-gradient-to-tr from-[#93D35C]/8 via-transparent to-transparent rounded-full blur-[80px] pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40vw] h-[40vh] bg-[#FEB835]/6 rounded-full blur-[100px] pointer-events-none" />
+      {/* Vivid color washes for depth and energy */}
+      <div className="absolute top-0 right-0 w-[70vw] h-[60vh] bg-gradient-to-bl from-[#FF7F50]/15 via-[#FF5C00]/8 to-transparent rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[60vw] h-[50vh] bg-gradient-to-tr from-[#93D35C]/15 via-[#98FF98]/8 to-transparent rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-[20%] left-[10%] w-[35vw] h-[35vh] bg-[#FEB835]/12 rounded-full blur-[90px] pointer-events-none" />
+      <div className="absolute bottom-[20%] right-[5%] w-[30vw] h-[30vh] bg-[#FF69B4]/8 rounded-full blur-[80px] pointer-events-none" />
+      <div className="absolute top-[40%] right-[25%] w-[25vw] h-[25vh] bg-[#00BFFF]/8 rounded-full blur-[90px] pointer-events-none" />
       
       <motion.div 
         style={{ y: heroY, opacity: heroOpacity }}
