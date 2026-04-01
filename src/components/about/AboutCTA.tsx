@@ -7,7 +7,7 @@ import { Button } from '../UI';
 
 export const AboutCTA = () => {
   return (
-    <section className="max-w-[1400px] mx-auto px-6 py-16 md:py-28 mb-16 relative z-10">
+    <section className="max-w-[1400px] mx-auto px-6 py-12 md:py-16 relative z-10">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
@@ -29,7 +29,7 @@ export const AboutCTA = () => {
           <h2 className="content-h2 text-white mb-10 leading-[1.1] tracking-tight">
             Join Our Growing Family
           </h2>
-          <p className="text-white/90 mb-16 body-text max-w-2xl">
+          <p className="text-white/90 mb-12 body-text max-w-2xl">
             We're just getting started on this incredible journey. Subscribe and be part of the Selah Kids community today!
           </p>
           <Button 

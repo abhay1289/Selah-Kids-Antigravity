@@ -26,7 +26,7 @@ export function SectionHeader({
       initial="initial"
       whileInView="animate"
       viewport={{ once: true, margin: "-100px" }}
-      className={`flex flex-col gap-6 mb-16 ${align === 'center' ? 'items-center text-center' : 'items-start text-left'}`}
+      className={`flex flex-col gap-6 mb-12 ${align === 'center' ? 'items-center text-center' : 'items-start text-left'}`}
     >
       <motion.div
         variants={{

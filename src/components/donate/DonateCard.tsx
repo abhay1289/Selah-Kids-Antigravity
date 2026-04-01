@@ -15,7 +15,7 @@ interface DonateCardProps {
 
 export const DonateCard: React.FC<DonateCardProps> = ({ frequency, setFrequency, amount, setAmount, amounts }) => {
   return (
-    <section className="max-w-4xl mx-auto px-6 mb-20 md:mb-28 relative z-10">
+    <section className="max-w-4xl mx-auto px-6 mb-12 relative z-10">
       <motion.div 
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
@@ -27,7 +27,7 @@ export const DonateCard: React.FC<DonateCardProps> = ({ frequency, setFrequency,
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.02] pointer-events-none" />
 
         {/* Frequency Toggle */}
-        <div className="flex justify-center mb-16 relative z-10">
+        <div className="flex justify-center mb-12 relative z-10">
           <div className="bg-[#F3EFE6] p-2 rounded-full inline-flex shadow-inner border border-black/5">
             {['One-Time', 'Monthly', 'Annual'].map((freq) => (
               <button
@@ -42,7 +42,7 @@ export const DonateCard: React.FC<DonateCardProps> = ({ frequency, setFrequency,
         </div>
 
         {/* Amount Selection Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16 relative z-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12 relative z-10">
           {amounts.map((amt) => (
             <motion.button
               key={amt}
@@ -68,7 +68,7 @@ export const DonateCard: React.FC<DonateCardProps> = ({ frequency, setFrequency,
         <div className="relative z-10 max-w-2xl mx-auto">
           <Button 
             icon={Heart}
-            className="w-full !bg-selah-orange hover:!bg-[#e65300] !text-white !border-none !py-8 !text-2xl shadow-[0_20px_40px_-15px_rgba(255,92,0,0.4)] hover:shadow-[0_30px_60px_-15px_rgba(255,92,0,0.6)] transition-all duration-500 hover:scale-[1.02] rounded-full group"
+            className="w-full !bg-selah-orange hover:!bg-[#e65300] !text-white !border-none !py-5 ui-button shadow-[0_20px_40px_-15px_rgba(255,92,0,0.4)] hover:shadow-[0_30px_60px_-15px_rgba(255,92,0,0.6)] transition-all duration-500 hover:scale-[1.02] rounded-full group"
           >
             <span className="flex items-center gap-3">
               Donate ${amount} <span className="text-white/50 body-text">{frequency === 'Monthly' ? 'Monthly' : frequency === 'Annual' ? 'Annually' : 'Today'}</span>

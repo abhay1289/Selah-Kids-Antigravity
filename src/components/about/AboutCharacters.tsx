@@ -32,8 +32,8 @@ const CHARACTERS = [
 
 export const AboutCharacters = () => {
   return (
-    <section className="max-w-[1400px] mx-auto px-6 py-16 md:py-28 relative z-10">
-      <div className="text-center mb-20">
+    <section className="max-w-[1400px] mx-auto px-6 py-12 md:py-16 relative z-10">
+      <div className="text-center mb-12">
         <Badge color="orange" className="mb-6">OUR FRIENDS</Badge>
         <h2 className="content-h2 leading-[1.1] tracking-tight">
           Meet the Characters

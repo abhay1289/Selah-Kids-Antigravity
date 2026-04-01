@@ -5,6 +5,8 @@ import { WatchHero } from '../../components/watch/WatchHero';
 import { WatchCategories } from '../../components/watch/WatchCategories';
 import { WatchGrid } from '../../components/watch/WatchGrid';
 import { WatchCTA } from '../../components/watch/WatchCTA';
+import { WatchLanguageBanner } from '../../components/watch/WatchLanguageBanner';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const VIDEOS = [
   {
@@ -22,9 +24,9 @@ const VIDEOS = [
     id: 2,
     title: "Jesús Me Ama",
     date: "March 12, 2026",
-    description: "The Spanish version of our beloved 'Jesus Loves Me' music video.",
+    description: "La versión en español de nuestro querido video musical 'Jesus Loves Me'.",
     category: "music",
-    categoryLabel: "Music Video",
+    categoryLabel: "Video Musical",
     language: "ES",
     gradient: "from-[#00BFFF] to-[#87CEEB]", // Sky Blue
     img: "/TGN_SingleFrames+28329.jpg"
@@ -72,18 +74,64 @@ const VIDEOS = [
     language: "EN",
     gradient: "from-[#FFD700] to-[#FEB835]", // Gold
     img: "/TGN_SingleFrames+28329.jpg"
+  },
+  {
+    id: 7,
+    title: "El Fruto del Espíritu",
+    date: "March 10, 2026",
+    description: "Aprende sobre el amor, la alegría, la paz y más con esta canción pegadiza basada en Gálatas 5:22-23.",
+    category: "singalong",
+    categoryLabel: "Canta Conmigo",
+    language: "ES",
+    gradient: "from-[#FFD700] to-[#FEB835]", // Gold
+    img: "/TGN_SingleFrames+28229.jpg"
+  },
+  {
+    id: 8,
+    title: "Jardín de Calma y Paz",
+    date: "March 8, 2026",
+    description: "Un video sensorial relajante con música suave y animaciones gentiles para momentos de tranquilidad.",
+    category: "sensory",
+    categoryLabel: "Sensorial",
+    language: "ES",
+    gradient: "from-[#98FF98] to-[#93D35C]", // Mint
+    img: "/TGN_SingleFrames+28729.jpg"
+  },
+  {
+    id: 9,
+    title: "Él Tiene al Mundo Entero",
+    date: "March 5, 2026",
+    description: "Un hermoso recordatorio del cuidado de Dios por toda la creación en este clásico canto de adoración.",
+    category: "music",
+    categoryLabel: "Video Musical",
+    language: "ES",
+    gradient: "from-[#FF7F50] to-[#FF5C00]", // Coral
+    img: "/TGN_SingleFrames+28229.jpg"
+  },
+  {
+    id: 10,
+    title: "Esta Lucecita Mía",
+    date: "March 1, 2026",
+    description: "Animando a los niños a dejar brillar su luz por Jesús cada día a través de la música.",
+    category: "singalong",
+    categoryLabel: "Canta Conmigo",
+    language: "ES",
+    gradient: "from-[#FFD700] to-[#FEB835]", // Gold
+    img: "/TGN_SingleFrames+28329.jpg"
   }
 ];
 
 export default function WatchPage() {
   const [activeCategory, setActiveCategory] = useState('all');
+  const { language } = useLanguage();
 
+  // Filter videos by current language first, then by category
   const filteredVideos = VIDEOS.filter(video => 
-    activeCategory === 'all' || video.category === activeCategory
+    video.language === language && (activeCategory === 'all' || video.category === activeCategory)
   );
 
   return (
-    <div className="bg-gradient-to-b from-selah-bg via-white to-selah-light/10 min-h-screen pt-36 md:pt-44 pb-20 relative overflow-hidden">
+    <div className="bg-gradient-to-b from-selah-bg via-white to-selah-light/10 min-h-screen pt-36 md:pt-44 pb-16 relative overflow-hidden">
       {/* Cinematic Background Glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-selah-orange/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-selah-yellow/10 rounded-full blur-[100px] pointer-events-none" />
@@ -91,11 +139,15 @@ export default function WatchPage() {
       <WatchHero />
       
       {/* Filter Bar */}
-      <div className="sticky top-20 z-40 bg-selah-bg/90 backdrop-blur-xl py-4 mb-20 border-b border-selah-border/20">
+      <div className="sticky top-20 z-40 bg-selah-bg/90 backdrop-blur-xl py-4 mb-12 border-b border-selah-border/20">
         <WatchCategories activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
       </div>
 
       <WatchGrid filteredVideos={filteredVideos} />
+
+      {/* Cross-Language Promo Banner */}
+      <WatchLanguageBanner />
+
       <WatchCTA />
     </div>
   );

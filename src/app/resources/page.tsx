@@ -7,34 +7,34 @@ import { Button } from '../../components/UI';
 import { ResourcesHero } from '../../components/resources/ResourcesHero';
 import { ResourceCard } from '../../components/resources/ResourceCard';
 
-const CATEGORIES = ['All', 'Lyrics', 'Coloring', 'Guides', 'Printables'];
+const CATEGORIES = ['All', 'Printables', 'Lessons'];
 
 const RESOURCES = [
   {
     id: 1,
-    title: "Jesus Loves Me Lyrics",
-    description: "Printable lyric sheet for our most popular song. Perfect for singing along at home or church.",
+    title: "Bible Verse Memory Cards",
+    description: "A set of 10 beautifully illustrated memory verse cards to help kids learn Scripture.",
     type: "PDF",
-    category: "Lyrics",
-    gradient: "from-[#FF7F50] to-[#FF5C00]", // Coral
+    category: "Printables",
+    gradient: "from-[#FFD700] to-[#FEB835]",
     featured: true,
   },
   {
     id: 2,
     title: "Andy Coloring Page",
-    description: "A fun, high-quality coloring page featuring Andy and his pet sheep, Shiloh.",
+    description: "A fun coloring page featuring Andy and his pet sheep, Shiloh.",
     type: "PDF",
-    category: "Coloring",
-    gradient: "from-[#00BFFF] to-[#87CEEB]", // Sky Blue
+    category: "Printables",
+    gradient: "from-[#00BFFF] to-[#87CEEB]",
     featured: false,
   },
   {
     id: 3,
-    title: "Bible Verse Memory Cards",
-    description: "A set of 10 beautifully illustrated memory verse cards to help kids learn Scripture.",
+    title: "Libni Coloring Page",
+    description: "Color in Libni as she dances and sings her favorite worship songs.",
     type: "PDF",
     category: "Printables",
-    gradient: "from-[#FFD700] to-[#FEB835]", // Gold
+    gradient: "from-[#FFB6C1] to-[#FF69B4]",
     featured: false,
   },
   {
@@ -42,26 +42,26 @@ const RESOURCES = [
     title: "Sunday School Guide",
     description: "A 4-week curriculum guide using Selah Kids videos for children's ministry.",
     type: "PDF",
-    category: "Guides",
-    gradient: "from-[#98FF98] to-[#93D35C]", // Mint
+    category: "Lessons",
+    gradient: "from-[#98FF98] to-[#93D35C]",
     featured: true,
   },
   {
     id: 5,
-    title: "Jesús Me Ama Letras",
-    description: "Spanish lyric sheet for 'Jesus Loves Me'. Great for bilingual families.",
+    title: "Family Devotional",
+    description: "A week of daily devotionals designed to help families worship and learn together.",
     type: "PDF",
-    category: "Lyrics",
-    gradient: "from-[#E6E6FA] to-[#D8BFD8]", // Lavender
+    category: "Lessons",
+    gradient: "from-[#FF7F50] to-[#FF5C00]",
     featured: false,
   },
   {
     id: 6,
-    title: "Libni Coloring Page",
-    description: "Color in Libni as she dances and sings her favorite worship songs.",
+    title: "Fruit of the Spirit Activity Sheet",
+    description: "A fun activity sheet teaching kids about the fruit of the Spirit with puzzles and coloring.",
     type: "PDF",
-    category: "Coloring",
-    gradient: "from-[#FFB6C1] to-[#FF69B4]", // Pink
+    category: "Printables",
+    gradient: "from-[#E6E6FA] to-[#D8BFD8]",
     featured: false,
   }
 ];
@@ -74,7 +74,7 @@ export default function ResourcesPage() {
   );
 
   return (
-    <div className="bg-selah-bg min-h-screen pt-36 md:pt-44 pb-20 relative overflow-hidden selection:bg-selah-orange selection:text-white">
+    <div className="bg-selah-bg min-h-screen pt-36 md:pt-44 pb-16 relative overflow-hidden selection:bg-selah-orange selection:text-white">
       {/* Natural Paper Texture Background */}
       <div className="absolute inset-0 opacity-[0.04] pointer-events-none z-0 mix-blend-multiply" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
       
@@ -84,8 +84,8 @@ export default function ResourcesPage() {
 
       <ResourcesHero />
 
-      {/* Filter Bar (Premium Segmented Control) */}
-      <section className="max-w-4xl mx-auto px-6 mb-20 relative z-20">
+      {/* Filter Bar */}
+      <section className="max-w-4xl mx-auto px-6 mb-12 relative z-20">
         <div className="flex flex-wrap justify-center gap-1 p-1.5 bg-white rounded-full border border-selah-dark/5 shadow-[0_8px_24px_rgba(0,0,0,0.04)]">
           {CATEGORIES.map((category) => (
             <button
@@ -106,9 +106,9 @@ export default function ResourcesPage() {
         </div>
       </section>
 
-      {/* Resources Bento Grid */}
-      <section className="max-w-[1400px] mx-auto px-6 mb-20 md:mb-28 relative z-10" style={{ perspective: "2000px" }}>
-        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 auto-rows-[400px] md:auto-rows-[450px]">
+      {/* Resources Grid */}
+      <section className="max-w-[1400px] mx-auto px-6 mb-12 relative z-10" style={{ perspective: "2000px" }}>
+        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           <AnimatePresence mode="popLayout">
             {filteredResources.map((resource, i) => (
               <ResourceCard key={resource.id} resource={resource} index={i} />
@@ -117,7 +117,7 @@ export default function ResourcesPage() {
         </motion.div>
       </section>
 
-      {/* Premium Callout Banner */}
+      {/* Callout Banner */}
       <section className="max-w-[1400px] mx-auto px-6 relative z-10">
         <motion.div 
           initial={{ opacity: 0, y: 40 }}
@@ -126,7 +126,6 @@ export default function ResourcesPage() {
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] as const }}
           className="relative rounded-[3rem] p-16 md:p-24 text-center overflow-hidden group bg-white border border-selah-dark/5 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)]"
         >
-          {/* Animated Gradient Background */}
           <div className="absolute inset-0 bg-gradient-to-br from-selah-yellow/10 via-selah-orange/5 to-selah-pink/10 opacity-90" />
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] opacity-[0.04] mix-blend-multiply pointer-events-none" />
           
@@ -143,12 +142,12 @@ export default function ResourcesPage() {
               <Sparkles size={32} className="text-selah-orange" />
             </div>
             <h2 className="hero-headline text-selah-dark mb-6 tracking-tighter drop-shadow-sm">
-              More Magic Coming!
+              More Coming Soon!
             </h2>
             <p className="text-selah-muted body-text max-w-2xl mx-auto leading-relaxed mb-10 tracking-tight">
-              We are constantly creating new coloring pages, devotionals, and activity sheets. Join our newsletter to get notified when they drop!
+              We are constantly creating new printables, lessons, and activity sheets. Join our newsletter to get notified!
             </p>
-            <Button className="!px-10 !py-5 !text-xl shadow-[0_10px_30px_-10px_rgba(255,92,0,0.4)]">
+            <Button className="!px-10 !py-4 ui-button shadow-[0_10px_30px_-10px_rgba(255,92,0,0.4)]">
               Subscribe Now
             </Button>
           </div>

@@ -22,64 +22,54 @@ interface BlogGridProps {
 
 export const BlogGrid: React.FC<BlogGridProps> = ({ posts, activeCategory }) => {
   return (
-    <section className="max-w-[1400px] mx-auto px-6 mb-20 md:mb-28 relative z-10">
-      <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-16">
+    <section className="max-w-3xl mx-auto px-6 mb-12 relative z-10">
+      <motion.div layout className="flex flex-col gap-8">
         <AnimatePresence mode="popLayout">
           {posts.map((post, index) => (
-            <motion.div
+            <motion.article
               layout
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] as const }}
+              exit={{ opacity: 0, scale: 0.97 }}
+              transition={{ duration: 0.5, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] as const }}
               key={post.id}
-              className={`group cursor-pointer flex flex-col ${index === 0 && activeCategory === 'all' ? 'md:col-span-2 lg:col-span-3 lg:flex-row gap-12 items-center mb-12' : ''}`}
+              className="group cursor-pointer flex flex-col sm:flex-row gap-6 bg-white rounded-2xl border border-black/5 p-4 shadow-[0_4px_16px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)] transition-all duration-500"
             >
-              {/* Thumbnail Area */}
-              <div className={`relative ${index === 0 && activeCategory === 'all' ? 'w-full lg:w-3/5 h-[400px] lg:h-[600px]' : 'w-full h-80'} rounded-[2rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] group-hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.15)] transition-all duration-700`}>
-                <div className={`absolute inset-0 bg-gradient-to-br ${post.gradient} opacity-90 mix-blend-multiply transition-opacity duration-500 group-hover:opacity-100`} />
-                <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
-                
-                <motion.div
-                  whileHover={{ scale: 1.05, rotate: 2 }}
-                  transition={{ duration: 0.8, ease: "easeOut" }}
-                  className="absolute inset-0 flex items-center justify-center text-white"
-                >
-                  <post.iconLarge size={index === 0 && activeCategory === 'all' ? 140 : 80} className="drop-shadow-2xl opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
-                </motion.div>
-                
-                {/* Category Badge overlay */}
-                <div className="absolute top-6 left-6 z-20">
-                  <span className="px-4 py-2 bg-white/90 backdrop-blur-xl rounded-full ui-label text-selah-dark shadow-lg">
+              {/* Thumbnail */}
+              <div className={`relative shrink-0 w-full sm:w-44 h-36 sm:h-36 rounded-xl overflow-hidden`}>
+                <div className={`absolute inset-0 bg-gradient-to-br ${post.gradient} opacity-90`} />
+                <div className="absolute inset-0 flex items-center justify-center text-white">
+                  <post.iconLarge size={40} className="drop-shadow-lg opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500" />
+                </div>
+                {/* Category Badge */}
+                <div className="absolute top-3 left-3 z-20">
+                  <span className="px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full ui-label text-selah-dark">
                     {post.categoryLabel}
                   </span>
                 </div>
               </div>
 
-              {/* Content Area */}
-              <div className={`flex flex-col flex-grow ${index === 0 && activeCategory === 'all' ? 'w-full lg:w-2/5 py-8' : 'pt-8'}`}>
-                <div className="flex items-center gap-3 text-selah-muted ui-label mb-6">
-                  <Calendar size={16} />
+              {/* Content */}
+              <div className="flex flex-col justify-center flex-grow min-w-0 py-1">
+                <div className="flex items-center gap-2 text-selah-muted ui-caption tracking-wide mb-2">
+                  <Calendar size={12} />
                   {post.date}
                 </div>
                 
-                <h3 className={`${index === 0 && activeCategory === 'all' ? ' ' : ''} content-h2 mb-6 leading-[1.1] group-hover:text-selah-orange transition-colors duration-300`}>
+                <h3 className="content-h3 text-selah-dark mb-2 leading-snug group-hover:text-selah-orange transition-colors duration-300 line-clamp-2">
                   {post.title}
                 </h3>
                 
-                <p className={`${index === 0 && activeCategory === 'all' ? 'text-2xl' : 'text-xl'} text-selah-muted font-serif italic mb-10 flex-grow leading-relaxed line-clamp-3`}>
+                <p className="body-text leading-relaxed line-clamp-2 mb-3">
                   {post.excerpt}
                 </p>
                 
-                <div className="flex items-center gap-3 text-selah-dark ui-label group-hover:text-selah-orange transition-colors duration-300">
-                  <span className="relative overflow-hidden">
-                    <span className="inline-block transition-transform duration-300 group-hover:-translate-y-full">Read Article</span>
-                    <span className="inline-block absolute left-0 top-0 transition-transform duration-300 translate-y-full group-hover:translate-y-0">Read Article</span>
-                  </span>
-                  <ArrowRight size={18} className="transition-transform duration-300 group-hover:translate-x-2" />
+                <div className="flex items-center gap-2 text-selah-dark ui-label group-hover:text-selah-orange transition-colors duration-300">
+                  Read Article
+                  <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
                 </div>
               </div>
-            </motion.div>
+            </motion.article>
           ))}
         </AnimatePresence>
       </motion.div>

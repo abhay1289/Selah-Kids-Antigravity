@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { BookOpen, Users, Clapperboard, Music, Smartphone, Mic } from 'lucide-react';
-import { Button } from '../../components/UI';
+import { BookOpen, Users, Clapperboard, Music, Smartphone, Mic, ChevronDown } from 'lucide-react';
 import { BlogHero } from '../../components/blog/BlogHero';
 import { BlogCategories } from '../../components/blog/BlogCategories';
 import { BlogGrid } from '../../components/blog/BlogGrid';
@@ -24,7 +23,7 @@ const BLOG_POSTS = [
     categoryLabel: "Parenting",
     date: "March 18, 2026",
     iconLarge: Users,
-    gradient: "from-[#FF7F50] to-[#FF5C00]" // Coral
+    gradient: "from-[#FF7F50] to-[#FF5C00]"
   },
   {
     id: 2,
@@ -34,7 +33,7 @@ const BLOG_POSTS = [
     categoryLabel: "Behind the Scenes",
     date: "March 10, 2026",
     iconLarge: Clapperboard,
-    gradient: "from-[#00BFFF] to-[#87CEEB]" // Sky Blue
+    gradient: "from-[#00BFFF] to-[#87CEEB]"
   },
   {
     id: 3,
@@ -44,7 +43,7 @@ const BLOG_POSTS = [
     categoryLabel: "Faith & Learning",
     date: "March 2, 2026",
     iconLarge: Music,
-    gradient: "from-[#FFD700] to-[#FEB835]" // Gold
+    gradient: "from-[#FFD700] to-[#FEB835]"
   },
   {
     id: 4,
@@ -54,7 +53,7 @@ const BLOG_POSTS = [
     categoryLabel: "Parenting",
     date: "February 25, 2026",
     iconLarge: Smartphone,
-    gradient: "from-[#98FF98] to-[#93D35C]" // Mint
+    gradient: "from-[#98FF98] to-[#93D35C]"
   },
   {
     id: 5,
@@ -64,7 +63,7 @@ const BLOG_POSTS = [
     categoryLabel: "Behind the Scenes",
     date: "February 18, 2026",
     iconLarge: Mic,
-    gradient: "from-[#E6E6FA] to-[#D8BFD8]" // Lavender
+    gradient: "from-[#E6E6FA] to-[#D8BFD8]"
   },
   {
     id: 6,
@@ -74,33 +73,55 @@ const BLOG_POSTS = [
     categoryLabel: "Devotional",
     date: "February 10, 2026",
     iconLarge: BookOpen,
-    gradient: "from-[#FFB6C1] to-[#FF69B4]" // Pink
+    gradient: "from-[#FFB6C1] to-[#FF69B4]"
   }
 ];
 
+const POSTS_PER_PAGE = 2;
+
 export default function BlogPage() {
   const [activeCategory, setActiveCategory] = useState('all');
+  const [visibleCount, setVisibleCount] = useState(POSTS_PER_PAGE);
 
   const filteredPosts = BLOG_POSTS.filter(post => 
     activeCategory === 'all' || post.category === activeCategory
   );
 
+  const visiblePosts = filteredPosts.slice(0, visibleCount);
+  const hasMore = visibleCount < filteredPosts.length;
+
+  const handleLoadMore = () => {
+    setVisibleCount(prev => prev + POSTS_PER_PAGE);
+  };
+
+  // Reset visible count when category changes
+  const handleCategoryChange = (cat: string) => {
+    setActiveCategory(cat);
+    setVisibleCount(POSTS_PER_PAGE);
+  };
+
   return (
-    <div className="bg-[#FDFBF7] min-h-screen pt-36 md:pt-44 pb-20 relative overflow-hidden">
+    <div className="bg-[#FDFBF7] min-h-screen pt-36 md:pt-44 pb-16 relative overflow-hidden">
       {/* Editorial Background Texture */}
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] opacity-40 pointer-events-none" />
       <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-[#F3EFE6] to-transparent pointer-events-none" />
 
       <BlogHero />
-      <BlogCategories categories={BLOG_CATEGORIES} activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
-      <BlogGrid posts={filteredPosts} activeCategory={activeCategory} />
+      <BlogCategories categories={BLOG_CATEGORIES} activeCategory={activeCategory} setActiveCategory={handleCategoryChange} />
+      <BlogGrid posts={visiblePosts} activeCategory={activeCategory} />
 
-      {/* Load More */}
-      <div className="text-center px-6 pb-8 relative z-10">
-        <Button className="!bg-transparent hover:!bg-selah-orange !text-selah-orange hover:!text-white border border-selah-orange/20 shadow-none hover:shadow-xl px-16 py-5 ui-label transition-all duration-500">
-          Load More Posts
-        </Button>
-      </div>
+      {/* Load More Button — centered and functional */}
+      {hasMore && (
+        <div className="flex justify-center px-6 pb-8 relative z-10">
+          <button
+            onClick={handleLoadMore}
+            className="flex items-center gap-2 px-10 py-4 rounded-full text-selah-orange border border-selah-orange/20 bg-transparent hover:bg-selah-orange hover:text-white ui-button uppercase transition-all duration-500 hover:shadow-xl hover:shadow-selah-orange/20"
+          >
+            Load More Posts
+            <ChevronDown size={16} />
+          </button>
+        </div>
+      )}
     </div>
   );
 }

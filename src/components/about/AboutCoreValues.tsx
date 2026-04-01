@@ -2,34 +2,40 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Heart, Smile, BookOpen, Globe } from 'lucide-react';
+import { Cross, Smile, BookOpen, Globe, Sparkles } from 'lucide-react';
 import { Badge } from '../UI';
 import { staggerContainer, zoomInUp } from '../../utils/animations';
 
 const CORE_VALUES = [
   {
-    icon: Heart,
+    icon: Cross,
     title: "All About Jesus",
-    desc: "Jesus is at the center of every story, teaching kids about God's love and grace through fun faith-based videos.",
+    desc: "Jesus is at the center of every story, teaching children about God's love and grace through engaging, faith-based videos.",
     color: "bg-selah-orange",
   },
   {
     icon: Smile,
     title: "Made for Kids",
-    desc: "Our Christian cartoons are safe, engaging, and perfect for children to watch, learn, and enjoy.",
+    desc: "Our Christian cartoons are safe, wholesome, and crafted for children to watch, learn, and grow in faith.",
     color: "bg-selah-yellow",
   },
   {
     icon: BookOpen,
     title: "True to the Bible",
-    desc: "Every song and story is carefully checked to make sure it teaches true and helpful biblical lessons.",
+    desc: "Every song and story is carefully reviewed to make sure it teaches accurate and helpful biblical lessons.",
     color: "bg-selah-light",
   },
   {
     icon: Globe,
     title: "For Everyone",
-    desc: "We celebrate the beautiful diversity of God's entire creation in all our kids worship videos.",
+    desc: "We celebrate the beautiful diversity of God's entire creation in all our kids worship videos — in English and Spanish.",
     color: "bg-[#FF7F50]",
+  },
+  {
+    icon: Sparkles,
+    title: "Sensory Friendly",
+    desc: "Our content is thoughtfully designed with gentle pacing, clear visuals, and calming music to support children of all sensory needs.",
+    color: "bg-[#9B59B6]",
   }
 ];
 
@@ -62,8 +68,8 @@ const CreativeIcon: React.FC<{ children: React.ReactNode, color: string }> = ({ 
 
 export const AboutCoreValues = () => {
   return (
-    <section className="max-w-[1400px] mx-auto px-6 py-16 md:py-28 relative z-10">
-      <div className="text-center mb-20">
+    <section className="max-w-[1400px] mx-auto px-6 py-12 md:py-16 relative z-10">
+      <div className="text-center mb-12">
         <Badge color="yellow" className="mb-6">OUR VALUES</Badge>
         <h2 className="content-h2 leading-[1.1] tracking-tight">
           What Guides Us
@@ -75,7 +81,7 @@ export const AboutCoreValues = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-50px" }}
-        className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
+        className="grid md:grid-cols-2 lg:grid-cols-5 gap-6"
       >
         {CORE_VALUES.map((value, i) => (
           <motion.div

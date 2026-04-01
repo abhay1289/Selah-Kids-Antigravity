@@ -16,21 +16,21 @@ export const ContactSidebar = () => {
     >
       {/* Contact Cards */}
       <motion.div variants={slideInRight} whileHover={{ scale: 1.02, x: -10 }} className="bg-white rounded-[3rem] p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-black/5 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] transition-all duration-500 cursor-pointer group">
-        <h3 className="content-h2 mb-2 group-hover:text-[#00BFFF] transition-colors">General Inquiries</h3>
+        <h3 className="content-h3 mb-2 group-hover:text-[#00BFFF] transition-colors">General Inquiries</h3>
         <a href="mailto:info.selahkids@gmail.com" className="body-text hover:text-selah-dark transition-colors">
           info.selahkids@gmail.com
         </a>
       </motion.div>
 
       <motion.div variants={slideInRight} whileHover={{ scale: 1.02, x: -10 }} className="bg-white rounded-[3rem] p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-black/5 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] transition-all duration-500 cursor-pointer group">
-        <h3 className="content-h2 mb-2 group-hover:text-[#FFD700] transition-colors">Partnership & Ministry</h3>
+        <h3 className="content-h3 mb-2 group-hover:text-[#FFD700] transition-colors">Partnership & Ministry</h3>
         <a href="mailto:partners@selahkids.com" className="body-text hover:text-selah-dark transition-colors">
           partners@selahkids.com
         </a>
       </motion.div>
 
       <motion.div variants={slideInRight} whileHover={{ scale: 1.02, x: -10 }} className="bg-white rounded-[3rem] p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-black/5 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] transition-all duration-500 cursor-pointer group">
-        <h3 className="content-h2 mb-2 group-hover:text-[#FF69B4] transition-colors">Press & Media</h3>
+        <h3 className="content-h3 mb-2 group-hover:text-[#FF69B4] transition-colors">Press & Media</h3>
         <a href="mailto:press@selahkids.com" className="body-text hover:text-selah-dark transition-colors">
           press@selahkids.com
         </a>

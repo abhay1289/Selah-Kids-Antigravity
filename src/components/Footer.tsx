@@ -17,7 +17,7 @@ export function Footer() {
       <div className="absolute -bottom-48 -right-48 w-[600px] h-[600px] bg-selah-yellow/10 blur-[150px] rounded-full animate-pulse" style={{ animationDelay: '2s' }} />
       
       <div className="container mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 mb-12">
           {/* Brand Card - Bento Style */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -30,27 +30,27 @@ export function Footer() {
                 whileHover={{ rotate: [0, -15, 15, 0], scale: 1.1 }}
                 className="w-14 h-14 bg-selah-orange rounded-2xl flex items-center justify-center shadow-[0_10px_30px_-10px_rgba(255,107,0,0.4)] group-hover/logo:shadow-[0_20px_40px_-10px_rgba(255,107,0,0.6)] transition-shadow duration-500"
               >
-                <span className="text-white font-black text-3xl">S</span>
+                <span className="text-white content-h3">S</span>
               </motion.div>
-              <span className="font-black text-4xl tracking-tighter text-selah-dark group-hover/logo:text-selah-orange transition-colors duration-500">
-                SELAH<span className="text-selah-orange group-hover/logo:text-selah-dark transition-colors duration-500">KIDS</span>
+              <span className="content-h2 tracking-tighter">
+                <span className="text-selah-orange">Selah</span><span className="text-selah-dark">Kids!</span>
               </span>
             </Link>
-            <p className="text-xl text-selah-muted max-w-md leading-relaxed mb-10 font-medium text-balance">
+            <p className="body-text max-w-md mb-10">
               We're on a mission to fill every home with faith-filled melodies and stories that spark wonder in the hearts of children.
             </p>
             <div className="flex gap-4">
               {[
-                { Icon: Facebook, href: "#", color: "hover:bg-[#1877F2]", shadow: "hover:shadow-[0_10px_20px_-10px_rgba(24,119,242,0.6)]" },
                 { Icon: Instagram, href: "https://www.instagram.com/selah.kids", color: "hover:bg-[#E4405F]", shadow: "hover:shadow-[0_10px_20px_-10px_rgba(228,64,95,0.6)]" },
                 { Icon: Youtube, href: "https://www.youtube.com/@selahkidsworship", color: "hover:bg-[#FF0000]", shadow: "hover:shadow-[0_10px_20px_-10px_rgba(255,0,0,0.6)]" },
-                { Icon: Music, href: "#", color: "hover:bg-[#1DB954]", shadow: "hover:shadow-[0_10px_20px_-10px_rgba(29,185,84,0.6)]" }
+                { Icon: Music, href: "/music", color: "hover:bg-[#1DB954]", shadow: "hover:shadow-[0_10px_20px_-10px_rgba(29,185,84,0.6)]" }
               ].map(({ Icon, color, href, shadow }, i) => (
                 <motion.a 
                   key={i} 
-                  href={href}
-                  target={href !== "#" ? "_blank" : undefined}
-                  rel={href !== "#" ? "noopener noreferrer" : undefined}
+                  href={href === '/music' ? undefined : href}
+                  onClick={href === '/music' ? () => router.push('/music') : undefined}
+                  target={href !== "#" && href !== '/music' ? "_blank" : undefined}
+                  rel={href !== "#" && href !== '/music' ? "noopener noreferrer" : undefined}
                   whileHover={{ y: -8, scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   className={`w-14 h-14 rounded-2xl bg-selah-bg border border-selah-border/50 flex items-center justify-center transition-all duration-500 group/icon ${color} ${shadow} hover:text-white hover:border-transparent`}
@@ -69,7 +69,7 @@ export function Footer() {
             transition={{ delay: 0.1 }}
             className="lg:col-span-3 bg-white/60 border border-selah-orange/10 rounded-[2.5rem] p-10 backdrop-blur-xl hover:border-selah-orange/20 transition-all duration-500 shadow-[0_8px_32px_rgba(255,92,0,0.06)]"
           >
-            <h4 className="text-selah-dark content-h3 mb-8 tracking-tight">Explore</h4>
+            <h4 className="text-selah-dark content-h3 mb-8 tracking-tight">Pages</h4>
             <ul className="space-y-5">
               {[
                 { label: "Home", icon: Star, href: "/" },
@@ -113,13 +113,13 @@ export function Footer() {
             <div className="bg-white/60 border border-selah-orange/10 rounded-[2.5rem] p-8 backdrop-blur-xl hover:border-selah-orange/20 transition-all duration-500 flex-1 shadow-[0_8px_32px_rgba(255,92,0,0.06)]">
               <h4 className="text-selah-dark content-h3 mb-6 tracking-tight">Get in Touch</h4>
               <div className="space-y-4">
-                <a href="mailto:hello@selahkids.com" className="flex items-center gap-4 p-4 rounded-2xl bg-selah-bg border border-selah-border/30 hover:bg-selah-orange/10 hover:border-selah-orange/20 transition-all duration-300 group shadow-sm hover:shadow-md">
+                <a href="mailto:info.selahkids@gmail.com" className="flex items-center gap-4 p-4 rounded-2xl bg-selah-bg border border-selah-border/30 hover:bg-selah-orange/10 hover:border-selah-orange/20 transition-all duration-300 group shadow-sm hover:shadow-md">
                   <div className="w-10 h-10 rounded-xl bg-selah-orange/20 flex items-center justify-center text-selah-orange group-hover:scale-110 transition-transform">
                     <Mail size={20} />
                   </div>
                   <div>
                     <p className="text-selah-muted/60 ui-label mb-0.5">Email Us</p>
-                    <span className="text-selah-dark ui-button">hello@selahkids.com</span>
+                    <span className="text-selah-dark ui-button">info.selahkids@gmail.com</span>
                   </div>
                 </a>
               </div>
@@ -137,7 +137,7 @@ export function Footer() {
                 />
                 <Button 
                   variant="white"
-                  className="!px-6 !py-3 !text-xs !rounded-xl font-black shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all whitespace-nowrap"
+                  className="!px-6 !py-3 !rounded-xl ui-button shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all whitespace-nowrap"
                 >
                   JOIN
                 </Button>
@@ -150,7 +150,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="pt-12 border-t border-selah-border/30 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8">
-            <p className="text-selah-muted/50 text-sm font-medium">
+            <p className="text-selah-muted/50 ui-caption">
               © {new Date().getFullYear()} Selah Kids. All rights reserved.
             </p>
             <div className="flex items-center gap-6">

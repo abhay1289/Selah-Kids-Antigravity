@@ -37,7 +37,7 @@ export function JoinYouTubeSection() {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={sectionVariants}
-      className="py-20 md:py-32 relative overflow-hidden bg-gradient-to-br from-selah-orange/90 via-[#FF7F50] to-selah-yellow shadow-[0_20px_80px_-20px_rgba(255,92,0,0.3)]"
+      className="py-12 md:py-16 relative overflow-hidden bg-gradient-to-br from-selah-orange/90 via-[#FF7F50] to-selah-yellow shadow-[0_20px_80px_-20px_rgba(255,92,0,0.3)]"
     >
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")` }} />
@@ -67,7 +67,7 @@ export function JoinYouTubeSection() {
               <div className="flex flex-col sm:flex-row gap-6">
                 <Button 
                   onClick={() => window.open("https://www.youtube.com/@selahkidsworship", "_blank")}
-                  className="!bg-[#FF0000] !border-none !px-12 !py-6 !text-xl shadow-[0_10px_30px_-10px_rgba(255,0,0,0.5)] hover:shadow-[0_20px_40px_-10px_rgba(255,0,0,0.7)] hover:-translate-y-1 transition-all flex items-center justify-center gap-3 group whitespace-nowrap w-full sm:w-auto"
+                  className="!bg-[#FF0000] !border-none !px-10 !py-4 ui-button shadow-[0_10px_30px_-10px_rgba(255,0,0,0.5)] hover:shadow-[0_20px_40px_-10px_rgba(255,0,0,0.7)] hover:-translate-y-1 transition-all flex items-center justify-center gap-3 group whitespace-nowrap w-full sm:w-auto"
                 >
                   <Youtube size={28} className="group-hover:scale-110 transition-transform duration-300" /> {t("Subscribe Now", "Suscríbete Ahora")}
                 </Button>
@@ -139,14 +139,14 @@ export function JoinYouTubeSection() {
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute -top-10 -right-10 z-20"
               >
-                <Badge color="light" className="!px-8 !py-4 !text-lg shadow-lg border border-white/20">{t("New Weekly!", "¡Nuevo Cada Semana!")}</Badge>
+                <Badge color="light" className="!px-8 !py-4 ui-button shadow-lg border border-white/20">{t("New Weekly!", "¡Nuevo Cada Semana!")}</Badge>
               </motion.div>
               <motion.div
                 animate={{ y: [10, -10, 10] }}
                 transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
                 className="absolute -bottom-10 -left-10 z-20"
               >
-                <Badge color="yellow" className="!px-8 !py-4 !text-lg shadow-lg border border-selah-yellow/20">{t("Bilingual", "Bilingüe")}</Badge>
+                <Badge color="yellow" className="!px-8 !py-4 ui-button shadow-lg border border-selah-yellow/20">{t("Bilingual", "Bilingüe")}</Badge>
               </motion.div>
             </motion.div>
           </div>

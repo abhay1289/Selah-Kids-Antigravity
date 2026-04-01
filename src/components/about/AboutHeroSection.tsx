@@ -10,7 +10,7 @@ interface AboutHeroSectionProps {
 
 export const AboutHeroSection = ({ scrollYProgress }: AboutHeroSectionProps) => {
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center pt-48 md:pt-56 pb-20 px-6">
+    <section className="relative min-h-[90vh] flex items-center justify-center pt-48 md:pt-56 pb-12 px-6">
       {/* Storytelling Background - Paper Texture */}
       <div className="absolute inset-0 opacity-[0.04] pointer-events-none z-0 mix-blend-multiply" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
       
@@ -51,7 +51,7 @@ export const AboutHeroSection = ({ scrollYProgress }: AboutHeroSectionProps) => 
         </motion.div>
 
         <h1 className="hero-headline mb-6 drop-shadow-sm flex flex-wrap justify-center gap-x-3 lg:gap-x-4">
-          {["Fun", "Bible", "Songs"].map((word, i) => (
+          {["Bible", "Songs"].map((word, i) => (
             <span key={i} className="overflow-hidden inline-block pb-2">
               <motion.span
                 initial={{ y: "100%", opacity: 0, rotateZ: 5, scale: 0.9, filter: "blur(4px)" }}
@@ -82,7 +82,7 @@ export const AboutHeroSection = ({ scrollYProgress }: AboutHeroSectionProps) => 
           transition={{ duration: 1.2, delay: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
           className="body-text mx-auto text-center mb-8"
         >
-          We are parents and creators making the best Christian kids music and faith-based videos. Our goal is to help your family sing, dance, and learn about God together!
+          We are parents and creators on a mission to fill every home with faith-filled melodies and stories that spark wonder in the hearts of children. Together, we worship, learn, and grow.
         </motion.p>
       </div>
     </section>

@@ -8,6 +8,7 @@ import { AboutBentoGrid } from '../../components/about/AboutBentoGrid';
 import { AboutCharacters } from '../../components/about/AboutCharacters';
 import { AboutCoreValues } from '../../components/about/AboutCoreValues';
 import { AboutCTA } from '../../components/about/AboutCTA';
+import { AboutPhotoCarousel } from '../../components/about/AboutPhotoCarousel';
 
 export default function AboutPage() {
   const containerRef = useRef(null);
@@ -22,6 +23,7 @@ export default function AboutPage() {
       <AboutMarqueeSection />
       <AboutBentoGrid />
       <AboutCharacters />
+      <AboutPhotoCarousel />
       <AboutCoreValues />
       <AboutCTA />
     </div>

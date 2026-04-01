@@ -126,13 +126,13 @@ export default function HomeClient() {
                    
                    {/* Refined, smaller percentage number */}
                    <motion.h1 
-                     className="text-4xl md:text-5xl font-black text-selah-dark drop-shadow-sm z-20 font-display tracking-widest relative"
+                     className="text-3xl md:text-4xl font-black text-selah-dark drop-shadow-sm z-20 font-display tracking-widest relative"
                      initial={{ opacity: 0, scale: 0.8 }}
                      animate={{ opacity: 1, scale: 1 }}
                      transition={{ duration: 1, ease: "easeOut" }}
                    >
                      {Math.min(99, Math.max(0, progress))}
-                     <span className="text-xl md:text-2xl text-selah-orange absolute -right-6 top-0">%</span>
+                      <span className="text-base md:text-lg text-selah-orange absolute -right-6 top-0">%</span>
                    </motion.h1>
                  </motion.div>
                )}

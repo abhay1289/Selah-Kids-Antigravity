@@ -139,7 +139,7 @@ export function WhyChooseSection() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="flex flex-col items-center text-center mb-16">
+        <div className="flex flex-col items-center text-center mb-12">
           <motion.div
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             whileInView={{ opacity: 1, scale: 1, y: 0 }}
@@ -195,7 +195,7 @@ export function WhyChooseSection() {
         <motion.div 
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          className="mt-16 flex justify-center gap-4"
+          className="mt-12 flex justify-center gap-4"
         >
           {[...Array(3)].map((_, i) => (
             <motion.div

@@ -1,15 +1,52 @@
 "use client";
 
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import NextImage from 'next/image';
-import { Music, Video } from 'lucide-react';
+import { Music, Video, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Badge } from '../UI';
 import { staggerContainer, zoomInUp, rollIn, slideInRight, fadeIn } from '../../utils/animations';
 
+const CAROUSEL_IMAGES = [
+  { src: "/TGN_SingleFrames+28729.jpg", caption: "Colorful Character Design" },
+  { src: "/TGN_SingleFrames+28229.jpg", caption: "Cinematic Storytelling" },
+  { src: "/TGN_SingleFrames+28329.jpg", caption: "Vibrant World-Building" },
+];
+
+const ImageCarousel = () => {
+  const [current, setCurrent] = useState(0);
+  const prev = () => setCurrent((c) => (c - 1 + CAROUSEL_IMAGES.length) % CAROUSEL_IMAGES.length);
+  const next = () => setCurrent((c) => (c + 1) % CAROUSEL_IMAGES.length);
+  return (
+    <div className="w-full h-full min-h-[400px] rounded-[2.5rem] md:rounded-[3.5rem] overflow-hidden relative group">
+      <AnimatePresence mode="wait">
+        <motion.div key={current} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }} className="absolute inset-0">
+          <NextImage src={CAROUSEL_IMAGES[current].src} alt={CAROUSEL_IMAGES[current].caption} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" loading="lazy" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60" />
+          <div className="absolute bottom-8 left-8 bg-white/90 backdrop-blur-md px-6 py-3 rounded-full flex items-center gap-2 shadow-lg">
+            <Video size={16} className="text-selah-dark" />
+            <span className="text-selah-dark ui-label">{CAROUSEL_IMAGES[current].caption}</span>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+      <button onClick={prev} aria-label="Previous" className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
+        <ChevronLeft size={18} className="text-selah-dark" />
+      </button>
+      <button onClick={next} aria-label="Next" className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
+        <ChevronRight size={18} className="text-selah-dark" />
+      </button>
+      <div className="absolute bottom-4 right-6 flex gap-1.5 z-10">
+        {CAROUSEL_IMAGES.map((_, i) => (
+          <button key={i} onClick={() => setCurrent(i)} aria-label={`Photo ${i+1}`} className={`h-2 rounded-full transition-all ${i === current ? 'w-5 bg-white' : 'w-2 bg-white/50'}`} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
 export const AboutBentoGrid = () => {
   return (
-    <section className="max-w-[1400px] mx-auto px-6 py-16 md:py-28 relative z-10">
+    <section className="max-w-[1400px] mx-auto px-6 py-12 md:py-16 relative z-10">
       <motion.div 
         variants={staggerContainer}
         initial="hidden"
@@ -30,13 +67,13 @@ export const AboutBentoGrid = () => {
           <div className="relative z-10">
             <Badge color="yellow" className="mb-8 border-none shadow-lg">OUR MISSION</Badge>
             <h2 className="content-h2 text-white leading-[1.1] tracking-tight mb-8">
-              Learning About God <br /> Through Fun Songs
+              Learning About God <br /> Through Worship & Song
             </h2>
           </div>
           
           <div className="relative z-10 max-w-2xl">
             <p className="text-xl text-white/80 font-body italic leading-relaxed">
-              Started in 2024 by parents looking for better Christian media, Selah Kids! is a safe place for children to enjoy faith-based videos. We want kids and parents to get up, move, and worship God together with our catchy Sunday school songs.
+              Started in 2024 by parents longing for better Christian media, Selah Kids! is a safe place for children to grow in faith. We create bilingual content — in English and Spanish — so families can sing, worship, and learn about God together.
             </p>
           </div>
         </motion.div>
@@ -58,7 +95,7 @@ export const AboutBentoGrid = () => {
             </motion.div>
             <h3 className="content-h2 leading-none mb-6">Sing & Dance</h3>
             <p className="text-selah-dark/80 body-text">
-              Catchy tunes that make learning about the Bible super fun!
+              Songs that make learning about the Bible meaningful and joyful.
             </p>
           </div>
         </motion.div>
@@ -69,29 +106,20 @@ export const AboutBentoGrid = () => {
           className="md:col-span-12 bg-white rounded-[3rem] md:rounded-[4rem] border border-black/5 p-4 md:p-6 flex flex-col md:flex-row items-stretch gap-6 min-h-[500px] shadow-2xl relative overflow-hidden"
         >
           <div className="absolute -right-40 -bottom-40 w-[600px] h-[600px] bg-selah-pink/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="w-full md:w-1/2 rounded-[2.5rem] md:rounded-[3.5rem] overflow-hidden relative group">
-            <NextImage 
-              src="/TGN_SingleFrames+28729.jpg" 
-              alt="Beautiful Animation" 
-              fill
-              className="object-cover group-hover:scale-105 transition-transform duration-1000"
-              sizes="(max-width: 768px) 100vw, 50vw"
-              loading="lazy"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
-            <div className="absolute bottom-8 left-8 bg-white/90 backdrop-blur-md px-6 py-3 rounded-full flex items-center gap-2 shadow-lg transform group-hover:-translate-y-2 transition-transform duration-500">
-              <Video size={16} className="text-selah-dark" />
-              <span className="text-selah-dark ui-label">Beautiful Cartoons</span>
-            </div>
+          <div className="w-full md:w-1/2 rounded-[2.5rem] md:rounded-[3.5rem] overflow-hidden relative" style={{minHeight: '400px'}}>
+            <ImageCarousel />
           </div>
-          
+
           <div className="w-full md:w-1/2 p-8 md:p-16 flex flex-col justify-center relative z-10">
             <Badge color="orange" className="mb-6 self-start shadow-md">TOP QUALITY</Badge>
             <h2 className="content-h2 mb-8 leading-[1.1] tracking-tight">
               Stunning Animation
             </h2>
+            <p className="body-text leading-relaxed mb-6">
+              Children deserve the very best. Our videos feature breathtaking animation crafted by talented artists from around the world, designed to spark imagination and bring biblical stories to life.
+            </p>
             <p className="body-text leading-relaxed mb-12">
-              Kids deserve the best! That's why our kids worship videos feature stunning animation made by amazing artists from around the world. Every colorful video is designed to catch your eye and make learning about Jesus fun and exciting.
+              From vibrant character design to rich, detailed backgrounds — every visual is intentionally created to build a world where children love to return.
             </p>
             
             <div className="flex items-center gap-12">

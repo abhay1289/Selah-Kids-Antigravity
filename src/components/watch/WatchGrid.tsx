@@ -23,7 +23,7 @@ interface WatchGridProps {
 
 export const WatchGrid = ({ filteredVideos }: WatchGridProps) => {
   return (
-    <section className="max-w-7xl mx-auto px-6 mb-20 md:mb-28 relative z-10">
+    <section className="max-w-7xl mx-auto px-6 mb-12 relative z-10">
       <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <AnimatePresence mode="popLayout">
           {filteredVideos.map((video) => (

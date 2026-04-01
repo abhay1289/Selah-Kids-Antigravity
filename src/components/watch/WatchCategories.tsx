@@ -3,13 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Film, Music, Mic, Sparkles } from 'lucide-react';
-
-const CATEGORIES = [
-  { id: 'all', label: 'All Videos', icon: Film },
-  { id: 'music', label: 'Music Videos', icon: Music },
-  { id: 'singalong', label: 'Sing-Alongs', icon: Mic },
-  { id: 'sensory', label: 'Sensory Videos', icon: Sparkles }
-];
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface WatchCategoriesProps {
   activeCategory: string;
@@ -17,6 +11,15 @@ interface WatchCategoriesProps {
 }
 
 export const WatchCategories = ({ activeCategory, setActiveCategory }: WatchCategoriesProps) => {
+  const { t } = useLanguage();
+
+  const CATEGORIES = [
+    { id: 'all', label: t('All Videos', 'Todos los Videos'), icon: Film },
+    { id: 'music', label: t('Music Videos', 'Videos Musicales'), icon: Music },
+    { id: 'singalong', label: t('Sing-Alongs', 'Canta Conmigo'), icon: Mic },
+    { id: 'sensory', label: t('Sensory Videos', 'Videos Sensoriales'), icon: Sparkles }
+  ];
+
   return (
     <div className="max-w-7xl mx-auto px-6 flex items-center justify-start md:justify-center gap-3 overflow-x-auto pb-2 scrollbar-hide">
       {CATEGORIES.map((cat) => {

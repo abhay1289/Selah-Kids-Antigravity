@@ -125,6 +125,17 @@
     @apply font-sans text-selah-muted bg-white selection:bg-selah-orange/30 overflow-x-hidden antialiased;
     /* Create stacking context without breaking fixed positioning */
     isolation: isolate;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+    font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  }
+
+  /* Enterprise typography: balanced headings, pretty paragraphs */
+  h1, h2, h3, h4, h5, h6, blockquote, figcaption {
+    text-wrap: balance;
+  }
+
+  p, li, dd {
+    text-wrap: pretty;
   }
 
   /* Respect user motion preference – disables all animations/transitions */
@@ -260,38 +271,38 @@
   /* LAYER 1 — Fredoka H1 hero headline with text-stroke */
   .hero-headline {
     font-family: "Fredoka", sans-serif;
-    font-size: clamp(52px, 8vw, 100px);
+    font-size: clamp(32px, 5vw, 56px);
     font-weight: 500;
-    line-height: 1.0;
+    line-height: 1.1;
+    color: #ff5c00;
     -webkit-text-stroke: 1px #5A3E1B;
     paint-order: stroke fill;
-    animation: logoColorRotate 6s linear infinite;
   }
 
   /* LAYER 1 EXTENDED — Fredoka for ALL Main Headings (H2) */
   .content-h2 {
     font-family: "Fredoka", sans-serif;
-    font-size: clamp(40px, 6vw, 76px);
+    font-size: clamp(24px, 3.5vw, 40px);
     font-weight: 500;
-    line-height: 1.05;
+    line-height: 1.1;
+    color: #ff5c00;
     -webkit-text-stroke: 1px #5A3E1B;
     paint-order: stroke fill;
-    animation: logoColorRotate 6s linear infinite;
   }
   .content-h3-playful {
     font-family: "Fredoka", sans-serif;
-    font-size: clamp(28px, 4vw, 42px);
+    font-size: clamp(20px, 2.5vw, 28px);
     font-weight: 500;
-    line-height: 1.05;
+    line-height: 1.15;
+    color: #ff5c00;
     -webkit-text-stroke: 1px #5A3E1B;
     paint-order: stroke fill;
-    animation: logoColorRotate 6s linear infinite;
   }
   .content-h3 {
     font-family: "Fredoka", sans-serif;
     font-weight: 500;
-    font-size: clamp(18px, 2.2vw, 24px);
-    line-height: 1.25;
+    font-size: clamp(16px, 1.8vw, 20px);
+    line-height: 1.3;
   }
 
   /* LAYER 2 — Lora body paragraphs */
@@ -299,8 +310,8 @@
     font-family: "Lora", serif;
     font-weight: 400;
     font-style: italic;
-    font-size: clamp(15px, 1.6vw, 17px);
-    line-height: 1.8;
+    font-size: clamp(14px, 1.4vw, 16px);
+    line-height: 1.7;
     color: #5A6B5E;
     max-width: 640px;
   }
@@ -308,8 +319,8 @@
     font-family: "Lora", serif;
     font-weight: 400;
     font-style: italic;
-    font-size: clamp(18px, 2vw, 20px);
-    line-height: 1.8;
+    font-size: clamp(15px, 1.6vw, 18px);
+    line-height: 1.7;
     color: #5A6B5E;
   }
 
@@ -317,12 +328,12 @@
   .ui-nav {
     font-family: "Fredoka", sans-serif;
     font-weight: 500;
-    font-size: 15px;
+    font-size: 14px;
   }
   .ui-button {
     font-family: "Fredoka", sans-serif;
     font-weight: 500;
-    font-size: 15px;
+    font-size: 14px;
     letter-spacing: 0.03em;
   }
   .ui-label {
@@ -335,6 +346,6 @@
   .ui-caption {
     font-family: "Fredoka", sans-serif;
     font-weight: 400;
-    font-size: 13px;
+    font-size: 12px;
   }
 }

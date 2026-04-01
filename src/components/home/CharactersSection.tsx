@@ -121,7 +121,7 @@ export function CharactersSection() {
 
                   {/* Personality Badge */}
                   <div className="mb-6">
-                    <Badge color="light" className="!rotate-0 !px-6 !py-2.5 !text-xs border-white/40 shadow-sm backdrop-blur-sm">
+                    <Badge color="light" className="!rotate-0 !px-6 !py-2.5 ui-label border-white/40 shadow-sm backdrop-blur-sm">
                       {char.trait}
                     </Badge>
                   </div>

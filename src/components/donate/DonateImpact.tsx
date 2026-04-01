@@ -22,7 +22,7 @@ interface DonateImpactProps {
 export const DonateImpact: React.FC<DonateImpactProps> = ({ impacts, amount }) => {
   return (
     <section className="max-w-[1400px] mx-auto px-6 pb-8 relative z-10">
-      <div className="text-center mb-16">
+      <div className="text-center mb-12">
         <Badge color="light" className="mb-6 shadow-sm bg-white border border-black/5">YOUR IMPACT</Badge>
         <h2 className="content-h2 tracking-tight">
           What Your Gift Funds
@@ -61,7 +61,7 @@ export const DonateImpact: React.FC<DonateImpactProps> = ({ impacts, amount }) =
             <div className="ui-label text-selah-orange mb-4 relative z-10">
               ${impact.amount} / Month
             </div>
-            <h3 className="content-h3-playful mb-6 leading-tight relative z-10 group-hover:text-selah-blue transition-colors">
+            <h3 className="content-h3 mb-6 leading-tight relative z-10 group-hover:text-selah-blue transition-colors">
               {impact.title}
             </h3>
             <p className="body-text leading-relaxed relative z-10">

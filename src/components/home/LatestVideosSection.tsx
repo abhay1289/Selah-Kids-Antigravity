@@ -224,7 +224,7 @@ export function LatestVideosSection() {
           >
             <Button 
               variant="outline"
-              className="!px-16 !py-6 !text-xl !border-2 !border-selah-orange !text-selah-orange hover:!bg-selah-orange hover:!text-white transition-all group shadow-[0_10px_30px_-10px_rgba(255,107,0,0.3)] hover:shadow-[0_20px_40px_-10px_rgba(255,107,0,0.5)] whitespace-nowrap w-full sm:w-auto"
+              className="!px-10 !py-4 ui-button !border-2 !border-selah-orange !text-selah-orange hover:!bg-selah-orange hover:!text-white transition-all group shadow-[0_10px_30px_-10px_rgba(255,107,0,0.3)] hover:shadow-[0_20px_40px_-10px_rgba(255,107,0,0.5)] whitespace-nowrap w-full sm:w-auto"
               onClick={() => window.open("https://www.youtube.com/@selahkidsworship", "_blank")}
             >
               <span className="flex items-center justify-center">

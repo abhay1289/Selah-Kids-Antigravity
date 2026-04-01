@@ -82,9 +82,9 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index }) =
       </div>
 
       {/* Bottom Content Area */}
-      <div className="px-4 pb-2 flex flex-col flex-grow">
-        <div className="flex-grow">
-          <h3 className={`content-h2 mb-2 leading-tight ${resource.featured ? '' : ''}`}>
+      <div className="px-4 pb-2 flex flex-col flex-grow overflow-hidden">
+        <div className="flex-grow min-w-0">
+          <h3 className={`content-h3 mb-2 leading-tight truncate`}>
             {resource.title}
           </h3>
           <p className="body-text mb-6 line-clamp-2">

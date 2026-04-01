@@ -108,7 +108,7 @@ export function NewsletterSection() {
               </motion.div>
 
               <motion.div whileHover={{ scale: 1.05, y: -2 }} className="inline-block mb-6">
-                <Badge color="orange" className="!text-sm !px-6 !py-2 shadow-sm">
+                <Badge color="orange" className="ui-button !px-6 !py-2 shadow-sm">
                   <SparklesIcon size={16} className="inline mr-2" />
                   {t("STAY IN THE LOOP", "MANTENTE INFORMADO")}
                 </Badge>
@@ -157,7 +157,7 @@ export function NewsletterSection() {
                 </div>
                 <Button 
                   type="submit"
-                  className="!bg-selah-orange hover:!bg-[#e65300] !text-white !border-none !px-12 !py-6 !text-xl hover:-translate-y-1 active:translate-y-0 transition-all group shadow-[0_10px_30px_-10px_rgba(255,107,0,0.5)] hover:shadow-[0_20px_40px_-10px_rgba(255,107,0,0.7)] hover:scale-105 whitespace-nowrap"
+                  className="!bg-selah-orange hover:!bg-[#e65300] !text-white !border-none !px-10 !py-4 ui-button hover:-translate-y-1 active:translate-y-0 transition-all group shadow-[0_10px_30px_-10px_rgba(255,107,0,0.5)] hover:shadow-[0_20px_40px_-10px_rgba(255,107,0,0.7)] hover:scale-105 whitespace-nowrap"
                 >
                   {t("Join Now", "Únete Ahora")}
                   <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
@@ -245,7 +245,7 @@ export function NewsletterSection() {
               </p>
               <Button 
                 onClick={() => setIsSubscribed(false)}
-                className="!bg-selah-light hover:!bg-[#7ebd4e] !text-white !border-none !px-12 !py-5 !text-xl hover:-translate-y-1 transition-all shadow-[0_10px_30px_-10px_rgba(147,211,92,0.5)] hover:shadow-[0_20px_40px_-10px_rgba(147,211,92,0.7)] hover:scale-105 whitespace-nowrap"
+                className="!bg-selah-light hover:!bg-[#7ebd4e] !text-white !border-none !px-10 !py-4 ui-button hover:-translate-y-1 transition-all shadow-[0_10px_30px_-10px_rgba(147,211,92,0.5)] hover:shadow-[0_20px_40px_-10px_rgba(147,211,92,0.7)] hover:scale-105 whitespace-nowrap"
               >
                 {t("Back to Website", "Volver al Sitio")}
               </Button>

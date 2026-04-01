@@ -12,7 +12,7 @@ export const ContactHero = () => {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-50px" }}
-      className="text-center px-6 mb-20 relative z-10"
+      className="text-center px-6 mb-12 relative z-10"
     >
       <motion.div variants={fadeInDown}>
         <Badge color="light" className="mb-8 shadow-sm bg-white border border-black/5">GET IN TOUCH</Badge>

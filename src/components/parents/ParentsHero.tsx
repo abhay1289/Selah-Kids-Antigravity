@@ -4,16 +4,15 @@ import { Badge } from '../UI';
 
 export const ParentsHero = () => {
   return (
-    <section className="max-w-7xl mx-auto px-6 mb-24 relative z-10">
+    <section className="max-w-7xl mx-auto px-6 mb-12 relative z-10">
       <div className="flex flex-col md:flex-row items-center gap-16">
         <div className="w-full md:w-1/2 text-left">
           <Badge color="yellow" className="mb-6 shadow-sm">PEACE OF MIND</Badge>
           <h1 className="hero-headline mb-6 tracking-tight leading-[1.1] drop-shadow-sm">
-            Built for Kids.<br/>
-            <span className="text-selah-muted">Trusted by Parents.</span>
+            Built for Kids. <span className="text-selah-muted">Trusted by Parents.</span>
           </h1>
           <p className="body-text max-w-3xl mx-auto leading-relaxed tracking-tight mb-8">
-            We created Selah Kids because we're parents too. We know how hard it is to find high-quality, safe, and faith-filled media for little ones.
+            We created Selah Kids because we're parents too. We know how hard it is to find high-quality, safe, and faith-filled media for little ones. Our content is designed to nurture children wholistically — spirit, mind, and heart — through music, stories, and worship.
           </p>
         </div>
         <div className="w-full md:w-1/2 relative">

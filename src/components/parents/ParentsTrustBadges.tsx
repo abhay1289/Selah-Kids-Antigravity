@@ -7,13 +7,13 @@ import { Shield, BookOpen, Smile, Heart } from 'lucide-react';
 const TRUST_BADGES = [
   { icon: Shield, label: "Ad-Free Content", color: "text-[#00BFFF]", bg: "bg-[#00BFFF]/10" },
   { icon: BookOpen, label: "Scripture-Based", color: "text-[#FFD700]", bg: "bg-[#FFD700]/10" },
-  { icon: Smile, label: "Ages 0-8", color: "text-[#98FF98]", bg: "bg-[#98FF98]/10" },
+  { icon: Smile, label: "Wholistic Growth", color: "text-[#98FF98]", bg: "bg-[#98FF98]/10" },
   { icon: Heart, label: "Parent Approved", color: "text-[#FF7F50]", bg: "bg-[#FF7F50]/10" }
 ];
 
 export const ParentsTrustBadges = () => {
   return (
-    <section className="max-w-7xl mx-auto px-6 mb-20 md:mb-28 relative z-10">
+    <section className="max-w-7xl mx-auto px-6 mb-12 relative z-10">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
         {TRUST_BADGES.map((badge, i) => (
           <motion.div

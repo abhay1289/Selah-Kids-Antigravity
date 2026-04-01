@@ -8,7 +8,7 @@ interface BlogCategoriesProps {
 
 export const BlogCategories: React.FC<BlogCategoriesProps> = ({ categories, activeCategory, setActiveCategory }) => {
   return (
-    <div className="sticky top-20 z-40 bg-[#FDFBF7]/90 backdrop-blur-xl py-6 mb-16 border-b border-black/5">
+    <div className="sticky top-20 z-40 bg-[#FDFBF7]/90 backdrop-blur-xl py-6 mb-12 border-b border-black/5">
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-start md:justify-center gap-4 overflow-x-auto pb-2 scrollbar-hide">
         {categories.map((cat) => (
           <button

@@ -52,7 +52,7 @@ export const ParentsAccordion = () => {
 
   return (
     <section className="max-w-4xl mx-auto px-6 pb-8 relative z-10">
-      <div className="text-center mb-16">
+      <div className="text-center mb-12">
         <h2 className="content-h2 tracking-tight mb-6">What to Expect</h2>
         <p className="body-text">Everything you need to know about our content and philosophy.</p>
       </div>

@@ -327,7 +327,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
             >
               <Button 
                 onClick={() => window.open("https://www.youtube.com/@selahkidsworship", "_blank")}
-                className="group overflow-hidden relative !px-12 !py-6 !text-xl flex items-center justify-center gap-3 whitespace-nowrap shadow-[0_20px_40px_-15px_rgba(255,92,0,0.5)] hover:shadow-[0_30px_60px_-15px_rgba(255,92,0,0.7)] hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto"
+                className="group overflow-hidden relative !px-10 !py-4 ui-button flex items-center justify-center gap-3 whitespace-nowrap shadow-[0_20px_40px_-15px_rgba(255,92,0,0.5)] hover:shadow-[0_30px_60px_-15px_rgba(255,92,0,0.7)] hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto"
               >
                 {/* Shine Sweep Effect */}
                 <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12 transition-transform duration-[800ms] ease-out" />
@@ -343,7 +343,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
               <Button 
                 onClick={() => router.push("/about")}
                 variant="white" 
-                className="group overflow-hidden relative !px-12 !py-6 !text-xl flex items-center justify-center whitespace-nowrap shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto"
+                className="group overflow-hidden relative !px-10 !py-4 ui-button flex items-center justify-center whitespace-nowrap shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto"
               >
                 {/* Shine Sweep Effect */}
                 <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-selah-pink/20 to-transparent skew-x-12 transition-transform duration-[800ms] ease-out" />

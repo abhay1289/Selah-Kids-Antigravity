@@ -203,7 +203,7 @@ export function TestimonialsSection() {
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ type: "spring", stiffness: 60, damping: 12, delay: 0.4 }}
-            className="flex flex-wrap justify-center items-center gap-16 mt-16 opacity-50 grayscale hover:grayscale-0 transition-all duration-700"
+            className="flex flex-wrap justify-center items-center gap-12 mt-12 opacity-50 grayscale hover:grayscale-0 transition-all duration-700"
           >
             <motion.div whileHover={{ scale: 1.1, y: -5 }} className="flex items-center gap-3 ui-label cursor-pointer">
               <Shield size={24} className="text-selah-orange" /> {t("Safe Content", "Contenido Seguro")}

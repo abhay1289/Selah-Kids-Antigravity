@@ -196,10 +196,10 @@ export function ScrollHeroSection() {
       {/* Smooth Loading Screen */}
       {!loaded && (
         <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-selah-dark text-white">
-            <h2 className="text-3xl md:text-5xl font-black mb-4 font-display text-selah-orange tracking-widest uppercase">
+            <h2 className="text-2xl md:text-3xl font-black mb-4 font-display text-selah-orange tracking-widest uppercase">
                 {t("Loading Experience", "Cargando Experiencia")}
             </h2>
-            <div className="text-5xl md:text-7xl font-light mb-8">{progress}%</div>
+            <div className="text-3xl md:text-5xl font-light mb-8">{progress}%</div>
             <div className="w-64 md:w-96 h-1.5 bg-white/20 rounded-full overflow-hidden">
                 <div 
                     className="h-full bg-selah-orange transition-all duration-300 ease-out"
@@ -223,10 +223,10 @@ export function ScrollHeroSection() {
         ref={textRef} 
         className="absolute bottom-20 md:bottom-32 z-20 flex flex-col items-center justify-end text-center pointer-events-none px-6 w-full"
       >
-        <h1 className="text-6xl md:text-8xl lg:text-[120px] font-black text-white uppercase tracking-tighter drop-shadow-2xl leading-none italic opacity-90">
+        <h1 className="text-4xl md:text-6xl lg:text-[80px] font-black text-white uppercase tracking-tighter drop-shadow-2xl leading-none italic opacity-90">
           {t("Faith In Motion.", "Fe En Movimiento.")}
         </h1>
-        <p className="mt-4 text-xl md:text-3xl text-white/90 font-light max-w-4xl drop-shadow-md">
+        <p className="mt-4 text-base md:text-xl text-white/90 font-light max-w-4xl drop-shadow-md">
           {t(
             "Catchy Sunday school songs bringing Bible stories to life.", 
             "Pegadizas canciones de la escuela dominical que dan vida a las historias bíblicas."
