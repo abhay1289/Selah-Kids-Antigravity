@@ -147,6 +147,10 @@ export default function WatchPage() {
       <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={sectionEntrance}>
         <WatchHero />
       </motion.div>
+
+      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={sectionEntrance}>
+        <WatchLanguageBanner />
+      </motion.div>
       
       {/* Filter Bar */}
       <div className="sticky top-20 z-40 bg-white/80 backdrop-blur-xl py-4 mb-12 border-b border-selah-orange/10">
@@ -155,10 +159,6 @@ export default function WatchPage() {
 
       <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={sectionEntrance}>
         <WatchGrid filteredVideos={filteredVideos} />
-      </motion.div>
-
-      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={sectionEntrance}>
-        <WatchLanguageBanner />
       </motion.div>
 
       <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={sectionEntrance}>
