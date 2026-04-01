@@ -5,9 +5,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Facebook, Instagram, Youtube, Music, Star, Heart, Play, Users, Shield, BookOpen, Book, Mail } from "lucide-react";
 import { Button } from "./UI";
+import { useLanguage } from "../contexts/LanguageContext";
 
 export function Footer() {
   const router = useRouter();
+  const { t } = useLanguage();
 
   return (
     <footer className="relative bg-gradient-to-b from-selah-light/20 via-selah-bg to-white pt-20 pb-12 overflow-hidden">
@@ -37,7 +39,10 @@ export function Footer() {
               </span>
             </Link>
             <p className="body-text max-w-md mb-10">
-              We're on a mission to fill every home with faith-filled melodies and stories that spark wonder in the hearts of children.
+              {t(
+                "We're on a mission to fill every home with faith-filled melodies and stories that spark wonder in the hearts of children.",
+                "Nuestra misión es llenar cada hogar con melodías llenas de fe e historias que despierten asombro en los corazones de los niños."
+              )}
             </p>
             <div className="flex gap-4">
               {[
@@ -69,17 +74,17 @@ export function Footer() {
             transition={{ delay: 0.1 }}
             className="lg:col-span-3 bg-white/60 border border-selah-orange/10 rounded-[2.5rem] p-10 backdrop-blur-xl hover:border-selah-orange/20 transition-all duration-500 shadow-[0_8px_32px_rgba(255,92,0,0.06)]"
           >
-            <h4 className="text-selah-dark content-h3 mb-8 tracking-tight">Pages</h4>
+            <h4 className="text-selah-dark content-h3 mb-8 tracking-tight">{t("Pages", "Páginas")}</h4>
             <ul className="space-y-5">
               {[
-                { label: "Home", icon: Star, href: "/" },
-                { label: "About Us", icon: Heart, href: "/about" },
-                { label: "Watch", icon: Play, href: "/watch" },
-                { label: "Characters", icon: Users, href: "/characters" },
-                { label: "For Parents", icon: Shield, href: "/parents" },
-                { label: "Resources", icon: BookOpen, href: "/resources" },
+                { label: t("Home", "Inicio"), icon: Star, href: "/" },
+                { label: t("About Us", "Nosotros"), icon: Heart, href: "/about" },
+                { label: t("Watch", "Ver"), icon: Play, href: "/watch" },
+                { label: t("Characters", "Personajes"), icon: Users, href: "/characters" },
+                { label: t("For Parents", "Para Padres"), icon: Shield, href: "/parents" },
+                { label: t("Resources", "Recursos"), icon: BookOpen, href: "/resources" },
                 { label: "Blog", icon: Book, href: "/blog" },
-                { label: "Contact Us", icon: Mail, href: "/contact" }
+                { label: t("Contact Us", "Contáctanos"), icon: Mail, href: "/contact" }
               ].map((link, i) => (
                 <li key={i}>
                   <Link 
@@ -110,14 +115,14 @@ export function Footer() {
             className="lg:col-span-4 flex flex-col gap-6"
           >
             <div className="bg-white/60 border border-selah-orange/10 rounded-[2.5rem] p-8 backdrop-blur-xl hover:border-selah-orange/20 transition-all duration-500 flex-1 shadow-[0_8px_32px_rgba(255,92,0,0.06)]">
-              <h4 className="text-selah-dark content-h3 mb-6 tracking-tight">Get in Touch</h4>
+              <h4 className="text-selah-dark content-h3 mb-6 tracking-tight">{t("Get in Touch", "Contáctanos")}</h4>
               <div className="space-y-4 mb-8">
                 <a href="mailto:info.selahkids@gmail.com" className="flex items-center gap-4 p-4 rounded-2xl bg-selah-bg border border-selah-border/30 hover:bg-selah-orange/10 hover:border-selah-orange/20 transition-all duration-300 group shadow-sm hover:shadow-md">
                   <div className="w-10 h-10 rounded-xl bg-selah-orange/20 flex items-center justify-center text-selah-orange group-hover:scale-110 transition-transform">
                     <Mail size={20} />
                   </div>
                   <div>
-                    <p className="text-selah-muted/60 ui-label mb-0.5">Email Us</p>
+                    <p className="text-selah-muted/60 ui-label mb-0.5">{t("Email Us", "Escríbenos")}</p>
                     <span className="text-selah-dark ui-button">info.selahkids@gmail.com</span>
                   </div>
                 </a>
@@ -125,17 +130,17 @@ export function Footer() {
 
               {/* Newsletter — now inside Get in Touch */}
               <div className="pt-6 border-t border-selah-border/30">
-                <h5 className="text-selah-dark content-h3 mb-3 tracking-tight">Join the Family</h5>
+                <h5 className="text-selah-dark content-h3 mb-3 tracking-tight">{t("Join the Family", "Únete a la Familia")}</h5>
                 <div className="flex gap-2">
                   <input 
                     type="email" 
-                    placeholder="Your email"
+                    placeholder={t("Your email", "Tu correo")}
                     className="flex-1 bg-selah-bg border border-selah-border/30 rounded-xl px-4 py-3 text-selah-dark placeholder:text-selah-muted/50 focus:outline-none focus:border-selah-orange/40 transition-all duration-300 text-sm shadow-inner"
                   />
                   <Button 
                     className="!px-6 !py-3 !rounded-xl ui-button shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all whitespace-nowrap"
                   >
-                    JOIN
+                    {t("JOIN", "UNIRSE")}
                   </Button>
                 </div>
               </div>
@@ -152,11 +157,11 @@ export function Footer() {
             </p>
             <div className="flex items-center gap-6">
               <Link href="/privacy" className="text-selah-muted/50 hover:text-selah-orange ui-button transition-colors relative group">
-                Privacy Policy
+                {t("Privacy Policy", "Política de Privacidad")}
                 <span className="absolute -bottom-1 left-0 w-0 h-px bg-selah-orange transition-all duration-300 group-hover:w-full" />
               </Link>
               <Link href="/terms" className="text-selah-muted/50 hover:text-selah-orange ui-button transition-colors relative group">
-                Terms of Service
+                {t("Terms of Service", "Términos de Servicio")}
                 <span className="absolute -bottom-1 left-0 w-0 h-px bg-selah-orange transition-all duration-300 group-hover:w-full" />
               </Link>
             </div>
@@ -166,14 +171,14 @@ export function Footer() {
             whileHover={{ scale: 1.05 }}
             className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-selah-bg border border-selah-border/30 text-selah-muted/60 ui-button shadow-sm"
           >
-            <span>Made with</span>
+            <span>{t("Made with", "Hecho con")}</span>
             <motion.div
               animate={{ scale: [1, 1.3, 1] }}
               transition={{ duration: 1.5, repeat: Infinity }}
             >
               <Heart size={16} className="text-selah-orange fill-selah-orange drop-shadow-md" />
             </motion.div>
-            <span>for the next generation</span>
+            <span>{t("for the next generation", "para la próxima generación")}</span>
           </motion.div>
         </div>
       </div>

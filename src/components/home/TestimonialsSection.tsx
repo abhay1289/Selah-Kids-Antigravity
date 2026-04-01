@@ -20,7 +20,7 @@ const sectionVariants = {
 };
 
 export function TestimonialsSection() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const containerRef = useRef<HTMLElement>(null);
   
   const { scrollYProgress } = useScroll({
@@ -89,7 +89,7 @@ export function TestimonialsSection() {
             className="flex gap-8 px-4 whitespace-nowrap"
             style={{ width: "fit-content" }}
           >
-            {[...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => (
+            {[...TESTIMONIALS, ...TESTIMONIALS].map((item, i) => (
               <motion.div
                 key={i}
                 whileHover={{ 
@@ -103,8 +103,8 @@ export function TestimonialsSection() {
                 <div className="absolute inset-0 bg-gradient-to-br from-transparent to-black/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
                 <div className="flex justify-between items-start relative z-10">
-                  <div className={`w-12 h-12 ${t.color} rounded-xl flex items-center justify-center text-2xl group-hover:scale-110 group-hover:rotate-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)] group-hover:shadow-[0_8px_24px_rgba(0,0,0,0.1)] transition-all duration-500`}>
-                    {t.icon}
+                  <div className={`w-12 h-12 ${item.color} rounded-xl flex items-center justify-center text-2xl group-hover:scale-110 group-hover:rotate-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)] group-hover:shadow-[0_8px_24px_rgba(0,0,0,0.1)] transition-all duration-500`}>
+                    {item.icon}
                   </div>
                   <div className="flex gap-1">
                     {[...Array(5)].map((_, star) => (
@@ -120,16 +120,16 @@ export function TestimonialsSection() {
                 </div>
                 
                 <p className="body-quote whitespace-normal relative z-10 tracking-tight">
-                  "{t.quote}"
+                  "{language === 'ES' && item.quoteEs ? item.quoteEs : item.quote}"
                 </p>
                 
                 <div className="mt-auto pt-6 border-t border-selah-bg flex items-center gap-4 relative z-10">
-                  <div className={`w-10 h-10 rounded-full ${t.color} flex items-center justify-center ${t.iconColor} ui-button border-2 border-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-500`}>
-                    {t.author.charAt(0)}
+                  <div className={`w-10 h-10 rounded-full ${item.color} flex items-center justify-center ${item.iconColor} ui-button border-2 border-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-500`}>
+                    {item.author.charAt(0)}
                   </div>
                   <div>
-                    <h5 className="ui-button text-selah-dark group-hover:text-selah-orange transition-colors duration-300">{t.author}</h5>
-                    <p className="text-selah-muted ui-caption mt-0.5">{t.role}</p>
+                    <h5 className="ui-button text-selah-dark group-hover:text-selah-orange transition-colors duration-300">{item.author}</h5>
+                    <p className="text-selah-muted ui-caption mt-0.5">{language === 'ES' && item.roleEs ? item.roleEs : item.role}</p>
                   </div>
                 </div>
               </motion.div>
@@ -149,7 +149,7 @@ export function TestimonialsSection() {
             className="flex gap-8 px-4 whitespace-nowrap"
             style={{ width: "fit-content" }}
           >
-            {[...TESTIMONIALS, ...TESTIMONIALS].reverse().map((t, i) => (
+            {[...TESTIMONIALS, ...TESTIMONIALS].reverse().map((item, i) => (
               <motion.div
                 key={i}
                 whileHover={{ 
@@ -163,8 +163,8 @@ export function TestimonialsSection() {
                 <div className="absolute inset-0 bg-gradient-to-br from-transparent to-black/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
                 <div className="flex justify-between items-start relative z-10">
-                  <div className={`w-12 h-12 ${t.color} rounded-xl flex items-center justify-center text-2xl group-hover:scale-110 group-hover:rotate-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)] group-hover:shadow-[0_8px_24px_rgba(0,0,0,0.1)] transition-all duration-500`}>
-                    {t.icon}
+                  <div className={`w-12 h-12 ${item.color} rounded-xl flex items-center justify-center text-2xl group-hover:scale-110 group-hover:rotate-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)] group-hover:shadow-[0_8px_24px_rgba(0,0,0,0.1)] transition-all duration-500`}>
+                    {item.icon}
                   </div>
                   <div className="flex gap-1">
                     {[...Array(5)].map((_, star) => (
@@ -180,16 +180,16 @@ export function TestimonialsSection() {
                 </div>
                 
                 <p className="body-quote whitespace-normal relative z-10 tracking-tight">
-                  "{t.quote}"
+                  "{language === 'ES' && item.quoteEs ? item.quoteEs : item.quote}"
                 </p>
                 
                 <div className="mt-auto pt-6 border-t border-selah-bg flex items-center gap-4 relative z-10">
-                  <div className={`w-10 h-10 rounded-full ${t.color} flex items-center justify-center ${t.iconColor} ui-button border-2 border-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-500`}>
-                    {t.author.charAt(0)}
+                  <div className={`w-10 h-10 rounded-full ${item.color} flex items-center justify-center ${item.iconColor} ui-button border-2 border-white shadow-[0_4px_12px_rgba(0,0,0,0.05)] group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-500`}>
+                    {item.author.charAt(0)}
                   </div>
                   <div>
-                    <h5 className="ui-button text-selah-dark group-hover:text-selah-orange transition-colors duration-300">{t.author}</h5>
-                    <p className="text-selah-muted ui-caption mt-0.5">{t.role}</p>
+                    <h5 className="ui-button text-selah-dark group-hover:text-selah-orange transition-colors duration-300">{item.author}</h5>
+                    <p className="text-selah-muted ui-caption mt-0.5">{language === 'ES' && item.roleEs ? item.roleEs : item.role}</p>
                   </div>
                 </div>
               </motion.div>
