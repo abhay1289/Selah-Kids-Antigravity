@@ -358,14 +358,13 @@ export default function CharactersPage() {
           Watch Andy, Libni, and Shiloh sing, dance, and worship together on our YouTube channel!
         </p>
         <motion.a
-          href="https://www.youtube.com/@selahkidsworship"
-          target="_blank"
-          rel="noopener noreferrer"
+          href="/watch"
+          onClick={(e) => { e.preventDefault(); window.location.href = '/watch'; }}
           whileHover={{ scale: 1.05, y: -3 }}
           whileTap={{ scale: 0.97 }}
           className="inline-flex items-center gap-3 px-10 py-4 bg-selah-orange text-white rounded-2xl ui-button shadow-[0_20px_40px_-10px_rgba(255,92,0,0.4)] hover:shadow-[0_30px_60px_-10px_rgba(255,92,0,0.5)] transition-all duration-300"
         >
-          Watch on YouTube
+          Watch Our Videos
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
         </motion.a>
       </motion.section>

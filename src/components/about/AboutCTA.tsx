@@ -38,7 +38,7 @@ export const AboutCTA = () => {
           >
             <Button 
               icon={ArrowRight}
-              onClick={() => window.open("https://www.youtube.com/@selahkidsworship", "_blank")}
+              onClick={() => { window.location.href = "/watch"; }}
               className="!bg-white hover:!bg-selah-dark !text-selah-dark hover:!text-white !border-none !px-10 !py-4 ui-button transition-all duration-500 whitespace-nowrap shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)]"
             >
               Explore Our Videos

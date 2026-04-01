@@ -278,7 +278,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             >
               <Button 
-                onClick={() => window.open("https://www.youtube.com/@selahkidsworship", "_blank")}
+                onClick={() => router.push("/watch")}
                 className="group overflow-hidden relative !px-10 !py-4 ui-button flex items-center justify-center gap-3 whitespace-nowrap shadow-[0_20px_40px_-15px_rgba(255,92,0,0.5)] hover:shadow-[0_30px_60px_-15px_rgba(255,92,0,0.7)] hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto"
               >
                 {/* Shine Sweep Effect */}
