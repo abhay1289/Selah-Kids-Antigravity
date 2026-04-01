@@ -101,18 +101,17 @@ export function Footer() {
             </ul>
           </motion.div>
 
-          {/* Contact & Newsletter Card */}
+          {/* Contact & Newsletter Card — Combined */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="lg:col-span-4 flex flex-col gap-8"
+            className="lg:col-span-4 flex flex-col gap-6"
           >
-            {/* Contact Mini-Card */}
             <div className="bg-white/60 border border-selah-orange/10 rounded-[2.5rem] p-8 backdrop-blur-xl hover:border-selah-orange/20 transition-all duration-500 flex-1 shadow-[0_8px_32px_rgba(255,92,0,0.06)]">
               <h4 className="text-selah-dark content-h3 mb-6 tracking-tight">Get in Touch</h4>
-              <div className="space-y-4">
+              <div className="space-y-4 mb-8">
                 <a href="mailto:info.selahkids@gmail.com" className="flex items-center gap-4 p-4 rounded-2xl bg-selah-bg border border-selah-border/30 hover:bg-selah-orange/10 hover:border-selah-orange/20 transition-all duration-300 group shadow-sm hover:shadow-md">
                   <div className="w-10 h-10 rounded-xl bg-selah-orange/20 flex items-center justify-center text-selah-orange group-hover:scale-110 transition-transform">
                     <Mail size={20} />
@@ -123,24 +122,22 @@ export function Footer() {
                   </div>
                 </a>
               </div>
-            </div>
 
-            {/* Newsletter Mini-Card */}
-            <div className="bg-selah-orange rounded-[2.5rem] p-8 shadow-[0_20px_40px_-10px_rgba(255,107,0,0.4)] relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl group-hover:scale-150 transition-transform duration-700" />
-              <h4 className="text-white content-h3 mb-3 tracking-tight relative z-10">Join the Family</h4>
-              <div className="relative z-10 flex gap-2">
-                <input 
-                  type="email" 
-                  placeholder="Your email"
-                  className="flex-1 bg-white/20 border border-white/30 rounded-xl px-4 py-3 text-white placeholder:text-white/60 focus:outline-none focus:bg-white/30 transition-all duration-300 text-sm shadow-inner"
-                />
-                <Button 
-                  variant="white"
-                  className="!px-6 !py-3 !rounded-xl ui-button shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all whitespace-nowrap"
-                >
-                  JOIN
-                </Button>
+              {/* Newsletter — now inside Get in Touch */}
+              <div className="pt-6 border-t border-selah-border/30">
+                <h5 className="text-selah-dark content-h3 mb-3 tracking-tight">Join the Family</h5>
+                <div className="flex gap-2">
+                  <input 
+                    type="email" 
+                    placeholder="Your email"
+                    className="flex-1 bg-selah-bg border border-selah-border/30 rounded-xl px-4 py-3 text-selah-dark placeholder:text-selah-muted/50 focus:outline-none focus:border-selah-orange/40 transition-all duration-300 text-sm shadow-inner"
+                  />
+                  <Button 
+                    className="!px-6 !py-3 !rounded-xl ui-button shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all whitespace-nowrap"
+                  >
+                    JOIN
+                  </Button>
+                </div>
               </div>
             </div>
           </motion.div>

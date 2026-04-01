@@ -132,8 +132,8 @@ export function NewsletterSection() {
               
               <p className="text-selah-muted mb-12 max-w-2xl mx-auto body-text text-balance">
                 {t(
-                  "Enter your email address to be the first to know about all things Selah Kids! Get updates on new Christian kids music and fun videos straight to your inbox.",
-                  "¡Ingresa tu correo electrónico para ser el primero en saber todo sobre Selah Kids! Recibe actualizaciones sobre nueva música cristiana para niños y videos divertidos directamente en tu bandeja de entrada."
+                  "Enter your email address to be the first to know about all things Selah Kids! Get updates on new Christian kids music and exciting videos straight to your inbox.",
+                  "¡Ingresa tu correo electrónico para ser el primero en saber todo sobre Selah Kids! Recibe actualizaciones sobre nueva música cristiana para niños y videos emocionantes directamente en tu bandeja de entrada."
                 )}
               </p>
               

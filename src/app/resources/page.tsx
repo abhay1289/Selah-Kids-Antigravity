@@ -22,7 +22,7 @@ const RESOURCES = [
   {
     id: 2,
     title: "Andy Coloring Page",
-    description: "A fun coloring page featuring Andy and his pet sheep, Shiloh.",
+    description: "A colorful coloring page featuring Andy and his pet sheep, Shiloh.",
     type: "PDF",
     category: "Printables",
     gradient: "from-[#00BFFF] to-[#87CEEB]",
@@ -58,7 +58,7 @@ const RESOURCES = [
   {
     id: 6,
     title: "Fruit of the Spirit Activity Sheet",
-    description: "A fun activity sheet teaching kids about the fruit of the Spirit with puzzles and coloring.",
+    description: "An engaging activity sheet teaching kids about the fruit of the Spirit with puzzles and coloring.",
     type: "PDF",
     category: "Printables",
     gradient: "from-[#E6E6FA] to-[#D8BFD8]",

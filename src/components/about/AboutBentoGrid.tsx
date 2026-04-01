@@ -130,7 +130,7 @@ export const AboutBentoGrid = () => {
               <div className="w-px h-16 bg-black/10" />
               <div className="group">
                 <div className="content-h3 text-selah-light mb-2 group-hover:scale-110 transition-transform origin-left">60</div>
-                <div className="ui-labelst text-selah-muted uppercase">FPS</div>
+                <div className="ui-label text-selah-muted uppercase">FPS</div>
               </div>
             </div>
           </div>

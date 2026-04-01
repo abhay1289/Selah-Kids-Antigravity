@@ -59,8 +59,8 @@ export function JoinYouTubeSection() {
               </h2>
               <p className="text-xl text-white/70 mb-12 max-w-lg leading-relaxed text-balance">
                 {t(
-                  "Get new Bible songs, English and Spanish worship videos, and awesome Christian cartoons every single week! Subscribe to our channel so you never miss out on the fun.",
-                  "¡Obtén nuevas canciones bíblicas, videos de adoración en inglés y español, y dibujos animados cristianos increíbles cada semana! Suscríbete a nuestro canal para que nunca te pierdas la diversión."
+                  "Get new Bible songs, English and Spanish worship videos, and awesome Christian cartoons every single week! Subscribe to our channel so you never miss a release.",
+                  "¡Obtén nuevas canciones bíblicas, videos de adoración en inglés y español, y dibujos animados cristianos increíbles cada semana! ¡Suscríbete a nuestro canal para que nunca te pierdas un estreno!"
                 )}
               </p>
               

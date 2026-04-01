@@ -256,8 +256,8 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
             className="body-text mx-auto mb-8 text-center text-balance"
           >
             {t(
-              "Welcome to Selah Kids! We create fun, original Bible songs and Christian cartoons that the whole family will love. Get ready to sing, dance, and learn about God with our catchy music and exciting videos!",
-              "¡Bienvenidos a Selah Kids! Creamos canciones bíblicas originales y divertidas y dibujos animados cristianos que encantarán a toda la familia. ¡Prepárate para cantar, bailar y aprender sobre Dios con nuestra música pegajosa y videos emocionantes!"
+              "Welcome to Selah Kids! We create original Bible songs and Christian cartoons that the whole family will love. Get ready to sing, dance, and learn about God with our catchy music and exciting videos!",
+              "¡Bienvenidos a Selah Kids! Creamos canciones bíblicas originales y dibujos animados cristianos que encantarán a toda la familia. ¡Prepárate para cantar, bailar y aprender sobre Dios con nuestra música pegajosa y videos emocionantes!"
             )}
           </motion.p>
           

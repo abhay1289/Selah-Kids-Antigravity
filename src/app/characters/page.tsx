@@ -1,22 +1,27 @@
 'use client';
 
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import NextImage from 'next/image';
 import { Badge } from '../../components/UI';
+import { Star, Heart, Music, Sparkles } from 'lucide-react';
 
 const CHARACTERS = [
   {
     id: 'andy',
     name: 'Andy',
     role: 'The Worship Leader',
-    bio: "Andy is full of energy and loves to lead his friends in worship! He's always ready with a song and a smile, teaching kids that praising God is the most fun you can have. He plays the guitar and loves to jump around.",
+    bio: "Andy is full of energy and loves to lead his friends in worship! He's always ready with a song and a smile, teaching kids that praising God is the most exciting thing you can do. He plays the guitar and loves to jump around.",
     favorites: ['Playing his acoustic guitar', 'Building epic pillow forts', 'Singing as loud as he can'],
     color: 'orange',
-    gradient: 'from-[#FF7F50]/20 to-[#FF5C00]/5',
+    accentColor: '#FF7F50',
+    gradient: 'from-[#FF7F50]/15 via-[#FFF5EE] to-[#FFE4CC]/20',
     blobColor: 'bg-[#FF7F50]',
-    image: '/TGN_SingleFrames+28229.jpg',
-    imageAlt: 'Andy 3D Character'
+    ringColor: 'ring-[#FF7F50]/30',
+    image: '/SK_Andy_Intro_Pose-removebg-preview.png',
+    imageAlt: 'Andy – The Worship Leader',
+    icon: Music,
+    funFact: 'Andy once sang so loud that Shiloh fell off the couch!'
   },
   {
     id: 'libni',
@@ -25,10 +30,14 @@ const CHARACTERS = [
     bio: "Libni expresses her love for Jesus through movement and dance! She's creative, kind-hearted, and always encourages others to join in. She teaches kids that worship isn't just about singing, but about expressing joy with your whole body.",
     favorites: ['Choreographing new dances', 'Painting colorful pictures', 'Helping her friends'],
     color: 'blue',
-    gradient: 'from-[#00BFFF]/20 to-[#87CEEB]/5',
+    accentColor: '#00BFFF',
+    gradient: 'from-[#00BFFF]/15 via-[#F0FBFF] to-[#E0F7FF]/20',
     blobColor: 'bg-[#00BFFF]',
-    image: '/TGN_SingleFrames+28329.jpg',
-    imageAlt: 'Libni 3D Character'
+    ringColor: 'ring-[#00BFFF]/30',
+    image: '/SK_Libni_Intro_Pose-removebg-preview.png',
+    imageAlt: 'Libni – The Joyful Dancer',
+    icon: Heart,
+    funFact: 'Libni can invent a new dance in under 10 seconds!'
   },
   {
     id: 'shiloh',
@@ -37,129 +46,364 @@ const CHARACTERS = [
     bio: "Shiloh is Andy's loyal pet sheep. He might not say much, but he's always there to lend a listening ear or a fluffy hug. Shiloh reminds us that God is our Good Shepherd who always watches over us.",
     favorites: ['Eating fresh green grass', 'Taking long naps in the sun', 'Following Andy everywhere'],
     color: 'yellow',
-    gradient: 'from-[#FFD700]/20 to-[#FEB835]/5',
+    accentColor: '#FFD700',
+    gradient: 'from-[#FFD700]/15 via-[#FFFDF0] to-[#FFF8DC]/20',
     blobColor: 'bg-[#FFD700]',
-    image: '/TGN_SingleFrames+28729.jpg',
-    imageAlt: 'Shiloh 3D Character'
+    ringColor: 'ring-[#FFD700]/30',
+    image: '/SK_Shiloh_Intro_Pose-removebg-preview.png',
+    imageAlt: 'Shiloh – The Faithful Friend',
+    icon: Star,
+    funFact: 'Shiloh\'s favorite snack is apples straight from the tree!'
   }
 ];
 
+/* ── Floating particle component ─────────────────────── */
+function FloatingParticle({ delay, size, x, color }: { delay: number; size: number; x: string; color: string }) {
+  return (
+    <motion.div
+      initial={{ y: '100%', opacity: 0 }}
+      animate={{ y: '-100%', opacity: [0, 0.6, 0.6, 0] }}
+      transition={{ duration: 8 + delay * 2, repeat: Infinity, delay, ease: 'linear' }}
+      className="absolute pointer-events-none"
+      style={{ left: x, width: size, height: size }}
+    >
+      <div className="w-full h-full rounded-full" style={{ backgroundColor: color, opacity: 0.25 }} />
+    </motion.div>
+  );
+}
+
+/* ── 3D Tilt Card: follows mouse ───────────────────── */
+function CharacterImage({ char, index }: { char: typeof CHARACTERS[0]; index: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const springX = useSpring(x, { stiffness: 150, damping: 20 });
+  const springY = useSpring(y, { stiffness: 150, damping: 20 });
+
+  const rotateX = useTransform(springY, [-0.5, 0.5], ['8deg', '-8deg']);
+  const rotateY = useTransform(springX, [-0.5, 0.5], ['-8deg', '8deg']);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    x.set((e.clientX - rect.left) / rect.width - 0.5);
+    y.set((e.clientY - rect.top) / rect.height - 0.5);
+  };
+  const handleMouseLeave = () => { x.set(0); y.set(0); };
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      initial={{ opacity: 0, y: 80, scale: 0.85 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: '-80px' }}
+      transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] as const }}
+      style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
+      className="relative w-full max-w-[420px] mx-auto cursor-pointer group"
+    >
+      {/* Glow ring */}
+      <div className={`absolute -inset-4 rounded-[4rem] opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-2xl ${char.blobColor}`} style={{ opacity: 0.15 }} />
+
+      {/* Card */}
+      <div className="relative aspect-[3/4] rounded-[3.5rem] overflow-hidden bg-gradient-to-b from-white to-white/80 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] border-[6px] border-white/70 group-hover:shadow-[0_50px_100px_-20px_rgba(0,0,0,0.25)] transition-shadow duration-700">
+        {/* Subtle color wash behind character */}
+        <div className={`absolute inset-0 bg-gradient-to-b ${char.gradient} opacity-60`} />
+
+        {/* Character image */}
+        <motion.div
+          animate={{ y: [0, -12, 0] }}
+          transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: index * 0.8 }}
+          className="relative w-full h-full"
+        >
+          <NextImage
+            src={char.image}
+            alt={char.imageAlt}
+            fill
+            className="object-contain p-4 drop-shadow-[0_20px_40px_rgba(0,0,0,0.1)]"
+            sizes="(max-width: 768px) 90vw, 420px"
+            priority={index === 0}
+          />
+        </motion.div>
+
+        {/* Hover shimmer */}
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
+          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-[1200ms]" />
+        </div>
+      </div>
+
+      {/* Name tag floating at bottom */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.5 + index * 0.1 }}
+        className="absolute -bottom-6 left-1/2 -translate-x-1/2 z-20"
+      >
+        <div className="px-8 py-3 bg-white rounded-2xl shadow-xl border border-black/5 flex items-center gap-3">
+          <span className={`w-3 h-3 rounded-full ${char.blobColor} shadow-sm animate-pulse`} />
+          <span className="content-h3 text-selah-dark whitespace-nowrap">{char.name}</span>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/* ── Character detail section ──────────────────────── */
+function CharacterSection({ char, index }: { char: typeof CHARACTERS[0]; index: number }) {
+  const sectionRef = useRef<HTMLElement>(null);
+  const isEven = index % 2 === 0;
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start']
+  });
+
+  const parallaxY = useTransform(scrollYProgress, [0, 1], ['5%', '-5%']);
+  const bgScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.95, 1, 0.95]);
+
+  return (
+    <motion.section
+      ref={sectionRef}
+      className="relative py-20 md:py-32 overflow-hidden"
+    >
+      {/* Full-width gradient background with parallax */}
+      <motion.div
+        style={{ scale: bgScale }}
+        className={`absolute inset-0 bg-gradient-to-b ${char.gradient}`}
+      />
+
+      {/* Floating particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[0, 1, 2, 3, 4].map(i => (
+          <FloatingParticle
+            key={i}
+            delay={i * 1.5}
+            size={6 + i * 4}
+            x={`${15 + i * 18}%`}
+            color={char.accentColor}
+          />
+        ))}
+      </div>
+
+      {/* Giant watermark name */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 0.03 }}
+        viewport={{ once: true }}
+        transition={{ duration: 2 }}
+        className="absolute inset-0 flex items-center justify-center pointer-events-none"
+      >
+        <span className="text-[22vw] font-display font-bold text-black whitespace-nowrap tracking-[-0.05em] leading-none select-none">
+          {char.name.toUpperCase()}
+        </span>
+      </motion.div>
+
+      <div className="max-w-[1400px] mx-auto px-6 relative z-10">
+        <div className={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-16 lg:gap-24`}>
+
+          {/* Image column */}
+          <motion.div style={{ y: parallaxY }} className="w-full lg:w-[45%]">
+            <CharacterImage char={char} index={index} />
+          </motion.div>
+
+          {/* Text column */}
+          <div className="w-full lg:w-[55%] space-y-8 pt-8 lg:pt-0">
+            {/* Role badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.9 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <Badge color={char.color as any} className="shadow-md text-sm px-6 py-2.5 backdrop-blur">
+                <char.icon size={14} className="inline mr-2 -mt-0.5" />
+                {char.role}
+              </Badge>
+            </motion.div>
+
+            {/* Name heading */}
+            <motion.h2
+              initial={{ opacity: 0, y: 30, clipPath: 'inset(100% 0 0 0)' }}
+              whileInView={{ opacity: 1, y: 0, clipPath: 'inset(0% 0 0 0)' }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] as const }}
+              className="hero-headline tracking-[-0.02em] leading-[0.9] drop-shadow-sm"
+            >
+              {char.name}
+            </motion.h2>
+
+            {/* Bio */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="body-text leading-relaxed max-w-xl text-balance"
+            >
+              {char.bio}
+            </motion.p>
+
+            {/* Fun fact pill */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="inline-flex items-center gap-3 px-6 py-3 rounded-full border border-black/5 bg-white/70 backdrop-blur-sm shadow-sm"
+            >
+              <Sparkles size={16} className="text-selah-yellow" />
+              <span className="ui-caption text-selah-dark">{char.funFact}</span>
+            </motion.div>
+
+            {/* Favorites card */}
+            <motion.div
+              initial={{ opacity: 0, y: 40, scale: 0.96 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.35, ease: [0.16, 1, 0.3, 1] as const }}
+              whileHover={{ y: -6 }}
+              className="bg-white/90 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-10 border border-white shadow-[0_20px_50px_-15px_rgba(0,0,0,0.08)] max-w-xl relative overflow-hidden group"
+            >
+              {/* Hover wash */}
+              <div className={`absolute inset-0 ${char.blobColor} opacity-0 group-hover:opacity-[0.04] transition-opacity duration-700`} />
+
+              <h3 className="ui-label text-selah-dark mb-6 flex items-center gap-3 relative z-10">
+                <span className={`w-2.5 h-2.5 rounded-full ${char.blobColor} shadow-sm`} />
+                Favorite Things
+              </h3>
+
+              <ul className="space-y-5 relative z-10">
+                {char.favorites.map((fav, i) => (
+                  <motion.li
+                    key={i}
+                    initial={{ opacity: 0, x: -30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.45 + i * 0.12, duration: 0.5, ease: [0.16, 1, 0.3, 1] as const }}
+                    viewport={{ once: true }}
+                    className="flex items-center gap-5 group/item cursor-default"
+                  >
+                    <span
+                      className="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center text-sm font-display transition-all duration-300 group-hover/item:scale-110 group-hover/item:rotate-3"
+                      style={{ backgroundColor: `${char.accentColor}15`, color: char.accentColor }}
+                    >
+                      0{i + 1}
+                    </span>
+                    <span className="body-text !text-selah-dark !max-w-none group-hover/item:translate-x-1 transition-transform duration-300">
+                      {fav}
+                    </span>
+                  </motion.li>
+                ))}
+              </ul>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    </motion.section>
+  );
+}
+
+/* ── Main page ─────────────────────────────────────── */
 export default function CharactersPage() {
   return (
-    <div className="bg-selah-bg min-h-screen pt-36 md:pt-44 pb-16 overflow-hidden">
+    <div className="bg-white min-h-screen overflow-hidden">
       {/* Hero Section */}
-      <section className="text-center px-6 mb-12 relative z-10">
-        <Badge color="orange" className="mb-6 shadow-md">MEET THE CREW</Badge>
-        <h1 className="hero-headline text-selah-dark mb-6 tracking-tight leading-[1.1] drop-shadow-sm">
+      <section className="pt-36 md:pt-44 pb-8 relative z-10 text-center px-6">
+        {/* Decorative background elements */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
+            className="absolute top-20 right-[10%] w-48 h-48 rounded-full border border-selah-orange/10"
+          />
+          <motion.div
+            animate={{ rotate: -360 }}
+            transition={{ duration: 90, repeat: Infinity, ease: 'linear' }}
+            className="absolute top-32 left-[8%] w-32 h-32 rounded-full border border-[#00BFFF]/10"
+          />
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <Badge color="orange" className="mb-8 shadow-md">MEET THE CREW</Badge>
+        </motion.div>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 40, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] as const }}
+          className="hero-headline mb-6 tracking-tight leading-[1.1] drop-shadow-sm"
+        >
           Our Characters
-        </h1>
-        <p className="text-selah-muted body-text max-w-3xl mx-auto leading-relaxed tracking-tight mb-8">
-          Get to know the friends who make learning about Jesus so much fun!
-        </p>
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.25 }}
+          className="body-text max-w-2xl mx-auto leading-relaxed tracking-tight mb-12"
+        >
+          Get to know the friends who make learning about Jesus an exciting adventure!
+        </motion.p>
+
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2 }}
+          className="flex flex-col items-center gap-2 text-selah-muted/40"
+        >
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+            className="w-6 h-10 rounded-full border-2 border-selah-muted/20 flex justify-center pt-2"
+          >
+            <motion.div
+              animate={{ y: [0, 12, 0], opacity: [1, 0.3, 1] }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              className="w-1.5 h-1.5 rounded-full bg-selah-orange"
+            />
+          </motion.div>
+          <span className="ui-caption text-selah-muted/40">Scroll to explore</span>
+        </motion.div>
       </section>
 
       {/* Character Sections */}
-      <div className="flex flex-col relative z-20">
-        {CHARACTERS.map((char, index) => {
-          const isEven = index % 2 === 0;
-          return (
-            <section key={char.id} className={`relative min-h-screen flex items-center py-16 overflow-hidden bg-gradient-to-b ${char.gradient}`}>
-              {/* Massive Background Text */}
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 0.05, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.5, ease: "easeOut" }}
-                className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden"
-              >
-                <span className="text-[20vw] hero-headline text-black whitespace-nowrap tracking-tighter leading-none select-none">
-                  {char.name.toUpperCase()}
-                </span>
-              </motion.div>
-
-              <div className="max-w-[1400px] mx-auto px-6 relative z-10 w-full">
-                <div className={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-16 lg:gap-24`}>
-                  
-                  {/* Image Side */}
-                  <motion.div 
-                    initial={{ opacity: 0, x: isEven ? -100 : 100, rotateY: isEven ? -15 : 15 }}
-                    whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] as const }}
-                    className="w-full lg:w-1/2 relative flex justify-center perspective-1000"
-                  >
-                    {/* Soft Gradient Blob Background */}
-                    <div className={`absolute inset-0 ${char.blobColor} opacity-30 blur-[120px] rounded-full scale-150 animate-pulse`} />
-                    
-                    <motion.div 
-                      animate={{ y: [0, -20, 0] }}
-                      transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                      className="relative z-10 w-full max-w-[500px] aspect-[4/5] rounded-[4rem] overflow-hidden shadow-[0_40px_80px_-20px_rgba(0,0,0,0.3)] border-8 border-white/40 transform transition-transform duration-700 hover:scale-105 hover:rotate-2"
-                    >
-                      <NextImage 
-                        src={char.image} 
-                        alt={char.imageAlt}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                        loading="lazy"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60" />
-                    </motion.div>
-                  </motion.div>
-
-                  {/* Text Side */}
-                  <motion.div 
-                    initial={{ opacity: 0, x: isEven ? 100 : -100 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] as const }}
-                    className="w-full lg:w-1/2 space-y-10"
-                  >
-                    <div>
-                      <Badge color={char.color as any} className="mb-6 shadow-md text-sm px-6 py-2">{char.role}</Badge>
-                      <h2 className="hero-headline text-selah-dark tracking-tighter leading-[0.85] drop-shadow-sm">
-                        {char.name}
-                      </h2>
-                    </div>
-                    
-                    <p className="text-selah-muted body-text leading-relaxed max-w-xl">
-                      {char.bio}
-                    </p>
-
-                    <motion.div 
-                      whileHover={{ y: -8, scale: 1.02 }}
-                      className="bg-white/80 backdrop-blur-xl rounded-[3rem] p-10 border border-white shadow-xl transition-all duration-500 max-w-xl relative overflow-hidden group"
-                    >
-                      <div className={`absolute inset-0 ${char.blobColor} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
-                      <h3 className="ui-label text-selah-dark mb-6 flex items-center gap-3">
-                        <span className={`w-3 h-3 rounded-full ${char.blobColor} shadow-sm`} />
-                        Favorite Things
-                      </h3>
-                      <ul className="space-y-4">
-                        {char.favorites.map((fav, i) => (
-                          <motion.li 
-                            key={i} 
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.4 + (i * 0.1), duration: 0.5 }}
-                            viewport={{ once: true }}
-                            className="flex items-center gap-4 text-selah-muted body-text hover:text-selah-dark transition-colors cursor-default"
-                          >
-                            <span className="text-2xl opacity-40">0{i + 1}</span>
-                            {fav}
-                          </motion.li>
-                        ))}
-                      </ul>
-                    </motion.div>
-                  </motion.div>
-
-                </div>
-              </div>
-            </section>
-          );
-        })}
+      <div className="flex flex-col">
+        {CHARACTERS.map((char, index) => (
+          <CharacterSection key={char.id} char={char} index={index} />
+        ))}
       </div>
+
+      {/* Bottom CTA */}
+      <motion.section
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="py-20 px-6 text-center bg-gradient-to-b from-selah-bg/50 to-white"
+      >
+        <h2 className="content-h2 mb-4 tracking-tight">Want to see them in action?</h2>
+        <p className="body-text mx-auto mb-10 max-w-lg">
+          Watch Andy, Libni, and Shiloh sing, dance, and worship together on our YouTube channel!
+        </p>
+        <motion.a
+          href="https://www.youtube.com/@selahkidsworship"
+          target="_blank"
+          rel="noopener noreferrer"
+          whileHover={{ scale: 1.05, y: -3 }}
+          whileTap={{ scale: 0.97 }}
+          className="inline-flex items-center gap-3 px-10 py-4 bg-selah-orange text-white rounded-2xl ui-button shadow-[0_20px_40px_-10px_rgba(255,92,0,0.4)] hover:shadow-[0_30px_60px_-10px_rgba(255,92,0,0.5)] transition-all duration-300"
+        >
+          Watch on YouTube
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+        </motion.a>
+      </motion.section>
     </div>
   );
 }

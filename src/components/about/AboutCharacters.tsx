@@ -63,7 +63,7 @@ export const AboutCharacters = () => {
               </div>
             </div>
             <h3 className="content-h3-playful mb-2 relative z-10">{char.name}</h3>
-            <div className="ui-labelst text-selah-orange uppercase mb-6 relative z-10">{char.role}</div>
+            <div className="ui-label text-selah-orange uppercase mb-6 relative z-10">{char.role}</div>
             <p className="body-text leading-relaxed relative z-10">
               {char.desc}
             </p>

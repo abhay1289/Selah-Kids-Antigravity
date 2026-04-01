@@ -12,7 +12,7 @@ export const CHARACTERS = [
   {
     name: "Libni",
     trait: "The Musical Neighbor",
-    description: "Libni is Andy’s creative and giggly next-door neighbor who loves music. She spends her time picking flowers, singing, and making up fun dances.",
+    description: "Libni is Andy’s creative and giggly next-door neighbor who loves music. She spends her time picking flowers, singing, and making up new dances.",
     color: "from-[#E6E6FA] to-[#D8BFD8]", // Lavender
     img: "/SK_Libni_Intro_Pose-removebg-preview.png",
     delay: 0.2
@@ -32,7 +32,7 @@ export const LATEST_VIDEOS = [
     id: 1,
     title: "This Is How We Praise The Lord",
     date: "LATEST",
-    description: "A fun, high-energy sing-along that gets kids moving and praising God with all their heart!",
+    description: "A high-energy sing-along that gets kids moving and praising God with all their heart!",
     category: "Sing-Along",
     language: "EN",
     gradient: "from-[#FF7F50] to-[#FF5C00]", // Coral
@@ -53,7 +53,7 @@ export const LATEST_VIDEOS = [
 export const WHY_FEATURES = [
   {
     title: "Bible-Based Stories",
-    desc: "Every song and video is based on the Bible. We help kids learn about God and build a strong faith while having fun.",
+    desc: "Every song and video is based on the Bible. We help kids learn about God and build a strong faith through engaging stories and music.",
     icon: <BookOpen size={32} className="text-[#feb835]" />,
     color: "#feb835", // Gold
     bgColor: "bg-[#feb835]/10"
@@ -88,7 +88,7 @@ export const WHY_FEATURES = [
   },
   {
     title: "Catchy Original Music",
-    desc: "We write our own fun, high-quality Christian songs for kids. They are easy to sing and hard to forget!",
+    desc: "We write our own original, high-quality Christian songs for kids. They are easy to sing and hard to forget!",
     icon: <Music size={32} className="text-[#FFDAB9]" />,
     color: "#FFDAB9", // Peach
     bgColor: "bg-[#FFDAB9]/10"
@@ -97,7 +97,7 @@ export const WHY_FEATURES = [
 
 export const TESTIMONIALS = [
   {
-    quote: "My kids can't stop singing the songs! It's awesome to hear them singing about God all day. The songs are so catchy and fun.",
+    quote: "My kids can't stop singing the songs! It's awesome to hear them singing about God all day. The songs are so catchy and joyful.",
     author: "Sarah Jenkins",
     role: "Mother of three",
     icon: <Music size={28} className="text-[#FF7F50]" />,
@@ -121,7 +121,7 @@ export const TESTIMONIALS = [
     iconColor: "text-[#98FF98]"
   },
   {
-    quote: "The English and Spanish videos are amazing! My kids are learning Spanish while growing closer to God. It's fun and educational.",
+    quote: "The English and Spanish videos are amazing! My kids are learning Spanish while growing closer to God. It's engaging and educational.",
     author: "Maria Rodriguez",
     role: "Homeschooling Mom",
     icon: <Globe size={28} className="text-[#E6E6FA]" />,
@@ -145,7 +145,7 @@ export const TESTIMONIALS = [
     iconColor: "text-[#FFB6C1]"
   },
   {
-    quote: "As a teacher, I love how much kids learn from these stories. It's not just fun to watch; it helps them understand important lessons.",
+    quote: "As a teacher, I love how much kids learn from these stories. It's not just entertaining to watch; it helps them understand important lessons.",
     author: "Mr. Henderson",
     role: "Elementary Teacher",
     icon: <Book size={28} className="text-[#ADD8E6]" />,

@@ -114,7 +114,7 @@ export function LatestVideosSection() {
           badge={t("FRESH CONTENT", "CONTENIDO NUEVO")}
           title={t("Our Latest Videos", "Nuestros Últimos Videos")}
           description={t(
-            "Check out our newest Christian kids music and fun Bible stories! We have awesome worship videos in both English and Spanish. They are perfect for Sunday school songs or hanging out with your family!",
+            "Check out our newest Christian kids music and engaging Bible stories! We have awesome worship videos in both English and Spanish. They are perfect for Sunday school songs or hanging out with your family!",
             "¡Mira nuestra nueva música cristiana para niños e historias bíblicas divertidas! Tenemos increíbles videos de adoración en inglés y español. ¡Son perfectos para canciones de la escuela dominical o para pasar tiempo con tu familia!"
           )}
           align="center"

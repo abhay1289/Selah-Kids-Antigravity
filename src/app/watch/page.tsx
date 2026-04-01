@@ -13,7 +13,7 @@ const VIDEOS = [
     id: 1,
     title: "Jesus Loves Me",
     date: "March 15, 2026",
-    description: "A fun, upbeat version of the classic hymn that kids will love to sing along to.",
+    description: "An upbeat version of the classic hymn that kids will love to sing along to.",
     category: "music",
     categoryLabel: "Music Video",
     language: "EN",

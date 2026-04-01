@@ -68,8 +68,8 @@ export function CharactersSection() {
           badge={t("Meet the Characters", "Conoce a los Personajes")}
           title={t("Andy, Libni, and Shiloh", "Andy, Libni y Shiloh")}
           description={t(
-            "Say hello to Andy, Libni, and Shiloh! These fun friends go on exciting adventures to help kids learn about God, friendship, and faith in a way that's easy to understand.",
-            "¡Saluda a Andy, Libni y Shiloh! Estos divertidos amigos van en emocionantes aventuras para ayudar a los niños a aprender sobre Dios, la amistad y la fe de una manera fácil de entender."
+            "Say hello to Andy, Libni, and Shiloh! These amazing friends go on exciting adventures to help kids learn about God, friendship, and faith in a way that's easy to understand.",
+            "¡Saluda a Andy, Libni y Shiloh! Estos increíbles amigos van en emocionantes aventuras para ayudar a los niños a aprender sobre Dios, la amistad y la fe de una manera fácil de entender."
           )}
           align="center"
         />

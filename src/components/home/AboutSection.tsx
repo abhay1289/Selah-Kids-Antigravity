@@ -93,7 +93,7 @@ export function AboutSection() {
         >
           <SectionHeader 
             badge={t("Our Mission", "Nuestra Misión")}
-            title={t("Fun Bible Songs & Christian Cartoons", "Canciones Bíblicas Divertidas y Dibujos Cristianos")}
+            title={t("Bible Songs & Christian Cartoons", "Canciones Bíblicas y Dibujos Cristianos")}
             description={t(
               "Selah Kids! was created by parents who wanted a safe place for kids to watch faith-based videos. We want to help families get up, move, and worship God together with our catchy Sunday school songs.",
               "¡Selah Kids! fue creado por padres que querían un lugar seguro para que los niños vean videos basados en la fe. Queremos ayudar a las familias a levantarse, moverse y adorar a Dios juntos con nuestras pegajosas canciones de la escuela dominical."
@@ -102,7 +102,7 @@ export function AboutSection() {
           
           <div className="grid gap-2 mt-[-2.5rem]">
             {[
-              { icon: Music, title: t("Original Bible Songs", "Canciones Bíblicas Originales"), desc: t("Our Bible songs teach important lessons from scripture in a fun way that kids can easily understand.", "Nuestras canciones bíblicas enseñan lecciones importantes de las escrituras de una manera divertida que los niños pueden entender fácilmente."), color: "bg-selah-light/20", iconColor: "text-selah-dark" },
+              { icon: Music, title: t("Original Bible Songs", "Canciones Bíblicas Originales"), desc: t("Our Bible songs teach important lessons from scripture in an engaging way that kids can easily understand.", "Nuestras canciones bíblicas enseñan lecciones importantes de las escrituras de una manera atractiva que los niños pueden entender fácilmente."), color: "bg-selah-light/20", iconColor: "text-selah-dark" },
               { icon: BookOpen, title: t("Stunning Animation", "Animación Impresionante"), desc: t("Our videos feature beautiful animation made by talented artists from around the world to bring Bible stories to life.", "Nuestros videos presentan hermosas animaciones hechas por artistas talentosos de todo el mundo para dar vida a las historias bíblicas."), color: "bg-selah-yellow/20", iconColor: "text-selah-orange" }
             ].map((feature, i) => (
               <motion.div 

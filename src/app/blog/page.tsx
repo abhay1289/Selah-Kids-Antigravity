@@ -17,7 +17,7 @@ const BLOG_CATEGORIES = [
 const BLOG_POSTS = [
   {
     id: 1,
-    title: "5 Ways to Make Family Worship Fun",
+    title: "5 Ways to Make Family Worship Engaging",
     excerpt: "Discover simple, engaging ways to bring worship into your home without it feeling like a chore.",
     category: "parenting",
     categoryLabel: "Parenting",
