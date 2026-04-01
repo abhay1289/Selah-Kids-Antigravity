@@ -15,7 +15,7 @@ export const AboutCTA = () => {
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] as const }}
-        className="bg-selah-orange rounded-[4rem] md:rounded-[5rem] p-16 md:p-32 text-center relative overflow-hidden"
+        className="bg-selah-orange rounded-2xl md:rounded-[4rem] lg:rounded-[5rem] p-8 md:p-16 lg:p-32 text-center relative overflow-hidden"
       >
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 mix-blend-overlay" />
         <div className="absolute -left-40 -top-40 w-[500px] h-[500px] bg-white/20 rounded-full blur-3xl opacity-20" />

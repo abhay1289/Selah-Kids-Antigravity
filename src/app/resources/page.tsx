@@ -126,7 +126,7 @@ export default function ResourcesPage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] as const }}
-          className="relative rounded-[3rem] p-16 md:p-24 text-center overflow-hidden group bg-white border border-selah-dark/5 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)]"
+          className="relative rounded-2xl md:rounded-[3rem] p-8 md:p-16 lg:p-24 text-center overflow-hidden group bg-white border border-selah-dark/5 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)]"
         >
           <div className="absolute inset-0 bg-gradient-to-br from-selah-yellow/10 via-selah-orange/5 to-selah-pink/10 opacity-90" />
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] opacity-[0.04] mix-blend-multiply pointer-events-none" />

@@ -25,7 +25,7 @@ export function Footer() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="lg:col-span-5 bg-white/60 border border-selah-orange/10 rounded-[2.5rem] p-10 backdrop-blur-xl group hover:border-selah-orange/20 transition-all duration-500 shadow-[0_8px_32px_rgba(255,92,0,0.06)]"
+            className="lg:col-span-5 bg-white/60 border border-selah-orange/10 rounded-2xl md:rounded-[2.5rem] p-6 md:p-10 backdrop-blur-xl group hover:border-selah-orange/20 transition-all duration-500 shadow-[0_8px_32px_rgba(255,92,0,0.06)]"
           >
             <Link href="/" className="flex items-center gap-4 mb-8 group/logo">
               <motion.div
@@ -72,7 +72,7 @@ export function Footer() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="lg:col-span-3 bg-white/60 border border-selah-orange/10 rounded-[2.5rem] p-10 backdrop-blur-xl hover:border-selah-orange/20 transition-all duration-500 shadow-[0_8px_32px_rgba(255,92,0,0.06)]"
+            className="lg:col-span-3 bg-white/60 border border-selah-orange/10 rounded-2xl md:rounded-[2.5rem] p-6 md:p-10 backdrop-blur-xl hover:border-selah-orange/20 transition-all duration-500 shadow-[0_8px_32px_rgba(255,92,0,0.06)]"
           >
             <h4 className="text-selah-dark content-h3 mb-8 tracking-tight">{t("Pages", "Páginas")}</h4>
             <ul className="space-y-5">
@@ -114,7 +114,7 @@ export function Footer() {
             transition={{ delay: 0.2 }}
             className="lg:col-span-4 flex flex-col gap-6"
           >
-            <div className="bg-white/60 border border-selah-orange/10 rounded-[2.5rem] p-8 backdrop-blur-xl hover:border-selah-orange/20 transition-all duration-500 flex-1 shadow-[0_8px_32px_rgba(255,92,0,0.06)]">
+            <div className="bg-white/60 border border-selah-orange/10 rounded-2xl md:rounded-[2.5rem] p-6 md:p-8 backdrop-blur-xl hover:border-selah-orange/20 transition-all duration-500 flex-1 shadow-[0_8px_32px_rgba(255,92,0,0.06)]">
               <h4 className="text-selah-dark content-h3 mb-6 tracking-tight">{t("Get in Touch", "Contáctanos")}</h4>
               <div className="space-y-4 mb-8">
                 <a href="mailto:info.selahkids@gmail.com" className="flex items-center gap-4 p-4 rounded-2xl bg-selah-bg border border-selah-border/30 hover:bg-selah-orange/10 hover:border-selah-orange/20 transition-all duration-300 group shadow-sm hover:shadow-md">

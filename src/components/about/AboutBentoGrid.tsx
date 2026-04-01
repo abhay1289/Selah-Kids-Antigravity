@@ -60,7 +60,7 @@ export const AboutBentoGrid = () => {
         {/* Bento 1: The Mission (Large) */}
         <motion.div 
           variants={zoomInUp}
-          className="md:col-span-8 bg-gradient-to-br from-selah-orange/90 via-[#FF7F50] to-selah-yellow rounded-[3rem] md:rounded-[4rem] p-10 md:p-16 flex flex-col justify-between relative overflow-hidden group min-h-[500px] md:min-h-[600px] shadow-2xl"
+          className="md:col-span-8 bg-gradient-to-br from-selah-orange/90 via-[#FF7F50] to-selah-yellow rounded-2xl md:rounded-[4rem] p-6 md:p-10 lg:p-16 flex flex-col justify-between relative overflow-hidden group min-h-[400px] md:min-h-[600px] shadow-2xl"
         >
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 mix-blend-overlay" />
           <div className="absolute -right-20 -top-20 w-[600px] h-[600px] bg-selah-orange/20 rounded-full blur-3xl opacity-30 group-hover:bg-selah-orange/40 transition-colors duration-700" />
@@ -74,7 +74,7 @@ export const AboutBentoGrid = () => {
           </div>
           
           <div className="relative z-10 max-w-2xl">
-            <p className="text-xl text-white/80 font-body italic leading-relaxed max-w-2xl">
+            <p className="text-base md:text-xl text-white/80 font-body italic leading-relaxed max-w-2xl">
               {t(
                 "Started in 2024 by parents longing for better Christian media, Selah Kids! is a safe place for children to grow in faith. We create bilingual content — in English and Spanish — so families can sing, worship, and learn about God together.",
                 "Iniciado en 2024 por padres que anhelaban mejores medios cristianos, ¡Selah Kids! es un lugar seguro para que los niños crezcan en la fe. Creamos contenido bilingüe — en inglés y español — para que las familias puedan cantar, adorar y aprender sobre Dios juntos."
@@ -86,7 +86,7 @@ export const AboutBentoGrid = () => {
         {/* Bento 2: Music & Joy (Tall) */}
         <motion.div 
           variants={rollIn}
-          className="md:col-span-4 bg-selah-yellow rounded-[3rem] md:rounded-[4rem] p-10 md:p-16 flex flex-col items-center justify-center relative overflow-hidden min-h-[500px] md:min-h-[600px] shadow-2xl"
+          className="md:col-span-4 bg-selah-yellow rounded-2xl md:rounded-[4rem] p-6 md:p-10 lg:p-16 flex flex-col items-center justify-center relative overflow-hidden min-h-[400px] md:min-h-[600px] shadow-2xl"
         >
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10 mix-blend-overlay" />
           <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent opacity-50" />
@@ -111,14 +111,14 @@ export const AboutBentoGrid = () => {
         {/* Bento 3: Animation Quality (Wide) */}
         <motion.div 
           variants={slideInRight}
-          className="md:col-span-12 bg-white rounded-[3rem] md:rounded-[4rem] border border-black/5 p-4 md:p-6 flex flex-col md:flex-row items-stretch gap-6 min-h-[500px] shadow-2xl relative overflow-hidden"
+          className="md:col-span-12 bg-white rounded-2xl md:rounded-[4rem] border border-black/5 p-4 md:p-6 flex flex-col md:flex-row items-stretch gap-4 md:gap-6 min-h-[400px] md:min-h-[500px] shadow-2xl relative overflow-hidden"
         >
           <div className="absolute -right-40 -bottom-40 w-[600px] h-[600px] bg-selah-pink/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="w-full md:w-1/2 rounded-[2.5rem] md:rounded-[3.5rem] overflow-hidden relative" style={{minHeight: '400px'}}>
+          <div className="w-full md:w-1/2 rounded-2xl md:rounded-[3.5rem] overflow-hidden relative" style={{minHeight: '300px'}}>
             <ImageCarousel />
           </div>
 
-          <div className="w-full md:w-1/2 p-8 md:p-16 flex flex-col justify-center relative z-10">
+          <div className="w-full md:w-1/2 p-4 md:p-8 lg:p-16 flex flex-col justify-center relative z-10">
             <Badge color="orange" className="mb-6 self-start shadow-md">{t("TOP QUALITY", "MÁXIMA CALIDAD")}</Badge>
             <h2 className="content-h2 mb-8 leading-[1.1] tracking-tight">
               {t("Stunning Animation", "Animación Impresionante")}
@@ -136,7 +136,7 @@ export const AboutBentoGrid = () => {
               )}
             </p>
             
-            <div className="flex items-center gap-12">
+            <div className="flex items-center gap-6 md:gap-12">
               <div className="group">
                 <div className="content-h2 mb-2 group-hover:scale-110 transition-transform origin-left">4K</div>
                 <div className="ui-label text-selah-muted uppercase">{t("Resolution", "Resolución")}</div>

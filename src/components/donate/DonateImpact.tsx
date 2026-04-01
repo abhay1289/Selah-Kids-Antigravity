@@ -32,7 +32,7 @@ export const DonateImpact: React.FC<DonateImpactProps> = ({ impacts, amount }) =
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
         {impacts.map((impact, i) => (
-          <motion.div key={i} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }} whileHover={{ y: -12, scale: 1.02 }} className={`bg-white rounded-[3rem] p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-black/5 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.15)] transition-all duration-500 relative overflow-hidden cursor-default group ${amount >= impact.amount ? 'ring-2 ring-selah-orange/20 bg-gradient-to-b from-[#FFFDF5] to-white' : ''}`}>
+          <motion.div key={i} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }} whileHover={{ y: -12, scale: 1.02 }} className={`bg-white rounded-2xl md:rounded-[3rem] p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-black/5 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.15)] transition-all duration-500 relative overflow-hidden cursor-default group ${amount >= impact.amount ? 'ring-2 ring-selah-orange/20 bg-gradient-to-b from-[#FFFDF5] to-white' : ''}`}>
             <AnimatePresence>
               {amount >= impact.amount && (
                 <motion.div initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0, opacity: 0 }} transition={{ type: "spring", stiffness: 300, damping: 20 }} className="absolute top-0 right-0 w-24 h-24 bg-selah-orange rounded-bl-full flex items-start justify-end p-6 z-10 shadow-lg">

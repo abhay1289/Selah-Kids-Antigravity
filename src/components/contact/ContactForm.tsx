@@ -10,7 +10,7 @@ import { useLanguage } from '../../contexts/LanguageContext';
 export const ContactForm = () => {
   const { t } = useLanguage();
   return (
-    <motion.div variants={slideInLeft} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} className="lg:col-span-7 bg-white/80 backdrop-blur-2xl rounded-[3rem] p-10 md:p-16 shadow-[0_20px_80px_-20px_rgba(0,0,0,0.08)] border border-white">
+    <motion.div variants={slideInLeft} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} className="lg:col-span-7 bg-white/80 backdrop-blur-2xl rounded-2xl md:rounded-[3rem] p-6 md:p-10 lg:p-16 shadow-[0_20px_80px_-20px_rgba(0,0,0,0.08)] border border-white">
       <h2 className="content-h2 mb-10">{t("Send a Message", "Envía un Mensaje")}</h2>
       <form className="space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
