@@ -81,7 +81,18 @@ export const BlogGrid: React.FC<BlogGridProps> = ({ posts }) => {
                   className="overflow-hidden"
                 >
                   <div className="px-6 md:px-8 pb-8 pt-4 border-t border-black/5 mt-2">
-                    <div className="flex flex-col gap-4 text-selah-dark/80 text-lg leading-relaxed max-w-3xl">
+                    
+                    {/* Full uncropped image visible when expanded */}
+                    <div className="relative w-full h-[250px] md:h-[400px] rounded-2xl overflow-hidden mb-8 bg-[#FFF8EE] shadow-sm">
+                      <Image 
+                        src={post.img} 
+                        alt={language === 'EN' ? post.titleEn : post.titleEs} 
+                        fill 
+                        className="object-contain"
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-4 text-selah-dark/80 text-lg leading-relaxed max-w-3xl mx-auto">
                       {(language === 'EN' ? post.contentEn : post.contentEs).map((paragraph, i) => (
                         <p key={i} className="font-medium" dangerouslySetInnerHTML={{ __html: paragraph }} />
                       ))}
