@@ -268,10 +268,9 @@
     66% { color: #ffffff; }      /* White */
   }
 
-  /* LAYER 1 — Fredoka H1 hero headline with text-stroke */
   .hero-headline {
     font-family: "Fredoka", sans-serif;
-    font-size: clamp(32px, 5vw, 56px);
+    font-size: clamp(26px, 4.5vw, 56px);
     font-weight: 500;
     line-height: 1.1;
     color: #ff5c00;
