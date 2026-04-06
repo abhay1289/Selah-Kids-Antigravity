@@ -8,7 +8,7 @@ import { ResourcesHero } from '../../components/resources/ResourcesHero';
 import { ResourceCard } from '../../components/resources/ResourceCard';
 import { useLanguage } from '../../contexts/LanguageContext';
 
-const CATEGORIES = ['All', 'Printables', 'Lessons'];
+const CATEGORIES = ['All', 'Printables', 'Lessons', 'Devotionals'];
 
 const RESOURCES = [
   {
@@ -52,7 +52,7 @@ const RESOURCES = [
     title: "Family Devotional",
     description: "A week of daily devotionals designed to help families worship and learn together.",
     type: "PDF",
-    category: "Lessons",
+    category: "Devotionals",
     gradient: "from-[#FF7F50] to-[#FF5C00]",
     featured: false,
   },
@@ -102,7 +102,7 @@ export default function ResourcesPage() {
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
-              <span className="relative z-20">{category === 'All' ? t('All', 'Todos') : category === 'Printables' ? t('Printables', 'Imprimibles') : t('Lessons', 'Lecciones')}</span>
+              <span className="relative z-20">{category === 'All' ? t('All', 'Todos') : category === 'Printables' ? t('Printables', 'Imprimibles') : category === 'Lessons' ? t('Lessons', 'Lecciones') : t('Devotionals', 'Devocionales')}</span>
             </button>
           ))}
         </div>

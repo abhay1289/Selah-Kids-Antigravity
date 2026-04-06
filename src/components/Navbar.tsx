@@ -139,15 +139,15 @@ export function Navbar() {
               className={`flex items-center p-1 rounded-full cursor-pointer transition-colors duration-300 ${isScrolled || pathname !== '/' ? 'bg-black/5 hover:bg-black/10' : 'bg-selah-dark/5 hover:bg-selah-dark/10 backdrop-blur-md'}`}
               onClick={() => setLanguage(l => l === 'EN' ? 'ES' : 'EN')}
             >
-              <div className={`relative px-3 py-2 rounded-full transition-all duration-300 z-10 text-lg leading-none ${language === 'EN' ? '' : 'opacity-50 hover:opacity-80 grayscale'}`}>
-                🇺🇸
-                {language === 'EN' && (
+              <div className={`relative px-3 py-2 rounded-full transition-all duration-300 z-10 text-lg leading-none`}>
+                🇪🇸
+                {language === 'ES' && (
                   <motion.div layoutId="lang-pill" className="absolute inset-0 bg-white rounded-full -z-10 shadow-sm" transition={{ type: "spring", bounce: 0.2, duration: 0.6 }} />
                 )}
               </div>
-              <div className={`relative px-3 py-2 rounded-full transition-all duration-300 z-10 text-lg leading-none ${language === 'ES' ? '' : 'opacity-50 hover:opacity-80 grayscale'}`}>
-                🇪🇸
-                {language === 'ES' && (
+              <div className={`relative px-3 py-2 rounded-full transition-all duration-300 z-10 text-lg leading-none`}>
+                🇺🇸
+                {language === 'EN' && (
                   <motion.div layoutId="lang-pill" className="absolute inset-0 bg-white rounded-full -z-10 shadow-sm" transition={{ type: "spring", bounce: 0.2, duration: 0.6 }} />
                 )}
               </div>
@@ -205,11 +205,11 @@ export function Navbar() {
                     className="flex items-center p-1 rounded-full cursor-pointer bg-black/5"
                     onClick={() => setLanguage(l => l === 'EN' ? 'ES' : 'EN')}
                   >
-                    <div className={`px-3 py-2 rounded-full text-lg leading-none transition-all duration-300 ${language === 'EN' ? 'bg-white shadow-sm' : 'opacity-50 grayscale'}`}>
-                      🇺🇸
-                    </div>
-                    <div className={`px-3 py-2 rounded-full text-lg leading-none transition-all duration-300 ${language === 'ES' ? 'bg-white shadow-sm' : 'opacity-50 grayscale'}`}>
+                    <div className={`px-3 py-2 rounded-full text-lg leading-none transition-all duration-300 ${language === 'ES' ? 'bg-white shadow-sm' : ''}`}>
                       🇪🇸
+                    </div>
+                    <div className={`px-3 py-2 rounded-full text-lg leading-none transition-all duration-300 ${language === 'EN' ? 'bg-white shadow-sm' : ''}`}>
+                      🇺🇸
                     </div>
                   </div>
                 </div>
