@@ -81,7 +81,7 @@ export function Footer() {
                 { label: t("About Us", "Nosotros"), icon: Heart, href: "/about" },
                 { label: t("Watch", "Ver"), icon: Play, href: "/watch" },
                 { label: t("Characters", "Personajes"), icon: Users, href: "/characters" },
-                { label: t("For Parents", "Para Padres"), icon: Shield, href: "/parents" },
+                { label: t("Families", "Familias"), icon: Shield, href: "/parents" },
                 { label: t("Resources", "Recursos"), icon: BookOpen, href: "/resources" },
                 { label: "Blog", icon: Book, href: "/blog" },
                 { label: t("Contact Us", "Contáctanos"), icon: Mail, href: "/contact" }

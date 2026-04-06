@@ -27,7 +27,7 @@ export function Navbar() {
     { name: t("About", "Acerca de"), href: "/about" },
     { name: t("Watch", "Ver"), href: "/watch" },
     { name: t("Characters", "Personajes"), href: "/characters" },
-    { name: t("For Parents", "Para Padres"), href: "/parents" },
+    { name: t("Families", "Familias"), href: "/parents" },
     { name: t("Blog", "Blog"), href: "/blog" },
     { name: t("Resources", "Recursos"), href: "/resources" },
   ];
