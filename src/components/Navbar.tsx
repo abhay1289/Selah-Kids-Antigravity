@@ -134,19 +134,19 @@ export function Navbar() {
         
         <div className="flex items-center gap-3">
           <div className="hidden sm:flex items-center gap-3">
-            {/* Language Toggle */}
+            {/* Language Toggle — Flags */}
             <div 
               className={`flex items-center p-1 rounded-full cursor-pointer transition-colors duration-300 ${isScrolled || pathname !== '/' ? 'bg-black/5 hover:bg-black/10' : 'bg-selah-dark/5 hover:bg-selah-dark/10 backdrop-blur-md'}`}
               onClick={() => setLanguage(l => l === 'EN' ? 'ES' : 'EN')}
             >
-              <div className={`relative px-4 py-2 rounded-full ui-label transition-all duration-300 z-10 ${language === 'EN' ? 'text-selah-dark' : 'text-selah-dark/60 hover:text-selah-dark/80'}`}>
-                EN
+              <div className={`relative px-3 py-2 rounded-full transition-all duration-300 z-10 text-lg leading-none ${language === 'EN' ? '' : 'opacity-50 hover:opacity-80 grayscale'}`}>
+                🇺🇸
                 {language === 'EN' && (
                   <motion.div layoutId="lang-pill" className="absolute inset-0 bg-white rounded-full -z-10 shadow-sm" transition={{ type: "spring", bounce: 0.2, duration: 0.6 }} />
                 )}
               </div>
-              <div className={`relative px-4 py-2 rounded-full ui-label transition-all duration-300 z-10 ${language === 'ES' ? 'text-selah-dark' : 'text-selah-dark/60 hover:text-selah-dark/80'}`}>
-                ES
+              <div className={`relative px-3 py-2 rounded-full transition-all duration-300 z-10 text-lg leading-none ${language === 'ES' ? '' : 'opacity-50 hover:opacity-80 grayscale'}`}>
+                🇪🇸
                 {language === 'ES' && (
                   <motion.div layoutId="lang-pill" className="absolute inset-0 bg-white rounded-full -z-10 shadow-sm" transition={{ type: "spring", bounce: 0.2, duration: 0.6 }} />
                 )}
@@ -200,16 +200,16 @@ export function Navbar() {
               ))}
               <div className="flex flex-col gap-4 pt-6 mt-2 border-t border-black/5">
                 <div className="flex items-center justify-between px-2">
-                  <span className="text-selah-dark ui-label">Language</span>
+                  <span className="text-selah-dark ui-label">{t("Language", "Idioma")}</span>
                   <div 
                     className="flex items-center p-1 rounded-full cursor-pointer bg-black/5"
                     onClick={() => setLanguage(l => l === 'EN' ? 'ES' : 'EN')}
                   >
-                    <div className={`px-4 py-2 rounded-full ui-label transition-all duration-300 ${language === 'EN' ? 'bg-white text-selah-dark shadow-sm' : 'text-selah-dark/60'}`}>
-                      EN
+                    <div className={`px-3 py-2 rounded-full text-lg leading-none transition-all duration-300 ${language === 'EN' ? 'bg-white shadow-sm' : 'opacity-50 grayscale'}`}>
+                      🇺🇸
                     </div>
-                    <div className={`px-4 py-2 rounded-full ui-label transition-all duration-300 ${language === 'ES' ? 'bg-white text-selah-dark shadow-sm' : 'text-selah-dark/60'}`}>
-                      ES
+                    <div className={`px-3 py-2 rounded-full text-lg leading-none transition-all duration-300 ${language === 'ES' ? 'bg-white shadow-sm' : 'opacity-50 grayscale'}`}>
+                      🇪🇸
                     </div>
                   </div>
                 </div>
