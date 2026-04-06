@@ -2,46 +2,46 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Leaf, ShieldCheck, Lightbulb, ChevronDown, CheckCircle2 } from 'lucide-react';
+import { Sparkles, Lightbulb, ShieldCheck, ChevronDown, CheckCircle2 } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 export const ParentsAccordion = () => {
   const { t, language } = useLanguage();
-  const [openSection, setOpenSection] = useState<string | null>("learn");
+  const [openSection, setOpenSection] = useState<string | null>("spirit");
   const toggleSection = (id: string) => setOpenSection(openSection === id ? null : id);
 
   const ACCORDION_DATA = [
     {
-      id: "learn",
-      icon: Leaf,
-      title: t("What Your Kids Will Learn", "Lo Que Aprenderán Tus Hijos"),
+      id: "spirit",
+      icon: Sparkles,
+      title: t("Nurturing the Spirit", "Nutriendo el Espíritu"),
       items: language === 'ES'
-        ? ["El amor incondicional y la gracia de Dios", "Historias y personajes clave de la Biblia", "El fruto del Espíritu (amor, alegría, paz...)", "Cómo orar y hablar con Dios", "Bondad, compartir y amar a los demás"]
-        : ["God's unconditional love and grace", "Key stories and characters from the Bible", "The fruit of the Spirit (love, joy, peace...)", "How to pray and talk to God", "Kindness, sharing, and loving others"]
+        ? ["El amor incondicional y la gracia de Dios", "Historias y principios clave de la Biblia", "Cómo orar y tener una relación con Dios", "Adoración musical como familia", "El fruto del Espíritu (amor, alegría, paz)"]
+        : ["God's unconditional love and grace", "Key stories and principles from the Bible", "How to pray and have a relationship with God", "Musical worship as a family", "The fruit of the Spirit (love, joy, peace)"]
     },
     {
-      id: "promise",
-      icon: ShieldCheck,
-      title: t("Our Content Promise", "Nuestra Promesa de Contenido"),
-      items: language === 'ES'
-        ? ["Experiencia 100% segura y sin anuncios", "Letras teológicamente sólidas revisadas por pastores", "Animación de alta calidad que respeta la inteligencia de los niños", "Sin imágenes aterradoras o temas inapropiados", "Ritmo calmante adecuado para mentes jóvenes en desarrollo"]
-        : ["100% safe, ad-free viewing experience", "Theologically sound lyrics checked by pastors", "High-quality animation that respects kids' intelligence", "No scary imagery or inappropriate themes", "Calming pacing suitable for young developing minds"]
-    },
-    {
-      id: "usage",
+      id: "mind",
       icon: Lightbulb,
-      title: t("How to Use Selah Kids", "Cómo Usar Selah Kids"),
+      title: t("Engaging the Mind", "Involucrando la Mente"),
       items: language === 'ES'
-        ? ["Adoración matutina para comenzar bien el día", "Canciones durante viajes largos en auto", "Contenido atractivo para clases de Escuela Dominical", "Videos sensoriales calmantes antes de dormir", "Noches de adoración familiar juntos"]
-        : ["Morning worship to start the day right", "Sing-alongs during long car rides", "Engaging content for Sunday School classes", "Calming sensory videos before bedtime", "Family worship nights together"]
+        ? ["Animación de alta calidad que respeta la inteligencia de los niños", "Letras teológicamente sólidas revisadas por pastores", "Recursos educativos para la Escuela Dominical", "Ritmo calmante adecuado para mentes jóvenes en desarrollo", "Construcción de vocabulario a través de música estructurada"]
+        : ["High-quality animation that respects kids' intelligence", "Theologically sound lyrics checked by pastors", "Educational resources for Sunday School", "Calming pacing suitable for young developing minds", "Vocabulary building through structured music"]
+    },
+    {
+      id: "heart",
+      icon: ShieldCheck,
+      title: t("Guarding the Heart", "Guardando el Corazón"),
+      items: language === 'ES'
+        ? ["Experiencia 100% segura y libre de anuncios", "Sin imágenes aterradoras o temas inapropiados", "Promueve la bondad, el compartir y el amor al prójimo", "Desarrollo del carácter a través de historias positivas", "Entorno en línea confiable de extremo a extremo"]
+        : ["100% safe, ad-free viewing experience", "No scary imagery or inappropriate themes", "Promotes kindness, sharing, and loving others", "Character development through positive storytelling", "Trustworthy end-to-end online environment"]
     }
   ];
 
   return (
     <section className="max-w-4xl mx-auto px-6 pb-8 relative z-10">
       <div className="text-center mb-12">
-        <h2 className="content-h2 tracking-tight mb-6">{t("What to Expect", "Qué Esperar")}</h2>
-        <p className="body-text mx-auto">{t("Everything you need to know about our content and philosophy.", "Todo lo que necesitas saber sobre nuestro contenido y filosofía.")}</p>
+        <h2 className="content-h2 tracking-tight mb-6">{t("A Wholistic Approach", "Un Enfoque Integral")}</h2>
+        <p className="body-text mx-auto">{t("We carefully design every video, song, and story to nurture your child's entire being.", "Diseñamos cuidadosamente cada video, canción e historia para nutrir al niño de manera integral.")}</p>
       </div>
       <div className="space-y-6">
         {ACCORDION_DATA.map((section, i) => (
