@@ -273,10 +273,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
             transition={{ type: "spring", stiffness: 60, damping: 20, delay: 1.1 }}
             className="flex flex-col sm:flex-row justify-center gap-4 relative z-20 w-full sm:w-auto px-6 mb-10"
           >
-            <motion.div
-              animate={{ y: [0, -5, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            >
+            <motion.div>
               <Button 
                 onClick={() => router.push("/watch")}
                 className="group overflow-hidden relative !px-10 !py-4 ui-button flex items-center justify-center gap-3 whitespace-nowrap shadow-[0_20px_40px_-15px_rgba(255,92,0,0.5)] hover:shadow-[0_30px_60px_-15px_rgba(255,92,0,0.7)] hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto"
@@ -288,10 +285,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
                 <span className="relative z-10">{t("Watch Now", "Ver Ahora")}</span>
               </Button>
             </motion.div>
-            <motion.div
-              animate={{ y: [0, -5, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-            >
+            <motion.div>
               <Button 
                 onClick={() => router.push("/about")}
                 variant="white" 
@@ -312,14 +306,12 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
             transition={{ type: "spring", stiffness: 50, damping: 15, delay: 1.2 }}
             className="mt-8 md:mt-12 flex flex-col items-center relative z-20"
           >
-            {/* Playful Floating Badge */}
+            {/* Playful Floating Badge removed - kept static */}
             <motion.div 
-              animate={{ y: [0, -5, 0], rotate: [-2, 2, -2] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               className="absolute -top-12 sm:-top-16"
             >
               <span className="ui-label text-selah-dark/70 tracking-[0.2em] sm:tracking-[0.3em] flex items-center gap-3 bg-white/70 backdrop-blur-xl px-5 sm:px-6 py-2 sm:py-2.5 rounded-full border-2 border-white shadow-[0_8px_20px_-5px_rgba(0,0,0,0.1)]">
-                <Music size={14} className="text-selah-orange animate-bounce" />
+                <Music size={14} className="text-selah-orange" />
                 {t("AVAILABLE ON", "DISPONIBLE EN")}
               </span>
             </motion.div>
