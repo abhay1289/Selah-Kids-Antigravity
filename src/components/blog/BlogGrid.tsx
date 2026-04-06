@@ -1,80 +1,70 @@
 "use client";
 
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, ArrowRight } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Calendar } from 'lucide-react';
+import Image from 'next/image';
 import { useLanguage } from '../../contexts/LanguageContext';
 
-interface BlogPost {
+export interface BlogPost {
   id: number;
-  title: string;
-  excerpt: string;
-  category: string;
-  categoryLabel: string;
-  date: string;
-  iconLarge: any;
-  gradient: string;
+  titleEn: string;
+  titleEs: string;
+  img: string;
+  contentEn: string[];
+  contentEs: string[];
+  dateEn: string;
+  dateEs: string;
 }
 
 interface BlogGridProps {
   posts: BlogPost[];
-  activeCategory: string;
 }
 
-export const BlogGrid: React.FC<BlogGridProps> = ({ posts, activeCategory }) => {
-  const { t } = useLanguage();
+export const BlogGrid: React.FC<BlogGridProps> = ({ posts }) => {
+  const { language } = useLanguage();
   return (
-    <section className="max-w-3xl mx-auto px-6 mb-12 relative z-10">
-      <motion.div layout className="flex flex-col gap-8">
-        <AnimatePresence mode="popLayout">
-          {posts.map((post, index) => (
-            <motion.article
-              layout
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.97 }}
-              transition={{ duration: 0.5, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] as const }}
-              key={post.id}
-              className="group cursor-pointer flex flex-col sm:flex-row gap-6 bg-white rounded-2xl border border-black/5 p-4 shadow-[0_4px_16px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)] hover:border-selah-orange/10 transition-all duration-500"
-            >
-              {/* Thumbnail */}
-              <div className={`relative shrink-0 w-full sm:w-44 h-36 sm:h-36 rounded-xl overflow-hidden`}>
-                <div className={`absolute inset-0 bg-gradient-to-br ${post.gradient} opacity-90`} />
-                <div className="absolute inset-0 flex items-center justify-center text-white">
-                  <post.iconLarge size={40} className="drop-shadow-lg opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500" />
-                </div>
-                {/* Category Badge */}
-                <div className="absolute top-3 left-3 z-20">
-                  <span className="px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full ui-label text-selah-dark">
-                    {post.categoryLabel}
-                  </span>
-                </div>
-              </div>
+    <section className="max-w-4xl mx-auto px-6 mb-12 relative z-10 w-full">
+      <div className="flex flex-col gap-16">
+        {posts.map((post, index) => (
+          <motion.article
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+            key={post.id}
+            className="flex flex-col bg-white rounded-[3rem] border border-selah-dark/5 shadow-[0_12px_40px_rgba(0,0,0,0.06)] overflow-hidden"
+          >
+            {/* Banner Image */}
+            <div className={`relative w-full h-64 md:h-[400px] bg-[#FFF8EE]`}>
+              <Image 
+                src={post.img} 
+                alt={language === 'EN' ? post.titleEn : post.titleEs} 
+                fill 
+                className="object-cover"
+              />
+            </div>
 
-              {/* Content */}
-              <div className="flex flex-col justify-center flex-grow min-w-0 py-1">
-                <div className="flex items-center gap-2 text-selah-muted ui-caption tracking-wide mb-2">
-                  <Calendar size={12} />
-                  {post.date}
-                </div>
-                
-                <h3 className="content-h3 text-selah-dark mb-2 leading-snug group-hover:text-selah-orange transition-colors duration-300 line-clamp-2">
-                  {post.title}
-                </h3>
-                
-                <p className="body-text !max-w-none leading-relaxed line-clamp-2 mb-3">
-                  {post.excerpt}
-                </p>
-                
-                <div className="flex items-center gap-2 text-selah-dark ui-label group-hover:text-selah-orange transition-colors duration-300">
-                  {t("Read Article", "Leer Artículo")}
-                  <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
-                </div>
+            {/* Content */}
+            <div className="flex flex-col p-8 md:p-14">
+              <div className="flex items-center gap-2 text-selah-orange ui-caption font-bold tracking-widest uppercase mb-4">
+                <Calendar size={14} />
+                {language === 'EN' ? post.dateEn : post.dateEs}
               </div>
-            </motion.article>
-          ))}
-        </AnimatePresence>
-      </motion.div>
+              
+              <h2 className="text-3xl md:text-5xl font-display font-black text-selah-dark mb-8 leading-tight">
+                {language === 'EN' ? post.titleEn : post.titleEs}
+              </h2>
+              
+              <div className="flex flex-col gap-5 text-selah-dark/80 text-lg md:text-xl leading-relaxed">
+                {(language === 'EN' ? post.contentEn : post.contentEs).map((paragraph, i) => (
+                  <p key={i} className="font-medium" dangerouslySetInnerHTML={{ __html: paragraph }} />
+                ))}
+              </div>
+            </div>
+          </motion.article>
+        ))}
+      </div>
     </section>
   );
 };
