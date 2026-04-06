@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { ParentsHero } from '../../components/parents/ParentsHero';
 import { ParentsTrustBadges } from '../../components/parents/ParentsTrustBadges';
 import { ParentsAccordion } from '../../components/parents/ParentsAccordion';
+import { ParentsCommunity } from '../../components/parents/ParentsCommunity';
 
 const sectionEntrance = {
   hidden: { opacity: 0, y: 50 },
@@ -31,6 +32,10 @@ export default function ParentsPage() {
       
       <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={sectionEntrance}>
         <ParentsAccordion />
+      </motion.div>
+
+      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={sectionEntrance}>
+        <ParentsCommunity />
       </motion.div>
     </div>
   );
