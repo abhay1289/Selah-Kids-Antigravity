@@ -62,7 +62,7 @@ const CHARACTERS = [
     gradient: 'from-[#FFD700]/15 via-[#FFFDF0] to-[#FFF8DC]/20',
     blobColor: 'bg-[#FFD700]',
     ringColor: 'ring-[#FFD700]/30',
-    image: '/SK_Shiloh_Intro_Pose-removebg-preview.png',
+    image: '/SK_Shiloh_Intro_Pose.png',
     imageAlt: 'Shiloh – The Faithful Friend',
     icon: Star,
     funFact: 'Shiloh\'s favorite snack is apples straight from the tree!',

@@ -22,7 +22,7 @@ export const CHARACTERS = [
     trait: "The Funny Sheep",
     description: "Shiloh is Andy’s pet sheep and best friend. He is curious, helpful, and very funny! Shiloh loves resting in the warm sun and finding yummy snacks.",
     color: "from-[#98FF98] to-[#93D35C]", // Mint
-    img: "/SK_Shiloh_Intro_Pose-removebg-preview.png",
+    img: "/SK_Shiloh_Intro_Pose.png",
     delay: 0.3
   }
 ];
