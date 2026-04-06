@@ -135,7 +135,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
           initial={{ opacity: 0, x: "35vw", scale: 0.2, rotate: 30, filter: "blur(20px)" }}
           animate={{ opacity: 1, x: 0, scale: 1, rotate: 0, filter: "blur(0px)" }}
           transition={{ type: "spring", stiffness: 50, damping: 14, delay: 0.1, mass: 1.2 }}
-          className="absolute top-[20%] sm:top-[40%] md:top-[50%] -translate-y-1/2 left-0 -ml-[5%] sm:ml-4 md:ml-12 w-[40%] sm:w-[30%] md:w-[22%] z-0 md:z-20 opacity-30 sm:opacity-50 md:opacity-100 pointer-events-none"
+          className="absolute top-[24%] sm:top-[45%] md:top-[50%] -translate-y-1/2 left-0 -ml-[2%] sm:ml-4 md:ml-12 w-[32%] sm:w-[25%] md:w-[18%] z-0 md:z-20 opacity-30 sm:opacity-50 md:opacity-100 pointer-events-none"
         >
           <motion.div
             animate={{ y: [0, -15, 0], rotate: [-1, 1, -1] }}
@@ -163,7 +163,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
           initial={{ opacity: 0, x: "-35vw", scale: 0.2, rotate: -30, filter: "blur(20px)" }}
           animate={{ opacity: 1, x: 0, scale: 1, rotate: 0, filter: "blur(0px)" }}
           transition={{ type: "spring", stiffness: 50, damping: 14, delay: 0.15, mass: 1.2 }}
-          className="absolute top-[20%] sm:top-[40%] md:top-[50%] -translate-y-1/2 right-0 -mr-[5%] sm:mr-4 md:mr-12 w-[40%] sm:w-[30%] md:w-[22%] z-0 md:z-20 opacity-30 sm:opacity-50 md:opacity-100 pointer-events-none"
+          className="absolute top-[24%] sm:top-[45%] md:top-[50%] -translate-y-1/2 right-0 -mr-[2%] sm:mr-4 md:mr-12 w-[32%] sm:w-[25%] md:w-[18%] z-0 md:z-20 opacity-30 sm:opacity-50 md:opacity-100 pointer-events-none"
         >
           <motion.div
             animate={{ y: [0, -18, 0], rotate: [1, -1, 1] }}
