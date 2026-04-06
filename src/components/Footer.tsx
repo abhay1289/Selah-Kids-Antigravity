@@ -86,11 +86,6 @@ export function Footer() {
                 <li key={i}>
                   <Link 
                     href={link.href} 
-                    onClick={(e) => {
-                      e.preventDefault();
-                      router.push(link.href);
-                      window.scrollTo(0, 0);
-                    }}
                     className="text-selah-muted ui-button hover:text-selah-orange transition-all duration-300 flex items-center gap-3 group cursor-pointer"
                   >
                     <span className="w-8 h-8 rounded-xl bg-selah-bg flex items-center justify-center group-hover:bg-selah-orange/20 group-hover:text-selah-orange transition-colors shadow-sm">

@@ -226,7 +226,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
           <div className="relative mt-2">
 
             
-            <h1 className="hero-headline flex flex-wrap justify-center gap-x-3 lg:gap-x-4 mb-6 drop-shadow-lg relative z-10">
+            <h1 className="hero-headline flex flex-wrap justify-center gap-x-3 lg:gap-x-4 mb-6 drop-shadow-lg relative z-10 max-w-[260px] sm:max-w-[350px] md:max-w-[800px] mx-auto leading-[1.2]">
             {t("Christian", "Música").split(" ").concat(t("Music for", "Cristiana para").split(" ")).map((word, i) => (
               <span key={i} className="overflow-hidden inline-block pb-4 px-1">
                 <motion.span
@@ -317,9 +317,10 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
             </motion.div>
             
             <div className="flex items-center gap-4 sm:gap-8 mt-4 sm:mt-6">
-              {/* YouTube Jelly Blob */}
               <motion.a 
-                href="#" 
+                href="https://youtube.com/@selahkids" 
+                target="_blank"
+                rel="noopener noreferrer"
                 whileHover={{ scale: 1.1, rotate: -5 }}
                 whileTap={{ scale: 0.95 }}
                 className="w-12 h-12 sm:w-14 sm:h-14 bg-white/80 backdrop-blur-xl border-[3px] border-white rounded-full flex items-center justify-center shadow-[0_15px_35px_-5px_rgba(255,0,0,0.2)] hover:shadow-[0_20px_50px_0_rgba(255,0,0,0.4)] transition-all duration-300 group overflow-hidden relative"
@@ -330,9 +331,10 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
                 </svg>
               </motion.a>
               
-              {/* Spotify Jelly Blob */}
               <motion.a 
-                href="#" 
+                href="https://open.spotify.com" 
+                target="_blank"
+                rel="noopener noreferrer"
                 whileHover={{ scale: 1.1, rotate: 5 }}
                 whileTap={{ scale: 0.95 }}
                 className="w-12 h-12 sm:w-14 sm:h-14 bg-white/80 backdrop-blur-xl border-[3px] border-white rounded-full flex items-center justify-center shadow-[0_15px_35px_-5px_rgba(29,185,84,0.2)] hover:shadow-[0_20px_50px_0_rgba(29,185,84,0.4)] transition-all duration-300 group overflow-hidden relative"
@@ -343,9 +345,10 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
                 </svg>
               </motion.a>
               
-              {/* Apple Music Jelly Blob */}
               <motion.a 
-                href="#" 
+                href="https://music.apple.com" 
+                target="_blank"
+                rel="noopener noreferrer"
                 whileHover={{ scale: 1.1, rotate: -8 }}
                 whileTap={{ scale: 0.95 }}
                 className="w-12 h-12 sm:w-14 sm:h-14 bg-white/80 backdrop-blur-xl border-[3px] border-white rounded-full flex items-center justify-center shadow-[0_15px_35px_-5px_rgba(250,36,60,0.2)] hover:shadow-[0_20px_50px_0_rgba(250,36,60,0.4)] transition-all duration-300 group overflow-hidden relative"
