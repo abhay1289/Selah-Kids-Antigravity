@@ -86,7 +86,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
       animate={{ opacity: 1 }}
       transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] as const }}
       onMouseMove={onHeroMouseMove}
-      className="relative min-h-[90svh] md:min-h-[750px] pb-10 md:pb-0 flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#FFE0C0] via-[#FFD4A8] to-[#D4EDC0] perspective-1000"
+      className="relative min-h-[105svh] sm:min-h-[90svh] md:min-h-[750px] pb-24 sm:pb-10 md:pb-0 flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#FFE0C0] via-[#FFD4A8] to-[#D4EDC0] perspective-1000"
     >
       {/* Vivid color washes — enterprise-grade vibrancy */}
       <div className="absolute top-0 right-0 w-[70vw] h-[65vh] bg-gradient-to-bl from-[#FF7F50]/30 via-[#FF5C00]/15 to-transparent rounded-full blur-[120px] pointer-events-none" />
