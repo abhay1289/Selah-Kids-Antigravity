@@ -11,7 +11,7 @@ import { HeroSection } from "./HeroSection";
 // Lazy-load all below-the-fold sections to minimise initial bundle
 const LatestVideosSection  = dynamic(() => import("./LatestVideosSection").then(m => ({ default: m.LatestVideosSection })), { ssr: false });
 const AboutSection         = dynamic(() => import("./AboutSection").then(m => ({ default: m.AboutSection })), { ssr: false });
-const CharactersSection    = dynamic(() => import("./CharactersSection").then(m => ({ default: m.CharactersSection })), { ssr: false });
+
 const WhyChooseSection     = dynamic(() => import("./WhyChooseSection").then(m => ({ default: m.WhyChooseSection })), { ssr: false });
 const JoinYouTubeSection   = dynamic(() => import("./JoinYouTubeSection").then(m => ({ default: m.JoinYouTubeSection })), { ssr: false });
 const TestimonialsSection  = dynamic(() => import("./TestimonialsSection").then(m => ({ default: m.TestimonialsSection })), { ssr: false });
@@ -241,7 +241,7 @@ export default function HomeClient() {
       <LatestVideosSection />
       <AboutSection />
       <JoinYouTubeSection />
-      <CharactersSection />
+
       <WhyChooseSection />
       <NewsletterSection />
       <TestimonialsSection />
