@@ -14,7 +14,7 @@ export const ContactHero = () => {
         <Badge color="light" className="mb-8 shadow-sm bg-white border border-black/5">{t("GET IN TOUCH", "CONTÁCTANOS")}</Badge>
       </motion.div>
       <motion.h1 variants={zoomInUp} className="hero-headline mb-6 tracking-tight leading-[1.1] drop-shadow-sm">
-        {t("Let's", "Vamos a")} <span className="text-transparent bg-clip-text bg-gradient-to-r from-selah-blue to-selah-pink">{t("Connect", "Conectar")}</span>
+        {t("Let's", "Vamos a")} <span className="text-selah-blue">{t("Connect", "Conectar")}</span>
       </motion.h1>
       <motion.p variants={zoomInUp} className="body-text max-w-3xl mx-auto leading-relaxed tracking-tight mb-8">
         {t(

@@ -19,8 +19,8 @@ export const CHARACTERS = [
   },
   {
     name: "Shiloh",
-    trait: "The Funny Sheep",
-    description: "Shiloh is Andy’s pet sheep and best friend. He is curious, helpful, and very funny! Shiloh loves resting in the warm sun and finding yummy snacks.",
+    trait: "The Playful Sheep",
+    description: "Shiloh is Andy’s pet sheep and best friend. He is curious, helpful, and very playful! Shiloh loves resting in the warm sun and finding yummy snacks.",
     color: "from-[#98FF98] to-[#93D35C]", // Mint
     img: "/SK_Shiloh_Intro_Pose.png",
     delay: 0.3
@@ -107,7 +107,7 @@ export const TESTIMONIALS = [
     iconColor: "text-[#FF7F50]"
   },
   {
-    quote: "I love that there are now fun videos available like Selah Kids that children can learn about the Word of God!",
+    quote: "I love that there are now amazing videos available like Selah Kids that children can learn about the Word of God!",
     quoteEs: "Me alegra mucho que haya videos divertidos como los de Selah Kids! para que los niños aprendan sobre la Palabra de Dios.",
     author: "kims_slice",
     role: "YouTube Community",

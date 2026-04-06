@@ -7,6 +7,7 @@ import { WatchCategories } from '../../components/watch/WatchCategories';
 import { WatchGrid } from '../../components/watch/WatchGrid';
 import { WatchCTA } from '../../components/watch/WatchCTA';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { Button } from '../../components/UI';
 
 const sectionEntrance = {
   hidden: { opacity: 0, y: 50 },
@@ -20,31 +21,42 @@ const VIDEOS = [
   // ── English Videos ──
   {
     id: 1,
-    title: "Jesus Loves Me",
-    date: "March 15, 2026",
-    description: "An upbeat version of the classic hymn that kids will love to sing along to.",
-    category: "music",
-    categoryLabel: "Music Video",
+    title: "The Good News",
+    date: "March 20, 2026",
+    description: "Join Andy, Libni, and Shiloh in their very first adventure as they learn about God's amazing love for us!",
+    category: "cartoons",
+    categoryLabel: "Cartoon",
     language: "EN",
     gradient: "from-[#FF7F50] to-[#FF5C00]",
     img: "/TGN_SingleFrames+28729.jpg"
   },
   {
+    id: 2,
+    title: "Jesus Loves Me",
+    date: "March 15, 2026",
+    description: "A fun and upbeat modern rendition of the classic Sunday school song, perfect for young voices.",
+    category: "music",
+    categoryLabel: "Music Video",
+    language: "EN",
+    gradient: "from-[#00BFFF] to-[#87CEEB]",
+    img: "/TGN_SingleFrames+28329.jpg"
+  },
+  {
     id: 3,
-    title: "The Fruit of the Spirit",
+    title: "God is So Good",
     date: "March 10, 2026",
-    description: "Learn about love, joy, peace, and more in this catchy song based on Galatians 5:22-23.",
+    description: "Sing along with our beautiful acoustic version of this beloved worship chorus.",
     category: "singalong",
     categoryLabel: "Sing-Along",
     language: "EN",
-    gradient: "from-[#FFD700] to-[#FEB835]",
-    img: "/TGN_SingleFrames+(3).jpg"
+    gradient: "from-[#FF69B4] to-[#FF1493]",
+    img: "/TGN_SingleFrames+(8).jpg"
   },
   {
     id: 4,
-    title: "Calm & Peaceful Garden",
-    date: "March 8, 2026",
-    description: "A relaxing sensory video featuring soft music and gentle animations for quiet time.",
+    title: "Peaceful Garden",
+    date: "March 5, 2026",
+    description: "A calming sensory video featuring gentle music and floating animations to help kids relax.",
     category: "sensory",
     categoryLabel: "Sensory",
     language: "EN",
@@ -53,49 +65,38 @@ const VIDEOS = [
   },
   {
     id: 5,
-    title: "He's Got the Whole World",
-    date: "March 5, 2026",
-    description: "A beautiful reminder of God's care for all of creation in this classic worship song.",
+    title: "He's Got The Whole World",
+    date: "March 1, 2026",
+    description: "A wonderful reminder of God's care for all creation in this classic worship song.",
     category: "music",
     categoryLabel: "Music Video",
     language: "EN",
     gradient: "from-[#00BFFF] to-[#87CEEB]",
     img: "/TGN_SingleFrames+28229.jpg"
   },
-  {
-    id: 6,
-    title: "This Little Light of Mine",
-    date: "March 1, 2026",
-    description: "Encouraging children to let their light shine for Jesus every day through music.",
-    category: "singalong",
-    categoryLabel: "Sing-Along",
-    language: "EN",
-    gradient: "from-[#FF69B4] to-[#FF1493]",
-    img: "/TGN_SingleFrames+(7).jpg"
-  },
 
   // ── Spanish Videos ──
   {
-    id: 2,
-    title: "Jesús Me Ama",
-    date: "15 de Marzo, 2026",
-    description: "La versión en español de nuestro querido himno clásico que a los niños les encantará cantar.",
-    category: "music",
-    categoryLabel: "Video Musical",
+    id: 6,
+    title: "Las Buenas Nuevas",
+    date: "20 de Marzo, 2026",
+    description: "¡Únete a Andy, Libni y Shiloh en su primera aventura mientras aprenden sobre el asombroso amor de Dios por nosotros!",
+    category: "cartoons",
+    categoryLabel: "Caricatura",
     language: "ES",
     gradient: "from-[#FF7F50] to-[#FF5C00]",
-    img: "/TGN_SingleFrames+28329.jpg"
+    img: "/TGN_SingleFrames+28729.jpg"
   },
   {
     id: 7,
-    title: "El Fruto del Espíritu",
-    date: "10 de Marzo, 2026",
-    description: "Aprende sobre el amor, la alegría, la paz y más con esta canción pegadiza basada en Gálatas 5:22-23.",
+    title: "Dios Es Tan Bueno",
+    date: "15 de Marzo, 2026",
+    description: "Canta con nosotros esta hermosa versión acústica de este amado coro de adoración.",
     category: "singalong",
     categoryLabel: "Canta Conmigo",
     language: "ES",
-    gradient: "from-[#FFD700] to-[#FEB835]",
-    img: "/TGN_SingleFrames+(3).jpg"
+    gradient: "from-[#FF69B4] to-[#FF1493]",
+    img: "/TGN_SingleFrames+(8).jpg"
   },
   {
     id: 8,
@@ -121,20 +122,20 @@ const VIDEOS = [
   },
   {
     id: 10,
-    title: "Esta Lucecita Mía",
+    title: "Jesús Me Ama",
     date: "1 de Marzo, 2026",
-    description: "Animando a los niños a dejar brillar su luz por Jesús cada día a través de la música.",
-    category: "singalong",
-    categoryLabel: "Canta Conmigo",
+    description: "La versión en español de nuestro querido himno clásico que a los niños les encantará cantar.",
+    category: "music",
+    categoryLabel: "Video Musical",
     language: "ES",
-    gradient: "from-[#FF69B4] to-[#FF1493]",
-    img: "/TGN_SingleFrames+(7).jpg"
+    gradient: "from-[#FF7F50] to-[#FF5C00]",
+    img: "/TGN_SingleFrames+28329.jpg"
   }
 ];
 
 export default function WatchPage() {
   const [activeCategory, setActiveCategory] = useState('all');
-  const { language } = useLanguage();
+  const { language, setLanguage } = useLanguage();
 
   const filteredVideos = VIDEOS.filter(video => 
     video.language === language && (activeCategory === 'all' || video.category === activeCategory)
@@ -155,6 +156,25 @@ export default function WatchPage() {
         <WatchCategories activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
       </div>
 
+      {/* Notice Blurb */}
+      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={sectionEntrance} className="max-w-4xl mx-auto px-6 mb-12 text-center">
+        {language === 'EN' ? (
+          <p className="text-selah-dark bg-selah-orange/10 rounded-2xl p-6 m-0 flex flex-col sm:flex-row items-center justify-center gap-4 shadow-sm border border-selah-orange/20">
+            <span className="font-medium text-lg">Do you speak Spanish? Check out our Spanish page!</span>
+            <Button variant="primary" onClick={() => setLanguage('ES')} className="!py-2 !px-6 hover:scale-105 transition-transform">
+              🇪🇸 Switch to Spanish
+            </Button>
+          </p>
+        ) : (
+          <p className="text-selah-dark bg-selah-orange/10 rounded-2xl p-6 m-0 flex flex-col sm:flex-row items-center justify-center gap-4 shadow-sm border border-selah-orange/20">
+            <span className="font-medium text-lg">¿Hablas inglés? ¡Visita nuestra página en inglés!</span>
+            <Button variant="primary" onClick={() => setLanguage('EN')} className="!py-2 !px-6 hover:scale-105 transition-transform">
+              🇺🇸 Cambiar a Inglés
+            </Button>
+          </p>
+        )}
+      </motion.div>
+
       <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={sectionEntrance}>
         <WatchGrid filteredVideos={filteredVideos} />
       </motion.div>
@@ -165,4 +185,3 @@ export default function WatchPage() {
     </div>
   );
 }
-
