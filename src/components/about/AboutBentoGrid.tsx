@@ -150,6 +150,36 @@ export const AboutBentoGrid = () => {
           </div>
         </motion.div>
 
+        {/* Bento 4: Sensory Block (Wide) */}
+        <motion.div 
+          variants={slideInRight}
+          className="md:col-span-12 bg-white rounded-2xl md:rounded-[4rem] border border-black/5 p-4 md:p-6 flex flex-col md:flex-row-reverse items-stretch gap-4 md:gap-6 min-h-[400px] md:min-h-[500px] shadow-2xl relative overflow-hidden mt-6 md:mt-8"
+        >
+          <div className="absolute -left-40 -bottom-40 w-[600px] h-[600px] bg-selah-blue/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="w-full md:w-1/2 rounded-2xl md:rounded-[3.5rem] overflow-hidden relative" style={{minHeight: '300px'}}>
+            <NextImage src="/TGN_SingleFrames+(9).jpg" alt="Sensory Peace" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" loading="lazy" />
+          </div>
+
+          <div className="w-full md:w-1/2 p-4 md:p-8 lg:p-16 flex flex-col justify-center relative z-10">
+            <Badge color="light" className="mb-6 self-start shadow-md">{t("SENSORY FRIENDLY", "AMIGABLE SENSORIALMENTE")}</Badge>
+            <h2 className="content-h2 mb-8 leading-[1.1] tracking-tight">
+              {t("Calm & Peaceful Experience", "Experiencia Tranquila y Pacífica")}
+            </h2>
+            <p className="body-text !max-w-none leading-relaxed mb-6">
+              {t(
+                "We understand that sometimes children just need to wind down. That's why we create dedicated sensory videos designed with gentle pacing, soft colors, and peaceful acoustic music.",
+                "Entendemos que a veces los niños solo necesitan relajarse. Es por eso que creamos videos sensoriales dedicados diseñados con un ritmo suave, colores tenues y música acústica pacífica."
+              )}
+            </p>
+            <p className="body-text !max-w-none leading-relaxed">
+              {t(
+                "Perfect for bedtime, quiet time, or helping children who can easily become overstimulated. God's peace can be felt even in the quietest moments.",
+                "Perfecto para la hora de acostarse, el tiempo de tranquilidad o para ayudar a los niños que pueden sobreestimularse fácilmente. La paz de Dios se puede sentir incluso en los momentos más tranquilos."
+              )}
+            </p>
+          </div>
+        </motion.div>
+
       </motion.div>
     </section>
   );

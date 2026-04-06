@@ -9,7 +9,7 @@ import { AboutBentoGrid } from '../../components/about/AboutBentoGrid';
 import { AboutCoreValues } from '../../components/about/AboutCoreValues';
 import { AboutCTA } from '../../components/about/AboutCTA';
 import { AboutPhotoCarousel } from '../../components/about/AboutPhotoCarousel';
-import { CharactersSection } from '../../components/home/CharactersSection';
+import { TeamSection } from '../../components/home/TeamSection';
 
 const sectionEntrance = {
   hidden: { opacity: 0, y: 60 },
@@ -39,7 +39,7 @@ export default function AboutPage() {
       </motion.div>
 
       <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={sectionEntrance}>
-        <CharactersSection />
+        <TeamSection />
       </motion.div>
 
       <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={sectionEntrance}>
