@@ -62,22 +62,26 @@ export function TeamSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className={`flex flex-col h-full rounded-[3rem] p-8 md:p-10 ${member.bgTheme} border-2 border-white shadow-[0_8px_30px_rgba(0,0,0,0.02)]`}
+              whileHover={{ y: -8 }}
+              className="group relative flex flex-col h-full rounded-[3rem] p-8 md:p-10 bg-white border border-black/[0.04] shadow-sm hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)] transition-all duration-500 overflow-hidden"
             >
+              {/* Subtle hover glow layer */}
+              <div className={`absolute inset-0 bg-gradient-to-b ${member.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
+
               {/* Image & Header */}
-              <div className="flex flex-col items-center mb-8">
-                <div className="relative w-40 h-40 md:w-48 md:h-48 rounded-full shadow-[0_20px_40px_rgba(0,0,0,0.1)] mb-6 overflow-hidden">
-                  <div className={`absolute inset-0 bg-gradient-to-br ${member.color} opacity-20`} />
-                  <div className="absolute inset-2 rounded-full overflow-hidden border-4 border-white bg-white">
+              <div className="flex flex-col items-center mb-8 relative z-10">
+                <div className="relative w-36 h-36 md:w-44 md:h-44 rounded-full mb-6 group-hover:scale-105 transition-transform duration-500">
+                  <div className={`absolute inset-0 rounded-full bg-gradient-to-br ${member.color} blur-md opacity-20 group-hover:opacity-40 transition-opacity duration-500`} />
+                  <div className="absolute inset-0 rounded-full overflow-hidden border-4 border-white bg-white shadow-[0_8px_20px_rgba(0,0,0,0.06)] z-10">
                     <Image 
                       src={member.img} 
                       alt={member.name}
                       fill
-                      className="object-cover"
+                      className="object-cover relative z-10 group-hover:scale-110 transition-transform duration-700 ease-out"
                     />
                   </div>
                 </div>
-                <h3 className="text-3xl font-display font-black text-selah-dark mb-2 text-center">
+                <h3 className="text-3xl font-display font-black text-selah-dark mb-2 text-center" translate="no">
                   {member.name}
                 </h3>
                 <span className={`inline-block px-4 py-1.5 rounded-full text-white font-bold text-sm bg-gradient-to-r ${member.color} shadow-sm`}>
