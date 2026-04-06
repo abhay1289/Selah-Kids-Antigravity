@@ -328,18 +328,9 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
               {/* YouTube Jelly Blob */}
               <motion.a 
                 href="#" 
-                animate={{ 
-                  y: [0, -15, 0], 
-                  borderRadius: [
-                    "60% 40% 30% 70% / 60% 30% 70% 40%", 
-                    "30% 70% 70% 30% / 30% 30% 70% 70%", 
-                    "60% 40% 30% 70% / 60% 30% 70% 40%"
-                  ],
-                }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0 }}
-                whileHover={{ scale: 1.2, borderRadius: "30%", rotate: -5 }}
-                whileTap={{ scale: 0.9 }}
-                className="w-12 h-12 sm:w-14 sm:h-14 bg-white/80 backdrop-blur-xl border-[3px] border-white flex items-center justify-center shadow-[0_15px_35px_-5px_rgba(255,0,0,0.2)] hover:shadow-[0_20px_50px_0_rgba(255,0,0,0.4)] transition-all duration-300 group overflow-hidden relative"
+                whileHover={{ scale: 1.1, rotate: -5 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-12 h-12 sm:w-14 sm:h-14 bg-white/80 backdrop-blur-xl border-[3px] border-white rounded-full flex items-center justify-center shadow-[0_15px_35px_-5px_rgba(255,0,0,0.2)] hover:shadow-[0_20px_50px_0_rgba(255,0,0,0.4)] transition-all duration-300 group overflow-hidden relative"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-white via-[#FF0000]/10 to-[#FF0000]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 sm:w-6 sm:h-6 text-[#FF0000] relative z-10 group-hover:scale-110 transition-transform duration-300 drop-shadow-sm">
@@ -350,18 +341,9 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
               {/* Spotify Jelly Blob */}
               <motion.a 
                 href="#" 
-                animate={{ 
-                  y: [0, -20, 0], 
-                  borderRadius: [
-                    "40% 60% 70% 30% / 40% 50% 60% 50%", 
-                    "70% 30% 50% 50% / 30% 70% 30% 70%", 
-                    "40% 60% 70% 30% / 40% 50% 60% 50%"
-                  ],
-                }}
-                transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                whileHover={{ scale: 1.2, borderRadius: "30%", rotate: 5 }}
-                whileTap={{ scale: 0.9 }}
-                className="w-12 h-12 sm:w-14 sm:h-14 bg-white/80 backdrop-blur-xl border-[3px] border-white flex items-center justify-center shadow-[0_15px_35px_-5px_rgba(29,185,84,0.2)] hover:shadow-[0_20px_50px_0_rgba(29,185,84,0.4)] transition-all duration-300 group overflow-hidden relative"
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-12 h-12 sm:w-14 sm:h-14 bg-white/80 backdrop-blur-xl border-[3px] border-white rounded-full flex items-center justify-center shadow-[0_15px_35px_-5px_rgba(29,185,84,0.2)] hover:shadow-[0_20px_50px_0_rgba(29,185,84,0.4)] transition-all duration-300 group overflow-hidden relative"
               >
                 <div className="absolute inset-0 bg-gradient-to-bl from-white via-[#1DB954]/10 to-[#1DB954]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 sm:w-6 sm:h-6 text-[#1DB954] relative z-10 group-hover:scale-110 transition-transform duration-300 drop-shadow-sm">
@@ -372,18 +354,9 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
               {/* Apple Music Jelly Blob */}
               <motion.a 
                 href="#" 
-                animate={{ 
-                  y: [0, -18, 0], 
-                  borderRadius: [
-                    "50% 50% 20% 80% / 25% 80% 20% 75%", 
-                    "30% 70% 50% 50% / 60% 40% 60% 40%", 
-                    "50% 50% 20% 80% / 25% 80% 20% 75%"
-                  ],
-                }}
-                transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                whileHover={{ scale: 1.2, borderRadius: "30%", rotate: -8 }}
-                whileTap={{ scale: 0.9 }}
-                className="w-12 h-12 sm:w-14 sm:h-14 bg-white/80 backdrop-blur-xl border-[3px] border-white flex items-center justify-center shadow-[0_15px_35px_-5px_rgba(250,36,60,0.2)] hover:shadow-[0_20px_50px_0_rgba(250,36,60,0.4)] transition-all duration-300 group overflow-hidden relative"
+                whileHover={{ scale: 1.1, rotate: -8 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-12 h-12 sm:w-14 sm:h-14 bg-white/80 backdrop-blur-xl border-[3px] border-white rounded-full flex items-center justify-center shadow-[0_15px_35px_-5px_rgba(250,36,60,0.2)] hover:shadow-[0_20px_50px_0_rgba(250,36,60,0.4)] transition-all duration-300 group overflow-hidden relative"
               >
                 <div className="absolute inset-0 bg-gradient-to-t from-white via-[#FA243C]/10 to-[#FA243C]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 sm:w-6 sm:h-6 text-[#FA243C] relative z-10 group-hover:scale-110 transition-transform duration-300 drop-shadow-sm">
