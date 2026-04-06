@@ -6,7 +6,6 @@ import { WatchHero } from '../../components/watch/WatchHero';
 import { WatchCategories } from '../../components/watch/WatchCategories';
 import { WatchGrid } from '../../components/watch/WatchGrid';
 import { WatchCTA } from '../../components/watch/WatchCTA';
-import { WatchLanguageBanner } from '../../components/watch/WatchLanguageBanner';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 const sectionEntrance = {
@@ -18,6 +17,7 @@ const sectionEntrance = {
 };
 
 const VIDEOS = [
+  // ── English Videos ──
   {
     id: 1,
     title: "Jesus Loves Me",
@@ -30,17 +30,6 @@ const VIDEOS = [
     img: "/TGN_SingleFrames+28729.jpg"
   },
   {
-    id: 2,
-    title: "Jesús Me Ama",
-    date: "March 12, 2026",
-    description: "La versión en español de nuestro querido video musical 'Jesus Loves Me'.",
-    category: "music",
-    categoryLabel: "Video Musical",
-    language: "ES",
-    gradient: "from-[#00BFFF] to-[#87CEEB]",
-    img: "/TGN_SingleFrames+28329.jpg"
-  },
-  {
     id: 3,
     title: "The Fruit of the Spirit",
     date: "March 10, 2026",
@@ -49,7 +38,7 @@ const VIDEOS = [
     categoryLabel: "Sing-Along",
     language: "EN",
     gradient: "from-[#FFD700] to-[#FEB835]",
-    img: "/TGN_SingleFrames+28229.jpg"
+    img: "/TGN_SingleFrames+(3).jpg"
   },
   {
     id: 4,
@@ -60,7 +49,7 @@ const VIDEOS = [
     categoryLabel: "Sensory",
     language: "EN",
     gradient: "from-[#98FF98] to-[#93D35C]",
-    img: "/TGN_SingleFrames+28729.jpg"
+    img: "/TGN_SingleFrames+(9).jpg"
   },
   {
     id: 5,
@@ -70,7 +59,7 @@ const VIDEOS = [
     category: "music",
     categoryLabel: "Music Video",
     language: "EN",
-    gradient: "from-[#FF7F50] to-[#FF5C00]",
+    gradient: "from-[#00BFFF] to-[#87CEEB]",
     img: "/TGN_SingleFrames+28229.jpg"
   },
   {
@@ -81,52 +70,65 @@ const VIDEOS = [
     category: "singalong",
     categoryLabel: "Sing-Along",
     language: "EN",
-    gradient: "from-[#FFD700] to-[#FEB835]",
+    gradient: "from-[#FF69B4] to-[#FF1493]",
+    img: "/TGN_SingleFrames+(7).jpg"
+  },
+
+  // ── Spanish Videos ──
+  {
+    id: 2,
+    title: "Jesús Me Ama",
+    date: "15 de Marzo, 2026",
+    description: "La versión en español de nuestro querido himno clásico que a los niños les encantará cantar.",
+    category: "music",
+    categoryLabel: "Video Musical",
+    language: "ES",
+    gradient: "from-[#FF7F50] to-[#FF5C00]",
     img: "/TGN_SingleFrames+28329.jpg"
   },
   {
     id: 7,
     title: "El Fruto del Espíritu",
-    date: "March 10, 2026",
+    date: "10 de Marzo, 2026",
     description: "Aprende sobre el amor, la alegría, la paz y más con esta canción pegadiza basada en Gálatas 5:22-23.",
     category: "singalong",
     categoryLabel: "Canta Conmigo",
     language: "ES",
     gradient: "from-[#FFD700] to-[#FEB835]",
-    img: "/TGN_SingleFrames+28229.jpg"
+    img: "/TGN_SingleFrames+(3).jpg"
   },
   {
     id: 8,
     title: "Jardín de Calma y Paz",
-    date: "March 8, 2026",
+    date: "8 de Marzo, 2026",
     description: "Un video sensorial relajante con música suave y animaciones gentiles para momentos de tranquilidad.",
     category: "sensory",
     categoryLabel: "Sensorial",
     language: "ES",
     gradient: "from-[#98FF98] to-[#93D35C]",
-    img: "/TGN_SingleFrames+28729.jpg"
+    img: "/TGN_SingleFrames+(9).jpg"
   },
   {
     id: 9,
     title: "Él Tiene al Mundo Entero",
-    date: "March 5, 2026",
+    date: "5 de Marzo, 2026",
     description: "Un hermoso recordatorio del cuidado de Dios por toda la creación en este clásico canto de adoración.",
     category: "music",
     categoryLabel: "Video Musical",
     language: "ES",
-    gradient: "from-[#FF7F50] to-[#FF5C00]",
+    gradient: "from-[#00BFFF] to-[#87CEEB]",
     img: "/TGN_SingleFrames+28229.jpg"
   },
   {
     id: 10,
     title: "Esta Lucecita Mía",
-    date: "March 1, 2026",
+    date: "1 de Marzo, 2026",
     description: "Animando a los niños a dejar brillar su luz por Jesús cada día a través de la música.",
     category: "singalong",
     categoryLabel: "Canta Conmigo",
     language: "ES",
-    gradient: "from-[#FFD700] to-[#FEB835]",
-    img: "/TGN_SingleFrames+28329.jpg"
+    gradient: "from-[#FF69B4] to-[#FF1493]",
+    img: "/TGN_SingleFrames+(7).jpg"
   }
 ];
 
@@ -147,10 +149,6 @@ export default function WatchPage() {
       <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={sectionEntrance}>
         <WatchHero />
       </motion.div>
-
-      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={sectionEntrance}>
-        <WatchLanguageBanner />
-      </motion.div>
       
       {/* Filter Bar */}
       <div className="sticky top-20 z-40 bg-white/80 backdrop-blur-xl py-4 mb-12 border-b border-selah-orange/10">
@@ -167,3 +165,4 @@ export default function WatchPage() {
     </div>
   );
 }
+
