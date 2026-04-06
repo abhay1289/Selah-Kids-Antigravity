@@ -86,7 +86,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
       animate={{ opacity: 1 }}
       transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] as const }}
       onMouseMove={onHeroMouseMove}
-      className="relative min-h-[105svh] sm:min-h-[90svh] md:min-h-[750px] pb-24 sm:pb-10 md:pb-0 flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#FFE0C0] via-[#FFD4A8] to-[#D4EDC0] perspective-1000"
+      className="relative min-h-[90svh] md:min-h-[750px] pb-10 md:pb-0 flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#FFE0C0] via-[#FFD4A8] to-[#D4EDC0] perspective-1000"
     >
       {/* Vivid color washes — enterprise-grade vibrancy */}
       <div className="absolute top-0 right-0 w-[70vw] h-[65vh] bg-gradient-to-bl from-[#FF7F50]/30 via-[#FF5C00]/15 to-transparent rounded-full blur-[120px] pointer-events-none" />
@@ -135,7 +135,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
           initial={{ opacity: 0, x: "35vw", scale: 0.2, rotate: 30, filter: "blur(20px)" }}
           animate={{ opacity: 1, x: 0, scale: 1, rotate: 0, filter: "blur(0px)" }}
           transition={{ type: "spring", stiffness: 50, damping: 14, delay: 0.1, mass: 1.2 }}
-          className="absolute top-[28%] md:top-[35%] -translate-y-1/2 left-0 -ml-[5%] sm:ml-4 md:ml-12 w-[33%] sm:w-[30%] md:w-[22%] z-0 md:z-20 opacity-30 sm:opacity-50 md:opacity-100 pointer-events-none"
+          className="absolute top-[20%] sm:top-[40%] md:top-[50%] -translate-y-1/2 left-0 -ml-[5%] sm:ml-4 md:ml-12 w-[40%] sm:w-[30%] md:w-[22%] z-0 md:z-20 opacity-30 sm:opacity-50 md:opacity-100 pointer-events-none"
         >
           <motion.div
             animate={{ y: [0, -15, 0], rotate: [-1, 1, -1] }}
@@ -163,7 +163,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
           initial={{ opacity: 0, x: "-35vw", scale: 0.2, rotate: -30, filter: "blur(20px)" }}
           animate={{ opacity: 1, x: 0, scale: 1, rotate: 0, filter: "blur(0px)" }}
           transition={{ type: "spring", stiffness: 50, damping: 14, delay: 0.15, mass: 1.2 }}
-          className="absolute top-[28%] md:top-[35%] -translate-y-1/2 right-0 -mr-[5%] sm:mr-4 md:mr-12 w-[33%] sm:w-[30%] md:w-[22%] z-0 md:z-20 opacity-30 sm:opacity-50 md:opacity-100 pointer-events-none"
+          className="absolute top-[20%] sm:top-[40%] md:top-[50%] -translate-y-1/2 right-0 -mr-[5%] sm:mr-4 md:mr-12 w-[40%] sm:w-[30%] md:w-[22%] z-0 md:z-20 opacity-30 sm:opacity-50 md:opacity-100 pointer-events-none"
         >
           <motion.div
             animate={{ y: [0, -18, 0], rotate: [1, -1, 1] }}
@@ -201,7 +201,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
 
       </motion.div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center flex flex-col items-center justify-center mt-12 sm:mt-16 md:mt-32">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center flex flex-col items-center justify-center mt-24 md:mt-32">
         <motion.div
           style={{ opacity: heroOpacity, y: contentY }}
           className="flex flex-col items-center"
@@ -211,7 +211,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
             initial={{ scale: 0.8, opacity: 0, y: 30, filter: "blur(10px)" }}
             animate={{ scale: 1, opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ type: "spring", stiffness: 70, damping: 15, delay: 0.3 }}
-            className="relative inline-flex items-center gap-2 md:gap-3 px-5 py-2 md:px-6 md:py-2.5 bg-white/60 backdrop-blur-2xl border border-white/80 shadow-[0_8px_32px_rgba(0,0,0,0.08)] rounded-full mb-4 md:mb-8 cursor-default overflow-hidden group hover:shadow-[0_16px_48px_rgba(0,0,0,0.12)] transition-shadow duration-500"
+            className="relative inline-flex items-center gap-3 px-6 py-2.5 bg-white/60 backdrop-blur-2xl border border-white/80 shadow-[0_8px_32px_rgba(0,0,0,0.08)] rounded-full mb-8 cursor-default overflow-hidden group hover:shadow-[0_16px_48px_rgba(0,0,0,0.12)] transition-shadow duration-500"
           >
             <motion.div
               className="absolute inset-0 bg-gradient-to-r from-transparent via-white/90 to-transparent -skew-x-12"
@@ -226,7 +226,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
           <div className="relative mt-2">
 
             
-            <h1 className="hero-headline flex flex-wrap justify-center gap-x-2 md:gap-x-3 lg:gap-x-4 mb-4 md:mb-6 drop-shadow-lg relative z-10 max-w-[260px] sm:max-w-[350px] md:max-w-[800px] mx-auto leading-[1.2]">
+            <h1 className="hero-headline flex flex-wrap justify-center gap-x-3 lg:gap-x-4 mb-6 drop-shadow-lg relative z-10 max-w-[260px] sm:max-w-[350px] md:max-w-[800px] mx-auto leading-[1.2]">
             {t("Christian", "Música").split(" ").concat(t("Music for", "Cristiana para").split(" ")).map((word, i) => (
               <span key={i} className="overflow-hidden inline-block pb-4 px-1">
                 <motion.span
@@ -258,7 +258,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
             initial={{ opacity: 0, y: 30, filter: "blur(10px)", scale: 0.95 }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
             transition={{ type: "spring", stiffness: 60, damping: 20, delay: 0.9 }}
-            className="body-text mx-auto mb-6 md:mb-8 text-center text-balance px-2 md:px-0"
+            className="body-text mx-auto mb-8 text-center text-balance"
           >
             {t(
               "Welcome to Selah Kids! We create original Bible songs and Christian cartoons that the whole family will love. Get ready to sing, dance, and learn about God with our catchy music and exciting videos!",
@@ -271,7 +271,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
             initial={{ opacity: 0, y: 40, filter: "blur(10px)", scale: 0.9 }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
             transition={{ type: "spring", stiffness: 60, damping: 20, delay: 1.1 }}
-            className="flex flex-col sm:flex-row justify-center gap-3 md:gap-4 relative z-20 w-full sm:w-auto px-6 mb-8 md:mb-10"
+            className="flex flex-col sm:flex-row justify-center gap-4 relative z-20 w-full sm:w-auto px-6 mb-10"
           >
             <motion.div>
               <Button 
