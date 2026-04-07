@@ -119,7 +119,7 @@ export const AboutBentoGrid = () => {
           </div>
 
           <div className="w-full md:w-1/2 p-4 md:p-8 lg:p-16 flex flex-col justify-center relative z-10">
-            <Badge color="orange" className="mb-6 self-start shadow-md">{t("TOP QUALITY", "MÁXIMA CALIDAD")}</Badge>
+            <Badge color="orange" className="mb-6 self-start shadow-md">{t("OUR PURPOSE", "NUESTRO PROPÓSITO")}</Badge>
             <h2 className="content-h2 mb-8 leading-[1.1] tracking-tight">
               {t("Stunning Animation", "Animación Impresionante")}
             </h2>

@@ -16,8 +16,8 @@ export const BLOG_POSTS: BlogPost[] = [
     slug: "the-strong-tower-of-security",
     titleEn: "The Strong Tower of Security",
     titleEs: "La Torre Fuerte de Seguridad",
-    dateEn: "March 20, 2026",
-    dateEs: "20 de Marzo, 2026",
+    dateEn: "April 7, 2026",
+    dateEs: "7 de Abril, 2026",
     img: "/blog-armored-door.png",
     contentEn: [
       "I recently visited a relative in their new home. Upon opening the door, they proudly remarked that it was an armored door—and that everyone in their building had one. At the time, the comment struck me as just another technical detail; however, after returning home, I found myself reflecting on that constant quest for security that we humans share.",
@@ -41,8 +41,8 @@ export const BLOG_POSTS: BlogPost[] = [
     slug: "are-we-repeating-patterns",
     titleEn: "Are We Repeating Patterns?",
     titleEs: "¿Estamos Repitiendo Patrones?",
-    dateEn: "March 15, 2026",
-    dateEs: "15 de Marzo, 2026",
+    dateEn: "April 2, 2026",
+    dateEs: "2 de Abril, 2026",
     img: "/blog-repeating-patterns.png",
     contentEn: [
       'Every time she prepared fish, the young woman would cut off its head and tail. One day, intrigued, her husband asked her: <em>&quot;Why do you always cut the ends off the fish?&quot;</em> <em>&quot;I don\'t really know,&quot;</em> she replied. <em>&quot;My mom always did it that way.&quot;</em>',
