@@ -8,7 +8,7 @@ import { useLanguage } from '../../contexts/LanguageContext';
 export const ParentsTrustBadges = () => {
   const { t } = useLanguage();
   const TRUST_BADGES = [
-    { icon: Shield, label: t("Ad-Free Content", "Sin Anuncios"), color: "text-[#00BFFF]", bg: "bg-[#00BFFF]/10" },
+    { icon: Shield, label: t("Safe Content", "Contenido Seguro"), color: "text-[#00BFFF]", bg: "bg-[#00BFFF]/10" },
     { icon: BookOpen, label: t("Scripture-Based", "Basado en la Biblia"), color: "text-[#FFD700]", bg: "bg-[#FFD700]/10" },
     { icon: Smile, label: t("Wholistic Growth", "Crecimiento Integral"), color: "text-[#98FF98]", bg: "bg-[#98FF98]/10" },
     { icon: Heart, label: t("Parent Approved", "Aprobado por Padres"), color: "text-[#FF7F50]", bg: "bg-[#FF7F50]/10" }

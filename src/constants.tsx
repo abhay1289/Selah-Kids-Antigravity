@@ -53,42 +53,54 @@ export const LATEST_VIDEOS = [
 export const WHY_FEATURES = [
   {
     title: "Bible-Based Stories",
+    titleEs: "Historias Basadas en la Biblia",
     desc: "Every song and video is based on the Bible. We help kids learn about God and build a strong faith through engaging stories and music.",
+    descEs: "Cada canción y video se basa en la Biblia. Ayudamos a los niños a aprender sobre Dios y construir una fe fuerte a través de historias y música cautivadoras.",
     icon: <BookOpen size={32} className="text-[#feb835]" />,
     color: "#feb835", // Gold
     bgColor: "bg-[#feb835]/10"
   },
   {
     title: "Awesome Animation",
+    titleEs: "Animación Increíble",
     desc: "Our videos look amazing! We use top-quality animation to bring Bible stories to life and keep kids entertained.",
+    descEs: "¡Nuestros videos se ven increíbles! Usamos animación de alta calidad para dar vida a las historias bíblicas y mantener a los niños entretenidos.",
     icon: <SparklesIcon size={32} className="text-[#00BFFF]" />,
     color: "#00BFFF", // Sky
     bgColor: "bg-[#00BFFF]/10"
   },
   {
     title: "English & Spanish",
+    titleEs: "Inglés y Español",
     desc: "Our videos are in both English and Spanish! Kids can learn about God and practice a new language at the same time.",
+    descEs: "¡Nuestros videos están en inglés y español! Los niños pueden aprender sobre Dios y practicar un nuevo idioma al mismo tiempo.",
     icon: <Globe size={32} className="text-[#98FF98]" />,
     color: "#98FF98", // Mint
     bgColor: "bg-[#98FF98]/10"
   },
   {
     title: "Family Worship Time",
+    titleEs: "Tiempo de Adoración en Familia",
     desc: "Our music is made for the whole family! Sing, dance, and worship together to create special memories.",
+    descEs: "¡Nuestra música está hecha para toda la familia! Canten, bailen y adoren juntos para crear recuerdos especiales.",
     icon: <Users size={32} className="text-[#FF7F50]" />,
     color: "#FF7F50", // Coral
     bgColor: "bg-[#FF7F50]/10"
   },
   {
     title: "Safe for Kids",
+    titleEs: "Seguro para Niños",
     desc: "Parents can relax! Selah Kids is a safe place with positive, uplifting videos that you can trust.",
+    descEs: "¡Los padres pueden relajarse! Selah Kids es un lugar seguro con videos positivos y edificantes en los que puedes confiar.",
     icon: <Shield size={32} className="text-[#E6E6FA]" />,
     color: "#E6E6FA", // Lavender
     bgColor: "bg-[#E6E6FA]/10"
   },
   {
     title: "Catchy Original Music",
+    titleEs: "Música Original Pegajosa",
     desc: "We write our own original, high-quality Christian songs for kids. They are easy to sing and hard to forget!",
+    descEs: "¡Escribimos nuestras propias canciones cristianas originales y de alta calidad para niños. Son fáciles de cantar y difíciles de olvidar!",
     icon: <Music size={32} className="text-[#FFDAB9]" />,
     color: "#FFDAB9", // Peach
     bgColor: "bg-[#FFDAB9]/10"

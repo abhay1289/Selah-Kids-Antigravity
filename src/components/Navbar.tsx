@@ -24,7 +24,7 @@ export function Navbar() {
 
   const navLinks = [
     { name: t("Home", "Inicio"), href: "/" },
-    { name: t("About", "Acerca de"), href: "/about" },
+    { name: t("About", "Sobre Nosotros"), href: "/about" },
     { name: t("Watch", "Ver"), href: "/watch" },
     { name: t("Characters", "Personajes"), href: "/characters" },
     { name: t("Families", "Familias"), href: "/parents" },
@@ -159,7 +159,7 @@ export function Navbar() {
               icon={ArrowRight}
               onClick={() => router.push("/donate")}
             >
-              Donate
+              {t("Donate", "Donar")}
             </Button>
           </div>
 
@@ -219,7 +219,7 @@ export function Navbar() {
                   icon={ArrowRight}
                   onClick={() => { setIsMenuOpen(false); router.push("/donate"); }}
                 >
-                  Donate Now
+                  {t("Donate Now", "Donar Ahora")}
                 </Button>
               </div>
             </div>

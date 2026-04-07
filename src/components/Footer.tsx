@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import NextImage from "next/image";
 import { useRouter } from "next/navigation";
 import { Facebook, Instagram, Youtube, Music, Star, Heart, Play, Users, Shield, BookOpen, Book, Mail } from "lucide-react";
 import { Button } from "./UI";
@@ -29,14 +30,17 @@ export function Footer() {
           >
             <Link href="/" className="flex items-center gap-4 mb-8 group/logo">
               <motion.div
-                whileHover={{ rotate: [0, -15, 15, 0], scale: 1.1 }}
-                className="w-14 h-14 bg-[#93D35C] rounded-2xl flex items-center justify-center shadow-[0_10px_30px_-10px_rgba(147,211,92,0.4)] group-hover/logo:shadow-[0_20px_40px_-10px_rgba(147,211,92,0.6)] transition-shadow duration-500"
+                whileHover={{ scale: 1.05, rotate: [0, -3, 3, 0] }}
+                className="relative w-32 h-16 shrink-0"
               >
-                <span className="text-white content-h3">S</span>
+                <NextImage
+                  src="/SK_Logo_FN.jpg"
+                  alt="Selah Kids"
+                  fill
+                  className="object-contain rounded-xl"
+                  sizes="128px"
+                />
               </motion.div>
-              <span className="content-h2 tracking-tighter">
-                <span className="text-selah-orange">Selah</span><span className="text-[#93D35C]">Kids!</span>
-              </span>
             </Link>
             <p className="body-text max-w-md mb-10">
               {t(
@@ -78,7 +82,7 @@ export function Footer() {
             <ul className="space-y-5">
               {[
                 { label: t("Home", "Inicio"), icon: Star, href: "/" },
-                { label: t("About Us", "Nosotros"), icon: Heart, href: "/about" },
+                { label: t("About Us", "Sobre Nosotros"), icon: Heart, href: "/about" },
                 { label: t("Watch", "Ver"), icon: Play, href: "/watch" },
                 { label: t("Resources", "Recursos"), icon: BookOpen, href: "/resources" },
                 { label: t("Contact Us", "Contáctanos"), icon: Mail, href: "/contact" }
@@ -145,7 +149,7 @@ export function Footer() {
         <div className="pt-12 border-t border-selah-border/30 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8">
             <p className="text-selah-muted/50 ui-caption">
-              © {new Date().getFullYear()} Selah Kids. All rights reserved.
+              © {new Date().getFullYear()} Selah Kids. {t("All rights reserved.", "Todos los derechos reservados.")}
             </p>
             <div className="flex items-center gap-6">
               <Link href="/privacy" className="text-selah-muted/50 hover:text-selah-orange ui-button transition-colors relative group">

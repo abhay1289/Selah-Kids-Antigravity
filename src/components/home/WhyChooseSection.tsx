@@ -47,6 +47,7 @@ const CreativeIcon: React.FC<{ icon: React.ReactNode, color: string }> = ({ icon
 };
 
 const FeatureCard: React.FC<{ feature: typeof WHY_FEATURES[0], index: number }> = ({ feature, index }) => {
+  const { language } = useLanguage();
   return (
     <motion.div 
       initial={{ opacity: 0, y: 60, scale: 0.95 }}
@@ -71,11 +72,11 @@ const FeatureCard: React.FC<{ feature: typeof WHY_FEATURES[0], index: number }> 
 
         <div className="flex-grow relative z-10">
           <h3 className="content-h3 text-selah-dark mb-4 group-hover:text-selah-orange transition-colors duration-300 tracking-tight">
-            {feature.title}
+            {language === 'ES' && feature.titleEs ? feature.titleEs : feature.title}
           </h3>
           
           <p className="body-text text-balance">
-            {feature.desc}
+            {language === 'ES' && feature.descEs ? feature.descEs : feature.desc}
           </p>
         </div>
       </div>

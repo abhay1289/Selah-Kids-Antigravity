@@ -32,8 +32,8 @@ export const ParentsAccordion = () => {
       icon: ShieldCheck,
       title: t("Guarding the Heart", "Guardando el Corazón"),
       items: language === 'ES'
-        ? ["Experiencia 100% segura y libre de anuncios", "Sin imágenes aterradoras o temas inapropiados", "Promueve la bondad, el compartir y el amor al prójimo", "Desarrollo del carácter a través de historias positivas", "Entorno en línea confiable de extremo a extremo"]
-        : ["100% safe, ad-free viewing experience", "No scary imagery or inappropriate themes", "Promotes kindness, sharing, and loving others", "Character development through positive storytelling", "Trustworthy end-to-end online environment"]
+        ? ["Experiencia de visualización 100% segura y confiable", "Sin imágenes aterradoras o temas inapropiados", "Promueve la bondad, el compartir y el amor al prójimo", "Desarrollo del carácter a través de historias positivas", "Entorno en línea confiable de extremo a extremo"]
+        : ["100% safe and trustworthy viewing experience", "No scary imagery or inappropriate themes", "Promotes kindness, sharing, and loving others", "Character development through positive storytelling", "Trustworthy end-to-end online environment"]
     }
   ];
 
