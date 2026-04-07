@@ -9,7 +9,7 @@ import { AboutBentoGrid } from '../../components/about/AboutBentoGrid';
 import { AboutCoreValues } from '../../components/about/AboutCoreValues';
 import { AboutCTA } from '../../components/about/AboutCTA';
 import { AboutPhotoCarousel } from '../../components/about/AboutPhotoCarousel';
-import { TeamSection } from '../../components/home/TeamSection';
+import { TeamSection } from '../../components/about/TeamSection';
 
 const sectionEntrance = {
   hidden: { opacity: 0, y: 60 },
