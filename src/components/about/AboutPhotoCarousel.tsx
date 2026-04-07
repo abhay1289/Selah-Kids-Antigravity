@@ -6,8 +6,8 @@ import { X, ZoomIn } from 'lucide-react';
 import Image from 'next/image';
 import { useLanguage } from '../../contexts/LanguageContext';
 
-const photosRow1 = ['/TGN_SingleFrames+(3).jpg', '/TGN_SingleFrames+(7).jpg', '/TGN_SingleFrames+(9).jpg'];
-const photosRow2 = ['/TGN_SingleFrames+28229.jpg', '/TGN_SingleFrames+28329.jpg', '/TGN_SingleFrames+28729.jpg'];
+const photosRow1 = ['/rroque_ALA_Shot1020_v01.png', '/rroque_ALA_Shot1040_v01.png', '/rroque_ALA_Shot1040_v02.png', '/rroque_ALA_Shot1050_v02.png', '/rroque_ALA_Shot1060_v02.png'];
+const photosRow2 = ['/rroque_ALA_Shot1130_v01.png', '/rroque_ALA_Shot1190_v01.png', '/rroque_ALA_Shot1200_v02.png', '/rroque_ALA_Shot1260_v01.png'];
 
 const PhotoCard = ({ src, index, onOpen }: { src: string; index: number; onOpen: (src: string) => void }) => {
   const cardRef = useRef<HTMLDivElement>(null);

@@ -36,7 +36,7 @@ export const LATEST_VIDEOS = [
     category: "Sing-Along",
     language: "EN",
     gradient: "from-[#FF7F50] to-[#FF5C00]", // Coral
-    img: "/TGN_SingleFrames+28729.jpg"
+    img: "/rroque_ALA_Shot1020_v01.png"
   },
   {
     id: 2,
@@ -46,7 +46,7 @@ export const LATEST_VIDEOS = [
     category: "Bible Song",
     language: "EN / ES",
     gradient: "from-[#00BFFF] to-[#87CEEB]", // Sky Blue
-    img: "/TGN_SingleFrames+28329.jpg"
+    img: "/rroque_ALA_Shot1040_v01.png"
   }
 ];
 

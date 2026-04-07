@@ -112,7 +112,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
             className="absolute inset-0"
           >
             <Image
-              src="/TGN_SingleFrames+(9).jpg"
+              src="/rroque_ALA_Shot1260_v01.png"
               alt="Hero background"
               fill
               className="object-cover object-[20%_90%] blur-[2px]"

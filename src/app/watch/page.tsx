@@ -28,7 +28,7 @@ const VIDEOS = [
     categoryLabel: "Cartoon",
     language: "EN",
     gradient: "from-[#FF7F50] to-[#FF5C00]",
-    img: "/TGN_SingleFrames+28729.jpg"
+    img: "/rroque_ALA_Shot1040_v01.png"
   },
   {
     id: 2,
@@ -39,7 +39,7 @@ const VIDEOS = [
     categoryLabel: "Music Video",
     language: "EN",
     gradient: "from-[#00BFFF] to-[#87CEEB]",
-    img: "/TGN_SingleFrames+28329.jpg"
+    img: "/rroque_ALA_Shot1050_v02.png"
   },
   {
     id: 3,
@@ -50,7 +50,7 @@ const VIDEOS = [
     categoryLabel: "Sing-Along",
     language: "EN",
     gradient: "from-[#FF69B4] to-[#FF1493]",
-    img: "/TGN_SingleFrames+(8).jpg"
+    img: "/rroque_ALA_Shot1130_v01.png"
   },
   {
     id: 4,
@@ -61,7 +61,7 @@ const VIDEOS = [
     categoryLabel: "Sensory",
     language: "EN",
     gradient: "from-[#98FF98] to-[#93D35C]",
-    img: "/TGN_SingleFrames+(9).jpg"
+    img: "/rroque_ALA_Shot1190_v01.png"
   },
   {
     id: 5,
@@ -72,7 +72,7 @@ const VIDEOS = [
     categoryLabel: "Music Video",
     language: "EN",
     gradient: "from-[#00BFFF] to-[#87CEEB]",
-    img: "/TGN_SingleFrames+28229.jpg"
+    img: "/rroque_ALA_Shot1200_v02.png"
   },
 
   // ── Spanish Videos ──
@@ -85,7 +85,7 @@ const VIDEOS = [
     categoryLabel: "Caricatura",
     language: "ES",
     gradient: "from-[#FF7F50] to-[#FF5C00]",
-    img: "/TGN_SingleFrames+28729.jpg"
+    img: "/rroque_ALA_Shot1040_v01.png"
   },
   {
     id: 7,
@@ -96,7 +96,7 @@ const VIDEOS = [
     categoryLabel: "Canta Conmigo",
     language: "ES",
     gradient: "from-[#FF69B4] to-[#FF1493]",
-    img: "/TGN_SingleFrames+(8).jpg"
+    img: "/rroque_ALA_Shot1130_v01.png"
   },
   {
     id: 8,
@@ -107,7 +107,7 @@ const VIDEOS = [
     categoryLabel: "Sensorial",
     language: "ES",
     gradient: "from-[#98FF98] to-[#93D35C]",
-    img: "/TGN_SingleFrames+(9).jpg"
+    img: "/rroque_ALA_Shot1190_v01.png"
   },
   {
     id: 9,
@@ -118,7 +118,7 @@ const VIDEOS = [
     categoryLabel: "Video Musical",
     language: "ES",
     gradient: "from-[#00BFFF] to-[#87CEEB]",
-    img: "/TGN_SingleFrames+28229.jpg"
+    img: "/rroque_ALA_Shot1200_v02.png"
   },
   {
     id: 10,
@@ -129,7 +129,7 @@ const VIDEOS = [
     categoryLabel: "Video Musical",
     language: "ES",
     gradient: "from-[#FF7F50] to-[#FF5C00]",
-    img: "/TGN_SingleFrames+28329.jpg"
+    img: "/rroque_ALA_Shot1050_v02.png"
   }
 ];
 

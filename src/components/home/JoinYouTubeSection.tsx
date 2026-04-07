@@ -99,7 +99,7 @@ export function JoinYouTubeSection() {
               {/* Mock Video Player UI */}
               <div className="aspect-video bg-black rounded-[40px] overflow-hidden border-8 border-white/10 relative group shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)]">
                 <img 
-                  src="/TGN_SingleFrames+28229.jpg" 
+                  src="/rroque_ALA_Shot1190_v01.png" 
                   alt="YouTube Preview" 
                   className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-[2000ms] ease-out"
                 />

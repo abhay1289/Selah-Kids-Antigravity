@@ -44,7 +44,7 @@ export function LatestVideosSection() {
         "A high-energy sing-along that gets kids moving and praising God with all their heart! Join Andy and Libni in this catchy worship song.",
         "¡Un canto lleno de energía que hace que los niños se muevan y alaben a Dios con todo su corazón! Únete a Andy y Libni en esta pegajosa canción de adoración."
       ),
-      img: "/TGN_SingleFrames+28729.jpg",
+      img: "/rroque_ALA_Shot1040_v01.png",
       category: t("Sing-Along", "Canta Conmigo"),
       language: t("English", "Inglés"),
       gradient: "from-selah-orange to-rose-500",
@@ -57,7 +57,7 @@ export function LatestVideosSection() {
         "Experience the timeless message of God's love through this beautiful, animated version of the beloved classic.",
         "Experimenta el mensaje eterno del amor de Dios a través de esta hermosa versión animada del clásico querido."
       ),
-      img: "/TGN_SingleFrames+28329.jpg",
+      img: "/rroque_ALA_Shot1200_v02.png",
       category: t("Bible Song", "Canción Bíblica"),
       language: t("English / Spanish", "Inglés / Español"),
       gradient: "from-selah-yellow to-selah-orange",

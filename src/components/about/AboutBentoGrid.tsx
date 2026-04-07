@@ -9,9 +9,9 @@ import { staggerContainer, zoomInUp, rollIn, slideInRight, fadeIn } from '../../
 import { useLanguage } from '../../contexts/LanguageContext';
 
 const CAROUSEL_IMAGES = [
-  { src: "/TGN_SingleFrames+28729.jpg", caption: "Colorful Character Design", captionEs: "Diseño de Personajes Colorido" },
-  { src: "/TGN_SingleFrames+28229.jpg", caption: "Cinematic Storytelling", captionEs: "Narrativa Cinematográfica" },
-  { src: "/TGN_SingleFrames+28329.jpg", caption: "Vibrant World-Building", captionEs: "Construcción de Mundos Vibrantes" },
+  { src: "/rroque_ALA_Shot1040_v02.png", caption: "Colorful Character Design", captionEs: "Diseño de Personajes Colorido" },
+  { src: "/rroque_ALA_Shot1060_v02.png", caption: "Cinematic Storytelling", captionEs: "Narrativa Cinematográfica" },
+  { src: "/rroque_ALA_Shot1130_v01.png", caption: "Vibrant World-Building", captionEs: "Construcción de Mundos Vibrantes" },
 ];
 
 const ImageCarousel = () => {
@@ -157,7 +157,7 @@ export const AboutBentoGrid = () => {
         >
           <div className="absolute -left-40 -bottom-40 w-[600px] h-[600px] bg-selah-blue/10 rounded-full blur-3xl pointer-events-none" />
           <div className="w-full md:w-1/2 rounded-2xl md:rounded-[3.5rem] overflow-hidden relative" style={{minHeight: '300px'}}>
-            <NextImage src="/TGN_SingleFrames+(9).jpg" alt="Sensory Peace" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" loading="lazy" />
+            <NextImage src="/rroque_ALA_Shot1260_v01.png" alt="Sensory Peace" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" loading="lazy" />
           </div>
 
           <div className="w-full md:w-1/2 p-4 md:p-8 lg:p-16 flex flex-col justify-center relative z-10">

@@ -6,7 +6,7 @@ export const DonateHero = () => {
   const { t } = useLanguage();
   return (
     <section className="text-center px-6 mb-12 relative z-10">
-      <Badge color="orange" className="mb-8 shadow-sm bg-white border border-selah-orange/20">{t("MAKE A DIFFERENCE", "HAZ LA DIFERENCIA")}</Badge>
+      <Badge color="orange" className="mb-8 shadow-sm bg-white border border-selah-orange/20 !text-selah-orange">{t("MAKE A DIFFERENCE", "HAZ LA DIFERENCIA")}</Badge>
       <h1 className="hero-headline mb-6 tracking-tight leading-[1.1] drop-shadow-sm">
         {t("Support", "Apoya")} <span className="text-selah-orange">Selah Kids</span>
       </h1>

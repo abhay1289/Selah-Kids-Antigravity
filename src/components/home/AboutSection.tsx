@@ -63,7 +63,7 @@ export function AboutSection() {
         >
           <div className="aspect-[4/5] rounded-[40px] md:rounded-[80px] overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1),0_10px_15px_-3px_rgba(0,0,0,0.05)] transition-all duration-1000 group-hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.2),0_20px_40px_-10px_rgba(0,0,0,0.1)] group-hover:rotate-1">
             <NextImage 
-              src="/TGN_SingleFrames+28329.jpg" 
+              src="/rroque_ALA_Shot1050_v02.png" 
               alt="Selah Kids" 
               fill
               className="object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-105"
