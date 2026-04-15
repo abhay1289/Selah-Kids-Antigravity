@@ -332,7 +332,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
               </motion.a>
               
               <motion.a 
-                href="https://open.spotify.com/artist/selahkids" 
+                href="https://open.spotify.com/artist/6lShgHNhA1vXSZ6f4UXMa4" 
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.1, rotate: 5 }}
@@ -346,7 +346,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
               </motion.a>
               
               <motion.a 
-                href="https://music.apple.com/us/artist/selah-kids" 
+                href="https://music.apple.com/us/artist/selah-kids/1823099991" 
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.1, rotate: -8 }}
