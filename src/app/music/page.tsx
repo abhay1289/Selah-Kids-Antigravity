@@ -6,12 +6,12 @@ import { Music, ExternalLink } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 export default function MusicPage() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const MUSIC_PLATFORMS = [
     { name: "Spotify", description: t("Stream our worship songs on Spotify", "Escucha nuestras canciones de adoración en Spotify"), color: "bg-[#1DB954]", textColor: "text-white", href: "https://open.spotify.com/artist/6lShgHNhA1vXSZ6f4UXMa4", icon: "🎵" },
     { name: "Apple Music", description: t("Listen on Apple Music", "Escucha en Apple Music"), color: "bg-gradient-to-br from-[#FC3C44] to-[#FC6E29]", textColor: "text-white", href: "https://music.apple.com/us/artist/selah-kids/1823099991", icon: "🎶" },
-    { name: "YouTube Music", description: t("Watch & listen on YouTube Music", "Mira y escucha en YouTube Music"), color: "bg-[#FF0000]", textColor: "text-white", href: "https://www.youtube.com/@selahkidsworship", icon: "▶️" },
+    { name: "YouTube Music", description: t("Watch & listen on YouTube Music", "Mira y escucha en YouTube Music"), color: "bg-[#FF0000]", textColor: "text-white", href: language === 'ES' ? "https://www.youtube.com/@SelahKidsEspanol" : "https://www.youtube.com/@selahkidsworship", icon: "▶️" },
     { name: "Amazon Music", description: t("Available on Amazon Music", "Disponible en Amazon Music"), color: "bg-[#00A8E1]", textColor: "text-white", href: "https://music.amazon.com", icon: "🎼" },
   ];
 
