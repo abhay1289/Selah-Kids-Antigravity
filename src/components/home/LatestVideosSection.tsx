@@ -39,27 +39,27 @@ export function LatestVideosSection() {
   const LATEST_VIDEOS = [
     {
       id: 1,
-      title: t("This Is How We Praise The Lord", "Así Es Como Alabamos Al Señor"),
+      title: t("I Am Blessed", "Bendecido Estoy"),
       description: t(
-        "A high-energy sing-along that gets kids moving and praising God with all their heart! Join Andy and Libni in this catchy worship song.",
-        "¡Un canto lleno de energía que hace que los niños se muevan y alaben a Dios con todo su corazón! Únete a Andy y Libni en esta pegajosa canción de adoración."
+        "A wonderful reminder that we are blessed by God! Sing along with Andy and Libni in this uplifting new worship song.",
+        "¡Un hermoso recordatorio de que somos bendecidos por Dios! Canta junto con Andy y Libni en esta nueva canción de adoración."
       ),
-      img: "/TGN_SingleFrames+(3).jpg",
-      category: t("Sing-Along", "Canta Conmigo"),
-      language: t("English", "Inglés"),
+      img: t("/thumb-i-am-blessed-en.jpg", "/thumb-bendecido-estoy-es.jpg"),
+      category: t("Music Video", "Video Musical"),
+      language: t("English", "Español"),
       gradient: "from-selah-orange to-rose-500",
       date: t("LATEST", "NUEVO")
     },
     {
       id: 2,
-      title: t("The Good News | Jesus Loves Me", "Las Buenas Nuevas | Jesús Me Ama"),
+      title: t("The Good News", "Jesús Me Ama"),
       description: t(
-        "Experience the timeless message of God's love through this beautiful, animated version of the beloved classic.",
-        "Experimenta el mensaje eterno del amor de Dios a través de esta hermosa versión animada del clásico querido."
+        "Join Andy, Libni, and Shiloh in their very first adventure as they learn about God's amazing love for us!",
+        "¡Únete a Andy, Libni y Shiloh mientras aprenden sobre el asombroso amor de Dios por nosotros!"
       ),
-      img: "/rroque_ALA_Shot1200_v02.png",
-      category: t("Worship Song", "Canción de Adoración"),
-      language: t("English / Spanish", "Inglés / Español"),
+      img: t("/thumb-good-news-en.jpg", "/thumb-jesus-me-ama-es.jpg"),
+      category: t("Cartoon", "Caricatura"),
+      language: t("English", "Español"),
       gradient: "from-selah-yellow to-selah-orange",
       date: t("FEATURED", "DESTACADO")
     }

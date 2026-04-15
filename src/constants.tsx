@@ -30,23 +30,23 @@ export const CHARACTERS = [
 export const LATEST_VIDEOS = [
   {
     id: 1,
-    title: "This Is How We Praise The Lord",
+    title: "I Am Blessed",
     date: "LATEST",
-    description: "A high-energy sing-along that gets kids moving and praising God with all their heart!",
-    category: "Sing-Along",
+    description: "A wonderful reminder that we are blessed by God! Sing along with Andy and Libni in this uplifting song.",
+    category: "Music Video",
     language: "EN",
     gradient: "from-[#FF7F50] to-[#FF5C00]", // Coral
-    img: "/TGN_SingleFrames+(3).jpg"
+    img: "/thumb-i-am-blessed-en.jpg"
   },
   {
     id: 2,
-    title: "Jesus Loves Me",
+    title: "The Good News",
     date: "FEATURED",
-    description: "The classic hymn brought to life with beautiful animation and soulful vocals for the whole family.",
-    category: "Worship Song",
+    description: "Join Andy, Libni, and Shiloh in their very first adventure as they learn about God's amazing love for us!",
+    category: "Cartoon",
     language: "EN / ES",
     gradient: "from-[#00BFFF] to-[#87CEEB]", // Sky Blue
-    img: "/rroque_ALA_Shot1040_v01.png"
+    img: "/thumb-good-news-en.jpg"
   }
 ];
 

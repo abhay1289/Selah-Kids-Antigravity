@@ -22,114 +22,158 @@ const VIDEOS = [
   {
     id: 1,
     title: "The Good News",
-    date: "March 20, 2026",
+    date: "Dec 2024",
     description: "Join Andy, Libni, and Shiloh in their very first adventure as they learn about God's amazing love for us!",
     category: "cartoons",
     categoryLabel: "Cartoon",
     language: "EN",
     gradient: "from-[#FF7F50] to-[#FF5C00]",
-    img: "/TGN_SingleFrames+(3).jpg"
+    img: "/thumb-good-news-en.jpg"
   },
   {
     id: 2,
-    title: "Jesus Loves Me",
-    date: "March 15, 2026",
-    description: "A fun and upbeat modern rendition of the classic Sunday school song, perfect for young voices.",
-    category: "music",
-    categoryLabel: "Music Video",
-    language: "EN",
-    gradient: "from-[#00BFFF] to-[#87CEEB]",
-    img: "/rroque_ALA_Shot1050_v02.png"
-  },
-  {
-    id: 3,
-    title: "God is So Good",
-    date: "March 10, 2026",
-    description: "Sing along with our beautiful acoustic version of this beloved worship chorus.",
+    title: "The Good News | Sing-Along",
+    date: "Dec 2024",
+    description: "Sing along with the lyrics on screen to the catchy theme song from The Good News episode!",
     category: "singalong",
     categoryLabel: "Sing-Along",
     language: "EN",
-    gradient: "from-[#FF69B4] to-[#FF1493]",
-    img: "/TGN_SingleFrames+(7).jpg"
+    gradient: "from-[#E6E6FA] to-[#D8BFD8]",
+    img: "/thumb-good-news-singalong-en.jpg"
   },
   {
-    id: 4,
-    title: "Peaceful Garden",
-    date: "March 5, 2026",
-    description: "A calming sensory video featuring gentle music and floating animations to help kids relax.",
+    id: 3,
+    title: "The Good News | Sensory",
+    date: "Dec 2024",
+    description: "A calming sensory video with gentle music from The Good News to help kids relax and unwind.",
     category: "sensory",
     categoryLabel: "Sensory",
     language: "EN",
     gradient: "from-[#98FF98] to-[#93D35C]",
-    img: "/rroque_ALA_Shot1190_v01.png"
+    img: "/thumb-sensory-good-news-en.jpg"
   },
   {
-    id: 5,
-    title: "He's Got The Whole World",
-    date: "March 1, 2026",
-    description: "A wonderful reminder of God's care for all creation in this classic worship song.",
+    id: 4,
+    title: "This Is How We Praise The Lord",
+    date: "Mar 2025",
+    description: "A high-energy sing-along that gets kids moving and praising God with all their heart!",
     category: "music",
     categoryLabel: "Music Video",
     language: "EN",
+    gradient: "from-[#FF69B4] to-[#FF1493]",
+    img: "/thumb-praise-lord-en.jpg"
+  },
+  {
+    id: 5,
+    title: "This Is How We Praise The Lord | Sing-Along",
+    date: "Mar 2025",
+    description: "Follow along with the lyrics and sing This Is How We Praise The Lord with your family!",
+    category: "singalong",
+    categoryLabel: "Sing-Along",
+    language: "EN",
     gradient: "from-[#00BFFF] to-[#87CEEB]",
-    img: "/TGN_SingleFrames+(9).jpg"
+    img: "/thumb-praise-lord-singalong-en.jpg"
+  },
+  {
+    id: 6,
+    title: "This Is How We Praise The Lord | Sensory",
+    date: "Mar 2025",
+    description: "A soothing sensory video featuring gentle visuals and the praise song for a calming worship experience.",
+    category: "sensory",
+    categoryLabel: "Sensory",
+    language: "EN",
+    gradient: "from-[#98FF98] to-[#93D35C]",
+    img: "/thumb-praise-dance-sensory-en.jpg"
+  },
+  {
+    id: 7,
+    title: "I Am Blessed",
+    date: "Apr 2025",
+    description: "A wonderful reminder that we are blessed by God! Sing along with Andy and Libni in this uplifting song.",
+    category: "music",
+    categoryLabel: "Music Video",
+    language: "EN",
+    gradient: "from-[#FFD700] to-[#FEB835]",
+    img: "/thumb-i-am-blessed-en.jpg"
   },
 
   // ── Spanish Videos ──
   {
-    id: 6,
-    title: "Las Buenas Nuevas",
-    date: "20 de Marzo, 2026",
-    description: "¡Únete a Andy, Libni y Shiloh en su primera aventura mientras aprenden sobre el asombroso amor de Dios por nosotros!",
+    id: 8,
+    title: "Jesús Me Ama",
+    date: "Dic 2024",
+    description: "¡Únete a Andy, Libni y Shiloh mientras aprenden sobre el asombroso amor de Dios por nosotros!",
     category: "cartoons",
     categoryLabel: "Caricatura",
     language: "ES",
     gradient: "from-[#FF7F50] to-[#FF5C00]",
-    img: "/TGN_SingleFrames+(3).jpg"
+    img: "/thumb-jesus-me-ama-es.jpg"
   },
   {
-    id: 7,
-    title: "Dios Es Tan Bueno",
-    date: "15 de Marzo, 2026",
-    description: "Canta con nosotros esta hermosa versión acústica de este amado coro de adoración.",
+    id: 9,
+    title: "Jesús Me Ama | Canta Conmigo",
+    date: "Dic 2024",
+    description: "¡Canta junto con las letras en pantalla esta hermosa canción de adoración para niños!",
     category: "singalong",
     categoryLabel: "Canta Conmigo",
     language: "ES",
-    gradient: "from-[#FF69B4] to-[#FF1493]",
-    img: "/rroque_ALA_Shot1130_v01.png"
+    gradient: "from-[#E6E6FA] to-[#D8BFD8]",
+    img: "/thumb-jesus-me-ama-singalong-es.jpg"
   },
   {
-    id: 8,
-    title: "Jardín de Calma y Paz",
-    date: "8 de Marzo, 2026",
+    id: 10,
+    title: "Jesús Me Ama | Sensorial",
+    date: "Dic 2024",
     description: "Un video sensorial relajante con música suave y animaciones gentiles para momentos de tranquilidad.",
     category: "sensory",
     categoryLabel: "Sensorial",
     language: "ES",
     gradient: "from-[#98FF98] to-[#93D35C]",
-    img: "/TGN_SingleFrames+(7).jpg"
+    img: "/thumb-sensory-fruto-es.jpg"
   },
   {
-    id: 9,
-    title: "Él Tiene al Mundo Entero",
-    date: "5 de Marzo, 2026",
-    description: "Un hermoso recordatorio del cuidado de Dios por toda la creación en este clásico canto de adoración.",
+    id: 11,
+    title: "Así Le Adoramos",
+    date: "Mar 2025",
+    description: "¡Una canción llena de energía que hace que los niños se muevan y alaben a Dios con todo su corazón!",
     category: "music",
     categoryLabel: "Video Musical",
+    language: "ES",
+    gradient: "from-[#FF69B4] to-[#FF1493]",
+    img: "/thumb-asi-le-adoramos-es.jpg"
+  },
+  {
+    id: 12,
+    title: "Así Le Adoramos | Canta Conmigo",
+    date: "Mar 2025",
+    description: "¡Sigue las letras y canta Así Le Adoramos junto con tu familia!",
+    category: "singalong",
+    categoryLabel: "Canta Conmigo",
     language: "ES",
     gradient: "from-[#00BFFF] to-[#87CEEB]",
-    img: "/rroque_ALA_Shot1200_v02.png"
+    img: "/thumb-asi-le-adoramos-singalong-es.jpg"
   },
   {
-    id: 10,
-    title: "Jesús Me Ama",
-    date: "1 de Marzo, 2026",
-    description: "La versión en español de nuestro querido himno clásico que a los niños les encantará cantar.",
+    id: 13,
+    title: "Así Le Adoramos | Sensorial",
+    date: "Mar 2025",
+    description: "Un video sensorial relajante con la canción Así Le Adoramos para una experiencia de adoración calmante.",
+    category: "sensory",
+    categoryLabel: "Sensorial",
+    language: "ES",
+    gradient: "from-[#98FF98] to-[#93D35C]",
+    img: "/thumb-asi-le-adoramos-sensory-es.jpg"
+  },
+  {
+    id: 14,
+    title: "Bendecido Estoy",
+    date: "Abr 2025",
+    description: "¡Un hermoso recordatorio de que somos bendecidos por Dios! Canta junto con Andy y Libni.",
     category: "music",
     categoryLabel: "Video Musical",
     language: "ES",
-    gradient: "from-[#FF7F50] to-[#FF5C00]",
-    img: "/rroque_ALA_Shot1050_v02.png"
+    gradient: "from-[#FFD700] to-[#FEB835]",
+    img: "/thumb-bendecido-estoy-es.jpg"
   }
 ];
 
