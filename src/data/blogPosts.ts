@@ -66,6 +66,37 @@ export const BLOG_POSTS: BlogPost[] = [
       'Al enfrentarnos a cualquier hábito que deseemos cambiar, la pregunta clave es: <em>&quot;¿Cómo manejaría Jesús esto si estuviera en mi lugar?&quot;</em> La respuesta no radica en nuestras propias fuerzas, sino en nuestra disposición a actuar según Su ejemplo.',
       "Ciertamente, algunas acciones requerirán de mayor esfuerzo y perseverancia. Es natural sentir resistencia al intentar romper patrones antiguos, pero sacamos esa resolución de Dios. Al volvernos a Él en oración —reconociendo nuestras limitaciones y pidiendo Su guía— Su gracia nos capacita para lograr lo que alguna vez pareció imposible. Busquemos siempre la respuesta en Su Palabra; permitamos que sea el espejo que nos muestra quiénes somos realmente en Él. Tu pasado puede servir como referencia, pero gracias a Dios, ya no tiene por qué ser tu destino."
     ]
+  },
+  {
+    id: 3,
+    slug: "the-call-to-be-a-blessing",
+    titleEn: "The Call to Be a Blessing",
+    titleEs: "El Llamado a Ser de Bendición",
+    dateEn: "April 15, 2026",
+    dateEs: "15 de Abril, 2026",
+    img: "/blog-the-call-to-be-a-blessing.png",
+    contentEn: [
+      "Imagine the following scenario: Jesus—the most popular man, the One who performs miracles and brings healing and freedom to the oppressed—is in town. Word of His presence spreads rapidly. Crowds gather, making it difficult even to catch a glimpse of Him. For someone of short stature, the desire to meet Him prompts immediate action: climbing the nearest available tree, seeking only to catch a glimpse of His face or witness a miracle.",
+      "In that instant, Jesus' gaze settles upon that man, and His invitation is direct: He wishes to come to his home. What a tremendous blessing it is to welcome Jesus! That encounter brings about such a profound transformation that a desire arises to become a blessing to others—giving half of one's possessions to the poor and making generous restitution for any wrong committed.",
+      "Just as in the story of Zacchaeus, knowing Jesus is reason enough to become a channel of blessing to others, utilizing whatever resources and talents are at our disposal. To begin reflecting this reality, consider the following actions:",
+      "<strong>Praying for others:</strong> Interceding for family members, friends, and acquaintances—even for those who have treated us poorly—is a tangible way to offer a blessing.",
+      "<strong>Using words that affirm and encourage:</strong> Expressing gratitude and offering encouragement serves to inspire those around us.",
+      "<strong>Selfless generosity:</strong> Sharing with those in need—providing food, donating clothing, or offering support tailored to the needs of others.",
+      "<strong>Seeking the common good:</strong> Acting without expecting anything in return, prioritizing the collective well-being of your community.",
+      "<strong>Reflecting the character of Christ:</strong> Practicing forgiveness and seeking reconciliation in personal relationships.",
+      "Being a blessing transcends the material realm; it entails offering hope and light during times of difficulty."
+    ],
+    contentEs: [
+      "Imagine el siguiente escenario: Jesús, el hombre más popular, Aquel que realiza milagros y trae sanidad y libertad al oprimido, se encuentra en la ciudad. El rumor de Su presencia se extiende con rapidez. Las multitudes se aglomeran, dificultando incluso la posibilidad de verle. Para alguien de baja estatura, el deseo de conocerle impulsa la acción de subir al primer árbol disponible, buscando tan solo vislumbrar Su rostro o presenciar un milagro.",
+      "En ese instante, la mirada de Jesús se fija en aquel hombre y la invitación es directa: Él desea ir a su casa. ¡Qué bendición tan grande es recibir a Jesús! Ese encuentro produce una transformación tal que surge el deseo de ser bendición para otros, entregando la mitad de los bienes a los pobres y restituyendo con creces cualquier agravio cometido.",
+      "Así como en la historia de Zaqueo, conocer a Jesús es razón suficiente para convertirse en un canal de bendición hacia los demás, utilizando los recursos y talentos disponibles. Para comenzar a reflejar esta realidad, se pueden considerar las siguientes acciones:",
+      "<strong>La oración por el prójimo:</strong> Interceder por familiares, amigos y conocidos, incluso por aquellos que no han tenido un buen trato, es una forma tangible de bendecir.",
+      "<strong>El uso de palabras que afirmen y alienten:</strong> Expresar gratitud y motivación sirve para inspirar a quienes están alrededor.",
+      "<strong>La generosidad desinteresada:</strong> Compartir con el necesitado, brindar alimento, donar ropa o apoyo según la carencia específica.",
+      "<strong>La búsqueda del bien común:</strong> Actuar sin esperar nada a cambio, priorizando el bienestar colectivo.",
+      "<strong>El reflejo del carácter de Cristo:</strong> Practicar el perdón y la búsqueda de la reconciliación en las relaciones personales.",
+      "Ser de bendición trasciende lo material; implica brindar esperanza y luz en los momentos de dificultad."
+    ]
   }
 ];
 
