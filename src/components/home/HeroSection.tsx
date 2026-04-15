@@ -261,8 +261,8 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
             className="body-text mx-auto mb-8 text-center text-balance"
           >
             {t(
-              "Welcome to Selah Kids! We create original Bible songs and Christian cartoons that the whole family will love. Get ready to sing, dance, and learn about God with our catchy music and exciting videos!",
-              "¡Bienvenidos a Selah Kids! Creamos canciones bíblicas originales y dibujos animados cristianos que encantarán a toda la familia. ¡Prepárate para cantar, bailar y aprender sobre Dios con nuestra música pegajosa y videos emocionantes!"
+              "Welcome to Selah Kids! We create original worship songs and Christian cartoons that the whole family will love. Get ready to sing, dance, and learn about God with our catchy music and exciting videos!",
+              "¡Bienvenidos a Selah Kids! Creamos canciones de adoración originales y dibujos animados cristianos que encantarán a toda la familia. ¡Prepárate para cantar, bailar y aprender sobre Dios con nuestra música pegajosa y videos emocionantes!"
             )}
           </motion.p>
           
@@ -318,7 +318,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
             
             <div className="flex items-center gap-4 sm:gap-8 mt-4 sm:mt-6">
               <motion.a 
-                href="https://youtube.com/@selahkids" 
+                href="https://www.youtube.com/@selahkidsworship" 
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.1, rotate: -5 }}
@@ -332,7 +332,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
               </motion.a>
               
               <motion.a 
-                href="https://open.spotify.com" 
+                href="https://open.spotify.com/artist/selahkids" 
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.1, rotate: 5 }}
@@ -346,7 +346,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
               </motion.a>
               
               <motion.a 
-                href="https://music.apple.com" 
+                href="https://music.apple.com/us/artist/selah-kids" 
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.1, rotate: -8 }}

@@ -228,8 +228,8 @@ export function ScrollHeroSection() {
         </h1>
         <p className="mt-4 text-base md:text-xl text-white/90 font-light max-w-4xl drop-shadow-md">
           {t(
-            "Catchy Sunday school songs bringing Bible stories to life.", 
-            "Pegadizas canciones de la escuela dominical que dan vida a las historias bíblicas."
+            "Catchy Sunday school songs bringing worship to life.", 
+            "Pegadizas canciones de la escuela dominical que dan vida a la adoración."
           )}
         </p>
       </div>

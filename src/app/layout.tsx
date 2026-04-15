@@ -6,8 +6,8 @@ import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Selah Kids | Faith-based original music & Bible stories",
-  description: "A faith-based platform featuring original music, Bible songs, and engaging activities for children and families.",
+  title: "Selah Kids | Faith-based original music & Christian cartoons",
+  description: "A faith-based platform featuring original worship music, Christian cartoons, and engaging activities for children and families.",
 };
 
 export default function RootLayout({

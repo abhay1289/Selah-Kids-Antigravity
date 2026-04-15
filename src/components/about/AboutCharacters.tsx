@@ -10,7 +10,7 @@ const CHARACTERS = [
   {
     name: "Andy",
     role: "The Friendly Leader",
-    desc: "Andy is a smart and friendly boy who loves to lead. He spends his days playing outside in the garden with his best friend and pet sheep, Shiloh. Join Andy as he sings fun Bible songs!",
+    desc: "Andy is a smart and friendly boy who loves to lead. He spends his days playing outside in the garden with his best friend and pet sheep, Shiloh. Join Andy as he sings fun worship songs!",
     color: "bg-selah-blue",
     image: "/TGN_SingleFrames+28229.jpg"
   },

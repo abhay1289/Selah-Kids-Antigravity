@@ -10,7 +10,9 @@ import { useLanguage } from '../../contexts/LanguageContext';
 
 const CAROUSEL_IMAGES = [
   { src: "/rroque_ALA_Shot1040_v02.png", caption: "Colorful Character Design", captionEs: "Diseño de Personajes Colorido" },
+  { src: "/TGN_SingleFrames+(3).jpg", caption: "Classic Moments", captionEs: "Momentos Clásicos" },
   { src: "/rroque_ALA_Shot1060_v02.png", caption: "Cinematic Storytelling", captionEs: "Narrativa Cinematográfica" },
+  { src: "/TGN_SingleFrames+(9).jpg", caption: "Beloved Characters", captionEs: "Personajes Queridos" },
   { src: "/rroque_ALA_Shot1130_v01.png", caption: "Vibrant World-Building", captionEs: "Construcción de Mundos Vibrantes" },
 ];
 
@@ -73,8 +75,26 @@ export const AboutBentoGrid = () => {
             </h2>
           </div>
           
+          {/* Featured Image — fills the empty space */}
+          <div className="relative z-10 mb-8 rounded-[2rem] overflow-hidden shadow-xl border-2 border-white/10" style={{ minHeight: '200px' }}>
+            <NextImage 
+              src="/rroque_ALA_Shot1050_v02.png" 
+              alt={t("Selah Kids characters worshipping", "Personajes de Selah Kids adorando")} 
+              fill 
+              className="object-cover" 
+              sizes="(max-width: 768px) 100vw, 50vw" 
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+            <div className="absolute bottom-4 left-4 right-4">
+              <p className="text-white/90 text-lg md:text-xl font-display font-bold italic drop-shadow-lg">
+                {t("\"Learning about God through worship and song\"", "\"Aprendiendo sobre Dios a través de la adoración y el canto\"")}
+              </p>
+            </div>
+          </div>
+
           <div className="relative z-10 max-w-2xl">
-            <p className="text-base md:text-xl text-white/80 font-body italic leading-relaxed max-w-2xl">
+            <p className="text-base md:text-xl text-white/80 font-body leading-relaxed max-w-2xl">
               {t(
                 "Started in 2024 by parents longing for better Christian media, Selah Kids! is a safe place for children to grow in faith. We create bilingual content — in English and Spanish — so families can sing, worship, and learn about God together.",
                 "Iniciado en 2024 por padres que anhelaban mejores medios cristianos, ¡Selah Kids! es un lugar seguro para que los niños crezcan en la fe. Creamos contenido bilingüe — en inglés y español — para que las familias puedan cantar, adorar y aprender sobre Dios juntos."
@@ -126,7 +146,7 @@ export const AboutBentoGrid = () => {
             <p className="body-text !max-w-none leading-relaxed mb-6">
               {t(
                 "Children deserve the very best. Our videos feature breathtaking animation crafted by talented artists from around the world, designed to spark imagination and bring biblical stories to life.",
-                "Los niños merecen lo mejor. Nuestros videos presentan animación impresionante creada por artistas talentosos de todo el mundo, diseñada para despertar la imaginación y dar vida a las historias bíblicas."
+                "Los niños merecen lo mejor. Nuestros videos presentan animación impresionante creada por artistas talentosos de todo el mundo, diseñada para despertar la imaginación y dar vida a las historias cristianas."
               )}
             </p>
             <p className="body-text !max-w-none leading-relaxed mb-12">
@@ -157,7 +177,7 @@ export const AboutBentoGrid = () => {
         >
           <div className="absolute -left-40 -bottom-40 w-[600px] h-[600px] bg-selah-blue/10 rounded-full blur-3xl pointer-events-none" />
           <div className="w-full md:w-1/2 rounded-2xl md:rounded-[3.5rem] overflow-hidden relative" style={{minHeight: '300px'}}>
-            <NextImage src="/rroque_ALA_Shot1260_v01.png" alt="Sensory Peace" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" loading="lazy" />
+            <NextImage src="/TGN_SingleFrames+(7).jpg" alt="Sensory Peace" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" loading="lazy" />
           </div>
 
           <div className="w-full md:w-1/2 p-4 md:p-8 lg:p-16 flex flex-col justify-center relative z-10">

@@ -44,7 +44,7 @@ export function LatestVideosSection() {
         "A high-energy sing-along that gets kids moving and praising God with all their heart! Join Andy and Libni in this catchy worship song.",
         "¡Un canto lleno de energía que hace que los niños se muevan y alaben a Dios con todo su corazón! Únete a Andy y Libni en esta pegajosa canción de adoración."
       ),
-      img: "/rroque_ALA_Shot1040_v01.png",
+      img: "/TGN_SingleFrames+(3).jpg",
       category: t("Sing-Along", "Canta Conmigo"),
       language: t("English", "Inglés"),
       gradient: "from-selah-orange to-rose-500",
@@ -58,7 +58,7 @@ export function LatestVideosSection() {
         "Experimenta el mensaje eterno del amor de Dios a través de esta hermosa versión animada del clásico querido."
       ),
       img: "/rroque_ALA_Shot1200_v02.png",
-      category: t("Bible Song", "Canción Bíblica"),
+      category: t("Worship Song", "Canción de Adoración"),
       language: t("English / Spanish", "Inglés / Español"),
       gradient: "from-selah-yellow to-selah-orange",
       date: t("FEATURED", "DESTACADO")
@@ -116,8 +116,8 @@ export function LatestVideosSection() {
           badge={t("FRESH CONTENT", "CONTENIDO NUEVO")}
           title={t("Our Latest Videos", "Nuestros Últimos Videos")}
           description={t(
-            "Check out our newest Christian kids music and engaging Bible stories! We have awesome worship videos in both English and Spanish. They are perfect for Sunday school songs or hanging out with your family!",
-            "¡Mira nuestra nueva música cristiana para niños e historias bíblicas divertidas! Tenemos increíbles videos de adoración en inglés y español. ¡Son perfectos para canciones de la escuela dominical o para pasar tiempo con tu familia!"
+            "Check out our newest Christian kids music and engaging Christian cartoons! We have awesome worship videos in both English and Spanish. They are perfect for Sunday school songs or hanging out with your family!",
+            "¡Mira nuestra nueva música cristiana para niños y emocionantes dibujos animados cristianos! Tenemos increíbles videos de adoración en inglés y español. ¡Son perfectos para canciones de la escuela dominical o para pasar tiempo con tu familia!"
           )}
           align="center"
         />

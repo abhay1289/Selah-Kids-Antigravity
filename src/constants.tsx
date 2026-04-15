@@ -36,14 +36,14 @@ export const LATEST_VIDEOS = [
     category: "Sing-Along",
     language: "EN",
     gradient: "from-[#FF7F50] to-[#FF5C00]", // Coral
-    img: "/rroque_ALA_Shot1020_v01.png"
+    img: "/TGN_SingleFrames+(3).jpg"
   },
   {
     id: 2,
     title: "Jesus Loves Me",
     date: "FEATURED",
     description: "The classic hymn brought to life with beautiful animation and soulful vocals for the whole family.",
-    category: "Bible Song",
+    category: "Worship Song",
     language: "EN / ES",
     gradient: "from-[#00BFFF] to-[#87CEEB]", // Sky Blue
     img: "/rroque_ALA_Shot1040_v01.png"
@@ -63,8 +63,8 @@ export const WHY_FEATURES = [
   {
     title: "Awesome Animation",
     titleEs: "Animación Increíble",
-    desc: "Our videos look amazing! We use top-quality animation to bring Bible stories to life and keep kids entertained.",
-    descEs: "¡Nuestros videos se ven increíbles! Usamos animación de alta calidad para dar vida a las historias bíblicas y mantener a los niños entretenidos.",
+    desc: "Our videos look amazing! We use top-quality animation to bring worship songs to life and keep kids entertained.",
+    descEs: "¡Nuestros videos se ven increíbles! Usamos animación de alta calidad para dar vida a las canciones de adoración y mantener a los niños entretenidos.",
     icon: <SparklesIcon size={32} className="text-[#00BFFF]" />,
     color: "#00BFFF", // Sky
     bgColor: "bg-[#00BFFF]/10"

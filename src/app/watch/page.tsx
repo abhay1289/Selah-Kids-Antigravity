@@ -28,7 +28,7 @@ const VIDEOS = [
     categoryLabel: "Cartoon",
     language: "EN",
     gradient: "from-[#FF7F50] to-[#FF5C00]",
-    img: "/rroque_ALA_Shot1040_v01.png"
+    img: "/TGN_SingleFrames+(3).jpg"
   },
   {
     id: 2,
@@ -50,7 +50,7 @@ const VIDEOS = [
     categoryLabel: "Sing-Along",
     language: "EN",
     gradient: "from-[#FF69B4] to-[#FF1493]",
-    img: "/rroque_ALA_Shot1130_v01.png"
+    img: "/TGN_SingleFrames+(7).jpg"
   },
   {
     id: 4,
@@ -72,7 +72,7 @@ const VIDEOS = [
     categoryLabel: "Music Video",
     language: "EN",
     gradient: "from-[#00BFFF] to-[#87CEEB]",
-    img: "/rroque_ALA_Shot1200_v02.png"
+    img: "/TGN_SingleFrames+(9).jpg"
   },
 
   // ── Spanish Videos ──
@@ -85,7 +85,7 @@ const VIDEOS = [
     categoryLabel: "Caricatura",
     language: "ES",
     gradient: "from-[#FF7F50] to-[#FF5C00]",
-    img: "/rroque_ALA_Shot1040_v01.png"
+    img: "/TGN_SingleFrames+(3).jpg"
   },
   {
     id: 7,
@@ -107,7 +107,7 @@ const VIDEOS = [
     categoryLabel: "Sensorial",
     language: "ES",
     gradient: "from-[#98FF98] to-[#93D35C]",
-    img: "/rroque_ALA_Shot1190_v01.png"
+    img: "/TGN_SingleFrames+(7).jpg"
   },
   {
     id: 9,

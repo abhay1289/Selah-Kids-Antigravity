@@ -63,7 +63,7 @@ export function AboutSection() {
         >
           <div className="aspect-[4/5] rounded-[40px] md:rounded-[80px] overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1),0_10px_15px_-3px_rgba(0,0,0,0.05)] transition-all duration-1000 group-hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.2),0_20px_40px_-10px_rgba(0,0,0,0.1)] group-hover:rotate-1">
             <NextImage 
-              src="/rroque_ALA_Shot1050_v02.png" 
+              src="/TGN_SingleFrames+(9).jpg" 
               alt="Selah Kids" 
               fill
               className="object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-105"
@@ -93,7 +93,7 @@ export function AboutSection() {
         >
           <SectionHeader 
             badge={t("Our Mission", "Nuestra Misión")}
-            title={t("Bible Songs & Christian Cartoons", "Canciones Bíblicas y Dibujos Cristianos")}
+            title={t("The Selah Kids Story", "La Historia de Selah Kids")}
             description={t(
               "Selah Kids! was created by parents who wanted a safe place for kids to watch faith-based videos. We want to help families get up, move, and worship God together with our catchy Sunday school songs.",
               "¡Selah Kids! fue creado por padres que querían un lugar seguro para que los niños vean videos basados en la fe. Queremos ayudar a las familias a levantarse, moverse y adorar a Dios juntos con nuestras pegajosas canciones de la escuela dominical."
@@ -102,8 +102,8 @@ export function AboutSection() {
           
           <div className="grid gap-2 mt-[-2.5rem]">
             {[
-              { icon: Music, title: t("Original Bible Songs", "Canciones Bíblicas Originales"), desc: t("Our Bible songs teach important lessons from scripture in an engaging way that kids can easily understand.", "Nuestras canciones bíblicas enseñan lecciones importantes de las escrituras de una manera atractiva que los niños pueden entender fácilmente."), color: "bg-selah-light/20", iconColor: "text-selah-dark" },
-              { icon: BookOpen, title: t("Stunning Animation", "Animación Impresionante"), desc: t("Our videos feature beautiful animation made by talented artists from around the world to bring Bible stories to life.", "Nuestros videos presentan hermosas animaciones hechas por artistas talentosos de todo el mundo para dar vida a las historias bíblicas."), color: "bg-selah-yellow/20", iconColor: "text-selah-orange" }
+              { icon: Music, title: t("Original Worship Songs", "Canciones de Adoración Originales"), desc: t("Our worship songs teach important lessons from scripture in an engaging way that kids can easily understand.", "Nuestras canciones de adoración enseñan lecciones importantes de las escrituras de una manera atractiva que los niños pueden entender fácilmente."), color: "bg-selah-light/20", iconColor: "text-selah-dark" },
+              { icon: BookOpen, title: t("Stunning Animation", "Animación Impresionante"), desc: t("Our videos feature beautiful animation made by talented artists from around the world to bring Christian stories to life.", "Nuestros videos presentan hermosas animaciones hechas por artistas talentosos de todo el mundo para dar vida a las historias cristianas."), color: "bg-selah-yellow/20", iconColor: "text-selah-orange" }
             ].map((feature, i) => (
               <motion.div 
                 key={i}

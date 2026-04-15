@@ -49,11 +49,11 @@ export const AboutHeroSection = ({ scrollYProgress }: AboutHeroSectionProps) => 
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", repeatDelay: 2 }}
           />
           <SparklesIcon size={16} className="text-selah-orange relative z-10" />
-          <span className="ui-label text-selah-dark/90 relative z-10">{t("The Selah Kids Story", "La Historia de Selah Kids")}</span>
+          <span className="ui-label text-selah-dark/90 relative z-10">{t("OUR STORY", "NUESTRA HISTORIA")}</span>
         </motion.div>
 
         <h1 className="hero-headline mb-6 drop-shadow-sm flex flex-wrap justify-center gap-x-3 lg:gap-x-4">
-          {(language === 'ES' ? ["Canciones", "Bíblicas"] : ["Bible", "Songs"]).map((word, i) => (
+          {(language === 'ES' ? ["La", "Historia", "de"] : ["The", "Selah", "Kids"]).map((word, i) => (
             <span key={i} className="overflow-hidden inline-block pb-2">
               <motion.span
                 initial={{ y: "100%", opacity: 0, rotateZ: 5, scale: 0.9, filter: "blur(4px)" }}
@@ -73,7 +73,7 @@ export const AboutHeroSection = ({ scrollYProgress }: AboutHeroSectionProps) => 
               transition={{ duration: 1.5, delay: 0.5, ease: [0.16, 1, 0.3, 1] as const }}
               className="inline-block tracking-tight"
             >
-              {t("& Christian Cartoons", "y Caricaturas Cristianas")}
+              {t("Story", "Selah Kids")}
             </motion.span>
           </span>
         </h1>
@@ -82,11 +82,23 @@ export const AboutHeroSection = ({ scrollYProgress }: AboutHeroSectionProps) => 
           initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 1.2, delay: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
-          className="body-text mx-auto text-center mb-8"
+          className="body-text mx-auto text-center mb-4"
         >
           {t(
-            "We are parents and creators on a mission to fill every home with faith-filled melodies and stories that spark wonder in the hearts of children. Together, we worship, learn, and grow.",
-            "Somos padres y creadores con la misión de llenar cada hogar con melodías llenas de fe e historias que despiertan asombro en los corazones de los niños. Juntos, adoramos, aprendemos y crecemos."
+            "We are parents and creators on a mission to fill every home with faith-filled melodies that spark wonder in the hearts of children. Together, we worship, learn, and grow.",
+            "Somos padres y creadores con la misión de llenar cada hogar con melodías llenas de fe que despiertan asombro en los corazones de los niños. Juntos, adoramos, aprendemos y crecemos."
+          )}
+        </motion.p>
+
+        <motion.p 
+          initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          transition={{ duration: 1.2, delay: 1.0, ease: [0.16, 1, 0.3, 1] as const }}
+          className="text-xl md:text-2xl font-display font-bold text-selah-orange text-center mb-8 italic"
+        >
+          {t(
+            "Learning about God through worship and song",
+            "Aprendiendo sobre Dios a través de la adoración y el canto"
           )}
         </motion.p>
       </div>
