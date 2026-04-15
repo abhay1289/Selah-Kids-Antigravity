@@ -15,7 +15,7 @@ interface HeroSectionProps {
 
 export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: HeroSectionProps) {
   const router = useRouter();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   
   const heroY = useTransform(scrollYProgress, [0, 1], [0, 300]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
@@ -318,7 +318,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
             
             <div className="flex items-center gap-4 sm:gap-8 mt-4 sm:mt-6">
               <motion.a 
-                href="https://www.youtube.com/@selahkidsworship" 
+                href={language === 'ES' ? "https://www.youtube.com/@SelahKidsEspanol" : "https://www.youtube.com/@selahkidsworship"}
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.1, rotate: -5 }}

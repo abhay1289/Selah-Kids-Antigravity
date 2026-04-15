@@ -23,7 +23,7 @@ const sectionVariants = {
 };
 
 export function LatestVideosSection() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const router = useRouter();
   const containerRef = useRef<HTMLElement>(null);
   
@@ -140,7 +140,7 @@ export function LatestVideosSection() {
                   }
                 }
               }}
-              onClick={() => window.open("https://www.youtube.com/@selahkidsworship", "_blank")}
+              onClick={() => window.open(language === 'ES' ? "https://www.youtube.com/@SelahKidsEspanol" : "https://www.youtube.com/@selahkidsworship", "_blank")}
               className="group cursor-pointer relative"
             >
               {/* Thumbnail Area - Large & Prominent */}

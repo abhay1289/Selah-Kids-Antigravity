@@ -5,9 +5,11 @@ import { motion } from 'framer-motion';
 import { Youtube, Instagram, Music } from 'lucide-react';
 import { staggerContainer, slideInRight, fadeInRight } from '../../utils/animations';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { useRouter } from 'next/navigation';
 
 export const ContactSidebar = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const router = useRouter();
   return (
     <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} className="lg:col-span-5 space-y-4 md:space-y-6">
       <motion.div variants={slideInRight} whileHover={{ scale: 1.02, x: -10 }} className="bg-white rounded-2xl md:rounded-[3rem] p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-black/5 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] transition-all duration-500 cursor-pointer group">
@@ -31,11 +33,16 @@ export const ContactSidebar = () => {
         <h3 className="content-h3 text-white mb-6 md:mb-8 relative z-10">{t("Follow Us", "Síguenos")}</h3>
         <div className="flex items-center justify-center gap-4 md:gap-6 relative z-10">
           {[
-            { icon: Youtube, color: "hover:bg-[#FF0000]", name: "YouTube" },
-            { icon: Instagram, color: "hover:bg-[#E1306C]", name: "Instagram" },
-            { icon: Music, color: "hover:bg-[#1DB954]", name: "Spotify" }
+            { icon: Youtube, color: "hover:bg-[#FF0000]", name: "YouTube", href: language === 'ES' ? "https://www.youtube.com/@SelahKidsEspanol" : "https://www.youtube.com/@selahkidsworship", isInternal: false },
+            { icon: Instagram, color: "hover:bg-[#E1306C]", name: "Instagram", href: "https://www.instagram.com/selah.kids", isInternal: false },
+            { icon: Music, color: "hover:bg-[#1DB954]", name: "Spotify", href: "/music", isInternal: true }
           ].map((social, i) => (
-            <button key={i} aria-label={social.name} className={`w-12 h-12 md:w-16 md:h-16 rounded-full bg-white/10 flex items-center justify-center text-white transition-all duration-500 ${social.color} hover:scale-110 hover:shadow-[0_10px_20px_rgba(0,0,0,0.3)] hover:-translate-y-2`}>
+            <button 
+              key={i} 
+              aria-label={social.name} 
+              onClick={() => social.isInternal ? router.push(social.href) : window.open(social.href, '_blank')}
+              className={`w-12 h-12 md:w-16 md:h-16 rounded-full bg-white/10 flex items-center justify-center text-white transition-all duration-500 ${social.color} hover:scale-110 hover:shadow-[0_10px_20px_rgba(0,0,0,0.3)] hover:-translate-y-2`}
+            >
               <social.icon size={24} className="md:w-7 md:h-7" />
             </button>
           ))}
