@@ -145,9 +145,6 @@ export function LatestVideosSection() {
             >
               {/* Thumbnail Area - Large & Prominent */}
               <div className="relative aspect-[16/10] rounded-[48px] overflow-hidden transition-all duration-500 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1),0_10px_15px_-3px_rgba(0,0,0,0.05)] group-hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.2),0_20px_30px_-5px_rgba(0,0,0,0.1)] group-hover:-translate-y-2">
-                {/* Color-coded Gradient Overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${video.gradient} opacity-30 group-hover:opacity-50 transition-opacity duration-700 z-10`} />
-                
                 {/* Shimmer Effect on Hover */}
                 <div className="absolute inset-0 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none">
                   <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-[1500ms] ease-in-out" />
@@ -157,7 +154,7 @@ export function LatestVideosSection() {
                   src={video.img} 
                   alt={video.title} 
                   fill
-                  className="object-cover mix-blend-overlay transition-transform duration-1000 group-hover:scale-110"
+                  className="object-cover transition-transform duration-1000 group-hover:scale-110"
                   sizes="(max-width: 768px) 100vw, 50vw"
                   loading="lazy"
                 />
