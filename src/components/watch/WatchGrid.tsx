@@ -38,7 +38,6 @@ export const WatchGrid = ({ filteredVideos }: WatchGridProps) => {
               className="group cursor-pointer flex flex-col h-full"
             >
               <div className="relative aspect-video rounded-3xl overflow-hidden mb-6 shadow-sm group-hover:shadow-2xl transition-all duration-500">
-                <div className={`absolute inset-0 bg-gradient-to-br ${video.gradient} opacity-80 mix-blend-multiply z-10`} />
                 <NextImage src={video.img} alt={video.title} fill className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out" sizes="(max-width: 768px) 100vw, 33vw" loading="lazy" />
                 
                 {/* Shimmer Effect */}
