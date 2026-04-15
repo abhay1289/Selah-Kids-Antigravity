@@ -163,19 +163,16 @@ export function Footer() {
             </div>
           </div>
           
-          <motion.div 
+          <motion.a 
+            href="https://www.engazedigital.com/"
+            target="_blank"
+            rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }}
-            className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-selah-bg border border-selah-border/30 text-selah-muted/60 ui-button shadow-sm"
+            className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-selah-bg border border-selah-border/30 text-selah-muted/60 ui-button shadow-sm hover:border-selah-orange/30 hover:text-selah-dark transition-colors duration-300 cursor-pointer"
           >
-            <span>{t("Made with", "Hecho con")}</span>
-            <motion.div
-              animate={{ scale: [1, 1.3, 1] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            >
-              <Heart size={16} className="text-selah-orange fill-selah-orange drop-shadow-md" />
-            </motion.div>
-            <span>{t("for the next generation", "para la próxima generación")}</span>
-          </motion.div>
+            <span>{t("Designed by", "Diseñado por")}</span>
+            <span className="font-semibold text-selah-dark">{" Engaze Digital"}</span>
+          </motion.a>
         </div>
       </div>
     </footer>
