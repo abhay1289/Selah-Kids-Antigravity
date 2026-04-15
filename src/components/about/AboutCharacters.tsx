@@ -5,41 +5,52 @@ import { motion } from 'framer-motion';
 import NextImage from 'next/image';
 import { Badge } from '../UI';
 import { staggerContainer, zoomInUp } from '../../utils/animations';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const CHARACTERS = [
   {
     name: "Andy",
     role: "The Friendly Leader",
+    roleEs: "El Líder Amigable",
     desc: "Andy is a smart and friendly boy who loves to lead. He spends his days playing outside in the garden with his best friend and pet sheep, Shiloh. Join Andy as he sings fun worship songs!",
+    descEs: "Andy es un niño inteligente y amigable que le encanta liderar. Pasa sus días jugando afuera en el jardín con su mejor amigo y oveja mascota, Shiloh. ¡Únete a Andy mientras canta divertidas canciones de adoración!",
     color: "bg-selah-blue",
     image: "/TGN_SingleFrames+28229.jpg"
   },
   {
     name: "Libni",
     role: "The Musical Neighbor",
-    desc: "Libni is Andy’s creative and giggly next-door neighbor who loves music. She spends her time picking flowers, singing Christian kids music, and making up fun dances for her family.",
+    roleEs: "La Vecina Musical",
+    desc: "Libni is Andy's creative and giggly next-door neighbor who loves music. She spends her time picking flowers, singing Christian kids music, and making up fun dances for her family.",
+    descEs: "Libni es la vecina creativa y risueña de Andy que ama la música. Pasa su tiempo recogiendo flores, cantando música cristiana para niños y creando bailes divertidos para su familia.",
     color: "bg-selah-pink",
     image: "/TGN_SingleFrames+28329.jpg" 
   },
   {
     name: "Shiloh",
     role: "The Funny Sheep",
-    desc: "Shiloh is Andy’s pet sheep and best friend. He is curious, helpful, and very funny! Shiloh loves resting in the warm sun, finding yummy snacks, and taking long naps in the garden.",
+    roleEs: "La Oveja Graciosa",
+    desc: "Shiloh is Andy's pet sheep and best friend. He is curious, helpful, and very funny! Shiloh loves resting in the warm sun, finding yummy snacks, and taking long naps in the garden.",
+    descEs: "Shiloh es la oveja mascota y mejor amigo de Andy. ¡Es curioso, servicial y muy gracioso! A Shiloh le encanta descansar bajo el sol, buscar bocadillos ricos y tomar largas siestas en el jardín.",
     color: "bg-selah-green",
     image: "/TGN_SingleFrames+28729.jpg" 
   }
 ];
 
 export const AboutCharacters = () => {
+  const { t, language } = useLanguage();
   return (
     <section className="max-w-[1400px] mx-auto px-6 py-12 md:py-16 relative z-10">
       <div className="text-center mb-12">
-        <Badge color="orange" className="mb-6">OUR FRIENDS</Badge>
+        <Badge color="orange" className="mb-6">{t("OUR FRIENDS", "NUESTROS AMIGOS")}</Badge>
         <h2 className="content-h2 leading-[1.1] tracking-tight">
-          Meet the Characters
+          {t("Meet the Characters", "Conoce a los Personajes")}
         </h2>
         <p className="body-text mt-6 max-w-2xl mx-auto">
-          Join Andy, Libni, and Shiloh on their fun adventures as they sing, play, and learn about God's love!
+          {t(
+            "Join Andy, Libni, and Shiloh on their fun adventures as they sing, play, and learn about God's love!",
+            "¡Únete a Andy, Libni y Shiloh en sus divertidas aventuras mientras cantan, juegan y aprenden sobre el amor de Dios!"
+          )}
         </p>
       </div>
       
@@ -63,9 +74,9 @@ export const AboutCharacters = () => {
               </div>
             </div>
             <h3 className="content-h3-playful mb-2 relative z-10">{char.name}</h3>
-            <div className="ui-label text-selah-orange uppercase mb-6 relative z-10">{char.role}</div>
+            <div className="ui-label text-selah-orange uppercase mb-6 relative z-10">{language === 'ES' && char.roleEs ? char.roleEs : char.role}</div>
             <p className="body-text leading-relaxed relative z-10">
-              {char.desc}
+              {language === 'ES' && char.descEs ? char.descEs : char.desc}
             </p>
           </motion.div>
         ))}
