@@ -50,7 +50,7 @@ export function Footer() {
             </p>
             <div className="flex gap-4">
               {[
-                { Icon: Instagram, href: "https://www.instagram.com/selah.kids", color: "hover:bg-[#E4405F]", shadow: "hover:shadow-[0_10px_20px_-10px_rgba(228,64,95,0.6)]" },
+                { Icon: Instagram, href: language === 'ES' ? "https://www.instagram.com/selahkids_spn/" : "https://www.instagram.com/selah.kids", color: "hover:bg-[#E4405F]", shadow: "hover:shadow-[0_10px_20px_-10px_rgba(228,64,95,0.6)]" },
                 { Icon: Youtube, href: language === 'ES' ? "https://www.youtube.com/@SelahKidsEspanol" : "https://www.youtube.com/@selahkidsworship", color: "hover:bg-[#FF0000]", shadow: "hover:shadow-[0_10px_20px_-10px_rgba(255,0,0,0.6)]" },
                 { Icon: Music, href: "/music", color: "hover:bg-[#1DB954]", shadow: "hover:shadow-[0_10px_20px_-10px_rgba(29,185,84,0.6)]" }
               ].map(({ Icon, color, href, shadow }, i) => (

@@ -34,7 +34,7 @@ export const ContactSidebar = () => {
         <div className="flex items-center justify-center gap-4 md:gap-6 relative z-10">
           {[
             { icon: Youtube, color: "hover:bg-[#FF0000]", name: "YouTube", href: language === 'ES' ? "https://www.youtube.com/@SelahKidsEspanol" : "https://www.youtube.com/@selahkidsworship", isInternal: false },
-            { icon: Instagram, color: "hover:bg-[#E1306C]", name: "Instagram", href: "https://www.instagram.com/selah.kids", isInternal: false },
+            { icon: Instagram, color: "hover:bg-[#E1306C]", name: "Instagram", href: language === 'ES' ? "https://www.instagram.com/selahkids_spn/" : "https://www.instagram.com/selah.kids", isInternal: false },
             { icon: Music, color: "hover:bg-[#1DB954]", name: "Spotify", href: "/music", isInternal: true }
           ].map((social, i) => (
             <button 
