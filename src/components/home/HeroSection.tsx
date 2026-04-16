@@ -117,7 +117,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
               fill
               className="object-cover object-[20%_90%] blur-[2px]"
               priority
-              quality={75}
+              quality={50}
               sizes="100vw"
             />
           </motion.div>
@@ -148,6 +148,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
               height={480}
               className="w-full h-auto drop-shadow-[0_15px_40px_rgba(255,100,150,0.5)]"
               priority
+              quality={60}
             />
           </motion.div>
         </motion.div>
@@ -176,6 +177,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
               height={480}
               className="w-full h-auto drop-shadow-[0_15px_40px_rgba(0,180,255,0.4)]"
               priority
+              quality={60}
             />
           </motion.div>
         </motion.div>
