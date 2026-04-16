@@ -1,9 +1,26 @@
 import type { Metadata } from "next";
+import { Fredoka, Quicksand } from "next/font/google";
 import { LanguageProvider } from "../contexts/LanguageContext";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import Script from "next/script";
 import "./globals.css";
+
+const fredoka = Fredoka({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-fredoka",
+  preload: true,
+});
+
+const quicksand = Quicksand({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-quicksand",
+  preload: true,
+});
 
 export const metadata: Metadata = {
   title: "Selah Kids | Faith-based original music & Christian cartoons",
@@ -16,11 +33,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${fredoka.variable} ${quicksand.variable}`}>
       <head>
-        {/* Preconnect for faster Google Fonts */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* DNS prefetch for external resources */}
         <link rel="dns-prefetch" href="https://www.transparenttextures.com" />
       </head>
       <body className="antialiased">

@@ -147,7 +147,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
               width={320}
               height={480}
               className="w-full h-auto drop-shadow-[0_15px_40px_rgba(255,100,150,0.5)]"
-              loading="lazy"
+              priority
             />
           </motion.div>
         </motion.div>
@@ -175,7 +175,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
               width={320}
               height={480}
               className="w-full h-auto drop-shadow-[0_15px_40px_rgba(0,180,255,0.4)]"
-              loading="lazy"
+              priority
             />
           </motion.div>
         </motion.div>
