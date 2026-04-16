@@ -2,10 +2,12 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import dynamic from 'next/dynamic';
 import { ParentsHero } from '../../components/parents/ParentsHero';
-import { ParentsTrustBadges } from '../../components/parents/ParentsTrustBadges';
-import { ParentsAccordion } from '../../components/parents/ParentsAccordion';
-import { ParentsCommunity } from '../../components/parents/ParentsCommunity';
+
+const ParentsTrustBadges = dynamic(() => import('../../components/parents/ParentsTrustBadges').then(m => ({ default: m.ParentsTrustBadges })), { ssr: false });
+const ParentsAccordion = dynamic(() => import('../../components/parents/ParentsAccordion').then(m => ({ default: m.ParentsAccordion })), { ssr: false });
+const ParentsCommunity = dynamic(() => import('../../components/parents/ParentsCommunity').then(m => ({ default: m.ParentsCommunity })), { ssr: false });
 
 const sectionEntrance = {
   hidden: { opacity: 0, y: 50 },

@@ -2,14 +2,15 @@
 
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import dynamic from 'next/dynamic';
 import { AboutHeroSection } from '../../components/about/AboutHeroSection';
-import { AboutMarqueeSection } from '../../components/about/AboutMarqueeSection';
-import { AboutBentoGrid } from '../../components/about/AboutBentoGrid';
 
-import { AboutCoreValues } from '../../components/about/AboutCoreValues';
-import { AboutCTA } from '../../components/about/AboutCTA';
-import { AboutPhotoCarousel } from '../../components/about/AboutPhotoCarousel';
-import { TeamSection } from '../../components/about/TeamSection';
+const AboutMarqueeSection = dynamic(() => import('../../components/about/AboutMarqueeSection').then(m => ({ default: m.AboutMarqueeSection })), { ssr: false });
+const AboutBentoGrid = dynamic(() => import('../../components/about/AboutBentoGrid').then(m => ({ default: m.AboutBentoGrid })), { ssr: false });
+const AboutCoreValues = dynamic(() => import('../../components/about/AboutCoreValues').then(m => ({ default: m.AboutCoreValues })), { ssr: false });
+const AboutCTA = dynamic(() => import('../../components/about/AboutCTA').then(m => ({ default: m.AboutCTA })), { ssr: false });
+const AboutPhotoCarousel = dynamic(() => import('../../components/about/AboutPhotoCarousel').then(m => ({ default: m.AboutPhotoCarousel })), { ssr: false });
+const TeamSection = dynamic(() => import('../../components/about/TeamSection').then(m => ({ default: m.TeamSection })), { ssr: false });
 
 const sectionEntrance = {
   hidden: { opacity: 0, y: 60 },
