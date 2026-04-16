@@ -3,7 +3,6 @@ import { Fredoka, Quicksand } from "next/font/google";
 import { LanguageProvider } from "../contexts/LanguageContext";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
-import Script from "next/script";
 import "./globals.css";
 
 const fredoka = Fredoka({
@@ -40,11 +39,6 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         <LanguageProvider>
-          <Script
-            src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs"
-            type="module"
-            strategy="lazyOnload"
-          />
           <div className="min-h-screen overflow-x-hidden selection:bg-selah-orange selection:text-white bg-selah-bg">
             <Navbar />
             <main>{children}</main>
