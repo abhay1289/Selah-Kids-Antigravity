@@ -156,7 +156,7 @@ function CharacterImage({ char, index }: { char: typeof CHARACTERS[0]; index: nu
         className="absolute -bottom-6 left-1/2 -translate-x-1/2 z-20"
       >
         <div className="px-8 py-3 bg-white rounded-2xl shadow-xl border border-black/5 flex items-center gap-3">
-          <span className={`w-3 h-3 rounded-full ${char.blobColor} shadow-sm animate-pulse`} />
+          <span className={`w-3 h-3 rounded-full ${char.blobColor} shadow-sm`} />
           <span className="content-h3 text-selah-dark whitespace-nowrap">{char.name}</span>
         </div>
       </motion.div>
