@@ -93,24 +93,14 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index, onD
         )}
 
         {/* Floating Badges */}
-        <div className="absolute top-4 left-4 right-4 flex justify-between items-start z-30">
+        <div className="absolute top-4 left-4 right-4 flex justify-between items-start z-30 pointer-events-none">
           <motion.div 
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: index * 0.1 + 0.3, type: "spring" }}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 bg-white/90 backdrop-blur-md text-selah-orange rounded-full text-[10px] uppercase font-bold tracking-widest shadow-[0_8px_20px_rgba(0,0,0,0.08)] border border-white"
+            className="flex items-center px-4 py-1.5 bg-white/90 backdrop-blur-md text-selah-orange rounded-full text-[10px] uppercase font-bold tracking-widest shadow-[0_8px_20px_rgba(0,0,0,0.08)] border border-white"
           >
-            <Download size={11} strokeWidth={3} />
             {resource.category}
-          </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: index * 0.1 + 0.4, type: "spring" }}
-            className="px-3 py-1.5 bg-selah-dark/80 backdrop-blur-md text-white rounded-full text-[10px] uppercase font-bold tracking-widest shadow-[0_8px_20px_rgba(0,0,0,0.08)] border border-white/10"
-          >
-            {resource.type}
           </motion.div>
         </div>
 
