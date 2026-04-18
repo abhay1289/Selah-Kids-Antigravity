@@ -173,8 +173,7 @@ export const DownloadModal = ({ isOpen, onClose, onSuccess, resourceTitle }: Dow
                     <Button 
                       type="submit" 
                       variant="primary" 
-                      className="w-full mt-4 py-3.5 !rounded-xl relative overflow-hidden"
-                      style={{ marginTop: '1.5rem' }}
+                      className="w-full mt-6 py-3.5 !rounded-xl relative overflow-hidden"
                       disabled={isSubmitting}
                     >
                       {isSubmitting ? (
