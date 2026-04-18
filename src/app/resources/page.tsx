@@ -104,41 +104,66 @@ export default function ResourcesPage() {
   );
 
   return (
-    <div className="bg-gradient-to-b from-[#FFF8EE] via-selah-bg to-[#F0FAE6] min-h-screen pt-36 md:pt-44 pb-16 relative overflow-hidden selection:bg-selah-orange selection:text-white">
-      {/* Natural Paper Texture Background */}
-      <div className="absolute inset-0 opacity-[0.04] pointer-events-none z-0 mix-blend-multiply" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
+    <div className="bg-gradient-to-b from-[#FFF5EE] via-[#FDFBF7] to-[#F0FAE6] min-h-screen pt-36 md:pt-44 pb-16 relative overflow-hidden selection:bg-selah-orange selection:text-white">
+      {/* Vivid Color Washes — enterprise-grade vibrancy matching home */}
+      <div className="absolute top-0 right-0 w-[60vw] h-[50vh] bg-gradient-to-bl from-[#FF7F50]/15 via-[#FF5C00]/8 to-transparent rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[55vw] h-[50vh] bg-gradient-to-tr from-[#93D35C]/15 via-[#98FF98]/8 to-transparent rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-[20%] left-[10%] w-[40vw] h-[40vh] bg-[#FEB835]/12 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-[20%] right-[5%] w-[35vw] h-[35vh] bg-[#FF69B4]/10 rounded-full blur-[90px] pointer-events-none" />
+      <div className="absolute top-[50%] right-[20%] w-[30vw] h-[30vh] bg-[#00BFFF]/8 rounded-full blur-[100px] pointer-events-none" />
       
-      {/* Soft Ambient Glows */}
-      <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-selah-blue/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-selah-yellow/10 rounded-full blur-[120px] pointer-events-none" />
+      {/* Paper Texture */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none z-0 mix-blend-multiply" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
+
+      {/* Floating Decorative Particles */}
+      <motion.div 
+        animate={{ y: [0, -30, 0], rotate: [0, 15, 0] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-[15%] right-[8%] w-16 h-16 rounded-2xl bg-selah-orange/10 border border-selah-orange/20 pointer-events-none z-0 hidden md:block"
+      />
+      <motion.div 
+        animate={{ y: [0, 20, 0], rotate: [0, -10, 0] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        className="absolute top-[40%] left-[5%] w-12 h-12 rounded-full bg-[#00BFFF]/10 border border-[#00BFFF]/20 pointer-events-none z-0 hidden md:block"
+      />
+      <motion.div 
+        animate={{ y: [0, -15, 0], rotate: [0, 20, 0] }}
+        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        className="absolute bottom-[25%] right-[12%] w-10 h-10 rounded-xl bg-[#93D35C]/15 border border-[#93D35C]/25 pointer-events-none z-0 hidden md:block"
+      />
 
       <ResourcesHero />
 
-      {/* Filter Bar */}
-      <section className="max-w-4xl mx-auto px-6 mb-12 relative z-20">
-        <div className="flex flex-wrap justify-center gap-1 p-1.5 bg-white rounded-full border border-selah-dark/5 shadow-[0_8px_24px_rgba(0,0,0,0.04)]">
+      {/* Premium Filter Bar */}
+      <section className="max-w-4xl mx-auto px-6 mb-14 relative z-20">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.2, duration: 0.6 }}
+          className="flex flex-wrap justify-center gap-1.5 p-2 bg-white/70 backdrop-blur-2xl rounded-2xl border border-white/80 shadow-[0_8px_32px_rgba(0,0,0,0.06)]"
+        >
           {CATEGORIES.map((category) => (
             <button
               key={category}
               onClick={() => setActiveCategory(category)}
-              className={`relative px-6 py-2.5 rounded-full ui-button transition-colors duration-300 z-10 ${ activeCategory === category ? 'text-white' : 'text-selah-muted hover:text-selah-dark' }`}
+              className={`relative px-6 py-3 rounded-xl ui-button transition-colors duration-300 z-10 ${ activeCategory === category ? 'text-white' : 'text-selah-muted hover:text-selah-dark' }`}
             >
               {activeCategory === category && (
                 <motion.div
                   layoutId="activeCategory"
-                  className="absolute inset-0 bg-selah-orange rounded-full shadow-[0_4px_12px_rgba(255,92,0,0.2)]"
+                  className="absolute inset-0 bg-selah-orange rounded-xl shadow-[0_6px_20px_rgba(255,92,0,0.25)]"
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
               <span className="relative z-20">{category === 'All' ? t('All', 'Todos') : category === 'Printables' ? t('Printables', 'Imprimibles') : category === 'Lessons' ? t('Lessons', 'Lecciones') : t('Devotionals', 'Devocionales')}</span>
             </button>
           ))}
-        </div>
+        </motion.div>
       </section>
 
       {/* Resources Grid */}
-      <section className="max-w-[1400px] mx-auto px-6 mb-12 relative z-10" style={{ perspective: "2000px" }}>
-        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+      <section className="max-w-[1200px] mx-auto px-6 mb-16 relative z-10" style={{ perspective: "2000px" }}>
+        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <AnimatePresence mode="popLayout">
             {filteredResources.map((resource, i) => (
               <ResourceCard 
