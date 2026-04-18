@@ -92,18 +92,6 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index, onD
           </div>
         )}
 
-        {/* Floating Badges */}
-        <div className="absolute top-4 left-4 right-4 flex justify-between items-start z-30 pointer-events-none">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: index * 0.1 + 0.3, type: "spring" }}
-            className="flex items-center px-4 py-1.5 bg-white/90 backdrop-blur-md text-selah-orange rounded-full text-[10px] uppercase font-bold tracking-widest shadow-[0_8px_20px_rgba(0,0,0,0.08)] border border-white"
-          >
-            {resource.category}
-          </motion.div>
-        </div>
-
         {/* Hover Dark Overlay inside the Island */}
         <motion.div 
           initial={false}
@@ -124,8 +112,15 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index, onD
       </div>
 
       {/* ─── Clean Content Section ─── */}
-      <div className="relative z-10 px-6 pt-7 pb-5 flex flex-col flex-grow">
+      <div className="relative z-10 px-6 pt-6 pb-5 flex flex-col flex-grow">
         <div className="flex-grow">
+          {/* Sleek Enterprise Category Tag */}
+          <div className="mb-2.5">
+            <span className="inline-block px-2.5 py-1 bg-selah-orange/[0.08] text-selah-orange rounded border border-selah-orange/10 text-[9px] uppercase font-black tracking-[0.15em] shrink-0">
+              {resource.category}
+            </span>
+          </div>
+
           <h3 className="text-[22px] font-black font-display text-selah-dark tracking-tight mb-2 leading-snug line-clamp-2">
             {resource.title}
           </h3>
