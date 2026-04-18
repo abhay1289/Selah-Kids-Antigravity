@@ -12,9 +12,10 @@ interface ButtonProps {
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   type?: 'button' | 'submit' | 'reset';
   style?: React.CSSProperties;
+  disabled?: boolean;
 }
 
-export function Button({ children, variant = 'primary', icon: Icon, className = "", onClick, type = 'button', style }: ButtonProps) {
+export function Button({ children, variant = 'primary', icon: Icon, className = "", onClick, type = 'button', style, disabled }: ButtonProps) {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [ripples, setRipples] = useState<{ x: number; y: number; id: number }[]>([]);
@@ -75,6 +76,7 @@ export function Button({ children, variant = 'primary', icon: Icon, className = 
     <motion.button
       ref={buttonRef}
       type={type}
+      disabled={disabled}
       onMouseEnter={() => setIsHovered(true)}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -85,11 +87,11 @@ export function Button({ children, variant = 'primary', icon: Icon, className = 
         ...style
       }}
       whileHover={{ 
-        scale: 1.05, 
+        scale: disabled ? 1 : 1.05, 
         transition: { type: "spring", stiffness: 400, damping: 10 }
       }}
-      whileTap={{ scale: 0.95 }}
-      className={`relative px-6 py-3 sm:px-8 sm:py-4 rounded-full ui-button flex items-center justify-center gap-3 transition-all duration-300 cursor-pointer overflow-hidden group whitespace-nowrap flex-shrink-0 ${variants[variant]} ${className}`}
+      whileTap={{ scale: disabled ? 1 : 0.95 }}
+      className={`relative px-6 py-3 sm:px-8 sm:py-4 rounded-full ui-button flex items-center justify-center gap-3 transition-all duration-300 overflow-hidden group whitespace-nowrap flex-shrink-0 ${disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'} ${variants[variant]} ${className}`}
     >
       {/* Ripple Effect */}
       <AnimatePresence>
