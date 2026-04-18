@@ -3,14 +3,16 @@
 import React, { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Download, ArrowRight } from 'lucide-react';
+import NextImage from 'next/image';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 interface ResourceCardProps {
   resource: any;
   index: number;
+  onDownloadAction: () => void;
 }
 
-export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index }) => {
+export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index, onDownloadAction }) => {
   const { t } = useLanguage();
   const cardRef = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
@@ -51,6 +53,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index }) =
       transition={{ delay: index * 0.05, duration: 0.6, ease: [0.23, 1, 0.32, 1] as const }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      onClick={onDownloadAction}
       style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
       className={`relative group cursor-pointer ${resource.featured ? 'md:col-span-2 md:row-span-2' : 'col-span-1 row-span-1'} bg-white rounded-[2.5rem] p-3 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] border border-selah-dark/5 transition-shadow duration-500 flex flex-col`}
     >
@@ -60,7 +63,11 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index }) =
       />
 
       <div className={`relative w-full ${resource.featured ? 'h-72' : 'h-56'} rounded-[2rem] bg-gradient-to-br ${resource.gradient} overflow-hidden shadow-inner mb-6 flex-shrink-0`}>
-        <div className="absolute inset-0 opacity-20 mix-blend-overlay pointer-events-none" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
+        {resource.img ? (
+          <NextImage src={resource.img} alt={resource.title || "Resource"} fill className="object-cover transition-transform duration-700 ease-out group-hover:scale-110" />
+        ) : (
+          <div className="absolute inset-0 opacity-20 mix-blend-overlay pointer-events-none" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
+        )}
         <div className="absolute top-4 left-4 right-4 flex justify-between items-start z-20">
           <div className="px-4 py-1.5 bg-white/20 backdrop-blur-md rounded-full ui-button text-white border border-white/30 shadow-sm">
             {resource.category}

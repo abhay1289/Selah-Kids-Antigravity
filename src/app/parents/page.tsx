@@ -28,10 +28,7 @@ export default function ParentsPage() {
         <ParentsHero />
       </motion.div>
       
-      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={sectionEntrance}>
-        <ParentsTrustBadges />
-      </motion.div>
-      
+
       <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={sectionEntrance}>
         <ParentsAccordion />
       </motion.div>

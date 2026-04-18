@@ -6,6 +6,7 @@ import { Sparkles } from 'lucide-react';
 import { Button } from '../../components/UI';
 import { ResourcesHero } from '../../components/resources/ResourcesHero';
 import { ResourceCard } from '../../components/resources/ResourceCard';
+import { DownloadModal } from '../../components/resources/DownloadModal';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 const CATEGORIES = ['All', 'Printables', 'Lessons', 'Devotionals'];
@@ -27,6 +28,7 @@ const RESOURCES = [
     type: "PDF",
     category: "Printables",
     gradient: "from-[#00BFFF] to-[#87CEEB]",
+    img: "/SK_ColoringBook/SK_ColoringBook_Andy_Page02_FN.png",
     featured: false,
   },
   {
@@ -36,6 +38,27 @@ const RESOURCES = [
     type: "PDF",
     category: "Printables",
     gradient: "from-[#FFB6C1] to-[#FF69B4]",
+    img: "/SK_ColoringBook/SK_ColoringBook_Libni_Page03_FN.png",
+    featured: false,
+  },
+  {
+    id: 7,
+    title: "Shiloh Coloring Page",
+    description: "A fun coloring page featuring Shiloh the sheep!",
+    type: "PDF",
+    category: "Printables",
+    gradient: "from-[#FFD700] to-[#FEB835]",
+    img: "/SK_ColoringBook/SK_ColoringBook_Shiloh_Page01_FN.png",
+    featured: false,
+  },
+  {
+    id: 8,
+    title: "Best Friends Coloring Page",
+    description: "Color Andy, Libni, and Shiloh together in this beautiful coloring page.",
+    type: "PDF",
+    category: "Printables",
+    gradient: "from-[#98FF98] to-[#93D35C]",
+    img: "/SK_ColoringBook/SK_ColoringBook_BestFriends_Page04_FN.png",
     featured: false,
   },
   {
@@ -70,6 +93,29 @@ const RESOURCES = [
 export default function ResourcesPage() {
   const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState('All');
+  const [downloadModalData, setDownloadModalData] = useState<{isOpen: boolean, resource: any | null}>({ isOpen: false, resource: null });
+
+  const handleDownloadClick = (resource: any) => {
+    // If they already subscribed in the past, directly "download"
+    if (typeof window !== 'undefined' && window.localStorage.getItem('selah_subscribed') === 'true') {
+      executeDownload(resource);
+    } else {
+      setDownloadModalData({ isOpen: true, resource });
+    }
+  };
+
+  const executeDownload = (resource: any) => {
+    // For now, if the resource is an activity sheet/PDF, we would typically trigger the file download here.
+    // If it has an img, maybe they can download the image for now.
+    const fileUrl = resource.img || "/sample-download.pdf"; 
+    
+    const a = document.createElement("a");
+    a.href = fileUrl;
+    a.download = resource.title;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
 
   const filteredResources = RESOURCES.filter(res => 
     activeCategory === 'All' ? true : res.category === activeCategory
@@ -113,51 +159,30 @@ export default function ResourcesPage() {
         <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           <AnimatePresence mode="popLayout">
             {filteredResources.map((resource, i) => (
-              <ResourceCard key={resource.id} resource={resource} index={i} />
+              <ResourceCard 
+                key={resource.id} 
+                resource={resource} 
+                index={i} 
+                onDownloadAction={() => handleDownloadClick(resource)}
+              />
             ))}
           </AnimatePresence>
         </motion.div>
       </section>
 
-      {/* Callout Banner */}
-      <section className="max-w-[1400px] mx-auto px-6 relative z-10">
-        <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] as const }}
-          className="relative rounded-2xl md:rounded-[3rem] p-8 md:p-16 lg:p-24 text-center overflow-hidden group bg-white border border-selah-dark/5 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)]"
-        >
-          <div className="absolute inset-0 bg-gradient-to-br from-selah-yellow/10 via-selah-orange/5 to-selah-pink/10 opacity-90" />
-          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] opacity-[0.04] mix-blend-multiply pointer-events-none" />
-          
-          <motion.div 
-            animate={{ rotate: 360 }}
-            transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-            className="absolute -top-32 -right-32 text-selah-yellow/20 pointer-events-none group-hover:text-selah-yellow/30 transition-colors duration-700"
-          >
-            <Sparkles size={300} />
-          </motion.div>
-          
-          <div className="relative z-20 flex flex-col items-center">
-            <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-8 shadow-sm border border-selah-dark/5">
-              <Sparkles size={32} className="text-selah-orange" />
-            </div>
-            <h2 className="hero-headline text-selah-dark mb-6 tracking-tighter drop-shadow-sm">
-              {t("More Coming Soon!", "¡Más Próximamente!")}
-            </h2>
-            <p className="text-selah-muted body-text max-w-2xl mx-auto leading-relaxed mb-10 tracking-tight">
-              {t(
-                "We are constantly creating new printables, lessons, and activity sheets. Join our newsletter to get notified!",
-                "Constantemente creamos nuevos imprimibles, lecciones y hojas de actividades. ¡Únete a nuestro boletín para recibir notificaciones!"
-              )}
-            </p>
-            <Button className="!px-10 !py-4 ui-button shadow-[0_10px_30px_-10px_rgba(255,92,0,0.4)]">
-              {t("Subscribe Now", "Suscríbete Ahora")}
-            </Button>
-          </div>
-        </motion.div>
-      </section>
+
+
+      {/* Download Mailchimp/Subscription Modal */}
+      <DownloadModal 
+        isOpen={downloadModalData.isOpen} 
+        onClose={() => setDownloadModalData({ ...downloadModalData, isOpen: false })}
+        resourceTitle={downloadModalData.resource?.title || ""}
+        onSuccess={() => {
+          if (downloadModalData.resource) {
+            executeDownload(downloadModalData.resource);
+          }
+        }}
+      />
     </div>
   );
 }
