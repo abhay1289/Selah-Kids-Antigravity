@@ -61,253 +61,252 @@ export const DownloadModal = ({ isOpen, onClose, onSuccess, resourceTitle }: Dow
   if (!isOpen) return null;
 
   const steps = [
-    { num: 1, label: t("Preview", "Vista"), icon: FileDown },
-    { num: 2, label: t("Details", "Datos"), icon: User },
-    { num: 3, label: t("Download", "Descargar"), icon: Download },
+    { num: 1, label: t("Preview", "Vista") },
+    { num: 2, label: t("About You", "Sobre ti") },
+    { num: 3, label: t("Download", "Descarga") },
   ];
 
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
-        {/* Backdrop */}
+        {/* Cinematic Backdrop */}
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="absolute inset-0 bg-selah-dark/60 backdrop-blur-xl"
+          className="absolute inset-0 bg-selah-dark/40 backdrop-blur-md"
         />
 
-        {/* Modal */}
+        {/* Modal Container */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.92, y: 40 }}
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.92, y: 40 }}
+          exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ type: "spring", damping: 30, stiffness: 400 }}
-          className="relative w-full max-w-[480px] bg-white rounded-[2rem] shadow-[0_50px_120px_-30px_rgba(0,0,0,0.3)] overflow-hidden z-10"
+          className="relative w-full max-w-[480px] bg-white/95 backdrop-blur-2xl rounded-[2rem] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.25)] border border-white/60 overflow-hidden z-10"
         >
+          {/* Ambient Glow Inside Modal */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-selah-orange/10 rounded-full blur-[80px] pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-selah-yellow/10 rounded-full blur-[80px] pointer-events-none" />
+
           {/* ── Close Button ── */}
           <button 
             onClick={onClose}
-            className="absolute top-5 right-5 z-50 p-2 bg-selah-dark/5 hover:bg-selah-dark/10 rounded-xl text-selah-dark/50 hover:text-selah-dark transition-all duration-300 hover:rotate-90"
+            className="absolute top-5 right-5 z-50 p-2.5 bg-selah-dark/[0.03] hover:bg-selah-dark/[0.08] rounded-full text-selah-dark/40 hover:text-selah-dark transition-all duration-300 hover:rotate-90"
           >
-            <X size={16} />
+            <X size={18} />
           </button>
 
-          {/* ── Step Progress Bar ── */}
-          <div className="px-8 pt-7 pb-0">
+          {/* ── Premium Step Progress Bar ── */}
+          <div className="px-8 pt-8 pb-2 relative z-10">
             <div className="flex items-center justify-between mb-2">
               {steps.map((s, i) => (
-                <React.Fragment key={s.num}>
-                  <div className="flex flex-col items-center gap-1.5">
-                    <motion.div 
-                      animate={{ 
-                        scale: step === i ? 1.1 : 1,
-                        backgroundColor: step >= i ? '#FF5C00' : '#f3f0ec'
-                      }}
-                      transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                      className="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-500"
-                    >
-                      {step > i ? (
-                        <CheckCircle2 size={16} className="text-white" />
-                      ) : (
-                        <s.icon size={15} className={step >= i ? 'text-white' : 'text-selah-muted/40'} />
-                      )}
-                    </motion.div>
-                    <span className={`text-[10px] font-bold uppercase tracking-wider transition-colors duration-300 ${step >= i ? 'text-selah-orange' : 'text-selah-muted/30'}`}>
-                      {s.label}
-                    </span>
-                  </div>
+                <div key={s.num} className="flex flex-col items-center flex-1 relative">
+                  {/* Connecting Line */}
                   {i < steps.length - 1 && (
-                    <div className="flex-1 mx-3 mb-5">
-                      <div className="h-[2px] bg-selah-dark/[0.06] rounded-full overflow-hidden">
-                        <motion.div 
-                          animate={{ width: step > i ? '100%' : '0%' }}
-                          transition={{ duration: 0.5, ease: "easeOut" }}
-                          className="h-full bg-selah-orange rounded-full"
-                        />
-                      </div>
+                    <div className="absolute top-3 left-[60%] w-full h-[2px] bg-selah-dark/[0.04]">
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        animate={{ width: step > i ? '100%' : '0%' }}
+                        transition={{ duration: 0.6, ease: "easeOut" }}
+                        className="h-full bg-selah-orange"
+                      />
                     </div>
                   )}
-                </React.Fragment>
+                  {/* Step Dot */}
+                  <motion.div 
+                    animate={{ 
+                      scale: step === i ? 1 : 0.8,
+                      backgroundColor: step > i ? '#FF5C00' : step === i ? '#FF5C00' : '#f3f0ec',
+                      borderColor: step === i ? 'rgba(255,92,0,0.2)' : 'transparent'
+                    }}
+                    className={`w-6 h-6 rounded-full flex items-center justify-center relative z-10 border-[4px] bg-clip-padding transition-colors duration-500`}
+                  >
+                    {step > i && <CheckCircle2 size={12} className="text-white" />}
+                    {step === i && <div className="w-2 h-2 bg-white rounded-full" />}
+                  </motion.div>
+                  <span className={`mt-2 text-[10px] font-bold uppercase tracking-wider transition-colors duration-300 ${step >= i ? 'text-selah-dark' : 'text-selah-muted/40'}`}>
+                    {s.label}
+                  </span>
+                </div>
               ))}
             </div>
           </div>
 
-          {/* ── Divider ── */}
-          <div className="h-px bg-selah-dark/[0.06] mx-8 my-3" />
+          <div className="h-px bg-gradient-to-r from-transparent via-selah-dark/[0.06] to-transparent mx-8 my-2" />
 
           {/* ── Body ── */}
-          <div className="px-8 pb-8 pt-4">
+          <div className="px-8 pb-10 pt-4 relative z-10">
             <AnimatePresence mode="wait">
               {isSuccess ? (
                 /* ── SUCCESS STATE ── */
                 <motion.div
                   key="success"
-                  initial={{ opacity: 0, scale: 0.9 }}
+                  initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ type: "spring", damping: 20 }}
-                  className="py-8 flex flex-col items-center text-center"
+                  className="py-10 flex flex-col items-center text-center"
                 >
                   <motion.div
                     initial={{ scale: 0, rotate: -180 }}
                     animate={{ scale: 1, rotate: 0 }}
-                    transition={{ type: "spring", damping: 12, delay: 0.1 }}
-                    className="w-20 h-20 bg-gradient-to-br from-green-400 to-green-500 text-white rounded-[1.5rem] flex items-center justify-center mb-6 shadow-lg shadow-green-500/25"
+                    transition={{ type: "spring", damping: 15, delay: 0.1 }}
+                    className="w-24 h-24 bg-gradient-to-br from-[#4ade80] to-[#22c55e] text-white rounded-[2rem] flex items-center justify-center mb-8 shadow-xl shadow-green-500/20"
                   >
-                    <CheckCircle2 size={40} />
+                    <CheckCircle2 size={48} />
                   </motion.div>
                   <motion.h4 
-                    initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}
-                    className="text-2xl font-black text-selah-dark mb-2 font-display tracking-tight"
+                    initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}
+                    className="text-3xl font-black text-selah-dark mb-3 font-display tracking-tight"
                   >
-                    {t(`Welcome, ${firstName}!`, `¡Bienvenido/a, ${firstName}!`)}
+                    {t(`Done, ${firstName}!`, `¡Listo, ${firstName}!`)}
                   </motion.h4>
                   <motion.p 
-                    initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
-                    className="text-selah-muted text-sm mb-6"
+                    initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
+                    className="text-selah-muted text-[15px] mb-8"
                   >
-                    {t("Your download is starting now...", "Tu descarga comenzará ahora...")}
+                    {t("Your download is starting immediately.", "Tu descarga está comenzando de inmediato.")}
                   </motion.p>
-                  <motion.div 
-                    initial={{ width: 0 }}
-                    animate={{ width: "70%" }}
-                    transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
-                    className="h-1.5 bg-gradient-to-r from-selah-orange to-selah-yellow rounded-full"
-                  />
+                  <div className="w-full h-1.5 bg-selah-dark/[0.04] rounded-full overflow-hidden">
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      animate={{ width: "100%" }}
+                      transition={{ duration: 1.8, delay: 0.5, ease: "easeOut" }}
+                      className="h-full bg-gradient-to-r from-selah-orange to-selah-yellow"
+                    />
+                  </div>
                 </motion.div>
               ) : step === 0 ? (
-                /* ── STEP 0: PREVIEW — What you're downloading ── */
+                /* ── STEP 0: PREVIEW ── */
                 <motion.div
                   key="step0"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.35 }}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  {/* What you're getting */}
-                  <div className="bg-gradient-to-br from-selah-orange/[0.06] via-selah-yellow/[0.04] to-white rounded-2xl p-5 border border-selah-orange/10 mb-5">
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-selah-orange/10 rounded-2xl flex items-center justify-center flex-shrink-0">
-                        <Gift size={22} className="text-selah-orange" />
+                  <div className="bg-gradient-to-b from-[#FDFBF7] to-white rounded-[1.5rem] p-6 border border-selah-dark/[0.04] mb-6 shadow-sm">
+                    <div className="flex items-start gap-5">
+                      <div className="w-14 h-14 bg-gradient-to-br from-selah-orange/10 to-selah-orange/5 rounded-2xl flex items-center justify-center flex-shrink-0 border border-selah-orange/10">
+                        <Gift size={24} className="text-selah-orange" />
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-[11px] font-bold text-selah-orange uppercase tracking-widest mb-1">
-                          {t("You're downloading", "Estás descargando")}
+                      <div className="flex-1 min-w-0 pt-1">
+                        <p className="text-[10px] font-bold text-selah-orange uppercase tracking-widest mb-1">
+                          {t("You're getting", "Estás obteniendo")}
                         </p>
-                        <h3 className="text-lg font-black font-display text-selah-dark tracking-tight leading-snug">
+                        <h3 className="text-xl font-black font-display text-selah-dark tracking-tight leading-tight">
                           {resourceTitle}
                         </h3>
                       </div>
                     </div>
                   </div>
 
-                  {/* Benefits list */}
-                  <div className="space-y-3 mb-6">
+                  <div className="space-y-4 mb-8 px-2">
                     {[
-                      { icon: FileDown, text: t("High-quality printable PDF file", "Archivo PDF imprimible de alta calidad"), color: "text-selah-orange", bg: "bg-selah-orange/8" },
-                      { icon: Heart, text: t("Join 1,000+ Selah Kids families", "Únete a más de 1,000 familias"), color: "text-[#FF69B4]", bg: "bg-[#FF69B4]/8" },
-                      { icon: Mail, text: t("Get early access to new resources", "Obtén acceso anticipado a recursos"), color: "text-[#00BFFF]", bg: "bg-[#00BFFF]/8" },
+                      { icon: FileDown, text: t("High-quality printable format", "Formato imprimible de alta calidad") },
+                      { icon: Shield, text: t("100% safe & trusted by families", "100% seguro y confiable para familias") },
+                      { icon: Mail, text: t("Exclusive early access to new resources", "Acceso anticipado a nuevos recursos") },
                     ].map((item, i) => (
                       <motion.div 
                         key={i}
-                        initial={{ opacity: 0, x: -15 }}
+                        initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: i * 0.1 + 0.2 }}
-                        className="flex items-center gap-3"
+                        transition={{ delay: i * 0.1 + 0.15 }}
+                        className="flex items-center gap-4"
                       >
-                        <div className={`w-8 h-8 ${item.bg} rounded-xl flex items-center justify-center flex-shrink-0`}>
-                          <item.icon size={14} className={item.color} />
+                        <div className="w-6 h-6 rounded-full bg-selah-dark/[0.03] flex items-center justify-center flex-shrink-0">
+                          <item.icon size={12} className="text-selah-dark/60" />
                         </div>
-                        <span className="text-selah-dark/70 text-sm font-medium">{item.text}</span>
+                        <span className="text-selah-dark/80 text-[15px] font-medium">{item.text}</span>
                       </motion.div>
                     ))}
                   </div>
 
                   <motion.button
-                    whileHover={{ scale: 1.02, y: -1 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={{ scale: 1.01, y: -1 }}
+                    whileTap={{ scale: 0.99 }}
                     onClick={() => setStep(1)}
-                    className="w-full py-4 bg-selah-orange hover:bg-[#e65300] text-white rounded-2xl font-bold text-sm font-display tracking-tight shadow-[0_12px_30px_-8px_rgba(255,92,0,0.4)] hover:shadow-[0_20px_40px_-8px_rgba(255,92,0,0.5)] transition-all duration-300 flex items-center justify-center gap-2.5"
+                    className="w-full h-[56px] bg-selah-dark text-white hover:bg-black rounded-2xl font-bold text-[15px] font-display tracking-tight flex items-center justify-center gap-2.5 transition-all duration-300 shadow-md"
                   >
-                    {t("Continue to Download", "Continuar a Descarga")}
-                    <ArrowRight size={16} />
+                    <span>{t("Continue", "Continuar")}</span>
+                    <ArrowRight size={16} className="text-white/70" />
                   </motion.button>
                 </motion.div>
               ) : step === 1 ? (
                 /* ── STEP 1: NAME ── */
                 <motion.div
                   key="step1"
-                  initial={{ opacity: 0, x: 30 }}
+                  initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -30 }}
-                  transition={{ duration: 0.35 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <h3 className="text-lg font-black font-display text-selah-dark tracking-tight mb-1">
-                    {t("What's your name?", "¿Cómo te llamas?")}
-                  </h3>
-                  <p className="text-selah-muted/70 text-sm mb-5">
-                    {t("We'll personalize your experience.", "Personalizaremos tu experiencia.")}
-                  </p>
+                  <div className="text-center mb-6">
+                    <h3 className="text-2xl font-black font-display text-selah-dark tracking-tight mb-2">
+                      {t("Who is this for?", "¿Para quién es esto?")}
+                    </h3>
+                    <p className="text-selah-muted text-[15px]">
+                      {t("We like to make our emails personal.", "Personalizaremos tu experiencia.")}
+                    </p>
+                  </div>
 
-                  <div className="space-y-3.5">
-                    {/* First Name */}
+                  <div className="space-y-4">
                     <div className="relative group">
-                      <div className="absolute left-3.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-xl bg-selah-orange/8 flex items-center justify-center group-focus-within:bg-selah-orange/15 transition-colors duration-300">
-                        <User size={16} className="text-selah-orange" />
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <User size={18} className="text-selah-muted/40 group-focus-within:text-selah-orange transition-colors" />
                       </div>
                       <input 
                         required autoFocus type="text" value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
-                        className="w-full pl-[3.5rem] pr-10 py-3.5 rounded-xl bg-selah-dark/[0.02] border-2 border-selah-dark/[0.06] focus:border-selah-orange/30 focus:ring-4 focus:ring-selah-orange/8 focus:bg-white transition-all outline-none text-selah-dark placeholder:text-selah-muted/30 text-sm font-medium"
-                        placeholder={t("First name", "Nombre")}
+                        className="w-full h-[56px] pl-[3rem] pr-10 rounded-2xl bg-selah-dark/[0.02] hover:bg-selah-dark/[0.03] border-2 border-transparent focus:border-selah-orange/30 focus:bg-white text-selah-dark placeholder:text-selah-muted/40 text-[15px] font-medium transition-all outline-none focus:shadow-[0_0_0_4px_rgba(255,92,0,0.08)]"
+                        placeholder={t("First Name", "Nombre")}
                       />
                       {firstName && (
-                        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="absolute right-3.5 top-1/2 -translate-y-1/2">
-                          <CheckCircle2 size={16} className="text-green-500" />
-                        </motion.div>
+                        <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                          <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}><CheckCircle2 size={18} className="text-[#22c55e]" /></motion.div>
+                        </div>
                       )}
                     </div>
 
-                    {/* Last Name */}
                     <div className="relative group">
-                      <div className="absolute left-3.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-xl bg-selah-orange/8 flex items-center justify-center group-focus-within:bg-selah-orange/15 transition-colors duration-300">
-                        <User size={16} className="text-selah-orange" />
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <User size={18} className="text-selah-muted/40 group-focus-within:text-selah-orange transition-colors" />
                       </div>
                       <input 
                         required type="text" value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
-                        className="w-full pl-[3.5rem] pr-10 py-3.5 rounded-xl bg-selah-dark/[0.02] border-2 border-selah-dark/[0.06] focus:border-selah-orange/30 focus:ring-4 focus:ring-selah-orange/8 focus:bg-white transition-all outline-none text-selah-dark placeholder:text-selah-muted/30 text-sm font-medium"
-                        placeholder={t("Last name", "Apellido")}
+                        className="w-full h-[56px] pl-[3rem] pr-10 rounded-2xl bg-selah-dark/[0.02] hover:bg-selah-dark/[0.03] border-2 border-transparent focus:border-selah-orange/30 focus:bg-white text-selah-dark placeholder:text-selah-muted/40 text-[15px] font-medium transition-all outline-none focus:shadow-[0_0_0_4px_rgba(255,92,0,0.08)]"
+                        placeholder={t("Last Name", "Apellido")}
                       />
-                      {lastName && (
-                        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="absolute right-3.5 top-1/2 -translate-y-1/2">
-                          <CheckCircle2 size={16} className="text-green-500" />
-                        </motion.div>
+                       {lastName && (
+                        <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                          <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}><CheckCircle2 size={18} className="text-[#22c55e]" /></motion.div>
+                        </div>
                       )}
                     </div>
                   </div>
 
-                  <div className="flex gap-3 mt-5">
+                  <div className="flex gap-3 mt-8">
                     <button
                       onClick={() => setStep(0)}
-                      className="px-5 py-3.5 rounded-xl border-2 border-selah-dark/[0.06] text-selah-muted text-sm font-bold hover:border-selah-dark/10 hover:text-selah-dark transition-all"
+                      className="px-6 h-[56px] rounded-2xl bg-white border border-selah-dark/[0.08] text-selah-dark hover:bg-selah-dark/[0.02] text-[15px] font-bold transition-all"
                     >
                       {t("Back", "Atrás")}
                     </button>
                     <motion.button
-                      whileHover={{ scale: canProceedToStep2 ? 1.02 : 1 }}
-                      whileTap={{ scale: canProceedToStep2 ? 0.98 : 1 }}
+                      whileHover={{ scale: canProceedToStep2 ? 1.01 : 1, y: canProceedToStep2 ? -1 : 0 }}
+                      whileTap={{ scale: canProceedToStep2 ? 0.99 : 1 }}
                       onClick={() => canProceedToStep2 && setStep(2)}
                       disabled={!canProceedToStep2}
-                      className={`flex-1 py-3.5 rounded-xl font-bold text-sm font-display tracking-tight flex items-center justify-center gap-2 transition-all duration-300 ${
+                      className={`flex-1 h-[56px] rounded-2xl font-bold text-[15px] font-display tracking-tight flex items-center justify-center gap-2 transition-all duration-300 ${
                         canProceedToStep2
-                          ? 'bg-selah-orange text-white shadow-[0_12px_30px_-8px_rgba(255,92,0,0.4)] hover:shadow-[0_20px_40px_-8px_rgba(255,92,0,0.5)]'
-                          : 'bg-selah-dark/[0.04] text-selah-muted/40 cursor-not-allowed'
+                          ? 'bg-selah-orange text-white shadow-[0_12px_30px_-8px_rgba(255,92,0,0.4)] hover:shadow-[0_16px_40px_-8px_rgba(255,92,0,0.5)] cursor-pointer'
+                          : 'bg-selah-dark/[0.03] text-selah-muted/40 cursor-not-allowed'
                       }`}
                     >
-                      {t("Next", "Siguiente")}
-                      <ArrowRight size={15} />
+                      {t("Next Step", "Siguiente")}
+                      <ArrowRight size={16} />
                     </motion.button>
                   </div>
                 </motion.div>
@@ -315,88 +314,84 @@ export const DownloadModal = ({ isOpen, onClose, onSuccess, resourceTitle }: Dow
                 /* ── STEP 2: EMAIL + SUBMIT ── */
                 <motion.div
                   key="step2"
-                  initial={{ opacity: 0, x: 30 }}
+                  initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -30 }}
-                  transition={{ duration: 0.35 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  {/* Personalized greeting */}
-                  <div className="flex items-center gap-3 p-3.5 bg-green-50 border border-green-100 rounded-xl mb-5">
-                    <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <Heart size={14} className="text-green-600" />
-                    </div>
-                    <p className="text-green-800/70 text-sm font-medium">
+                  <div className="text-center mb-6">
+                    <h3 className="text-2xl font-black font-display text-selah-dark tracking-tight mb-2">
+                      {t("Where to send it?", "¿A dónde lo enviamos?")}
+                    </h3>
+                    <p className="text-selah-muted text-[15px]">
                       {t(
-                        `Almost there, ${firstName}! Add your email to get your free resource.`,
-                        `¡Casi listo, ${firstName}! Agrega tu correo para obtener tu recurso gratis.`
+                        `Almost there, ${firstName}! Enter your email.`,
+                        `¡Casi listo, ${firstName}! Ingresa tu correo.`
                       )}
                     </p>
                   </div>
 
                   <form onSubmit={handleSubmit}>
-                    {/* Email */}
-                    <div className="relative group mb-2">
-                      <div className="absolute left-3.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-xl bg-selah-orange/8 flex items-center justify-center group-focus-within:bg-selah-orange/15 transition-colors duration-300">
-                        <Mail size={16} className="text-selah-orange" />
+                    <div className="relative group mb-5">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <Mail size={18} className="text-selah-muted/40 group-focus-within:text-selah-orange transition-colors" />
                       </div>
                       <input 
                         required autoFocus type="email" value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full pl-[3.5rem] pr-10 py-3.5 rounded-xl bg-selah-dark/[0.02] border-2 border-selah-dark/[0.06] focus:border-selah-orange/30 focus:ring-4 focus:ring-selah-orange/8 focus:bg-white transition-all outline-none text-selah-dark placeholder:text-selah-muted/30 text-sm font-medium"
-                        placeholder="hello@example.com"
+                        className="w-full h-[56px] pl-[3rem] pr-10 rounded-2xl bg-selah-dark/[0.02] hover:bg-selah-dark/[0.03] border-2 border-transparent focus:border-selah-orange/30 focus:bg-white text-selah-dark placeholder:text-selah-muted/40 text-[15px] font-medium transition-all outline-none focus:shadow-[0_0_0_4px_rgba(255,92,0,0.08)]"
+                        placeholder="you@email.com"
                       />
                       {isValidEmail && (
-                        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="absolute right-3.5 top-1/2 -translate-y-1/2">
-                          <CheckCircle2 size={16} className="text-green-500" />
-                        </motion.div>
+                        <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                          <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}><CheckCircle2 size={18} className="text-[#22c55e]" /></motion.div>
+                        </div>
                       )}
                     </div>
 
-                    {/* Back link */}
-                    <button 
-                      type="button" onClick={() => setStep(1)} 
-                      className="text-selah-muted/50 text-xs hover:text-selah-orange transition-colors mb-5 flex items-center gap-1 mt-1.5"
-                    >
-                      <ArrowRight size={10} className="rotate-180" />
-                      {t("Edit name", "Editar nombre")}
-                    </button>
-
-                    {/* Submit */}
-                    <motion.button
-                      type="submit"
-                      whileHover={{ scale: !isSubmitting ? 1.02 : 1 }}
-                      whileTap={{ scale: !isSubmitting ? 0.98 : 1 }}
-                      disabled={isSubmitting || !isValidEmail}
-                      className={`w-full py-4 rounded-2xl font-bold text-sm font-display tracking-tight flex items-center justify-center gap-2.5 transition-all duration-300 ${
-                        isSubmitting || !isValidEmail
-                          ? 'bg-selah-dark/[0.04] text-selah-muted/40 cursor-not-allowed'
-                          : 'bg-selah-orange text-white shadow-[0_12px_30px_-8px_rgba(255,92,0,0.4)] hover:shadow-[0_20px_40px_-8px_rgba(255,92,0,0.5)]'
-                      }`}
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <div className="w-4 h-4 border-2 border-selah-muted/20 border-t-selah-muted rounded-full animate-spin" />
-                          <span>{t("Subscribing...", "Suscribiendo...")}</span>
-                        </>
-                      ) : (
-                        <>
-                          <Download size={16} />
-                          {t("Subscribe & Download", "Suscribirse y Descargar")}
-                        </>
-                      )}
-                    </motion.button>
+                    <div className="flex gap-3 mb-6">
+                       <button
+                        type="button"
+                        onClick={() => setStep(1)}
+                        className="px-6 h-[56px] rounded-2xl bg-white border border-selah-dark/[0.08] text-selah-dark hover:bg-selah-dark/[0.02] text-[15px] font-bold transition-all"
+                      >
+                        {t("Back", "Atrás")}
+                      </button>
+                      <motion.button
+                        type="submit"
+                        whileHover={{ scale: !isSubmitting && isValidEmail ? 1.01 : 1, y: !isSubmitting && isValidEmail ? -1 : 0 }}
+                        whileTap={{ scale: !isSubmitting && isValidEmail ? 0.99 : 1 }}
+                        disabled={isSubmitting || !isValidEmail}
+                        className={`flex-1 h-[56px] rounded-2xl font-bold text-[15px] font-display tracking-tight flex items-center justify-center gap-2.5 transition-all duration-300 ${
+                          isSubmitting || !isValidEmail
+                            ? 'bg-selah-dark/[0.03] text-selah-muted/40 cursor-not-allowed'
+                            : 'bg-gradient-to-r from-selah-orange to-[#FF7B29] text-white shadow-[0_12px_30px_-8px_rgba(255,92,0,0.4)] hover:shadow-[0_16px_40px_-8px_rgba(255,92,0,0.5)]'
+                        }`}
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                            <span>{t("Processing...", "Procesando...")}</span>
+                          </>
+                        ) : (
+                          <>
+                            <Download size={18} />
+                            {t("Download Free", "Descargar Gratis")}
+                          </>
+                        )}
+                      </motion.button>
+                    </div>
                   </form>
 
                   {/* Trust row */}
-                  <div className="flex items-center justify-center gap-5 mt-5">
+                  <div className="flex items-center justify-center gap-6 pt-2 border-t border-selah-dark/[0.04]">
                     {[
                       { icon: Shield, label: t("Secure", "Seguro") },
                       { icon: Lock, label: t("No Spam", "Sin Spam") },
-                      { icon: Heart, label: t("100% Free", "100% Gratis") },
                     ].map((item, i) => (
-                      <div key={i} className="flex items-center gap-1.5 text-selah-muted/40">
-                        <item.icon size={11} />
-                        <span className="text-[10px] font-bold uppercase tracking-wider">{item.label}</span>
+                      <div key={i} className="flex items-center gap-1.5 text-selah-muted/50">
+                        <item.icon size={13} />
+                        <span className="text-[11px] font-bold uppercase tracking-wider">{item.label}</span>
                       </div>
                     ))}
                   </div>
