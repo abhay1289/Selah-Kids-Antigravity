@@ -29,7 +29,7 @@ const VIDEOS = [
     language: "EN",
     gradient: "from-[#FF7F50] to-[#FF5C00]",
     img: "/thumb-good-news-en.jpg",
-    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
+    youtubeUrl: "https://www.youtube.com/watch?v=lSEEuAj90yg"
   },
   {
     id: 2,
@@ -41,7 +41,7 @@ const VIDEOS = [
     language: "EN",
     gradient: "from-[#E6E6FA] to-[#D8BFD8]",
     img: "/thumb-good-news-singalong-en.jpg",
-    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
+    youtubeUrl: "https://www.youtube.com/watch?v=I4CcFUSW9B0"
   },
   {
     id: 3,
@@ -53,7 +53,7 @@ const VIDEOS = [
     language: "EN",
     gradient: "from-[#98FF98] to-[#93D35C]",
     img: "/thumb-sensory-good-news-en.jpg",
-    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
+    youtubeUrl: "https://www.youtube.com/watch?v=taaL8fXYRL8"
   },
   {
     id: 4,
@@ -65,7 +65,7 @@ const VIDEOS = [
     language: "EN",
     gradient: "from-[#FF69B4] to-[#FF1493]",
     img: "/thumb-praise-lord-en.jpg",
-    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
+    youtubeUrl: "https://www.youtube.com/watch?v=7zSjDUVGPqk"
   },
   {
     id: 5,
@@ -77,7 +77,7 @@ const VIDEOS = [
     language: "EN",
     gradient: "from-[#00BFFF] to-[#87CEEB]",
     img: "/thumb-praise-lord-singalong-en.jpg",
-    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
+    youtubeUrl: "https://www.youtube.com/watch?v=LlwrkJqF78k"
   },
   {
     id: 6,
@@ -89,7 +89,7 @@ const VIDEOS = [
     language: "EN",
     gradient: "from-[#98FF98] to-[#93D35C]",
     img: "/thumb-praise-dance-sensory-en.jpg",
-    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
+    youtubeUrl: "https://www.youtube.com/watch?v=bBZWxQ-iyQg"
   },
   {
     id: 7,
@@ -101,7 +101,7 @@ const VIDEOS = [
     language: "EN",
     gradient: "from-[#FFD700] to-[#FEB835]",
     img: "/thumb-i-am-blessed-en.jpg",
-    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
+    youtubeUrl: "https://www.youtube.com/watch?v=UlPvIR9lOtQ"
   },
 
   // ── Spanish Videos ──
@@ -115,7 +115,7 @@ const VIDEOS = [
     language: "ES",
     gradient: "from-[#FF7F50] to-[#FF5C00]",
     img: "/thumb-jesus-me-ama-es.jpg",
-    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
+    youtubeUrl: "https://www.youtube.com/watch?v=_hr_gpb7eF4"
   },
   {
     id: 9,
@@ -127,7 +127,7 @@ const VIDEOS = [
     language: "ES",
     gradient: "from-[#E6E6FA] to-[#D8BFD8]",
     img: "/thumb-jesus-me-ama-singalong-es.jpg",
-    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
+    youtubeUrl: "https://www.youtube.com/watch?v=TEe85CM3Dy8"
   },
   {
     id: 10,
@@ -139,7 +139,7 @@ const VIDEOS = [
     language: "ES",
     gradient: "from-[#98FF98] to-[#93D35C]",
     img: "/thumb-sensory-fruto-es.jpg",
-    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
+    youtubeUrl: "https://www.youtube.com/watch?v=W13CYmXJL4A"
   },
   {
     id: 11,
@@ -151,7 +151,7 @@ const VIDEOS = [
     language: "ES",
     gradient: "from-[#FF69B4] to-[#FF1493]",
     img: "/thumb-asi-le-adoramos-es.jpg",
-    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
+    youtubeUrl: "https://www.youtube.com/watch?v=NGyayfO4j7o"
   },
   {
     id: 12,
@@ -163,7 +163,7 @@ const VIDEOS = [
     language: "ES",
     gradient: "from-[#00BFFF] to-[#87CEEB]",
     img: "/thumb-asi-le-adoramos-singalong-es.jpg",
-    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
+    youtubeUrl: "https://www.youtube.com/watch?v=HLkc_LuYikQ"
   },
   {
     id: 13,
@@ -175,7 +175,7 @@ const VIDEOS = [
     language: "ES",
     gradient: "from-[#98FF98] to-[#93D35C]",
     img: "/thumb-asi-le-adoramos-sensory-es.jpg",
-    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
+    youtubeUrl: "https://www.youtube.com/watch?v=DLl17_SA1pg"
   },
   {
     id: 14,
@@ -187,7 +187,7 @@ const VIDEOS = [
     language: "ES",
     gradient: "from-[#FFD700] to-[#FEB835]",
     img: "/thumb-bendecido-estoy-es.jpg",
-    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
+    youtubeUrl: "https://www.youtube.com/watch?v=cHXnDnRLrEU"
   }
 ];
 

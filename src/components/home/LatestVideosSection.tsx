@@ -49,7 +49,7 @@ export function LatestVideosSection() {
       language: t("English", "Español"),
       gradient: "from-selah-orange to-rose-500",
       date: t("LATEST", "NUEVO"),
-      youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
+      youtubeUrl: t("https://www.youtube.com/watch?v=UlPvIR9lOtQ", "https://www.youtube.com/watch?v=cHXnDnRLrEU")
     },
     {
       id: 2,
@@ -63,7 +63,7 @@ export function LatestVideosSection() {
       language: t("English", "Español"),
       gradient: "from-selah-yellow to-selah-orange",
       date: t("FEATURED", "DESTACADO"),
-      youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
+      youtubeUrl: t("https://www.youtube.com/watch?v=lSEEuAj90yg", "https://www.youtube.com/watch?v=_hr_gpb7eF4")
     }
   ];
   return (
