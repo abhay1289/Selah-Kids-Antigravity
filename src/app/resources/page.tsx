@@ -13,15 +13,6 @@ const CATEGORIES = ['All', 'Printables', 'Lessons', 'Devotionals'];
 
 const RESOURCES = [
   {
-    id: 1,
-    title: "Bible Verse Memory Cards",
-    description: "A set of 10 beautifully illustrated memory verse cards to help kids learn Scripture.",
-    type: "PDF",
-    category: "Printables",
-    gradient: "from-[#FFD700] to-[#FEB835]",
-    featured: true,
-  },
-  {
     id: 2,
     title: "Andy Coloring Page",
     description: "A colorful coloring page featuring Andy and his pet sheep, Shiloh.",
@@ -77,15 +68,6 @@ const RESOURCES = [
     type: "PDF",
     category: "Devotionals",
     gradient: "from-[#FF7F50] to-[#FF5C00]",
-    featured: false,
-  },
-  {
-    id: 6,
-    title: "Fruit of the Spirit Activity Sheet",
-    description: "An engaging activity sheet teaching kids about the fruit of the Spirit with puzzles and coloring.",
-    type: "PDF",
-    category: "Printables",
-    gradient: "from-[#E6E6FA] to-[#D8BFD8]",
     featured: false,
   }
 ];

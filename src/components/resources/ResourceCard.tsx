@@ -64,7 +64,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index, onD
 
       <div className={`relative w-full ${resource.featured ? 'h-72' : 'h-56'} rounded-[2rem] bg-gradient-to-br ${resource.gradient} overflow-hidden shadow-inner mb-6 flex-shrink-0`}>
         {resource.img ? (
-          <NextImage src={resource.img} alt={resource.title || "Resource"} fill className="object-cover transition-transform duration-700 ease-out group-hover:scale-110" />
+          <NextImage src={resource.img} alt={resource.title || "Resource"} fill className="object-contain p-4 transition-transform duration-700 ease-out group-hover:scale-105" />
         ) : (
           <div className="absolute inset-0 opacity-20 mix-blend-overlay pointer-events-none" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
         )}
