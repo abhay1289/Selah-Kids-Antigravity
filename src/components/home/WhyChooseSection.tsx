@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion, useScroll, useTransform, useMotionValue, useSpring, useMotionTemplate } from "framer-motion";
+import { useRef, useState } from "react";
 import { Cloud, Sun, SparklesIcon } from "lucide-react";
 import { Badge } from "../UI";
 import { WHY_FEATURES } from "../../constants";
@@ -48,26 +48,61 @@ const CreativeIcon: React.FC<{ icon: React.ReactNode, color: string }> = ({ icon
 
 const FeatureCard: React.FC<{ feature: typeof WHY_FEATURES[0], index: number }> = ({ feature, index }) => {
   const { language } = useLanguage();
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const smoothX = useSpring(mouseX, { stiffness: 200, damping: 25 });
+  const smoothY = useSpring(mouseY, { stiffness: 200, damping: 25 });
+
+  const spotX = useTransform(smoothX, [-0.5, 0.5], ["0%", "100%"]);
+  const spotY = useTransform(smoothY, [-0.5, 0.5], ["0%", "100%"]);
+  const spotlightBg = useMotionTemplate`radial-gradient(450px circle at ${spotX} ${spotY}, ${feature.color}12, transparent 60%)`;
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    mouseX.set((e.clientX - rect.left) / rect.width - 0.5);
+    mouseY.set((e.clientY - rect.top) / rect.height - 0.5);
+  };
+
   return (
     <motion.div 
+      ref={cardRef}
       initial={{ opacity: 0, y: 60, scale: 0.95 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       whileHover={{ y: -10 }}
       transition={{ type: "spring", stiffness: 60, damping: 14, delay: index * 0.15 }}
       viewport={{ once: true, margin: "-50px" }}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => { setIsHovered(false); mouseX.set(0); mouseY.set(0); }}
       className="group relative h-full"
     >
-      <div className="bg-white p-8 sm:p-10 lg:p-12 h-full border border-selah-dark/5 overflow-hidden relative flex flex-col transition-all duration-500 rounded-[30px] sm:rounded-[40px] shadow-[0_10px_30px_-5px_rgba(0,0,0,0.03),0_4px_6px_-2px_rgba(0,0,0,0.01)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1),0_10px_20px_-5px_rgba(0,0,0,0.05)]">
-        {/* Subtle background glow on hover */}
-        <div 
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-          style={{ background: `radial-gradient(circle at top right, ${feature.color}15, transparent 70%)` }}
+      <div className="bg-white/95 backdrop-blur-xl p-8 sm:p-10 lg:p-12 h-full border border-white/60 overflow-hidden relative flex flex-col transition-all duration-500 rounded-[30px] sm:rounded-[40px] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.06)] hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.12)]">
+        
+        {/* Mouse-tracking spotlight */}
+        <motion.div
+          className="absolute inset-0 rounded-[30px] sm:rounded-[40px] pointer-events-none z-[1] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          style={{ background: spotlightBg }}
         />
 
-        <div className="relative mb-10 self-start">
-          <div className={`w-24 h-24 ${feature.bgColor} rounded-3xl flex items-center justify-center text-5xl relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)] group-hover:shadow-[0_8px_24px_rgba(0,0,0,0.1)]`}>
+        {/* Shimmer sweep on hover */}
+        <motion.div
+          initial={{ x: "-120%", opacity: 0 }}
+          animate={{ x: isHovered ? "120%" : "-120%", opacity: isHovered ? 1 : 0 }}
+          transition={{ duration: 0.8, ease: "easeInOut" }}
+          className="absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-white/20 to-transparent z-[2] pointer-events-none skew-x-[-20deg]"
+        />
+
+        <div className="relative mb-10 self-start z-10">
+          <motion.div 
+            animate={{ rotate: isHovered ? 8 : 0, scale: isHovered ? 1.12 : 1 }}
+            transition={{ type: "spring", stiffness: 300, damping: 15 }}
+            className={`w-24 h-24 ${feature.bgColor} rounded-3xl flex items-center justify-center text-5xl relative z-10 shadow-[0_4px_12px_rgba(0,0,0,0.05)] group-hover:shadow-[0_12px_30px_rgba(0,0,0,0.1)] transition-shadow duration-500`}
+          >
             <CreativeIcon icon={feature.icon} color={feature.color} />
-          </div>
+          </motion.div>
         </div>
 
         <div className="flex-grow relative z-10">
@@ -79,6 +114,15 @@ const FeatureCard: React.FC<{ feature: typeof WHY_FEATURES[0], index: number }> 
             {language === 'ES' && feature.descEs ? feature.descEs : feature.desc}
           </p>
         </div>
+
+        {/* Subtle bottom accent line on hover */}
+        <motion.div 
+          className="absolute bottom-0 left-[10%] right-[10%] h-[3px] rounded-full z-10"
+          style={{ backgroundColor: feature.color }}
+          initial={{ scaleX: 0, opacity: 0 }}
+          animate={{ scaleX: isHovered ? 1 : 0, opacity: isHovered ? 0.5 : 0 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+        />
       </div>
     </motion.div>
   );

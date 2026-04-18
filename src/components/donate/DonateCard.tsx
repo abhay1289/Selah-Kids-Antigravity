@@ -75,7 +75,9 @@ export const DonateCard: React.FC<DonateCardProps> = ({ frequency, setFrequency,
             {amounts.map((amt) => (
               <motion.button 
                 key={amt} 
-                whileTap={{ scale: 0.96 }} 
+                layout
+                whileTap={{ scale: 0.93 }} 
+                whileHover={{ y: amount !== amt ? -4 : 0 }}
                 onClick={() => setAmount(amt)} 
                 className={`h-28 md:h-36 rounded-2xl md:rounded-[1.5rem] flex flex-col items-center justify-center transition-all duration-500 border-2 relative group overflow-hidden ${ 
                   amount === amt 
@@ -84,18 +86,30 @@ export const DonateCard: React.FC<DonateCardProps> = ({ frequency, setFrequency,
                 }`}
               >
                 <div className="flex flex-col items-center relative z-10">
-                  <span className={`text-3xl md:text-4xl font-black font-display tracking-tight leading-none mb-1 ${amount === amt ? 'text-white' : 'text-selah-dark group-hover:text-selah-orange transition-colors duration-300'}`}>
+                  <motion.span 
+                    key={`${amt}-${amount === amt}`}
+                    initial={{ scale: amount === amt ? 0.8 : 1 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                    className={`text-3xl md:text-4xl font-black font-display tracking-tight leading-none mb-1 ${amount === amt ? 'text-white' : 'text-selah-dark group-hover:text-selah-orange transition-colors duration-300'}`}
+                  >
                     ${amt}
-                  </span>
+                  </motion.span>
                   <span className={`text-[12px] font-bold uppercase tracking-widest ${amount === amt ? 'text-white/80' : 'text-selah-muted/40 group-hover:text-selah-orange/60 transition-colors duration-300'}`}>
                     {subLabel()}
                   </span>
                 </div>
                 {/* Active glow inside button */}
                 {amount === amt && (
-                  <div className="absolute inset-0 bg-white opacity-[0.15] rounded-[1.5rem]">
-                    <div className="absolute top-0 right-0 w-16 h-16 bg-white/40 blur-[20px] rounded-full" />
-                  </div>
+                  <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="absolute inset-0 rounded-[1.5rem] overflow-hidden"
+                  >
+                    <div className="absolute inset-0 bg-white opacity-[0.12]" />
+                    <div className="absolute top-0 right-0 w-20 h-20 bg-white/30 blur-[20px] rounded-full" />
+                    <div className="absolute bottom-0 left-0 w-12 h-12 bg-white/20 blur-[15px] rounded-full" />
+                  </motion.div>
                 )}
               </motion.button>
             ))}

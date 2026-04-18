@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from 'react';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate } from 'framer-motion';
 import { Download, FileText, ArrowUpRight } from 'lucide-react';
 import NextImage from 'next/image';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -24,6 +24,14 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index, onD
 
   const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["6deg", "-6deg"]);
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-6deg", "6deg"]);
+
+  // Spotlight tracking
+  const spotX = useTransform(mouseXSpring, [-0.5, 0.5], ["0%", "100%"]);
+  const spotY = useTransform(mouseYSpring, [-0.5, 0.5], ["0%", "100%"]);
+  const spotlightBg = useMotionTemplate`radial-gradient(500px circle at ${spotX} ${spotY}, rgba(255,92,0,0.06), transparent 60%)`;
+
+  // Border glow tracking
+  const borderGlow = useMotionTemplate`radial-gradient(400px circle at ${spotX} ${spotY}, rgba(255,92,0,0.15), transparent 60%)`;
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
@@ -53,10 +61,19 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index, onD
       style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
       className="relative group cursor-pointer col-span-1 flex flex-col bg-white/95 backdrop-blur-2xl rounded-[2.5rem] p-3 border border-white/60 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)] hover:shadow-[0_40px_100px_-20px_rgba(255,92,0,0.15)] transition-all duration-700"
     >
+      {/* ── Mouse-tracking spotlight overlay ── */}
+      <motion.div 
+        className="absolute inset-0 rounded-[2.5rem] pointer-events-none z-[1] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{ background: spotlightBg }}
+      />
+      {/* ── Mouse-tracking border glow ── */}
+      <motion.div 
+        className="absolute -inset-px rounded-[2.5rem] pointer-events-none z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{ background: borderGlow, mask: 'linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0)', maskComposite: 'xor', WebkitMaskComposite: 'xor', padding: '1px' }}
+      />
+
       {/* ─── Image Island Container ─── */}
-      <div 
-        className="relative w-full h-[260px] rounded-[2rem] overflow-hidden flex-shrink-0 bg-cover bg-center shadow-inner"
-      >
+      <div className="relative w-full h-[260px] rounded-[2rem] overflow-hidden flex-shrink-0 shadow-inner z-[2]">
         {/* Colorful Gradient Wash Base */}
         <div className={`absolute inset-0 bg-gradient-to-br ${resource.gradient} opacity-90 transition-opacity duration-700 group-hover:opacity-100`} />
         
@@ -66,24 +83,29 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index, onD
         {/* Subtle Paper Texture */}
         <div className="absolute inset-0 opacity-[0.06] mix-blend-multiply pointer-events-none z-[3]" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
 
+        {/* Shimmer sweep on hover */}
+        <motion.div
+          initial={{ x: "-120%", opacity: 0 }}
+          animate={{ x: isHovered ? "120%" : "-120%", opacity: isHovered ? 1 : 0 }}
+          transition={{ duration: 0.8, ease: "easeInOut" }}
+          className="absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-white/25 to-transparent z-[15] pointer-events-none skew-x-[-20deg]"
+        />
+
         {resource.img ? (
-          <>
-            {/* The Image (Slightly blurred consistently, scales up smoothly on hover) */}
-            <motion.div
-               animate={{ scale: isHovered ? 1.05 : 1 }}
-               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-               className="absolute inset-0 flex items-center justify-center p-6 z-[4]"
-            >
-              <div className="relative w-full h-full">
-                <NextImage 
-                  src={resource.img} 
-                  alt={resource.title || "Resource"} 
-                  fill 
-                  className="object-contain filter blur-[2px] group-hover:blur-[2px] drop-shadow-[0_20px_30px_rgba(0,0,0,0.15)] transition-all duration-700"
-                />
-              </div>
-            </motion.div>
-          </>
+          <motion.div
+             animate={{ scale: isHovered ? 1.06 : 1, rotate: isHovered ? 1 : 0 }}
+             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+             className="absolute inset-0 flex items-center justify-center p-6 z-[4]"
+          >
+            <div className="relative w-full h-full">
+              <NextImage 
+                src={resource.img} 
+                alt={resource.title || "Resource"} 
+                fill 
+                className="object-contain filter blur-[2px] group-hover:blur-[2px] drop-shadow-[0_20px_30px_rgba(0,0,0,0.15)] transition-all duration-700"
+              />
+            </div>
+          </motion.div>
         ) : (
           <div className="absolute inset-0 flex items-center justify-center z-[4]">
             <div className="w-20 h-20 bg-white/20 backdrop-blur-md rounded-[1.5rem] flex items-center justify-center">
@@ -115,13 +137,18 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index, onD
       <div className="relative z-10 px-6 pt-6 pb-5 flex flex-col flex-grow">
         <div className="flex-grow">
           {/* Sleek Enterprise Category Tag */}
-          <div className="mb-2.5">
+          <motion.div 
+            className="mb-2.5"
+            initial={{ opacity: 0, x: -8 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: index * 0.1 + 0.5 }}
+          >
             <span className="inline-block px-2.5 py-1 bg-selah-orange/[0.08] text-selah-orange rounded border border-selah-orange/10 text-[9px] uppercase font-black tracking-[0.15em] shrink-0">
               {resource.category}
             </span>
-          </div>
+          </motion.div>
 
-          <h3 className="text-[22px] font-black font-display text-selah-dark tracking-tight mb-2 leading-snug line-clamp-2">
+          <h3 className="text-[22px] font-black font-display text-selah-dark tracking-tight mb-2 leading-snug line-clamp-2 group-hover:text-selah-orange transition-colors duration-400">
             {resource.title}
           </h3>
           <p className="text-selah-muted/70 text-[15px] leading-relaxed line-clamp-2 font-medium pr-2">
@@ -130,7 +157,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index, onD
         </div>
 
         {/* Action Bottom Row */}
-        <div className="flex items-center justify-between pt-5 mt-5">
+        <div className="flex items-center justify-between pt-5 mt-5 border-t border-selah-dark/[0.04]">
            <motion.span 
             className="flex items-center gap-1.5 text-selah-orange font-bold text-[14px] font-display tracking-tight"
             animate={{ x: isHovered ? 4 : 0 }}
@@ -138,7 +165,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index, onD
             {t("Get this resource", "Obtener recurso")}
             <motion.span 
               animate={{ x: isHovered ? 4 : 0 }} 
-              transition={{ type: "spring", stiffness: 400 }}
+              transition={{ type: "spring", stiffness: 400, damping: 15 }}
             >
               <ArrowUpRight size={15} strokeWidth={3} />
             </motion.span>
@@ -146,11 +173,12 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index, onD
           <motion.div 
             animate={{ 
               scale: isHovered ? 1.1 : 1,
+              rotate: isHovered ? 6 : 0,
               backgroundColor: isHovered ? '#FF5C00' : 'rgba(255,92,0,0.06)',
               color: isHovered ? '#FFFFFF' : '#FF5C00'
             }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="w-12 h-12 rounded-2xl flex items-center justify-center transition-colors duration-500"
+            transition={{ type: "spring", stiffness: 300, damping: 15 }}
+            className="w-12 h-12 rounded-2xl flex items-center justify-center"
           >
             <Download size={18} strokeWidth={2.5} />
           </motion.div>
