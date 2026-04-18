@@ -11,9 +11,10 @@ interface ButtonProps {
   className?: string;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   type?: 'button' | 'submit' | 'reset';
+  style?: React.CSSProperties;
 }
 
-export function Button({ children, variant = 'primary', icon: Icon, className = "", onClick, type = 'button' }: ButtonProps) {
+export function Button({ children, variant = 'primary', icon: Icon, className = "", onClick, type = 'button', style }: ButtonProps) {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [ripples, setRipples] = useState<{ x: number; y: number; id: number }[]>([]);
@@ -81,6 +82,7 @@ export function Button({ children, variant = 'primary', icon: Icon, className = 
       style={{
         x: translateX,
         y: translateY,
+        ...style
       }}
       whileHover={{ 
         scale: 1.05, 
