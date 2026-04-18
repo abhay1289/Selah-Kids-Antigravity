@@ -68,11 +68,11 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index, onD
         ) : (
           <div className="absolute inset-0 opacity-20 mix-blend-overlay pointer-events-none" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
         )}
-        <div className="absolute top-4 left-4 right-4 flex justify-between items-start z-20">
-          <div className="px-4 py-1.5 bg-white/20 backdrop-blur-md rounded-full ui-button text-white border border-white/30 shadow-sm">
+        <div className="absolute top-4 left-4 right-4 flex justify-between items-start z-30">
+          <div className="px-4 py-1.5 bg-selah-orange/90 backdrop-blur-md rounded-full ui-button text-white border border-white/30 shadow-md">
             {resource.category}
           </div>
-          <div className="px-4 py-1.5 bg-white shadow-sm rounded-full ui-label text-selah-dark">
+          <div className="px-4 py-1.5 bg-white shadow-md rounded-full ui-label text-selah-dark">
             {resource.type}
           </div>
         </div>

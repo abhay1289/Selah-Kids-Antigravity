@@ -3,11 +3,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Download, Mail, ArrowRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Badge, Button } from '../UI';
 
 export const ParentsCommunity = () => {
   const { t } = useLanguage();
+  const router = useRouter();
   return (
     <section className="max-w-4xl mx-auto px-6 mb-24 relative z-10">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16">
@@ -30,7 +32,7 @@ export const ParentsCommunity = () => {
               "Extiende el impacto más allá de la pantalla con páginas para colorear gratuitas, guías devocionales y preguntas de discusión."
             )}
           </p>
-          <Button variant="outline" className="w-full justify-between group-hover:border-[#00BFFF] group-hover:text-[#00BFFF] transition-colors">
+          <Button variant="outline" className="w-full justify-between group-hover:border-[#00BFFF] group-hover:text-[#00BFFF] transition-colors" onClick={() => router.push('/resources')}>
             {t("Download Activities", "Descargar Actividades")}
             <ArrowRight size={18} className="ml-2" />
           </Button>
