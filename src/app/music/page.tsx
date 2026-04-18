@@ -16,8 +16,16 @@ export default function MusicPage() {
   ];
 
   return (
-    <div className="bg-gradient-to-b from-[#FFF5EE] via-[#FDFBF7] to-[#F5FBF0] min-h-screen pt-36 md:pt-44 pb-16">
-      <div className="max-w-3xl mx-auto px-6 text-center">
+    <div className="bg-gradient-to-b from-[#FFF5EE] via-[#FDFBF7] to-[#F0FAE6] min-h-screen pt-36 md:pt-44 pb-16 relative overflow-hidden selection:bg-selah-orange selection:text-white">
+      {/* Vivid Color Washes */}
+      <div className="absolute top-0 right-0 w-[55vw] h-[45vh] bg-gradient-to-bl from-[#FF7F50]/10 to-transparent rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[50vw] h-[45vh] bg-gradient-to-tr from-[#93D35C]/10 to-transparent rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-[30%] left-[10%] w-[35vw] h-[35vh] bg-[#FEB835]/8 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-[20%] right-[5%] w-[30vw] h-[30vh] bg-[#9B59B6]/6 rounded-full blur-[100px] pointer-events-none" />
+      {/* Paper Texture */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-multiply" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
+
+      <div className="max-w-3xl mx-auto px-6 text-center relative z-10">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
           <div className="w-20 h-20 bg-selah-orange/10 rounded-[1.5rem] flex items-center justify-center mx-auto mb-8">
             <Music size={40} className="text-selah-orange" />

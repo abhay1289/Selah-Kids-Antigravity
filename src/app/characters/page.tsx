@@ -323,7 +323,14 @@ function CharacterSection({ char, index }: { char: typeof CHARACTERS[0]; index: 
 export default function CharactersPage() {
   const { t, language } = useLanguage();
   return (
-    <div className="bg-white min-h-screen overflow-hidden">
+    <div className="bg-gradient-to-b from-[#FFF5EE] via-[#FDFBF7] to-[#F0FAE6] min-h-screen overflow-hidden selection:bg-selah-orange selection:text-white relative">
+      {/* Vivid Color Washes */}
+      <div className="absolute top-0 right-0 w-[55vw] h-[45vh] bg-gradient-to-bl from-[#FF7F50]/10 via-[#FF5C00]/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-[50%] left-0 w-[45vw] h-[40vh] bg-gradient-to-r from-[#00BFFF]/8 to-transparent rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-[10%] right-[5%] w-[40vw] h-[40vh] bg-[#FFD700]/8 rounded-full blur-[100px] pointer-events-none" />
+      {/* Paper Texture */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-multiply" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
+
       {/* Hero Section */}
       <section className="pt-36 md:pt-44 pb-8 relative z-10 text-center px-6">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>

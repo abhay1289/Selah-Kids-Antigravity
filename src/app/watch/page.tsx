@@ -200,10 +200,15 @@ export default function WatchPage() {
   );
 
   return (
-    <div className="bg-gradient-to-b from-[#FFF5EE] via-white to-[#FFF8F0] min-h-screen pt-36 md:pt-44 pb-16 relative overflow-hidden">
-      {/* Cinematic Background Glows */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-selah-orange/8 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-selah-yellow/8 rounded-full blur-[100px] pointer-events-none" />
+    <div className="bg-gradient-to-b from-[#FFF5EE] via-[#FDFBF7] to-[#F0FAE6] min-h-screen pt-36 md:pt-44 pb-16 relative overflow-hidden selection:bg-selah-orange selection:text-white">
+      {/* Vivid Color Washes */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-gradient-to-b from-selah-orange/10 to-transparent rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-gradient-to-tl from-[#93D35C]/10 to-transparent rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-[40%] left-0 w-[40vw] h-[40vh] bg-[#FEB835]/8 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-[30%] right-[5%] w-[35vw] h-[35vh] bg-[#FF69B4]/6 rounded-full blur-[90px] pointer-events-none" />
+      <div className="absolute top-[20%] right-[10%] w-[30vw] h-[30vh] bg-[#00BFFF]/6 rounded-full blur-[100px] pointer-events-none" />
+      {/* Paper Texture */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-multiply" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
 
       <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={sectionEntrance}>
         <WatchHero />

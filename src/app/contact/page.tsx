@@ -5,11 +5,14 @@ import { ContactSidebar } from '../../components/contact/ContactSidebar';
 
 export default function ContactPage() {
   return (
-    <div className="bg-[#FAF9F6] min-h-screen pt-36 md:pt-44 pb-16 relative overflow-hidden">
-      {/* Premium Background Elements */}
-      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-bl from-selah-blue/10 via-selah-pink/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-selah-orange/5 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.02] pointer-events-none" />
+    <div className="bg-gradient-to-b from-[#FFF5EE] via-[#FDFBF7] to-[#F0FAE6] min-h-screen pt-36 md:pt-44 pb-16 relative overflow-hidden selection:bg-selah-orange selection:text-white">
+      {/* Vivid Color Washes */}
+      <div className="absolute top-0 right-0 w-[55vw] h-[50vh] bg-gradient-to-bl from-[#00BFFF]/8 via-[#FF69B4]/4 to-transparent rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[50vw] h-[45vh] bg-gradient-to-tr from-selah-orange/8 to-transparent rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-[40%] left-[5%] w-[35vw] h-[35vh] bg-[#93D35C]/6 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-[25%] right-[10%] w-[30vw] h-[30vh] bg-[#FEB835]/8 rounded-full blur-[90px] pointer-events-none" />
+      {/* Paper Texture */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-multiply" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
 
       <ContactHero />
 

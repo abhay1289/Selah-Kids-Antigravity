@@ -53,14 +53,14 @@ export default function BlogPostPage() {
   };
 
   return (
-    <div className="bg-gradient-to-b from-[#FFF8EE] via-[#FDFBF7] to-white min-h-screen relative overflow-hidden">
-      {/* Background Texture */}
-      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] opacity-40 pointer-events-none" />
-      <div className="absolute top-0 left-0 w-full h-[600px] bg-gradient-to-b from-[#FFF0E0] to-transparent pointer-events-none" />
-
-      {/* Decorative glows */}
-      <div className="absolute top-[300px] left-0 w-[500px] h-[500px] bg-selah-orange/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[200px] right-0 w-[400px] h-[400px] bg-selah-yellow/5 rounded-full blur-[100px] pointer-events-none" />
+    <div className="bg-gradient-to-b from-[#FFF5EE] via-[#FDFBF7] to-[#F0FAE6] min-h-screen relative overflow-hidden selection:bg-selah-orange selection:text-white">
+      {/* Vivid Color Washes */}
+      <div className="absolute top-0 right-0 w-[55vw] h-[45vh] bg-gradient-to-bl from-[#FF7F50]/8 to-transparent rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[50vw] h-[45vh] bg-gradient-to-tr from-[#93D35C]/8 to-transparent rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-[40%] left-0 w-[35vw] h-[35vh] bg-[#FEB835]/6 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-[25%] right-0 w-[30vw] h-[30vh] bg-[#00BFFF]/5 rounded-full blur-[100px] pointer-events-none" />
+      {/* Paper Texture */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-multiply" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
 
       {/* Hero Section */}
       <div className="relative z-10 pt-28 md:pt-36">
