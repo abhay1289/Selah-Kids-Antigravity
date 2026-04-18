@@ -24,11 +24,12 @@ const VIDEOS = [
     title: "The Good News",
     date: "Dec 2024",
     description: "Join Andy, Libni, and Shiloh in their very first adventure as they learn about God's amazing love for us!",
-    category: "cartoons",
-    categoryLabel: "Cartoon",
+    category: "music",
+    categoryLabel: "Music Video",
     language: "EN",
     gradient: "from-[#FF7F50] to-[#FF5C00]",
-    img: "/thumb-good-news-en.jpg"
+    img: "/thumb-good-news-en.jpg",
+    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
   },
   {
     id: 2,
@@ -39,7 +40,8 @@ const VIDEOS = [
     categoryLabel: "Sing-Along",
     language: "EN",
     gradient: "from-[#E6E6FA] to-[#D8BFD8]",
-    img: "/thumb-good-news-singalong-en.jpg"
+    img: "/thumb-good-news-singalong-en.jpg",
+    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
   },
   {
     id: 3,
@@ -50,7 +52,8 @@ const VIDEOS = [
     categoryLabel: "Sensory",
     language: "EN",
     gradient: "from-[#98FF98] to-[#93D35C]",
-    img: "/thumb-sensory-good-news-en.jpg"
+    img: "/thumb-sensory-good-news-en.jpg",
+    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
   },
   {
     id: 4,
@@ -61,7 +64,8 @@ const VIDEOS = [
     categoryLabel: "Music Video",
     language: "EN",
     gradient: "from-[#FF69B4] to-[#FF1493]",
-    img: "/thumb-praise-lord-en.jpg"
+    img: "/thumb-praise-lord-en.jpg",
+    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
   },
   {
     id: 5,
@@ -72,7 +76,8 @@ const VIDEOS = [
     categoryLabel: "Sing-Along",
     language: "EN",
     gradient: "from-[#00BFFF] to-[#87CEEB]",
-    img: "/thumb-praise-lord-singalong-en.jpg"
+    img: "/thumb-praise-lord-singalong-en.jpg",
+    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
   },
   {
     id: 6,
@@ -83,7 +88,8 @@ const VIDEOS = [
     categoryLabel: "Sensory",
     language: "EN",
     gradient: "from-[#98FF98] to-[#93D35C]",
-    img: "/thumb-praise-dance-sensory-en.jpg"
+    img: "/thumb-praise-dance-sensory-en.jpg",
+    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
   },
   {
     id: 7,
@@ -94,7 +100,8 @@ const VIDEOS = [
     categoryLabel: "Music Video",
     language: "EN",
     gradient: "from-[#FFD700] to-[#FEB835]",
-    img: "/thumb-i-am-blessed-en.jpg"
+    img: "/thumb-i-am-blessed-en.jpg",
+    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
   },
 
   // ── Spanish Videos ──
@@ -103,11 +110,12 @@ const VIDEOS = [
     title: "Jesús Me Ama",
     date: "Dic 2024",
     description: "¡Únete a Andy, Libni y Shiloh mientras aprenden sobre el asombroso amor de Dios por nosotros!",
-    category: "cartoons",
-    categoryLabel: "Caricatura",
+    category: "music",
+    categoryLabel: "Video Musical",
     language: "ES",
     gradient: "from-[#FF7F50] to-[#FF5C00]",
-    img: "/thumb-jesus-me-ama-es.jpg"
+    img: "/thumb-jesus-me-ama-es.jpg",
+    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
   },
   {
     id: 9,
@@ -115,10 +123,11 @@ const VIDEOS = [
     date: "Dic 2024",
     description: "¡Canta junto con las letras en pantalla esta hermosa canción de adoración para niños!",
     category: "singalong",
-    categoryLabel: "Canta Conmigo",
+    categoryLabel: "Videos Con Letras",
     language: "ES",
     gradient: "from-[#E6E6FA] to-[#D8BFD8]",
-    img: "/thumb-jesus-me-ama-singalong-es.jpg"
+    img: "/thumb-jesus-me-ama-singalong-es.jpg",
+    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
   },
   {
     id: 10,
@@ -129,7 +138,8 @@ const VIDEOS = [
     categoryLabel: "Sensorial",
     language: "ES",
     gradient: "from-[#98FF98] to-[#93D35C]",
-    img: "/thumb-sensory-fruto-es.jpg"
+    img: "/thumb-sensory-fruto-es.jpg",
+    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
   },
   {
     id: 11,
@@ -140,7 +150,8 @@ const VIDEOS = [
     categoryLabel: "Video Musical",
     language: "ES",
     gradient: "from-[#FF69B4] to-[#FF1493]",
-    img: "/thumb-asi-le-adoramos-es.jpg"
+    img: "/thumb-asi-le-adoramos-es.jpg",
+    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
   },
   {
     id: 12,
@@ -148,10 +159,11 @@ const VIDEOS = [
     date: "Mar 2025",
     description: "¡Sigue las letras y canta Así Le Adoramos junto con tu familia!",
     category: "singalong",
-    categoryLabel: "Canta Conmigo",
+    categoryLabel: "Videos Con Letras",
     language: "ES",
     gradient: "from-[#00BFFF] to-[#87CEEB]",
-    img: "/thumb-asi-le-adoramos-singalong-es.jpg"
+    img: "/thumb-asi-le-adoramos-singalong-es.jpg",
+    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
   },
   {
     id: 13,
@@ -162,7 +174,8 @@ const VIDEOS = [
     categoryLabel: "Sensorial",
     language: "ES",
     gradient: "from-[#98FF98] to-[#93D35C]",
-    img: "/thumb-asi-le-adoramos-sensory-es.jpg"
+    img: "/thumb-asi-le-adoramos-sensory-es.jpg",
+    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
   },
   {
     id: 14,
@@ -173,7 +186,8 @@ const VIDEOS = [
     categoryLabel: "Video Musical",
     language: "ES",
     gradient: "from-[#FFD700] to-[#FEB835]",
-    img: "/thumb-bendecido-estoy-es.jpg"
+    img: "/thumb-bendecido-estoy-es.jpg",
+    youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
   }
 ];
 

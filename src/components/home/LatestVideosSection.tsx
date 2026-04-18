@@ -48,7 +48,8 @@ export function LatestVideosSection() {
       category: t("Music Video", "Video Musical"),
       language: t("English", "Español"),
       gradient: "from-selah-orange to-rose-500",
-      date: t("LATEST", "NUEVO")
+      date: t("LATEST", "NUEVO"),
+      youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
     },
     {
       id: 2,
@@ -58,10 +59,11 @@ export function LatestVideosSection() {
         "¡Únete a Andy, Libni y Shiloh mientras aprenden sobre el asombroso amor de Dios por nosotros!"
       ),
       img: t("/thumb-good-news-en.jpg", "/thumb-jesus-me-ama-es.jpg"),
-      category: t("Cartoon", "Caricatura"),
+      category: t("Music Video", "Video Musical"),
       language: t("English", "Español"),
       gradient: "from-selah-yellow to-selah-orange",
-      date: t("FEATURED", "DESTACADO")
+      date: t("FEATURED", "DESTACADO"),
+      youtubeUrl: "https://www.youtube.com/watch?v=PLACEHOLDER"
     }
   ];
   return (
@@ -140,7 +142,10 @@ export function LatestVideosSection() {
                   }
                 }
               }}
-              onClick={() => window.open(language === 'ES' ? "https://www.youtube.com/@SelahKidsEspanol" : "https://www.youtube.com/@selahkidsworship", "_blank")}
+              onClick={() => {
+                const url = video.youtubeUrl || (language === 'ES' ? "https://www.youtube.com/@SelahKidsEspanol" : "https://www.youtube.com/@selahkidsworship");
+                window.open(url, "_blank");
+              }}
               className="group cursor-pointer relative"
             >
               {/* Thumbnail Area - Large & Prominent */}

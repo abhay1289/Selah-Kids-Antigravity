@@ -15,9 +15,8 @@ export const WatchCategories = ({ activeCategory, setActiveCategory }: WatchCate
 
   const CATEGORIES = [
     { id: 'all', label: t('All Videos', 'Todos los Videos'), icon: Film },
-    { id: 'cartoons', label: t('Cartoons', 'Caricaturas'), icon: Film },
     { id: 'music', label: t('Music Videos', 'Videos Musicales'), icon: Music },
-    { id: 'singalong', label: t('Sing-Alongs', 'Canta Conmigo'), icon: Mic },
+    { id: 'singalong', label: t('Sing-Alongs', 'Videos Con Letras'), icon: Mic },
     { id: 'sensory', label: t('Sensory Videos', 'Videos Sensoriales'), icon: Sparkles }
   ];
 

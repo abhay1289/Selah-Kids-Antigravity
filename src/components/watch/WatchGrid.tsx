@@ -15,6 +15,7 @@ interface Video {
   language: string;
   gradient: string;
   img: string;
+  youtubeUrl?: string;
 }
 
 interface WatchGridProps {
@@ -35,6 +36,12 @@ export const WatchGrid = ({ filteredVideos }: WatchGridProps) => {
               whileHover={{ y: -5, scale: 1.02 }}
               transition={{ duration: 0.3 }}
               key={video.id}
+              onClick={() => {
+                const url = video.youtubeUrl || (video.language === 'ES' 
+                  ? "https://www.youtube.com/@SelahKidsEspanol" 
+                  : "https://www.youtube.com/@selahkidsworship");
+                window.open(url, "_blank");
+              }}
               className="group cursor-pointer flex flex-col h-full"
             >
               <div className="relative aspect-video rounded-3xl overflow-hidden mb-6 shadow-sm group-hover:shadow-2xl transition-all duration-500">
