@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { Download, ArrowRight, FileText, Sparkles, Eye } from 'lucide-react';
+import { Sparkles, FileText } from 'lucide-react';
 import NextImage from 'next/image';
 import { useLanguage } from '../../contexts/LanguageContext';
 
@@ -22,18 +22,14 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index, onD
   const mouseXSpring = useSpring(x, { stiffness: 150, damping: 15 });
   const mouseYSpring = useSpring(y, { stiffness: 150, damping: 15 });
 
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["6deg", "-6deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-6deg", "6deg"]);
-  const glareX = useTransform(mouseXSpring, [-0.5, 0.5], ["0%", "100%"]);
-  const glareY = useTransform(mouseYSpring, [-0.5, 0.5], ["0%", "100%"]);
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["8deg", "-8deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-8deg", "8deg"]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-    x.set(mouseX / rect.width - 0.5);
-    y.set(mouseY / rect.height - 0.5);
+    x.set(e.clientX / rect.width - rect.left / rect.width - 0.5);
+    y.set(e.clientY / rect.height - rect.top / rect.height - 0.5);
   };
 
   const handleMouseLeave = () => {
@@ -46,118 +42,126 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index, onD
     <motion.div
       ref={cardRef}
       layout
-      initial={{ opacity: 0, y: 60, scale: 0.9 }}
+      initial={{ opacity: 0, y: 60, scale: 0.92 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
-      transition={{ delay: index * 0.08, duration: 0.7, ease: [0.23, 1, 0.32, 1] as const }}
+      exit={{ opacity: 0, scale: 0.92, transition: { duration: 0.2 } }}
+      transition={{ delay: index * 0.1, duration: 0.8, ease: [0.23, 1, 0.32, 1] as const }}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
       onClick={onDownloadAction}
       style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-      className="relative group cursor-pointer col-span-1 bg-white rounded-[2rem] shadow-[0_8px_30px_-12px_rgba(0,0,0,0.08)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] border border-selah-dark/[0.06] transition-all duration-700 flex flex-col overflow-hidden"
+      className="relative group cursor-pointer col-span-1 flex flex-col overflow-hidden rounded-[2.5rem] bg-white/80 backdrop-blur-xl border border-white/70 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.06)] hover:shadow-[0_30px_80px_-20px_rgba(255,92,0,0.15)] transition-all duration-700"
     >
-      {/* Holographic Glare Effect */}
-      <motion.div 
-        className="absolute inset-0 z-40 rounded-[2rem] pointer-events-none mix-blend-soft-light opacity-0 group-hover:opacity-100 transition-opacity duration-500" 
-        style={{ background: useTransform(() => `radial-gradient(circle at ${glareX.get()} ${glareY.get()}, rgba(255,255,255,0.6) 0%, transparent 50%)`) }} 
-      />
-
-      {/* Image Container */}
-      <div className="relative w-full h-64 overflow-hidden flex-shrink-0">
-        {/* Gradient Background */}
+      {/* ─── Image Area ─── */}
+      <div className="relative w-full h-72 overflow-hidden flex-shrink-0">
+        {/* Gradient base */}
         <div className={`absolute inset-0 bg-gradient-to-br ${resource.gradient} transition-all duration-700`} />
         
-        {/* Paper Texture Overlay */}
-        <div className="absolute inset-0 opacity-[0.06] mix-blend-multiply pointer-events-none" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
+        {/* Paper texture */}
+        <div className="absolute inset-0 opacity-[0.04] mix-blend-multiply pointer-events-none" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
 
         {resource.img ? (
           <>
+            {/* Image — blurred by default, reveals on hover */}
             <NextImage 
               src={resource.img} 
               alt={resource.title || "Resource"} 
               fill 
-              className="object-contain p-6 transition-all duration-700 ease-out group-hover:scale-110 group-hover:rotate-1 z-10" 
+              className={`object-contain p-8 transition-all duration-700 ease-out z-10 ${
+                isHovered 
+                  ? 'blur-0 scale-105 rotate-0' 
+                  : 'blur-[6px] scale-95 rotate-[-2deg]'
+              }`} 
             />
-            {/* Soft shadow under the image */}
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-8 bg-black/10 blur-xl rounded-full z-[5]" />
+            {/* Floating shadow */}
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-2/3 h-6 bg-black/8 blur-xl rounded-full z-[5]" />
           </>
         ) : (
           <div className="absolute inset-0 flex items-center justify-center">
-            <FileText size={64} className="text-white/30" />
+            <FileText size={56} className="text-white/25" />
           </div>
         )}
 
-        {/* Badges Row */}
-        <div className="absolute top-4 left-4 right-4 flex justify-between items-start z-30">
-          <motion.div 
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.08 + 0.3 }}
-            className="px-4 py-2 bg-selah-orange text-white rounded-xl ui-label shadow-lg shadow-selah-orange/30 flex items-center gap-1.5"
-          >
+        {/* Category Badge */}
+        <motion.div 
+          initial={{ opacity: 0, x: -12 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: index * 0.1 + 0.4 }}
+          className="absolute top-5 left-5 z-30"
+        >
+          <div className="flex items-center gap-1.5 px-4 py-2 bg-selah-orange text-white rounded-2xl ui-label shadow-lg shadow-selah-orange/25">
             <Sparkles size={12} />
             {resource.category}
-          </motion.div>
-          <motion.div 
-            initial={{ opacity: 0, x: 10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.08 + 0.4 }}
-            className="px-3.5 py-2 bg-white/95 backdrop-blur-sm shadow-lg rounded-xl ui-label text-selah-dark border border-white/50"
-          >
-            {resource.type}
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
 
-        {/* Hover Preview Overlay */}
+        {/* Type Badge */}
+        <motion.div 
+          initial={{ opacity: 0, x: 12 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: index * 0.1 + 0.5 }}
+          className="absolute top-5 right-5 z-30"
+        >
+          <div className="px-4 py-2 bg-white/95 backdrop-blur-sm shadow-lg rounded-2xl ui-label text-selah-dark border border-white/50">
+            {resource.type}
+          </div>
+        </motion.div>
+
+        {/* Hover CTA Overlay */}
         <motion.div 
           initial={false}
           animate={{ opacity: isHovered ? 1 : 0 }}
-          className="absolute inset-0 bg-selah-dark/40 backdrop-blur-[2px] z-20 flex items-center justify-center"
+          transition={{ duration: 0.4 }}
+          className="absolute inset-0 z-20 flex items-center justify-center"
         >
           <motion.div 
-            initial={{ scale: 0.8 }}
-            animate={{ scale: isHovered ? 1 : 0.8 }}
-            className="flex items-center gap-2.5 px-6 py-3 bg-white rounded-2xl shadow-2xl text-selah-dark ui-button"
+            initial={{ scale: 0.85, y: 10 }}
+            animate={{ scale: isHovered ? 1 : 0.85, y: isHovered ? 0 : 10 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            className="px-8 py-3.5 bg-white rounded-2xl shadow-[0_16px_40px_-8px_rgba(0,0,0,0.15)] text-selah-dark font-bold text-sm font-display tracking-tight flex items-center gap-2"
           >
-            <Eye size={18} className="text-selah-orange" />
-            {t("Preview & Download", "Ver y Descargar")}
+            <Sparkles size={16} className="text-selah-orange" />
+            {t("Tap to Download", "Toca para Descargar")}
           </motion.div>
         </motion.div>
       </div>
 
-      {/* Content Section */}
-      <div className="p-6 flex flex-col flex-grow">
+      {/* ─── Content ─── */}
+      <div className="p-7 flex flex-col flex-grow">
         <div className="flex-grow">
-          <h3 className="text-lg font-bold font-display text-selah-dark tracking-tight mb-2 leading-snug line-clamp-2">
+          <h3 className="text-xl font-black font-display text-selah-dark tracking-tight mb-2.5 leading-snug line-clamp-2">
             {resource.title}
           </h3>
-          <p className="text-selah-muted text-sm leading-relaxed line-clamp-2 mb-5">
+          <p className="text-selah-muted/80 text-[15px] leading-relaxed line-clamp-2 font-medium">
             {resource.description}
           </p>
         </div>
 
-        {/* Action Bar */}
-        <div className="flex items-center justify-between pt-4 border-t border-selah-dark/[0.06] mt-auto">
+        {/* Bottom CTA */}
+        <div className="flex items-center justify-between pt-5 mt-6 border-t border-selah-dark/[0.05]">
           <motion.span 
-            className="flex items-center gap-2 text-selah-orange ui-button font-semibold"
-            animate={{ x: isHovered ? 4 : 0 }}
+            className="flex items-center gap-2 text-selah-orange font-bold text-sm font-display tracking-tight"
+            animate={{ x: isHovered ? 2 : 0 }}
           >
-            <Download size={16} strokeWidth={2.5} />
-            {t("Download", "Descargar")}
-            <motion.span animate={{ x: isHovered ? 4 : 0 }} transition={{ type: "spring", stiffness: 300 }}>
-              <ArrowRight size={16} strokeWidth={2.5} />
+            {t("Get this resource", "Obtener recurso")}
+            <motion.span 
+              animate={{ x: isHovered ? 6 : 0 }} 
+              transition={{ type: "spring", stiffness: 400 }}
+              className="text-lg"
+            >
+              →
             </motion.span>
           </motion.span>
           <motion.div 
             animate={{ 
-              scale: isHovered ? 1.15 : 1,
-              rotate: isHovered ? 12 : 0 
+              scale: isHovered ? 1.1 : 1,
+              rotate: isHovered ? 6 : 0 
             }}
             transition={{ type: "spring", stiffness: 300, damping: 15 }}
-            className="w-11 h-11 rounded-2xl bg-selah-orange/10 flex items-center justify-center group-hover:bg-selah-orange group-hover:text-white text-selah-orange transition-colors duration-500 shadow-sm"
+            className="w-11 h-11 rounded-2xl bg-selah-orange/10 flex items-center justify-center group-hover:bg-selah-orange group-hover:text-white text-selah-orange transition-all duration-500"
           >
-            <Download size={18} strokeWidth={2.5} />
+            <Sparkles size={18} strokeWidth={2.5} />
           </motion.div>
         </div>
       </div>
