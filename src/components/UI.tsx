@@ -2,7 +2,7 @@
 
 import { motion, useSpring, useMotionValue, useTransform, AnimatePresence } from "framer-motion";
 import { LucideIcon } from "lucide-react";
-import React, { ReactNode, useEffect, useState, useRef } from "react";
+import React, { ReactNode, useState, useRef } from "react";
 
 interface ButtonProps {
   children: ReactNode;
