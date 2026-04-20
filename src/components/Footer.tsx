@@ -34,11 +34,12 @@ export function Footer() {
                 className="relative w-32 h-16 shrink-0"
               >
                 <NextImage
-                  src="/SK_Logo_FN.jpg"
+                  src="/SK_Logo_FN.png"
                   alt="Selah Kids"
                   fill
                   className="object-contain rounded-xl"
                   sizes="128px"
+                  priority={false}
                 />
               </motion.div>
             </Link>

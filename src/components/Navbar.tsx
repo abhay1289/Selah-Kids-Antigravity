@@ -64,7 +64,7 @@ export function Navbar() {
         >
           <Link href="/" aria-label="Selah Kids home" onClick={closeMenu}>
             <motion.img
-              src="/SK_Logo_FN.jpg"
+              src="/SK_Logo_FN.png"
               alt="Selah Kids"
               className="h-10 md:h-12 cursor-pointer rounded-xl shadow-sm"
               animate={{ rotate: [-1, 1, -1] }}
