@@ -40,7 +40,7 @@ export const WatchGrid = ({ filteredVideos }: WatchGridProps) => {
                 const url = video.youtubeUrl || (video.language === 'ES' 
                   ? "https://www.youtube.com/@SelahKidsEspanol" 
                   : "https://www.youtube.com/@selahkidsworship");
-                window.open(url, "_blank");
+                window.open(url, "_blank", "noopener,noreferrer");
               }}
               className="group cursor-pointer flex flex-col h-full"
             >

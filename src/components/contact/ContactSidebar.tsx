@@ -40,7 +40,7 @@ export const ContactSidebar = () => {
             <button 
               key={i} 
               aria-label={social.name} 
-              onClick={() => social.isInternal ? router.push(social.href) : window.open(social.href, '_blank')}
+              onClick={() => social.isInternal ? router.push(social.href) : window.open(social.href, '_blank', 'noopener,noreferrer')}
               className={`w-12 h-12 md:w-16 md:h-16 rounded-full bg-white/10 flex items-center justify-center text-white transition-all duration-500 ${social.color} hover:scale-110 hover:shadow-[0_10px_20px_rgba(0,0,0,0.3)] hover:-translate-y-2`}
             >
               <social.icon size={24} className="md:w-7 md:h-7" />

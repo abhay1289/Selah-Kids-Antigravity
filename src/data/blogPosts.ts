@@ -1,6 +1,9 @@
+export type BlogCategory = 'faith' | 'family' | 'worship';
+
 export interface BlogPost {
   id: number;
   slug: string;
+  category: BlogCategory;
   titleEn: string;
   titleEs: string;
   img: string;
@@ -14,6 +17,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     id: 1,
     slug: "the-strong-tower-of-security",
+    category: "faith",
     titleEn: "The Strong Tower of Security",
     titleEs: "La Torre Fuerte de Seguridad",
     dateEn: "April 7, 2026",
@@ -39,6 +43,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     id: 2,
     slug: "are-we-repeating-patterns",
+    category: "family",
     titleEn: "Are We Repeating Patterns?",
     titleEs: "¿Estamos Repitiendo Patrones?",
     dateEn: "April 2, 2026",
@@ -70,6 +75,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     id: 3,
     slug: "the-call-to-be-a-blessing",
+    category: "worship",
     titleEn: "The Call to Be a Blessing",
     titleEs: "El Llamado a Ser de Bendición",
     dateEn: "April 15, 2026",

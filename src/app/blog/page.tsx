@@ -33,14 +33,22 @@ export default function BlogPage() {
         <BlogHero />
       </motion.div>
 
-      <BlogCategories
-        categories={categories}
-        activeCategory={activeCategory}
-        setActiveCategory={setActiveCategory}
-      />
+      <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}>
+        <BlogCategories
+          categories={categories}
+          activeCategory={activeCategory}
+          setActiveCategory={setActiveCategory}
+        />
+      </motion.div>
 
       <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}>
-        <BlogGrid posts={BLOG_POSTS} />
+        <BlogGrid
+          posts={
+            activeCategory === 'all'
+              ? BLOG_POSTS
+              : BLOG_POSTS.filter((p) => p.category === activeCategory)
+          }
+        />
       </motion.div>
     </div>
   );
