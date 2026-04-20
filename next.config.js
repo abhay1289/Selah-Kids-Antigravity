@@ -23,9 +23,6 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ["lucide-react", "framer-motion"],
   },
-
-  // Disable Next.js telemetry
-  telemetry: false,
 };
 
 export default nextConfig;
