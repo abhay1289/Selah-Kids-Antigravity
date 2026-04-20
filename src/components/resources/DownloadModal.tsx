@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LucideIcon, X, Mail, User, CheckCircle2, Lock, ArrowRight, Download, Shield, FileDown, Gift, Sparkles } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -119,6 +119,7 @@ export const DownloadModal = ({ isOpen, onClose, onSuccess, resourceTitle }: Dow
   const [isSuccess, setIsSuccess] = useState(false);
   const [step, setStep] = useState(0);
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const submitTimers = useRef<number[]>([]);
 
   useEffect(() => {
     if (isOpen) {
@@ -128,6 +129,13 @@ export const DownloadModal = ({ isOpen, onClose, onSuccess, resourceTitle }: Dow
     }
     return () => { document.body.style.overflow = 'unset'; };
   }, [isOpen]);
+
+  useEffect(() => {
+    return () => {
+      submitTimers.current.forEach((id) => window.clearTimeout(id));
+      submitTimers.current = [];
+    };
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -144,15 +152,17 @@ export const DownloadModal = ({ isOpen, onClose, onSuccess, resourceTitle }: Dow
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
+    const first = window.setTimeout(() => {
       setIsSubmitting(false);
       setIsSuccess(true);
       localStorage.setItem('selah_subscribed', 'true');
-      setTimeout(() => {
+      const second = window.setTimeout(() => {
         onSuccess();
         onClose();
       }, 2200);
+      submitTimers.current.push(second);
     }, 1800);
+    submitTimers.current.push(first);
   };
 
   const canProceedToStep2 = firstName.trim().length > 0 && lastName.trim().length > 0;
