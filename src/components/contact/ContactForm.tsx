@@ -2,41 +2,32 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, User, Mail, FileText, PenLine, Send, CheckCircle2, Sparkles } from 'lucide-react';
+import { LucideIcon, User, Mail, FileText, PenLine, Send, CheckCircle2 } from 'lucide-react';
 import { slideInLeft } from '../../utils/animations';
 import { useLanguage } from '../../contexts/LanguageContext';
 
-export const ContactForm = () => {
-  const { t } = useLanguage();
-  const [focusedField, setFocusedField] = useState<string | null>(null);
-  const [values, setValues] = useState({ name: '', email: '', subject: '', message: '' });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+type FormValues = { name: string; email: string; subject: string; message: string };
 
-  const updateField = (field: string, value: string) => {
-    setValues(prev => ({ ...prev, [field]: value }));
-  };
+interface FloatingFieldProps {
+  id: keyof FormValues;
+  icon: LucideIcon;
+  placeholder: string;
+  type?: string;
+  isTextarea?: boolean;
+  value: string;
+  focusedField: string | null;
+  setFocusedField: (id: string | null) => void;
+  updateField: (field: keyof FormValues, value: string) => void;
+}
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSuccess(true);
-      setTimeout(() => setIsSuccess(false), 4000);
-    }, 1500);
-  };
+function FloatingField({
+  id, icon: Icon, placeholder, type = "text", isTextarea = false,
+  value, focusedField, setFocusedField, updateField,
+}: FloatingFieldProps) {
+  const isFocused = focusedField === id;
+  const hasValue = value.length > 0;
 
-  const FloatingField = ({ 
-    id, icon: Icon, placeholder, type = "text", isTextarea = false
-  }: { 
-    id: string; icon: any; placeholder: string; type?: string; isTextarea?: boolean 
-  }) => {
-    const isFocused = focusedField === id;
-    const value = values[id as keyof typeof values];
-    const hasValue = value.length > 0;
-
-    return (
+  return (
       <motion.div 
         className="relative group"
         animate={{ y: isFocused ? -1 : 0 }}
@@ -122,7 +113,28 @@ export const ContactForm = () => {
           />
         </div>
       </motion.div>
-    );
+  );
+}
+
+export const ContactForm = () => {
+  const { t } = useLanguage();
+  const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [values, setValues] = useState<FormValues>({ name: '', email: '', subject: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const updateField = (field: keyof FormValues, value: string) => {
+    setValues(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setIsSuccess(true);
+      setTimeout(() => setIsSuccess(false), 4000);
+    }, 1500);
   };
 
   return (
@@ -184,11 +196,11 @@ export const ContactForm = () => {
                 onSubmit={handleSubmit}
               >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <FloatingField id="name" icon={User} placeholder={t("Your Name", "Tu Nombre")} />
-                  <FloatingField id="email" icon={Mail} placeholder={t("Email Address", "Correo Electrónico")} type="email" />
+                  <FloatingField id="name" icon={User} placeholder={t("Your Name", "Tu Nombre")} value={values.name} focusedField={focusedField} setFocusedField={setFocusedField} updateField={updateField} />
+                  <FloatingField id="email" icon={Mail} placeholder={t("Email Address", "Correo Electrónico")} type="email" value={values.email} focusedField={focusedField} setFocusedField={setFocusedField} updateField={updateField} />
                 </div>
-                <FloatingField id="subject" icon={FileText} placeholder={t("Subject", "Asunto")} />
-                <FloatingField id="message" icon={PenLine} placeholder={t("Your Message", "Tu Mensaje")} isTextarea />
+                <FloatingField id="subject" icon={FileText} placeholder={t("Subject", "Asunto")} value={values.subject} focusedField={focusedField} setFocusedField={setFocusedField} updateField={updateField} />
+                <FloatingField id="message" icon={PenLine} placeholder={t("Your Message", "Tu Mensaje")} isTextarea value={values.message} focusedField={focusedField} setFocusedField={setFocusedField} updateField={updateField} />
 
                 <motion.button 
                   type="submit"
