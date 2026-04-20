@@ -13,3 +13,8 @@ test_node_modules/
 .pnpm-store/
 .vercel
 .env*.local
+
+# Local audit state (code-perfection skill)
+.codeperfect/
+# TS incremental build info (should not be tracked)
+tsconfig.tsbuildinfo
