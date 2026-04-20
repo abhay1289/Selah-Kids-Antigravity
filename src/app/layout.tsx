@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Fredoka, Quicksand } from "next/font/google";
 import { LanguageProvider } from "../contexts/LanguageContext";
-import { Navbar } from "../components/Navbar";
-import { Footer } from "../components/Footer";
+import { LayoutShell } from "../components/LayoutShell";
+import { LanguageSync } from "../components/LanguageSync";
 import "./globals.css";
 
 const fredoka = Fredoka({
@@ -32,19 +32,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${fredoka.variable} ${quicksand.variable}`}>
+    <html lang="en" className={`${fredoka.variable} ${quicksand.variable}`} translate="no">
       <head>
+        {/* Prevent Google Translate from auto-translating — site has built-in EN/ES toggle */}
+        <meta name="google" content="notranslate" />
         {/* DNS prefetch for external resources */}
         <link rel="dns-prefetch" href="https://www.transparenttextures.com" />
       </head>
       <body className="antialiased">
         <LanguageProvider>
-          <div className="min-h-screen overflow-x-hidden selection:bg-selah-orange selection:text-white bg-selah-bg">
-            <Navbar />
-            <main>{children}</main>
-            <div className="h-px w-full bg-selah-dark/5" />
-            <Footer />
-          </div>
+          <LanguageSync />
+          <LayoutShell>{children}</LayoutShell>
         </LanguageProvider>
       </body>
     </html>

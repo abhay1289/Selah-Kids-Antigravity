@@ -2,8 +2,6 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles } from 'lucide-react';
-import { Button } from '../../components/UI';
 import { ResourcesHero } from '../../components/resources/ResourcesHero';
 import { ResourceCard } from '../../components/resources/ResourceCard';
 import { DownloadModal } from '../../components/resources/DownloadModal';
@@ -60,6 +58,7 @@ const RESOURCES = [
     category: "Lessons",
     gradient: "from-[#98FF98] to-[#93D35C]",
     featured: true,
+    comingSoon: true,
   },
   {
     id: 5,
@@ -69,6 +68,7 @@ const RESOURCES = [
     category: "Devotionals",
     gradient: "from-[#FF7F50] to-[#FF5C00]",
     featured: false,
+    comingSoon: true,
   }
 ];
 
@@ -115,22 +115,7 @@ export default function ResourcesPage() {
       {/* Paper Texture */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none z-0 mix-blend-multiply" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
 
-      {/* Floating Decorative Particles */}
-      <motion.div 
-        animate={{ y: [0, -30, 0], rotate: [0, 15, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-[15%] right-[8%] w-16 h-16 rounded-2xl bg-selah-orange/10 border border-selah-orange/20 pointer-events-none z-0 hidden md:block"
-      />
-      <motion.div 
-        animate={{ y: [0, 20, 0], rotate: [0, -10, 0] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        className="absolute top-[40%] left-[5%] w-12 h-12 rounded-full bg-[#00BFFF]/10 border border-[#00BFFF]/20 pointer-events-none z-0 hidden md:block"
-      />
-      <motion.div 
-        animate={{ y: [0, -15, 0], rotate: [0, 20, 0] }}
-        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        className="absolute bottom-[25%] right-[12%] w-10 h-10 rounded-xl bg-[#93D35C]/15 border border-[#93D35C]/25 pointer-events-none z-0 hidden md:block"
-      />
+
 
       <ResourcesHero />
 

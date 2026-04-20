@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate } from 'framer-motion';
-import { Download, FileText, ArrowUpRight } from 'lucide-react';
+import { Download, FileText, ArrowUpRight, Clock } from 'lucide-react';
 import NextImage from 'next/image';
 import { useLanguage } from '../../contexts/LanguageContext';
 
@@ -57,9 +57,9 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index, onD
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
-      onClick={onDownloadAction}
+      onClick={resource.comingSoon ? undefined : onDownloadAction}
       style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-      className="relative group cursor-pointer col-span-1 flex flex-col bg-white/95 backdrop-blur-2xl rounded-[2.5rem] p-3 border border-white/60 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)] hover:shadow-[0_40px_100px_-20px_rgba(255,92,0,0.15)] transition-all duration-700"
+      className={`relative group col-span-1 flex flex-col bg-white/95 backdrop-blur-2xl rounded-[2.5rem] p-3 border border-white/60 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)] transition-all duration-700 ${resource.comingSoon ? 'cursor-default' : 'cursor-pointer hover:shadow-[0_40px_100px_-20px_rgba(255,92,0,0.15)]'}`}
     >
       {/* ── Mouse-tracking spotlight overlay ── */}
       <motion.div 
@@ -114,23 +114,35 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index, onD
           </div>
         )}
 
+        {/* Coming Soon Badge */}
+        {resource.comingSoon && (
+          <div className="absolute inset-0 z-30 flex items-center justify-center">
+            <div className="px-6 py-3 bg-selah-orange text-white rounded-full shadow-[0_16px_40px_-8px_rgba(255,92,0,0.4)] font-bold text-[13px] font-display tracking-tight flex items-center gap-2 uppercase">
+              <Clock size={15} strokeWidth={2.5} />
+              {t("Coming Soon", "Próximamente")}
+            </div>
+          </div>
+        )}
+
         {/* Hover Dark Overlay inside the Island */}
-        <motion.div 
-          initial={false}
-          animate={{ opacity: isHovered ? 1 : 0 }}
-          transition={{ duration: 0.4 }}
-          className="absolute inset-0 bg-selah-dark/20 backdrop-blur-[1px] z-20 flex items-center justify-center"
-        >
+        {!resource.comingSoon && (
           <motion.div 
-            initial={{ scale: 0.85, y: 10 }}
-            animate={{ scale: isHovered ? 1 : 0.85, y: isHovered ? 0 : 10 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="px-6 py-3 bg-white/95 backdrop-blur-xl rounded-full shadow-[0_16px_40px_-8px_rgba(0,0,0,0.3)] text-selah-dark font-bold text-[13px] font-display tracking-tight flex items-center gap-2"
+            initial={false}
+            animate={{ opacity: isHovered ? 1 : 0 }}
+            transition={{ duration: 0.4 }}
+            className="absolute inset-0 bg-selah-dark/20 backdrop-blur-[1px] z-20 flex items-center justify-center"
           >
-            <Download size={15} className="text-selah-orange" strokeWidth={2.5} />
-            {t("Tap to Download", "Toca para Descargar")}
+            <motion.div 
+              initial={{ scale: 0.85, y: 10 }}
+              animate={{ scale: isHovered ? 1 : 0.85, y: isHovered ? 0 : 10 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              className="px-6 py-3 bg-white/95 backdrop-blur-xl rounded-full shadow-[0_16px_40px_-8px_rgba(0,0,0,0.3)] text-selah-dark font-bold text-[13px] font-display tracking-tight flex items-center gap-2"
+            >
+              <Download size={15} className="text-selah-orange" strokeWidth={2.5} />
+              {t("Tap to Download", "Toca para Descargar")}
+            </motion.div>
           </motion.div>
-        </motion.div>
+        )}
       </div>
 
       {/* ─── Clean Content Section ─── */}
@@ -162,25 +174,25 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index, onD
             className="flex items-center gap-1.5 text-selah-orange font-bold text-[14px] font-display tracking-tight"
             animate={{ x: isHovered ? 4 : 0 }}
           >
-            {t("Get this resource", "Obtener recurso")}
+            {resource.comingSoon ? t("Coming Soon", "Próximamente") : t("Get this resource", "Obtener recurso")}
             <motion.span 
               animate={{ x: isHovered ? 4 : 0 }} 
               transition={{ type: "spring", stiffness: 400, damping: 15 }}
             >
-              <ArrowUpRight size={15} strokeWidth={3} />
+              {resource.comingSoon ? <Clock size={15} strokeWidth={3} /> : <ArrowUpRight size={15} strokeWidth={3} />}
             </motion.span>
           </motion.span>
           <motion.div 
             animate={{ 
               scale: isHovered ? 1.1 : 1,
               rotate: isHovered ? 6 : 0,
-              backgroundColor: isHovered ? '#FF5C00' : 'rgba(255,92,0,0.06)',
-              color: isHovered ? '#FFFFFF' : '#FF5C00'
+              backgroundColor: isHovered && !resource.comingSoon ? '#FF5C00' : 'rgba(255,92,0,0.06)',
+              color: isHovered && !resource.comingSoon ? '#FFFFFF' : '#FF5C00'
             }}
             transition={{ type: "spring", stiffness: 300, damping: 15 }}
             className="w-12 h-12 rounded-2xl flex items-center justify-center"
           >
-            <Download size={18} strokeWidth={2.5} />
+            {resource.comingSoon ? <Clock size={18} strokeWidth={2.5} /> : <Download size={18} strokeWidth={2.5} />}
           </motion.div>
         </div>
       </div>

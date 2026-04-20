@@ -30,7 +30,7 @@ export const ParentsHero = () => {
           <div className="absolute inset-0 bg-gradient-to-tr from-selah-yellow/20 to-selah-orange/20 rounded-[3rem] blur-3xl transform -rotate-6 scale-105" />
           <div className="relative bg-white rounded-[3rem] p-12 shadow-2xl border border-black/5 transform hover:rotate-0 transition-transform duration-700">
             <div className="relative w-full aspect-[4/3] rounded-[2rem] overflow-hidden shadow-sm">
-              <NextImage src="/blog-the-call-to-be-a-blessing.png" alt="Selah Kids Family" fill className="object-cover hover:scale-105 transition-transform duration-700 ease-out" sizes="(max-width: 768px) 100vw, 50vw" />
+              <NextImage src="/selah-family-hero.jpg" alt="Selah Kids Family" fill className="object-cover hover:scale-105 transition-transform duration-700 ease-out" sizes="(max-width: 768px) 100vw, 50vw" />
             </div>
           </div>
         </motion.div>

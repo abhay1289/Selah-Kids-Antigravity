@@ -6,8 +6,41 @@ import { X, ZoomIn } from 'lucide-react';
 import Image from 'next/image';
 import { useLanguage } from '../../contexts/LanguageContext';
 
-const photosRow1 = ['/render/IAB_Still_001.png', '/render/IAB_Still_002.png', '/render/IAB_Still_003.png', '/render/IAB_Still_004.png', '/render/IAB_Still_005.png', '/render/IAB_Still_006.png', '/render/IAB_Still_007.png', '/render/IAB_Still_008.png', '/render/IAB_Still_009.png', '/render/IAB_Still_010.png', '/render/IAB_Still_011.png'];
-const photosRow2 = ['/render/IAB_Still_012.png', '/render/IAB_Still_013.png', '/render/IAB_Still_014.png', '/render/IAB_Still_015.png', '/render/IAB_Still_016.png', '/render/IAB_Still_017.png', '/render/IAB_Still_018.png', '/render/IAB_Still_019.png', '/render/IAB_Still_020.png', '/render/IAB_Still_021.png'];
+const photosRow1 = [
+  '/render/IAB_Still_001.png',
+  '/TGN_SingleFrames+(3).jpg',
+  '/rroque_ALA_Shot1020_v01.png',
+  '/render/IAB_Still_002.png',
+  '/TGN_SingleFrames+(7).jpg',
+  '/rroque_ALA_Shot1040_v01.png',
+  '/render/IAB_Still_003.png',
+  '/TGN_SingleFrames+(9).jpg',
+  '/rroque_ALA_Shot1050_v02.png',
+  '/render/IAB_Still_004.png',
+  '/TGN_SingleFrames+28229.jpg',
+  '/rroque_ALA_Shot1060_v02.png',
+  '/render/IAB_Still_005.png',
+  '/TGN_SingleFrames+28329.jpg',
+  '/rroque_ALA_Shot1130_v01.png',
+];
+
+const photosRow2 = [
+  '/render/IAB_Still_006.png',
+  '/TGN_SingleFrames+28729.jpg',
+  '/rroque_ALA_Shot1190_v01.png',
+  '/render/IAB_Still_007.png',
+  '/render/IAB_Still_008.png',
+  '/rroque_ALA_Shot1200_v02.png',
+  '/render/IAB_Still_009.png',
+  '/render/IAB_Still_010.png',
+  '/rroque_ALA_Shot1260_v01.png',
+  '/render/IAB_Still_011.png',
+  '/render/IAB_Still_012.png',
+  '/rroque_ALA_Shot1040_v02.png',
+  '/render/IAB_Still_013.png',
+  '/render/IAB_Still_014.png',
+  '/render/IAB_Still_015.png',
+];
 
 const PhotoCard = ({ src, index, onOpen }: { src: string; index: number; onOpen: (src: string) => void }) => {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -114,7 +147,7 @@ export const AboutPhotoCarousel = () => {
         <div className="relative mb-6 md:mb-8">
           <div className="absolute left-0 top-0 bottom-0 w-24 md:w-40 bg-gradient-to-r from-selah-bg to-transparent z-10 pointer-events-none" />
           <div className="absolute right-0 top-0 bottom-0 w-24 md:w-40 bg-gradient-to-l from-selah-bg to-transparent z-10 pointer-events-none" />
-          <motion.div className="flex will-change-transform" animate={{ x: ['0%', '-50%'] }} transition={{ x: { repeat: Infinity, repeatType: 'loop', duration: 50, ease: 'linear' } }} style={{ width: 'max-content' }}>
+          <motion.div className="flex will-change-transform" animate={{ x: ['0%', '-50%'] }} transition={{ x: { repeat: Infinity, repeatType: 'loop', duration: 120, ease: 'linear' } }} style={{ width: 'max-content' }}>
             {row1Items.map((src, i) => (<PhotoCard key={`r1-${i}`} src={src} index={i} onOpen={openLightbox} />))}
           </motion.div>
         </div>
@@ -122,7 +155,7 @@ export const AboutPhotoCarousel = () => {
         <div className="relative">
           <div className="absolute left-0 top-0 bottom-0 w-24 md:w-40 bg-gradient-to-r from-selah-bg to-transparent z-10 pointer-events-none" />
           <div className="absolute right-0 top-0 bottom-0 w-24 md:w-40 bg-gradient-to-l from-selah-bg to-transparent z-10 pointer-events-none" />
-          <motion.div className="flex will-change-transform" animate={{ x: ['-50%', '0%'] }} transition={{ x: { repeat: Infinity, repeatType: 'loop', duration: 55, ease: 'linear' } }} style={{ width: 'max-content' }}>
+          <motion.div className="flex will-change-transform" animate={{ x: ['-50%', '0%'] }} transition={{ x: { repeat: Infinity, repeatType: 'loop', duration: 130, ease: 'linear' } }} style={{ width: 'max-content' }}>
             {row2Items.map((src, i) => (<PhotoCard key={`r2-${i}`} src={src} index={i} onOpen={openLightbox} />))}
           </motion.div>
         </div>

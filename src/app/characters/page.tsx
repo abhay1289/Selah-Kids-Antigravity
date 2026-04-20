@@ -135,7 +135,7 @@ function CharacterImage({ char, index }: { char: typeof CHARACTERS[0]; index: nu
             src={char.image}
             alt={char.imageAlt}
             fill
-            className="object-contain p-4 drop-shadow-[0_20px_40px_rgba(0,0,0,0.1)]"
+            className="object-contain p-4 drop-shadow-[0_20px_40px_rgba(0,0,0,0.1)] mix-blend-multiply"
             sizes="(max-width: 768px) 90vw, 420px"
             priority={index === 0}
           />
