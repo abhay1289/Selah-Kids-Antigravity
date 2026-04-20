@@ -41,33 +41,7 @@ export function Navbar() {
     { name: t("Resources", "Recursos"), href: "/resources" },
   ];
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, external?: boolean) => {
-    e.preventDefault();
-    setIsMenuOpen(false);
-
-    if (external) {
-      window.open(href, "_blank");
-      return;
-    }
-    
-    window.dispatchEvent(new CustomEvent('nav-transition', { detail: { href } }));
-
-    if (href.startsWith("#")) {
-      const id = href.substring(1);
-      const element = document.getElementById(id);
-      if (element) {
-        setTimeout(() => {
-          element.scrollIntoView({ behavior: "smooth" });
-        }, 600);
-        return;
-      }
-    }
-
-    setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      router.push(href);
-    }, 600);
-  };
+  const closeMenu = () => setIsMenuOpen(false);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 flex justify-center p-4 md:p-6 pointer-events-none">
@@ -88,16 +62,17 @@ export function Navbar() {
           className="flex items-center gap-2"
           whileHover={{ scale: 1.02 }}
         >
-          <motion.img 
-            src="/SK_Logo_FN.jpg" 
-            alt="Selah Kids" 
-            className="h-10 md:h-12 cursor-pointer rounded-xl shadow-sm"
-            animate={{ rotate: [-1, 1, -1] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            whileHover={{ rotate: 0, scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={(e) => handleNavClick(e as any, "/")}
-          />
+          <Link href="/" aria-label="Selah Kids home" onClick={closeMenu}>
+            <motion.img
+              src="/SK_Logo_FN.jpg"
+              alt="Selah Kids"
+              className="h-10 md:h-12 cursor-pointer rounded-xl shadow-sm"
+              animate={{ rotate: [-1, 1, -1] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              whileHover={{ rotate: 0, scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            />
+          </Link>
         </motion.div>
 
         {/* Desktop Nav */}
@@ -106,10 +81,10 @@ export function Navbar() {
             const isActive = pathname === link.href;
             const isHovered = hoveredLink === link.name;
             return (
-              <a 
-                key={link.name} 
-                href={link.href} 
-                onClick={(e) => handleNavClick(e, link.href)}
+              <Link
+                key={link.name}
+                href={link.href}
+                prefetch
                 onMouseEnter={() => setHoveredLink(link.name)}
                 onMouseLeave={() => setHoveredLink(null)}
                 className={`group relative px-4 xl:px-5 py-2.5 ui-nav rounded-xl transition-colors duration-300 ${isActive ? "text-selah-orange" : "text-selah-dark hover:text-selah-orange"}`}
@@ -127,7 +102,7 @@ export function Navbar() {
                 
                 {/* Magnetic Hover Underline */}
                 {isHovered && (
-                  <motion.div 
+                  <motion.div
                     layoutId="nav-hover-underline"
                     className="absolute bottom-1.5 left-4 right-4 h-0.5 bg-selah-orange rounded-full z-10"
                     initial={{ opacity: 0 }}
@@ -136,7 +111,7 @@ export function Navbar() {
                     transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
                   />
                 )}
-              </a>
+              </Link>
             );
           })}
         </div>
@@ -195,17 +170,20 @@ export function Navbar() {
           >
             <div className="flex flex-col gap-3 sm:gap-4">
               {navLinks.map((link, i) => (
-                <motion.a 
-                  key={link.name} 
+                <motion.div
+                  key={link.name}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.1 }}
-                  href={link.href} 
-                  onClick={(e) => handleNavClick(e as any, link.href)}
-                  className={`text-selah-dark content-h3 hover:text-selah-orange transition-colors ${pathname === link.href ? 'text-selah-orange' : ''}`} 
                 >
-                  {link.name}
-                </motion.a>
+                  <Link
+                    href={link.href}
+                    onClick={closeMenu}
+                    className={`text-selah-dark content-h3 hover:text-selah-orange transition-colors ${pathname === link.href ? 'text-selah-orange' : ''}`}
+                  >
+                    {link.name}
+                  </Link>
+                </motion.div>
               ))}
               <div className="flex flex-col gap-4 pt-6 mt-2 border-t border-black/5">
                 <div className="flex items-center justify-between px-2">
