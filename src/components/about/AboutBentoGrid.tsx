@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import NextImage from 'next/image';
-import { Music, Video, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Music, Video, ChevronLeft, ChevronRight, BookCheck, Globe2, Users } from 'lucide-react';
 import { Badge } from '../UI';
 import { staggerContainer, zoomInUp, rollIn, slideInRight, fadeIn } from '../../utils/animations';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -156,15 +156,27 @@ export const AboutBentoGrid = () => {
               )}
             </p>
             
-            <div className="flex items-center gap-6 md:gap-12">
-              <div className="group">
-                <div className="content-h2 mb-2 group-hover:scale-110 transition-transform origin-left">4K</div>
-                <div className="ui-label text-selah-muted uppercase">{t("Resolution", "Resolución")}</div>
+            <div className="flex flex-wrap items-start gap-6 md:gap-10">
+              <div className="flex items-start gap-3 group">
+                <BookCheck size={28} className="text-selah-orange mt-0.5 shrink-0 group-hover:scale-110 transition-transform" />
+                <div>
+                  <div className="ui-label text-selah-dark uppercase tracking-wide">{t("Theology-Reviewed", "Revisión Teológica")}</div>
+                  <div className="text-xs text-selah-muted mt-1">{t("Every song vetted by a ministry advisor.", "Cada canción revisada por un asesor de ministerio.")}</div>
+                </div>
               </div>
-              <div className="w-px h-16 bg-black/10" />
-              <div className="group">
-                <div className="content-h3 text-selah-light mb-2 group-hover:scale-110 transition-transform origin-left">60</div>
-                <div className="ui-label text-selah-muted uppercase">FPS</div>
+              <div className="flex items-start gap-3 group">
+                <Globe2 size={28} className="text-selah-light mt-0.5 shrink-0 group-hover:scale-110 transition-transform" />
+                <div>
+                  <div className="ui-label text-selah-dark uppercase tracking-wide">{t("Bilingual EN · ES", "Bilingüe EN · ES")}</div>
+                  <div className="text-xs text-selah-muted mt-1">{t("Every release produced in English and Spanish.", "Cada lanzamiento se produce en inglés y español.")}</div>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 group">
+                <Users size={28} className="text-selah-yellow mt-0.5 shrink-0 group-hover:scale-110 transition-transform" />
+                <div>
+                  <div className="ui-label text-selah-dark uppercase tracking-wide">{t("Built by Parents", "Creado por Padres")}</div>
+                  <div className="text-xs text-selah-muted mt-1">{t("Co-founded by a pediatric speech-language therapist.", "Cofundado por una terapeuta pediátrica del lenguaje.")}</div>
+                </div>
               </div>
             </div>
           </div>
