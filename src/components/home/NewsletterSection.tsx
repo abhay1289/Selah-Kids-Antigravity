@@ -165,17 +165,6 @@ export function NewsletterSection() {
               </form>
               
               <div className="mt-12 flex items-center justify-center gap-4 bg-selah-bg/50 inline-flex px-6 py-3 rounded-full border border-selah-border/50 shadow-sm">
-                <div className="flex -space-x-3">
-                  {[1,2,3,4].map(i => (
-                    <motion.div 
-                      key={i} 
-                      whileHover={{ y: -5, scale: 1.1, zIndex: 10 }}
-                      className="w-10 h-10 rounded-full border-2 border-white bg-selah-light overflow-hidden relative shadow-sm"
-                    >
-                      <img src={`https://picsum.photos/seed/sub${i}/50/50`} alt="Subscriber" className="w-full h-full object-cover" />
-                    </motion.div>
-                  ))}
-                </div>
                 <p className="text-selah-dark content-h3">
                   <SparklesIcon className="inline-block w-5 h-5 text-selah-yellow mr-2 animate-pulse" />{t("Join", "Únete a")} <span className="text-selah-orange">100,000+</span> {t("families", "familias")}
                 </p>

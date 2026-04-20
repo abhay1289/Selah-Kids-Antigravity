@@ -72,17 +72,6 @@ export function JoinYouTubeSection() {
                   <Youtube size={28} className="group-hover:scale-110 transition-transform duration-300" /> {t("Subscribe Now", "Suscríbete Ahora")}
                 </Button>
                 <div className="flex items-center gap-4 text-white/60">
-                  <div className="flex -space-x-3">
-                    {[1, 2, 3, 4].map((i) => (
-                      <motion.div 
-                        key={i} 
-                        whileHover={{ y: -5, scale: 1.1, zIndex: 10 }}
-                        className="w-10 h-10 rounded-full border-2 border-selah-dark overflow-hidden relative shadow-sm"
-                      >
-                        <img src={`https://picsum.photos/seed/user${i}/100/100`} alt="User" className="w-full h-full object-cover" />
-                      </motion.div>
-                    ))}
-                  </div>
                   <motion.span whileHover={{ scale: 1.05, color: "#fff" }} className="ui-labelr cursor-default transition-colors">{t("JOIN THE COMMUNITY", "ÚNETE A LA COMUNIDAD")}</motion.span>
                 </div>
               </div>
