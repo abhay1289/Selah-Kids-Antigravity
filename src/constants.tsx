@@ -1,4 +1,4 @@
-import { BookOpen, SparklesIcon, Globe, Users, Shield, Music, School, Car, Book, Heart } from "lucide-react";
+import { BookOpen, SparklesIcon, Globe, Users, Shield, Music, Book, Heart } from "lucide-react";
 
 export const CHARACTERS = [
   {
