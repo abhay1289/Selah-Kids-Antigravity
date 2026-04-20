@@ -1,12 +1,24 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { BlogHero } from '../../components/blog/BlogHero';
+import { BlogCategories } from '../../components/blog/BlogCategories';
 import { BlogGrid } from '../../components/blog/BlogGrid';
 import { BLOG_POSTS } from '../../data/blogPosts';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export default function BlogPage() {
+  const { t } = useLanguage();
+  const [activeCategory, setActiveCategory] = useState('all');
+
+  const categories = [
+    { id: 'all', label: t('All Articles', 'Todos los Artículos') },
+    { id: 'faith', label: t('Faith', 'Fe') },
+    { id: 'family', label: t('Family', 'Familia') },
+    { id: 'worship', label: t('Worship', 'Adoración') },
+  ];
+
   return (
     <div className="bg-gradient-to-b from-[#FFF5EE] via-[#FDFBF7] to-[#F0FAE6] min-h-screen pt-36 md:pt-44 pb-16 relative overflow-hidden selection:bg-selah-orange selection:text-white">
       {/* Vivid Color Washes */}
@@ -20,7 +32,13 @@ export default function BlogPage() {
       <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}>
         <BlogHero />
       </motion.div>
-      
+
+      <BlogCategories
+        categories={categories}
+        activeCategory={activeCategory}
+        setActiveCategory={setActiveCategory}
+      />
+
       <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}>
         <BlogGrid posts={BLOG_POSTS} />
       </motion.div>
