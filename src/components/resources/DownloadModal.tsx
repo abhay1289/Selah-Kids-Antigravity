@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Mail, User, CheckCircle2, Lock, ArrowRight, Download, Heart, Shield, FileDown, Gift, Sparkles } from 'lucide-react';
+import { LucideIcon, X, Mail, User, CheckCircle2, Lock, ArrowRight, Download, Shield, FileDown, Gift, Sparkles } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 interface DownloadModalProps {
@@ -10,6 +10,104 @@ interface DownloadModalProps {
   onClose: () => void;
   onSuccess: () => void;
   resourceTitle: string;
+}
+
+interface FloatingInputProps {
+  id: string;
+  icon: LucideIcon;
+  value: string;
+  onChange: (v: string) => void;
+  placeholder: string;
+  type?: string;
+  autoFocus?: boolean;
+  focusedField: string | null;
+  setFocusedField: (id: string | null) => void;
+}
+
+function FloatingInput({
+  id, icon: Icon, value, onChange, placeholder, type = "text", autoFocus = false,
+  focusedField, setFocusedField,
+}: FloatingInputProps) {
+  const isFocused = focusedField === id;
+  const hasValue = value.length > 0;
+  const isValid = type === 'email' ? value.includes('@') && value.includes('.') : hasValue;
+
+  return (
+    <motion.div
+      className="relative"
+      animate={{ y: isFocused ? -2 : 0 }}
+      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+    >
+      <motion.div
+        className="absolute -inset-1 rounded-[1.25rem] pointer-events-none"
+        animate={{
+          opacity: isFocused ? 1 : 0,
+          scale: isFocused ? 1 : 0.98
+        }}
+        transition={{ duration: 0.3 }}
+        style={{ background: 'radial-gradient(circle at center, rgba(255,92,0,0.06), transparent 70%)' }}
+      />
+
+      <div className="relative">
+        <motion.div
+          className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"
+          animate={{
+            scale: isFocused ? 1.1 : 1,
+            color: isFocused ? '#FF5C00' : hasValue ? '#FF5C00' : 'rgba(0,0,0,0.25)'
+          }}
+          transition={{ type: "spring", stiffness: 400, damping: 20 }}
+        >
+          <Icon size={18} />
+        </motion.div>
+
+        <motion.label
+          className="absolute left-[3rem] pointer-events-none font-medium text-selah-muted/50 origin-left"
+          animate={{
+            y: isFocused || hasValue ? -24 : 0,
+            scale: isFocused || hasValue ? 0.75 : 1,
+            color: isFocused ? '#FF5C00' : 'rgba(0,0,0,0.3)',
+            opacity: isFocused || hasValue ? 1 : 0,
+          }}
+          transition={{ type: "spring", stiffness: 300, damping: 25 }}
+        >
+          {placeholder}
+        </motion.label>
+
+        <input
+          required
+          autoFocus={autoFocus}
+          type={type}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onFocus={() => setFocusedField(id)}
+          onBlur={() => setFocusedField(null)}
+          className="w-full h-[56px] pl-[3rem] pr-12 rounded-2xl bg-selah-dark/[0.02] hover:bg-selah-dark/[0.03] border-2 border-transparent focus:border-selah-orange/30 focus:bg-white text-selah-dark placeholder:text-selah-muted/35 text-[15px] font-medium transition-all outline-none focus:shadow-[0_0_0_4px_rgba(255,92,0,0.06)]"
+          placeholder={isFocused ? '' : placeholder}
+        />
+
+        <AnimatePresence>
+          {isValid && (
+            <motion.div
+              className="absolute right-4 top-1/2 -translate-y-1/2"
+              initial={{ scale: 0, rotate: -90 }}
+              animate={{ scale: 1, rotate: 0 }}
+              exit={{ scale: 0 }}
+              transition={{ type: "spring", stiffness: 500, damping: 15 }}
+            >
+              <CheckCircle2 size={18} className="text-[#22c55e]" />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <motion.div
+          className="absolute bottom-0 left-[10%] right-[10%] h-[2px] rounded-full bg-selah-orange"
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: isFocused ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
+        />
+      </div>
+    </motion.div>
+  );
 }
 
 export const DownloadModal = ({ isOpen, onClose, onSuccess, resourceTitle }: DownloadModalProps) => {
@@ -67,99 +165,6 @@ export const DownloadModal = ({ isOpen, onClose, onSuccess, resourceTitle }: Dow
     { num: 2, label: t("About You", "Sobre ti") },
     { num: 3, label: t("Download", "Descarga") },
   ];
-
-  // Floating input component with rich micro-interactions
-  const FloatingInput = ({ 
-    id, icon: Icon, value, onChange, placeholder, type = "text", autoFocus = false 
-  }: { 
-    id: string; icon: any; value: string; onChange: (v: string) => void; placeholder: string; type?: string; autoFocus?: boolean 
-  }) => {
-    const isFocused = focusedField === id;
-    const hasValue = value.length > 0;
-    const isValid = type === 'email' ? value.includes('@') && value.includes('.') : hasValue;
-
-    return (
-      <motion.div 
-        className="relative"
-        animate={{ y: isFocused ? -2 : 0 }}
-        transition={{ type: "spring", stiffness: 400, damping: 25 }}
-      >
-        {/* Animated glow ring behind input on focus */}
-        <motion.div
-          className="absolute -inset-1 rounded-[1.25rem] pointer-events-none"
-          animate={{ 
-            opacity: isFocused ? 1 : 0,
-            scale: isFocused ? 1 : 0.98
-          }}
-          transition={{ duration: 0.3 }}
-          style={{ background: 'radial-gradient(circle at center, rgba(255,92,0,0.06), transparent 70%)' }}
-        />
-
-        <div className="relative">
-          {/* Leading Icon */}
-          <motion.div 
-            className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"
-            animate={{ 
-              scale: isFocused ? 1.1 : 1,
-              color: isFocused ? '#FF5C00' : hasValue ? '#FF5C00' : 'rgba(0,0,0,0.25)'
-            }}
-            transition={{ type: "spring", stiffness: 400, damping: 20 }}
-          >
-            <Icon size={18} />
-          </motion.div>
-
-          {/* Floating Label */}
-          <motion.label
-            className="absolute left-[3rem] pointer-events-none font-medium text-selah-muted/50 origin-left"
-            animate={{
-              y: isFocused || hasValue ? -24 : 0,
-              scale: isFocused || hasValue ? 0.75 : 1,
-              color: isFocused ? '#FF5C00' : 'rgba(0,0,0,0.3)',
-              opacity: isFocused || hasValue ? 1 : 0,
-            }}
-            transition={{ type: "spring", stiffness: 300, damping: 25 }}
-          >
-            {placeholder}
-          </motion.label>
-
-          <input 
-            required 
-            autoFocus={autoFocus} 
-            type={type} 
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            onFocus={() => setFocusedField(id)}
-            onBlur={() => setFocusedField(null)}
-            className="w-full h-[56px] pl-[3rem] pr-12 rounded-2xl bg-selah-dark/[0.02] hover:bg-selah-dark/[0.03] border-2 border-transparent focus:border-selah-orange/30 focus:bg-white text-selah-dark placeholder:text-selah-muted/35 text-[15px] font-medium transition-all outline-none focus:shadow-[0_0_0_4px_rgba(255,92,0,0.06)]"
-            placeholder={isFocused ? '' : placeholder}
-          />
-
-          {/* Trailing Validation Icon */}
-          <AnimatePresence>
-            {isValid && (
-              <motion.div 
-                className="absolute right-4 top-1/2 -translate-y-1/2"
-                initial={{ scale: 0, rotate: -90 }}
-                animate={{ scale: 1, rotate: 0 }}
-                exit={{ scale: 0 }}
-                transition={{ type: "spring", stiffness: 500, damping: 15 }}
-              >
-                <CheckCircle2 size={18} className="text-[#22c55e]" />
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Bottom highlight line */}
-          <motion.div
-            className="absolute bottom-0 left-[10%] right-[10%] h-[2px] rounded-full bg-selah-orange"
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: isFocused ? 1 : 0 }}
-            transition={{ duration: 0.3 }}
-          />
-        </div>
-      </motion.div>
-    );
-  };
 
   return (
     <AnimatePresence>
@@ -431,6 +436,8 @@ export const DownloadModal = ({ isOpen, onClose, onSuccess, resourceTitle }: Dow
                       onChange={setFirstName}
                       placeholder={t("First Name", "Nombre")}
                       autoFocus
+                      focusedField={focusedField}
+                      setFocusedField={setFocusedField}
                     />
                     <FloatingInput
                       id="lastName"
@@ -438,6 +445,8 @@ export const DownloadModal = ({ isOpen, onClose, onSuccess, resourceTitle }: Dow
                       value={lastName}
                       onChange={setLastName}
                       placeholder={t("Last Name", "Apellido")}
+                      focusedField={focusedField}
+                      setFocusedField={setFocusedField}
                     />
                   </motion.div>
 
@@ -526,6 +535,8 @@ export const DownloadModal = ({ isOpen, onClose, onSuccess, resourceTitle }: Dow
                         placeholder="you@email.com"
                         type="email"
                         autoFocus
+                        focusedField={focusedField}
+                        setFocusedField={setFocusedField}
                       />
                     </motion.div>
 
