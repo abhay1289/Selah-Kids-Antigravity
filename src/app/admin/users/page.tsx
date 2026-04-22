@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Save, Plus, Shield, Eye, PenLine, Settings, Trash2, Mail } from 'lucide-react';
+import { Save, Plus, Shield, Eye, PenLine, Trash2, Mail } from 'lucide-react';
+import { useCmsCollection } from '../../../lib/useCms';
 
 interface User { id: string; name: string; email: string; role: 'admin' | 'editor' | 'viewer'; avatar: string; lastActive: string; status: 'active' | 'invited'; }
 
@@ -34,22 +35,25 @@ const PERMISSIONS = [
 ];
 
 export default function UserRoles() {
-  const [users, setUsers] = useState<User[]>(INITIAL_USERS);
+  const { items: users, setItems: setUsers, isSaving, save, error } = useCmsCollection<User>(
+    'admin_user_profiles',
+    INITIAL_USERS,
+  );
   const [showInvite, setShowInvite] = useState(false);
   const [inviteEmail, setInviteEmail] = useState('');
   const [inviteRole, setInviteRole] = useState<'editor' | 'viewer'>('editor');
-  const [isSaving, setIsSaving] = useState(false);
 
   const updateRole = (id: string, role: string) => setUsers(users.map(u => u.id === id ? { ...u, role: role as User['role'] } : u));
   const removeUser = (id: string) => { if (confirm('Remove this user?')) setUsers(users.filter(u => u.id !== id)); };
   const inviteUser = () => { if (!inviteEmail) return; setUsers([...users, { id: Date.now().toString(), name: inviteEmail.split('@')[0], email: inviteEmail, role: inviteRole, avatar: inviteEmail.charAt(0).toUpperCase(), lastActive: 'Invited', status: 'invited' }]); setInviteEmail(''); setShowInvite(false); };
-  const handleSave = async () => { setIsSaving(true); await new Promise(r => setTimeout(r, 1500)); setIsSaving(false); };
+  const handleSave = async () => { try { await save(); } catch { /* surfaced via hook */ } };
 
   return (
     <div className="max-w-[1000px] mx-auto space-y-6">
       <div className="flex items-center justify-between bg-white/80 backdrop-blur-xl rounded-2xl px-6 py-4 border border-white/60 shadow-sm sticky top-[72px] z-20">
         <div><h2 className="text-[16px] font-bold text-[#3a6b44]" style={{ fontFamily: 'var(--font-fredoka)' }}>Users & Roles</h2><p className="text-[12px] text-[#5a7d62]/50">{users.length} team members</p></div>
-        <div className="flex gap-3">
+        <div className="flex gap-3 items-center">
+          {error && <span className="text-[11px] font-semibold text-red-500">{error}</span>}
           <motion.button whileTap={{ scale: 0.98 }} onClick={() => setShowInvite(!showInvite)} className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#ff5c00]/10 text-[#ff5c00] text-[13px] font-bold hover:bg-[#ff5c00]/20 border border-[#ff5c00]/20"><Plus size={14} /> Invite</motion.button>
           <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} disabled={isSaving} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#93d35c] to-[#7ebd4e] text-white text-[13px] font-bold shadow-lg shadow-[#93d35c]/20 disabled:opacity-40 transition-all"><Save size={15} /> {isSaving ? 'Saving...' : 'Save'}</motion.button>
         </div>

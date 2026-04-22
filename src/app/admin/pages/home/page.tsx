@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Save, ChevronDown, ChevronUp } from 'lucide-react';
+import { useCmsPageContent, type PageFieldMap } from '../../../../lib/useCms';
 
 interface EditorField {
   id: string;
@@ -95,29 +96,47 @@ const HOME_SECTIONS: EditorSection[] = [
   },
 ];
 
+const keyFor = (sectionId: string, fieldId: string) => `${sectionId}.${fieldId}`;
+
+const buildFallback = (): PageFieldMap => {
+  const map: PageFieldMap = {};
+  for (const s of HOME_SECTIONS) {
+    for (const f of s.fields) map[keyFor(s.id, f.id)] = { en: f.valueEn, es: f.valueEs };
+  }
+  return map;
+};
+
 export default function HomePageEditor() {
+  const fallback = useMemo(buildFallback, []);
+  const { fields, setField, isSaving, save, error } = useCmsPageContent('home', fallback);
   const [openSections, setOpenSections] = useState<string[]>(['hero']);
-  const [editedFields, setEditedFields] = useState<Record<string, { en: string; es: string }>>({});
-  const [isSaving, setIsSaving] = useState(false);
+  const [editedKeys, setEditedKeys] = useState<Set<string>>(new Set());
 
   const toggleSection = (id: string) => {
     setOpenSections(prev => prev.includes(id) ? prev.filter(s => s !== id) : [...prev, id]);
   };
 
+  const findSectionId = (fieldId: string): string =>
+    HOME_SECTIONS.find(s => s.fields.some(f => f.id === fieldId))?.id ?? 'misc';
+
   const getVal = (f: EditorField, lang: 'en' | 'es') => {
-    return editedFields[f.id]?.[lang] ?? (lang === 'en' ? f.valueEn : f.valueEs);
+    const sid = findSectionId(f.id);
+    const v = fields[keyFor(sid, f.id)];
+    return v ? v[lang] : (lang === 'en' ? f.valueEn : f.valueEs);
   };
 
-  const setVal = (id: string, lang: 'en' | 'es', v: string) => {
-    setEditedFields(p => ({ ...p, [id]: { ...p[id], [lang]: v } }));
+  const setVal = (fieldId: string, lang: 'en' | 'es', v: string) => {
+    const sid = findSectionId(fieldId);
+    const k = keyFor(sid, fieldId);
+    const current = fields[k] ?? { en: '', es: '' };
+    setField(k, { ...current, [lang]: v });
+    setEditedKeys(prev => { const next = new Set(prev); next.add(k); return next; });
   };
 
-  const editedCount = Object.keys(editedFields).length;
+  const editedCount = editedKeys.size;
 
   const handleSave = async () => {
-    setIsSaving(true);
-    await new Promise(r => setTimeout(r, 1500));
-    setIsSaving(false);
+    try { await save(); setEditedKeys(new Set()); } catch { /* surfaced via hook */ }
   };
 
   return (
@@ -130,16 +149,19 @@ export default function HomePageEditor() {
             <span className="text-[12px] font-medium text-[#ff5c00] bg-[#ff5c00]/10 px-3 py-1 rounded-full">{editedCount} unsaved</span>
           )}
         </div>
-        <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={handleSave}
-          disabled={editedCount === 0 || isSaving}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#93d35c] to-[#7ebd4e] text-white text-[13px] font-bold shadow-lg shadow-[#93d35c]/20 disabled:opacity-40 transition-all"
-        >
-          <Save size={15} />
-          {isSaving ? 'Saving...' : 'Save Changes'}
-        </motion.button>
+        <div className="flex items-center gap-3">
+          {error && <span className="text-[11px] font-semibold text-red-500">{error}</span>}
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={handleSave}
+            disabled={editedCount === 0 || isSaving}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#93d35c] to-[#7ebd4e] text-white text-[13px] font-bold shadow-lg shadow-[#93d35c]/20 disabled:opacity-40 transition-all"
+          >
+            <Save size={15} />
+            {isSaving ? 'Saving...' : 'Save Changes'}
+          </motion.button>
+        </div>
       </div>
 
       {/* Sections */}

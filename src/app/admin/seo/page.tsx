@@ -2,7 +2,8 @@
 
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Save, Search, ChevronDown, ChevronUp, Globe, Eye, AlertTriangle, CheckCircle2, ExternalLink, Code, Share2 } from 'lucide-react';
+import { Save, Search, ChevronDown, ChevronUp, AlertTriangle, CheckCircle2, Code, Share2 } from 'lucide-react';
+import { useCmsCollection } from '../../../lib/useCms';
 
 interface PageSEO {
   id: string;
@@ -85,11 +86,13 @@ function SocialPreview({ title, description, image }: { title: string; descripti
 }
 
 export default function SEOManager() {
-  const [pages, setPages] = useState<PageSEO[]>(INITIAL_PAGES);
+  const { items: pages, setItems: setPages, isSaving, save, error } = useCmsCollection<PageSEO>(
+    'seo_pages',
+    INITIAL_PAGES,
+  );
   const [openPage, setOpenPage] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState<'meta' | 'social' | 'schema'>('meta');
-  const [isSaving, setIsSaving] = useState(false);
 
   const filtered = useMemo(() => {
     if (!searchQuery) return pages;
@@ -97,7 +100,7 @@ export default function SEOManager() {
   }, [pages, searchQuery]);
 
   const update = (id: string, field: keyof PageSEO, value: string) => setPages(pages.map(p => p.id === id ? { ...p, [field]: value } : p));
-  const handleSave = async () => { setIsSaving(true); await new Promise(r => setTimeout(r, 1500)); setIsSaving(false); };
+  const handleSave = async () => { try { await save(); } catch { /* surfaced via hook */ } };
 
   const avgScore = useMemo(() => {
     const scores = pages.map(p => {
@@ -123,7 +126,10 @@ export default function SEOManager() {
             <p className="text-[12px] text-[#5a7d62]/50">Average SEO score across {pages.length} pages</p>
           </div>
         </div>
-        <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} disabled={isSaving} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#93d35c] to-[#7ebd4e] text-white text-[13px] font-bold shadow-lg shadow-[#93d35c]/20 disabled:opacity-40 transition-all"><Save size={15} /> {isSaving ? 'Saving...' : 'Save All'}</motion.button>
+        <div className="flex items-center gap-3">
+          {error && <span className="text-[11px] font-semibold text-red-500">{error}</span>}
+          <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} disabled={isSaving} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#93d35c] to-[#7ebd4e] text-white text-[13px] font-bold shadow-lg shadow-[#93d35c]/20 disabled:opacity-40 transition-all"><Save size={15} /> {isSaving ? 'Saving...' : 'Save All'}</motion.button>
+        </div>
       </div>
 
       {/* Search */}

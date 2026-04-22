@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Save, Plus, Trash2, ChevronDown, ChevronUp, Eye, EyeOff } from 'lucide-react';
+import { useCmsCollection } from '../../../../lib/useCms';
 
 interface BlogPost {
   id: string;
@@ -23,8 +24,10 @@ const INITIAL_POSTS: BlogPost[] = [
 ];
 
 export default function BlogManager() {
-  const [posts, setPosts] = useState<BlogPost[]>(INITIAL_POSTS);
-  const [isSaving, setIsSaving] = useState(false);
+  const { items: posts, setItems: setPosts, isSaving, save, error } = useCmsCollection<BlogPost>(
+    'blog_posts',
+    INITIAL_POSTS,
+  );
 
   const addNew = () => {
     const p: BlogPost = { id: Date.now().toString(), slug: '', titleEn: '', titleEs: '', dateEn: '', dateEs: '', img: '', isPublished: false, isOpen: true };
@@ -34,7 +37,9 @@ export default function BlogManager() {
   const update = <K extends keyof BlogPost>(id: string, field: K, value: BlogPost[K]) => setPosts(posts.map(p => p.id === id ? { ...p, [field]: value } : p));
   const toggle = (id: string) => setPosts(posts.map(p => p.id === id ? { ...p, isOpen: !p.isOpen } : p));
   const remove = (id: string) => { if (confirm('Delete this blog post?')) setPosts(posts.filter(p => p.id !== id)); };
-  const handleSave = async () => { setIsSaving(true); await new Promise(r => setTimeout(r, 1500)); setIsSaving(false); };
+  const handleSave = async () => {
+    try { await save(); } catch { /* error surfaced via hook's `error` */ }
+  };
 
   return (
     <div className="max-w-[900px] mx-auto space-y-6">
@@ -44,6 +49,7 @@ export default function BlogManager() {
           <span className="text-[12px] font-medium text-[#5a7d62]/50 bg-[#3a6b44]/5 px-3 py-1 rounded-full">{posts.length} posts</span>
         </div>
         <div className="flex items-center gap-3">
+          {error && <span className="text-[11px] font-semibold text-red-500">{error}</span>}
           <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={addNew} className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#ff5c00]/10 text-[#ff5c00] text-[13px] font-bold hover:bg-[#ff5c00]/20 transition-all border border-[#ff5c00]/20"><Plus size={15} /> New Post</motion.button>
           <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} disabled={isSaving} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#93d35c] to-[#7ebd4e] text-white text-[13px] font-bold shadow-lg shadow-[#93d35c]/20 disabled:opacity-40 transition-all"><Save size={15} /> {isSaving ? 'Saving...' : 'Save'}</motion.button>
         </div>

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Save } from 'lucide-react';
+import { useCmsCollection } from '../../../../lib/useCms';
 
 interface Character {
   id: string;
@@ -20,18 +21,23 @@ const INITIAL_CHARACTERS: Character[] = [
 ];
 
 export default function CharactersManager() {
-  const [characters, setCharacters] = useState<Character[]>(INITIAL_CHARACTERS);
-  const [selected, setSelected] = useState<string>(characters[0]?.id || '');
-  const [isSaving, setIsSaving] = useState(false);
+  const { items: characters, setItems: setCharacters, isSaving, save, error } = useCmsCollection<Character>(
+    'characters',
+    INITIAL_CHARACTERS,
+  );
+  const [selected, setSelected] = useState<string>(INITIAL_CHARACTERS[0]?.id || '');
   const char = characters.find(c => c.id === selected);
   const update = (field: keyof Character, value: string) => setCharacters(characters.map(c => c.id === selected ? { ...c, [field]: value } : c));
-  const handleSave = async () => { setIsSaving(true); await new Promise(r => setTimeout(r, 1500)); setIsSaving(false); };
+  const handleSave = async () => { try { await save(); } catch { /* surfaced via hook */ } };
 
   return (
     <div className="max-w-[1000px] mx-auto space-y-6">
       <div className="flex items-center justify-between bg-white/80 backdrop-blur-xl rounded-2xl px-6 py-4 border border-white/60 shadow-sm sticky top-[72px] z-20">
         <h2 className="text-[16px] font-bold text-[#3a6b44]" style={{ fontFamily: 'var(--font-fredoka)' }}>Characters</h2>
-        <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} disabled={isSaving} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#93d35c] to-[#7ebd4e] text-white text-[13px] font-bold shadow-lg shadow-[#93d35c]/20 disabled:opacity-40 transition-all"><Save size={15} /> {isSaving ? 'Saving...' : 'Save All'}</motion.button>
+        <div className="flex items-center gap-3">
+          {error && <span className="text-[11px] font-semibold text-red-500">{error}</span>}
+          <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} disabled={isSaving} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#93d35c] to-[#7ebd4e] text-white text-[13px] font-bold shadow-lg shadow-[#93d35c]/20 disabled:opacity-40 transition-all"><Save size={15} /> {isSaving ? 'Saving...' : 'Save All'}</motion.button>
+        </div>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6">
         <div className="space-y-3">

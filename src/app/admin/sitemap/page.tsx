@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Save, Eye, EyeOff, ChevronRight, Globe, Clock, FileText, Code } from 'lucide-react';
+import { Save, Eye, EyeOff, ChevronRight, Globe, Code } from 'lucide-react';
+import { useCmsCollection } from '../../../lib/useCms';
 
 interface SitemapPage {
   path: string;
@@ -44,12 +45,23 @@ Disallow: /api/
 # Sitemaps
 Sitemap: https://selahkids.com/sitemap.xml`;
 
+interface SitemapData { id: string; pages: SitemapPage[]; robotsTxt: string; autoGenerate: boolean; }
+const INITIAL_DATA: SitemapData[] = [{ id: 'sitemap', pages: INITIAL_SITEMAP, robotsTxt: INITIAL_ROBOTS, autoGenerate: true }];
+
 export default function SitemapManager() {
-  const [pages, setPages] = useState<SitemapPage[]>(INITIAL_SITEMAP);
-  const [robotsTxt, setRobotsTxt] = useState(INITIAL_ROBOTS);
+  const { items, setItems, isSaving, save, error } = useCmsCollection<SitemapData>(
+    'sitemap_data',
+    INITIAL_DATA,
+    { sortOrder: false },
+  );
+  const data = items[0] ?? INITIAL_DATA[0];
+  const pages = data.pages;
+  const setPages = (p: SitemapPage[]) => setItems([{ ...data, pages: p }]);
+  const robotsTxt = data.robotsTxt;
+  const setRobotsTxt = (v: string) => setItems([{ ...data, robotsTxt: v }]);
+  const autoGenerate = data.autoGenerate;
+  const setAutoGenerate = (v: boolean) => setItems([{ ...data, autoGenerate: v }]);
   const [activeTab, setActiveTab] = useState<'sitemap' | 'robots'>('sitemap');
-  const [autoGenerate, setAutoGenerate] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
   const [expandedPaths, setExpandedPaths] = useState<string[]>(['/blog']);
 
   const toggleInclude = (path: string) => {
@@ -69,7 +81,7 @@ export default function SitemapManager() {
   };
 
   const toggleExpand = (path: string) => setExpandedPaths(p => p.includes(path) ? p.filter(x => x !== path) : [...p, path]);
-  const handleSave = async () => { setIsSaving(true); await new Promise(r => setTimeout(r, 1500)); setIsSaving(false); };
+  const handleSave = async () => { try { await save(); } catch { /* surfaced via hook */ } };
   const includedCount = pages.reduce((acc, p) => acc + (p.included ? 1 : 0) + (p.children?.filter(c => c.included).length || 0), 0);
 
   return (
@@ -80,7 +92,10 @@ export default function SitemapManager() {
           <h2 className="text-[16px] font-bold text-[#3a6b44]" style={{ fontFamily: 'var(--font-fredoka)' }}>Sitemap & Robots</h2>
           <p className="text-[12px] text-[#5a7d62]/50">{includedCount} pages in sitemap</p>
         </div>
-        <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} disabled={isSaving} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#93d35c] to-[#7ebd4e] text-white text-[13px] font-bold shadow-lg shadow-[#93d35c]/20 disabled:opacity-40 transition-all"><Save size={15} /> {isSaving ? 'Saving...' : 'Save'}</motion.button>
+        <div className="flex items-center gap-3">
+          {error && <span className="text-[11px] font-semibold text-red-500">{error}</span>}
+          <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} disabled={isSaving} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#93d35c] to-[#7ebd4e] text-white text-[13px] font-bold shadow-lg shadow-[#93d35c]/20 disabled:opacity-40 transition-all"><Save size={15} /> {isSaving ? 'Saving...' : 'Save'}</motion.button>
+        </div>
       </div>
 
       {/* Tabs */}

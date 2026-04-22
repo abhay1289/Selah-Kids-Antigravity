@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Save, Plus, Trash2, GripVertical, Eye, EyeOff, Mail, MessageSquare, ToggleLeft } from 'lucide-react';
+import { Save, Plus, Trash2, GripVertical, Mail, MessageSquare } from 'lucide-react';
+import { useCmsCollection } from '../../../lib/useCms';
 
 interface FormField { id: string; labelEn: string; labelEs: string; type: 'text' | 'email' | 'textarea' | 'select' | 'phone'; required: boolean; placeholderEn: string; placeholderEs: string; }
 
@@ -31,22 +32,27 @@ const INITIAL_FORMS: FormConfig[] = [
 ];
 
 export default function FormsManager() {
-  const [forms, setForms] = useState<FormConfig[]>(INITIAL_FORMS);
-  const [selected, setSelected] = useState<string>(forms[0]?.id);
-  const [isSaving, setIsSaving] = useState(false);
+  const { items: forms, setItems: setForms, isSaving, save, error } = useCmsCollection<FormConfig>(
+    'forms',
+    INITIAL_FORMS,
+  );
+  const [selected, setSelected] = useState<string>(INITIAL_FORMS[0]?.id);
 
   const form = forms.find(f => f.id === selected);
   const updateForm = <K extends keyof FormConfig>(field: K, value: FormConfig[K]) => setForms(forms.map(f => f.id === selected ? { ...f, [field]: value } : f));
   const updateField = <K extends keyof FormField>(fieldId: string, key: K, value: FormField[K]) => { if (!form) return; const fields = form.fields.map(f => f.id === fieldId ? { ...f, [key]: value } : f); updateForm('fields', fields); };
   const addField = () => { if (!form) return; const f: FormField = { id: Date.now().toString(), labelEn: '', labelEs: '', type: 'text', required: false, placeholderEn: '', placeholderEs: '' }; updateForm('fields', [...form.fields, f]); };
   const removeField = (fieldId: string) => { if (!form) return; updateForm('fields', form.fields.filter(f => f.id !== fieldId)); };
-  const handleSave = async () => { setIsSaving(true); await new Promise(r => setTimeout(r, 1500)); setIsSaving(false); };
+  const handleSave = async () => { try { await save(); } catch { /* surfaced via hook */ } };
 
   return (
     <div className="max-w-[1000px] mx-auto space-y-6">
       <div className="flex items-center justify-between bg-white/80 backdrop-blur-xl rounded-2xl px-6 py-4 border border-white/60 shadow-sm sticky top-[72px] z-20">
         <div><h2 className="text-[16px] font-bold text-[#3a6b44]" style={{ fontFamily: 'var(--font-fredoka)' }}>Forms</h2><p className="text-[12px] text-[#5a7d62]/50">Manage contact form and newsletter fields</p></div>
-        <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} disabled={isSaving} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#93d35c] to-[#7ebd4e] text-white text-[13px] font-bold shadow-lg shadow-[#93d35c]/20 disabled:opacity-40 transition-all"><Save size={15} /> {isSaving ? 'Saving...' : 'Save'}</motion.button>
+        <div className="flex items-center gap-3">
+          {error && <span className="text-[11px] font-semibold text-red-500">{error}</span>}
+          <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} disabled={isSaving} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#93d35c] to-[#7ebd4e] text-white text-[13px] font-bold shadow-lg shadow-[#93d35c]/20 disabled:opacity-40 transition-all"><Save size={15} /> {isSaving ? 'Saving...' : 'Save'}</motion.button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6">

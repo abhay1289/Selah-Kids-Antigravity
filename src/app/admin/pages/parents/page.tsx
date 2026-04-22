@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Save, ChevronDown, ChevronUp } from 'lucide-react';
+import { useCmsPageContent, type PageFieldMap } from '../../../../lib/useCms';
 
 interface EditorField { id: string; label: string; type: 'text' | 'textarea'; valueEn: string; valueEs: string; }
 interface EditorSection { id: string; title: string; icon: string; fields: EditorField[]; }
@@ -16,15 +17,32 @@ const SECTIONS: EditorSection[] = [
   ]},
 ];
 
+const keyFor = (sid: string, fid: string) => `${sid}.${fid}`;
+const buildFallback = (): PageFieldMap => {
+  const map: PageFieldMap = {};
+  for (const s of SECTIONS) for (const f of s.fields) map[keyFor(s.id, f.id)] = { en: f.valueEn, es: f.valueEs };
+  return map;
+};
+
 export default function ParentsPageEditor() {
+  const fallback = useMemo(buildFallback, []);
+  const { fields, setField, isSaving, save, error } = useCmsPageContent('parents', fallback);
   const [openSections, setOpenSections] = useState<string[]>(['hero']);
-  const [editedFields, setEditedFields] = useState<Record<string, { en: string; es: string }>>({});
-  const [isSaving, setIsSaving] = useState(false);
+  const [editedKeys, setEditedKeys] = useState<Set<string>>(new Set());
   const toggleSection = (id: string) => setOpenSections(p => p.includes(id) ? p.filter(s => s !== id) : [...p, id]);
-  const getVal = (f: EditorField, lang: 'en' | 'es') => editedFields[f.id]?.[lang] ?? (lang === 'en' ? f.valueEn : f.valueEs);
-  const setVal = (id: string, lang: 'en' | 'es', v: string) => setEditedFields(p => ({ ...p, [id]: { ...p[id], [lang]: v } }));
-  const editedCount = Object.keys(editedFields).length;
-  const handleSave = async () => { setIsSaving(true); await new Promise(r => setTimeout(r, 1500)); setIsSaving(false); };
+  const findSectionId = (fid: string) => SECTIONS.find(s => s.fields.some(f => f.id === fid))?.id ?? 'misc';
+  const getVal = (f: EditorField, lang: 'en' | 'es') => {
+    const v = fields[keyFor(findSectionId(f.id), f.id)];
+    return v ? v[lang] : (lang === 'en' ? f.valueEn : f.valueEs);
+  };
+  const setVal = (fid: string, lang: 'en' | 'es', v: string) => {
+    const k = keyFor(findSectionId(fid), fid);
+    const current = fields[k] ?? { en: '', es: '' };
+    setField(k, { ...current, [lang]: v });
+    setEditedKeys(prev => { const next = new Set(prev); next.add(k); return next; });
+  };
+  const editedCount = editedKeys.size;
+  const handleSave = async () => { try { await save(); setEditedKeys(new Set()); } catch { /* surfaced via hook */ } };
 
   return (
     <div className="max-w-[900px] mx-auto space-y-6">
@@ -33,7 +51,10 @@ export default function ParentsPageEditor() {
           <h2 className="text-[16px] font-bold text-[#3a6b44]" style={{ fontFamily: 'var(--font-fredoka)' }}>Families Page</h2>
           {editedCount > 0 && <span className="text-[12px] font-medium text-[#ff5c00] bg-[#ff5c00]/10 px-3 py-1 rounded-full">{editedCount} unsaved</span>}
         </div>
-        <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} disabled={editedCount === 0 || isSaving} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#93d35c] to-[#7ebd4e] text-white text-[13px] font-bold shadow-lg shadow-[#93d35c]/20 disabled:opacity-40 transition-all"><Save size={15} /> {isSaving ? 'Saving...' : 'Save'}</motion.button>
+        <div className="flex items-center gap-3">
+          {error && <span className="text-[11px] font-semibold text-red-500">{error}</span>}
+          <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} disabled={editedCount === 0 || isSaving} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#93d35c] to-[#7ebd4e] text-white text-[13px] font-bold shadow-lg shadow-[#93d35c]/20 disabled:opacity-40 transition-all"><Save size={15} /> {isSaving ? 'Saving...' : 'Save'}</motion.button>
+        </div>
       </div>
       {SECTIONS.map(section => {
         const isOpen = openSections.includes(section.id);

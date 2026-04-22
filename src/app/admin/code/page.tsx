@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Save, Code, AlertTriangle } from 'lucide-react';
+import { useCmsCollection } from '../../../lib/useCms';
 
 interface CodeBlock { id: string; label: string; placement: 'head' | 'body-start' | 'body-end'; code: string; isActive: boolean; description: string; }
 
@@ -16,18 +17,21 @@ const INITIAL_BLOCKS: CodeBlock[] = [
 const PLACEMENT_LABELS = { 'head': '🧠 <head>', 'body-start': '📄 <body> start', 'body-end': '📄 <body> end' };
 
 export default function CustomCode() {
-  const [blocks, setBlocks] = useState<CodeBlock[]>(INITIAL_BLOCKS);
-  const [isSaving, setIsSaving] = useState(false);
+  const { items: blocks, setItems: setBlocks, isSaving, save, error } = useCmsCollection<CodeBlock>(
+    'custom_code',
+    INITIAL_BLOCKS,
+  );
   const update = <K extends keyof CodeBlock>(id: string, field: K, value: CodeBlock[K]) => setBlocks(blocks.map(b => b.id === id ? { ...b, [field]: value } : b));
   const addBlock = () => setBlocks([...blocks, { id: Date.now().toString(), label: 'New Code Block', placement: 'head', code: '', isActive: false, description: '' }]);
   const removeBlock = (id: string) => { if (confirm('Delete this code block?')) setBlocks(blocks.filter(b => b.id !== id)); };
-  const handleSave = async () => { setIsSaving(true); await new Promise(r => setTimeout(r, 1500)); setIsSaving(false); };
+  const handleSave = async () => { try { await save(); } catch { /* surfaced via hook */ } };
 
   return (
     <div className="max-w-[900px] mx-auto space-y-6">
       <div className="flex items-center justify-between bg-white/80 backdrop-blur-xl rounded-2xl px-6 py-4 border border-white/60 shadow-sm sticky top-[72px] z-20">
         <div><h2 className="text-[16px] font-bold text-[#3a6b44]" style={{ fontFamily: 'var(--font-fredoka)' }}>Custom Code</h2><p className="text-[12px] text-[#5a7d62]/50">Inject tracking scripts, custom CSS & JS</p></div>
-        <div className="flex gap-3">
+        <div className="flex gap-3 items-center">
+          {error && <span className="text-[11px] font-semibold text-red-500">{error}</span>}
           <motion.button whileTap={{ scale: 0.98 }} onClick={addBlock} className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#ff5c00]/10 text-[#ff5c00] text-[13px] font-bold hover:bg-[#ff5c00]/20 border border-[#ff5c00]/20"><Code size={14} /> Add Block</motion.button>
           <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} disabled={isSaving} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#93d35c] to-[#7ebd4e] text-white text-[13px] font-bold shadow-lg shadow-[#93d35c]/20 disabled:opacity-40 transition-all"><Save size={15} /> {isSaving ? 'Saving...' : 'Save'}</motion.button>
         </div>

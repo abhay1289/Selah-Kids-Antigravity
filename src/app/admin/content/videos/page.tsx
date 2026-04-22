@@ -6,6 +6,7 @@ import {
   Save, Plus, Trash2, ChevronDown, ChevronUp,
   Play, Eye, EyeOff, Link2
 } from 'lucide-react';
+import { useCmsCollection } from '../../../../lib/useCms';
 
 interface Video {
   id: string;
@@ -28,9 +29,11 @@ const INITIAL_VIDEOS: Video[] = [
 ];
 
 export default function VideoManager() {
-  const [videos, setVideos] = useState<Video[]>(INITIAL_VIDEOS);
+  const { items: videos, setItems: setVideos, isSaving, save, error } = useCmsCollection<Video>(
+    'videos',
+    INITIAL_VIDEOS,
+  );
   const [expandedVideo, setExpandedVideo] = useState<string | null>(null);
-  const [isSaving, setIsSaving] = useState(false);
 
   const addNewVideo = () => {
     const newVideo: Video = {
@@ -61,9 +64,7 @@ export default function VideoManager() {
   };
 
   const handleSave = async () => {
-    setIsSaving(true);
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setIsSaving(false);
+    try { await save(); } catch { /* error surfaced via hook */ }
   };
 
   return (
@@ -75,6 +76,7 @@ export default function VideoManager() {
           <span className="text-[12px] font-medium text-[#5a7d62]/50 bg-[#3a6b44]/5 px-3 py-1 rounded-full">{videos.length} videos</span>
         </div>
         <div className="flex items-center gap-3">
+          {error && <span className="text-[11px] font-semibold text-red-500">{error}</span>}
           <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={addNewVideo} className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#ff5c00]/10 text-[#ff5c00] text-[13px] font-bold hover:bg-[#ff5c00]/20 transition-all border border-[#ff5c00]/20">
             <Plus size={15} /> Add Video
           </motion.button>

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Save, Palette, Type, Sparkles } from 'lucide-react';
+import { useCmsCollection } from '../../../lib/useCms';
 
 interface ColorToken { id: string; label: string; cssVar: string; value: string; }
 interface FontSetting { id: string; label: string; family: string; weight: string; usage: string; }
@@ -25,21 +26,34 @@ const INITIAL_FONTS: FontSetting[] = [
   { id: '2', label: 'Body Font', family: 'Quicksand', weight: '400-600', usage: 'Body text, descriptions, UI' },
 ];
 
+interface ThemeTokens { id: string; borderRadius: string; glassOpacity: string; }
+const INITIAL_TOKENS: ThemeTokens[] = [{ id: 'tokens', borderRadius: '2rem', glassOpacity: '0.6' }];
+
 export default function ThemeManager() {
-  const [colors, setColors] = useState<ColorToken[]>(INITIAL_COLORS);
-  const [fonts, setFonts] = useState<FontSetting[]>(INITIAL_FONTS);
-  const [borderRadius, setBorderRadius] = useState('2rem');
-  const [glassOpacity, setGlassOpacity] = useState('0.6');
-  const [isSaving, setIsSaving] = useState(false);
+  const colorsHook = useCmsCollection<ColorToken>('theme_colors', INITIAL_COLORS);
+  const tokensHook = useCmsCollection<ThemeTokens>('theme_tokens', INITIAL_TOKENS, { sortOrder: false });
+  const { items: colors, setItems: setColors } = colorsHook;
+  const tokens = tokensHook.items[0] ?? INITIAL_TOKENS[0];
+  const setTokens = (t: ThemeTokens) => tokensHook.setItems([t]);
+  const [fonts] = useState<FontSetting[]>(INITIAL_FONTS);
+  const borderRadius = tokens.borderRadius;
+  const glassOpacity = tokens.glassOpacity;
+  const setBorderRadius = (v: string) => setTokens({ ...tokens, borderRadius: v });
+  const setGlassOpacity = (v: string) => setTokens({ ...tokens, glassOpacity: v });
+  const isSaving = colorsHook.isSaving || tokensHook.isSaving;
+  const error = colorsHook.error || tokensHook.error;
 
   const updateColor = (id: string, value: string) => setColors(colors.map(c => c.id === id ? { ...c, value } : c));
-  const handleSave = async () => { setIsSaving(true); await new Promise(r => setTimeout(r, 1500)); setIsSaving(false); };
+  const handleSave = async () => { try { await Promise.all([colorsHook.save(), tokensHook.save()]); } catch { /* surfaced via hook */ } };
 
   return (
     <div className="max-w-[1000px] mx-auto space-y-6">
       <div className="flex items-center justify-between bg-white/80 backdrop-blur-xl rounded-2xl px-6 py-4 border border-white/60 shadow-sm sticky top-[72px] z-20">
         <div><h2 className="text-[16px] font-bold text-[#3a6b44]" style={{ fontFamily: 'var(--font-fredoka)' }}>Theme & Design</h2><p className="text-[12px] text-[#5a7d62]/50">Colors, fonts, and visual identity</p></div>
-        <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} disabled={isSaving} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#93d35c] to-[#7ebd4e] text-white text-[13px] font-bold shadow-lg shadow-[#93d35c]/20 disabled:opacity-40 transition-all"><Save size={15} /> {isSaving ? 'Saving...' : 'Save'}</motion.button>
+        <div className="flex items-center gap-3">
+          {error && <span className="text-[11px] font-semibold text-red-500">{error}</span>}
+          <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} disabled={isSaving} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#93d35c] to-[#7ebd4e] text-white text-[13px] font-bold shadow-lg shadow-[#93d35c]/20 disabled:opacity-40 transition-all"><Save size={15} /> {isSaving ? 'Saving...' : 'Save'}</motion.button>
+        </div>
       </div>
 
       {/* Color Palette */}

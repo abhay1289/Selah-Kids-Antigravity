@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Save, Plus, Trash2, ArrowRight, ExternalLink, Search } from 'lucide-react';
+import { Save, Plus, Trash2, ArrowRight, Search } from 'lucide-react';
+import { useCmsCollection } from '../../../lib/useCms';
 
 interface Redirect {
   id: string;
@@ -24,9 +25,11 @@ const INITIAL_REDIRECTS: Redirect[] = [
 ];
 
 export default function RedirectsManager() {
-  const [redirects, setRedirects] = useState<Redirect[]>(INITIAL_REDIRECTS);
+  const { items: redirects, setItems: setRedirects, isSaving, save, error } = useCmsCollection<Redirect>(
+    'redirects',
+    INITIAL_REDIRECTS,
+  );
   const [searchQuery, setSearchQuery] = useState('');
-  const [isSaving, setIsSaving] = useState(false);
 
   const addNew = () => {
     const r: Redirect = { id: Date.now().toString(), source: '', destination: '', type: '301', hits: 0, isActive: true };
@@ -34,7 +37,7 @@ export default function RedirectsManager() {
   };
   const update = <K extends keyof Redirect>(id: string, field: K, value: Redirect[K]) => setRedirects(redirects.map(r => r.id === id ? { ...r, [field]: value } : r));
   const remove = (id: string) => { if (confirm('Delete this redirect?')) setRedirects(redirects.filter(r => r.id !== id)); };
-  const handleSave = async () => { setIsSaving(true); await new Promise(r => setTimeout(r, 1500)); setIsSaving(false); };
+  const handleSave = async () => { try { await save(); } catch { /* surfaced via hook */ } };
 
   const filtered = searchQuery ? redirects.filter(r => r.source.includes(searchQuery) || r.destination.includes(searchQuery)) : redirects;
 
@@ -46,6 +49,7 @@ export default function RedirectsManager() {
           <span className="text-[12px] font-medium text-[#5a7d62]/50 bg-[#3a6b44]/5 px-3 py-1 rounded-full">{redirects.length} rules</span>
         </div>
         <div className="flex items-center gap-3">
+          {error && <span className="text-[11px] font-semibold text-red-500">{error}</span>}
           <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={addNew} className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#ff5c00]/10 text-[#ff5c00] text-[13px] font-bold hover:bg-[#ff5c00]/20 transition-all border border-[#ff5c00]/20"><Plus size={15} /> Add Rule</motion.button>
           <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} disabled={isSaving} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#93d35c] to-[#7ebd4e] text-white text-[13px] font-bold shadow-lg shadow-[#93d35c]/20 disabled:opacity-40 transition-all"><Save size={15} /> {isSaving ? 'Saving...' : 'Save'}</motion.button>
         </div>

@@ -1,13 +1,15 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { Save, Plus, Trash2, Eye, EyeOff } from 'lucide-react';
+import { Save, Plus, Trash2 } from 'lucide-react';
+import { useCmsCollection } from '../../../lib/useCms';
 
 interface FooterLink { id: string; labelEn: string; labelEs: string; href: string; icon: string; }
 interface SocialLink { id: string; platform: string; urlEn: string; urlEs: string; icon: string; }
 
 interface FooterSettings {
+  id: string;
   taglineEn: string;
   taglineEs: string;
   contactEmail: string;
@@ -37,7 +39,8 @@ const INITIAL_SOCIAL: SocialLink[] = [
   { id: '3', platform: 'Music', urlEn: '/music', urlEs: '/music', icon: '🎵' },
 ];
 
-const INITIAL_SETTINGS: FooterSettings = {
+const INITIAL_SETTINGS: FooterSettings[] = [{
+  id: 'footer',
   taglineEn: "We're on a mission to fill every home with faith-filled melodies and stories that spark wonder in the hearts of children.",
   taglineEs: 'Nuestra misión es llenar cada hogar con melodías llenas de fe e historias que despierten asombro en los corazones de los niños.',
   contactEmail: 'info.selahkids@gmail.com',
@@ -51,25 +54,35 @@ const INITIAL_SETTINGS: FooterSettings = {
   copyrightEs: 'Todos los derechos reservados.',
   creditText: 'Engaze Digital',
   creditLink: 'https://www.engazedigital.com/',
-};
+}];
 
 export default function FooterEditor() {
-  const [links, setLinks] = useState<FooterLink[]>(INITIAL_LINKS);
-  const [social, setSocial] = useState<SocialLink[]>(INITIAL_SOCIAL);
-  const [settings, setSettings] = useState<FooterSettings>(INITIAL_SETTINGS);
-  const [isSaving, setIsSaving] = useState(false);
+  const linksHook = useCmsCollection<FooterLink>('footer_links', INITIAL_LINKS);
+  const socialHook = useCmsCollection<SocialLink>('footer_social', INITIAL_SOCIAL);
+  const settingsHook = useCmsCollection<FooterSettings>('footer_settings', INITIAL_SETTINGS, { sortOrder: false });
+  const { items: links, setItems: setLinks } = linksHook;
+  const { items: social, setItems: setSocial } = socialHook;
+  const settings = settingsHook.items[0] ?? INITIAL_SETTINGS[0];
+  const setSettings = (s: FooterSettings) => settingsHook.setItems([s]);
+  const isSaving = linksHook.isSaving || socialHook.isSaving || settingsHook.isSaving;
+  const error = linksHook.error || socialHook.error || settingsHook.error;
 
   const updateLink = (id: string, field: keyof FooterLink, value: string) => setLinks(links.map(l => l.id === id ? { ...l, [field]: value } : l));
   const removeLink = (id: string) => setLinks(links.filter(l => l.id !== id));
   const addLink = () => setLinks([...links, { id: Date.now().toString(), labelEn: '', labelEs: '', href: '/', icon: '🔗' }]);
   const updateSocial = (id: string, field: keyof SocialLink, value: string) => setSocial(social.map(s => s.id === id ? { ...s, [field]: value } : s));
-  const handleSave = async () => { setIsSaving(true); await new Promise(r => setTimeout(r, 1500)); setIsSaving(false); };
+  const handleSave = async () => {
+    try { await Promise.all([linksHook.save(), socialHook.save(), settingsHook.save()]); } catch { /* surfaced via hook */ }
+  };
 
   return (
     <div className="max-w-[900px] mx-auto space-y-6">
       <div className="flex items-center justify-between bg-white/80 backdrop-blur-xl rounded-2xl px-6 py-4 border border-white/60 shadow-sm sticky top-[72px] z-20">
         <div><h2 className="text-[16px] font-bold text-[#3a6b44]" style={{ fontFamily: 'var(--font-fredoka)' }}>Footer</h2><p className="text-[12px] text-[#5a7d62]/50">Edit footer links, social, newsletter & credits</p></div>
-        <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} disabled={isSaving} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#93d35c] to-[#7ebd4e] text-white text-[13px] font-bold shadow-lg shadow-[#93d35c]/20 disabled:opacity-40 transition-all"><Save size={15} /> {isSaving ? 'Saving...' : 'Save'}</motion.button>
+        <div className="flex items-center gap-3">
+          {error && <span className="text-[11px] font-semibold text-red-500">{error}</span>}
+          <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} disabled={isSaving} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#93d35c] to-[#7ebd4e] text-white text-[13px] font-bold shadow-lg shadow-[#93d35c]/20 disabled:opacity-40 transition-all"><Save size={15} /> {isSaving ? 'Saving...' : 'Save'}</motion.button>
+        </div>
       </div>
 
       {/* Tagline */}

@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { Save, Plus, Trash2, GripVertical, Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { Save, Plus, Trash2, GripVertical, Eye, EyeOff } from 'lucide-react';
+import { useCmsCollection } from '../../../lib/useCms';
 
 interface NavLink {
   id: string;
@@ -13,6 +14,7 @@ interface NavLink {
 }
 
 interface NavSettings {
+  id: string;
   logoPath: string;
   ctaLabelEn: string;
   ctaLabelEs: string;
@@ -32,7 +34,8 @@ const INITIAL_LINKS: NavLink[] = [
   { id: '7', labelEn: 'Resources', labelEs: 'Recursos', href: '/resources', isVisible: true },
 ];
 
-const INITIAL_SETTINGS: NavSettings = {
+const INITIAL_SETTINGS: NavSettings[] = [{
+  id: 'nav',
   logoPath: '/SK_Logo_FN.jpg',
   ctaLabelEn: 'Donate',
   ctaLabelEs: 'Donar',
@@ -40,12 +43,22 @@ const INITIAL_SETTINGS: NavSettings = {
   ctaStyle: 'primary',
   stickyOnScroll: true,
   showLanguageToggle: true,
-};
+}];
 
 export default function NavbarEditor() {
-  const [links, setLinks] = useState<NavLink[]>(INITIAL_LINKS);
-  const [settings, setSettings] = useState<NavSettings>(INITIAL_SETTINGS);
-  const [isSaving, setIsSaving] = useState(false);
+  const { items: links, setItems: setLinks, isSaving: linksSaving, save: saveLinks, error: linksError } = useCmsCollection<NavLink>(
+    'nav_links',
+    INITIAL_LINKS,
+  );
+  const { items: settingsArr, setItems: setSettingsArr, isSaving: settingsSaving, save: saveSettings, error: settingsError } = useCmsCollection<NavSettings>(
+    'nav_settings',
+    INITIAL_SETTINGS,
+    { sortOrder: false },
+  );
+  const settings = settingsArr[0] ?? INITIAL_SETTINGS[0];
+  const setSettings = (s: NavSettings) => setSettingsArr([s]);
+  const isSaving = linksSaving || settingsSaving;
+  const error = linksError || settingsError;
 
   const addLink = () => {
     const l: NavLink = { id: Date.now().toString(), labelEn: '', labelEs: '', href: '/', isVisible: true };
@@ -53,7 +66,9 @@ export default function NavbarEditor() {
   };
   const updateLink = <K extends keyof NavLink>(id: string, field: K, value: NavLink[K]) => setLinks(links.map(l => l.id === id ? { ...l, [field]: value } : l));
   const removeLink = (id: string) => { if (confirm('Remove this nav link?')) setLinks(links.filter(l => l.id !== id)); };
-  const handleSave = async () => { setIsSaving(true); await new Promise(r => setTimeout(r, 1500)); setIsSaving(false); };
+  const handleSave = async () => {
+    try { await Promise.all([saveLinks(), saveSettings()]); } catch { /* surfaced via hook */ }
+  };
 
   return (
     <div className="max-w-[900px] mx-auto space-y-6">
@@ -63,7 +78,10 @@ export default function NavbarEditor() {
           <h2 className="text-[16px] font-bold text-[#3a6b44]" style={{ fontFamily: 'var(--font-fredoka)' }}>Navigation Bar</h2>
           <p className="text-[12px] text-[#5a7d62]/50">Edit menu links, logo, and CTA button</p>
         </div>
-        <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} disabled={isSaving} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#93d35c] to-[#7ebd4e] text-white text-[13px] font-bold shadow-lg shadow-[#93d35c]/20 disabled:opacity-40 transition-all"><Save size={15} /> {isSaving ? 'Saving...' : 'Save'}</motion.button>
+        <div className="flex items-center gap-3">
+          {error && <span className="text-[11px] font-semibold text-red-500">{error}</span>}
+          <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} disabled={isSaving} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#93d35c] to-[#7ebd4e] text-white text-[13px] font-bold shadow-lg shadow-[#93d35c]/20 disabled:opacity-40 transition-all"><Save size={15} /> {isSaving ? 'Saving...' : 'Save'}</motion.button>
+        </div>
       </div>
 
       {/* Live Preview */}

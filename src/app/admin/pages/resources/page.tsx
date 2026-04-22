@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Save } from 'lucide-react';
+import { useCmsPageContent, type PageFieldMap } from '../../../../lib/useCms';
 
 interface EditorField { id: string; label: string; type: 'text' | 'textarea'; valueEn: string; valueEs: string; }
 
@@ -12,13 +13,29 @@ const FIELDS: EditorField[] = [
   { id: 'desc', label: 'Description', type: 'textarea', valueEn: 'Download printables, coloring pages, and lesson guides to help your kids learn and grow in faith.', valueEs: 'Descarga imprimibles, páginas para colorear y guías de lecciones para ayudar a tus hijos a aprender y crecer en la fe.' },
 ];
 
+const keyFor = (fid: string) => `general.${fid}`;
+const buildFallback = (): PageFieldMap => {
+  const map: PageFieldMap = {};
+  for (const f of FIELDS) map[keyFor(f.id)] = { en: f.valueEn, es: f.valueEs };
+  return map;
+};
+
 export default function ResourcesPageEditor() {
-  const [editedFields, setEditedFields] = useState<Record<string, { en: string; es: string }>>({});
-  const [isSaving, setIsSaving] = useState(false);
-  const getVal = (f: EditorField, lang: 'en' | 'es') => editedFields[f.id]?.[lang] ?? (lang === 'en' ? f.valueEn : f.valueEs);
-  const setVal = (id: string, lang: 'en' | 'es', v: string) => setEditedFields(p => ({ ...p, [id]: { ...p[id], [lang]: v } }));
-  const editedCount = Object.keys(editedFields).length;
-  const handleSave = async () => { setIsSaving(true); await new Promise(r => setTimeout(r, 1500)); setIsSaving(false); };
+  const fallback = useMemo(buildFallback, []);
+  const { fields, setField, isSaving, save, error } = useCmsPageContent('resources', fallback);
+  const [editedKeys, setEditedKeys] = useState<Set<string>>(new Set());
+  const getVal = (f: EditorField, lang: 'en' | 'es') => {
+    const v = fields[keyFor(f.id)];
+    return v ? v[lang] : (lang === 'en' ? f.valueEn : f.valueEs);
+  };
+  const setVal = (fid: string, lang: 'en' | 'es', v: string) => {
+    const k = keyFor(fid);
+    const current = fields[k] ?? { en: '', es: '' };
+    setField(k, { ...current, [lang]: v });
+    setEditedKeys(prev => { const next = new Set(prev); next.add(k); return next; });
+  };
+  const editedCount = editedKeys.size;
+  const handleSave = async () => { try { await save(); setEditedKeys(new Set()); } catch { /* surfaced via hook */ } };
 
   return (
     <div className="max-w-[900px] mx-auto space-y-6">
@@ -27,7 +44,10 @@ export default function ResourcesPageEditor() {
           <h2 className="text-[16px] font-bold text-[#3a6b44]" style={{ fontFamily: 'var(--font-fredoka)' }}>Resources Page</h2>
           {editedCount > 0 && <span className="text-[12px] font-medium text-[#ff5c00] bg-[#ff5c00]/10 px-3 py-1 rounded-full">{editedCount} unsaved</span>}
         </div>
-        <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} disabled={editedCount === 0 || isSaving} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#93d35c] to-[#7ebd4e] text-white text-[13px] font-bold shadow-lg shadow-[#93d35c]/20 disabled:opacity-40 transition-all"><Save size={15} /> {isSaving ? 'Saving...' : 'Save'}</motion.button>
+        <div className="flex items-center gap-3">
+          {error && <span className="text-[11px] font-semibold text-red-500">{error}</span>}
+          <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} disabled={editedCount === 0 || isSaving} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#93d35c] to-[#7ebd4e] text-white text-[13px] font-bold shadow-lg shadow-[#93d35c]/20 disabled:opacity-40 transition-all"><Save size={15} /> {isSaving ? 'Saving...' : 'Save'}</motion.button>
+        </div>
       </div>
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-white/80 backdrop-blur-xl rounded-2xl border border-white/60 shadow-sm p-6 space-y-5">
         {FIELDS.map(f => (

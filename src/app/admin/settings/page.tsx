@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Save } from 'lucide-react';
+import { useCmsCollection } from '../../../lib/useCms';
 
 interface SettingsField { id: string; label: string; value: string; type: 'text' | 'url'; group: string; }
 
@@ -27,10 +28,13 @@ const INITIAL_SETTINGS: SettingsField[] = [
 ];
 
 export default function GlobalSettings() {
-  const [settings, setSettings] = useState<SettingsField[]>(INITIAL_SETTINGS);
-  const [isSaving, setIsSaving] = useState(false);
+  const { items: settings, setItems: setSettings, isSaving, save, error } = useCmsCollection<SettingsField>(
+    'site_settings_fields',
+    INITIAL_SETTINGS,
+    { sortOrder: false },
+  );
   const update = (id: string, value: string) => setSettings(settings.map(s => s.id === id ? { ...s, value } : s));
-  const handleSave = async () => { setIsSaving(true); await new Promise(r => setTimeout(r, 1500)); setIsSaving(false); };
+  const handleSave = async () => { try { await save(); } catch { /* surfaced via hook */ } };
 
   const groups = [...new Set(settings.map(s => s.group))];
   const groupIcons: Record<string, string> = { 'Branding': '🎨', 'Social Links (EN)': '🇺🇸', 'Social Links (ES)': '🇪🇸', 'Music Platforms': '🎵', 'Contact': '📧' };
@@ -39,7 +43,10 @@ export default function GlobalSettings() {
     <div className="max-w-[900px] mx-auto space-y-6">
       <div className="flex items-center justify-between bg-white/80 backdrop-blur-xl rounded-2xl px-6 py-4 border border-white/60 shadow-sm sticky top-[72px] z-20">
         <h2 className="text-[16px] font-bold text-[#3a6b44]" style={{ fontFamily: 'var(--font-fredoka)' }}>Global Settings</h2>
-        <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} disabled={isSaving} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#93d35c] to-[#7ebd4e] text-white text-[13px] font-bold shadow-lg shadow-[#93d35c]/20 disabled:opacity-40 transition-all"><Save size={15} /> {isSaving ? 'Saving...' : 'Save'}</motion.button>
+        <div className="flex items-center gap-3">
+          {error && <span className="text-[11px] font-semibold text-red-500">{error}</span>}
+          <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} disabled={isSaving} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#93d35c] to-[#7ebd4e] text-white text-[13px] font-bold shadow-lg shadow-[#93d35c]/20 disabled:opacity-40 transition-all"><Save size={15} /> {isSaving ? 'Saving...' : 'Save'}</motion.button>
+        </div>
       </div>
       {groups.map(group => (
         <motion.div key={group} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-white/80 backdrop-blur-xl rounded-2xl border border-white/60 shadow-sm p-6 space-y-4">
