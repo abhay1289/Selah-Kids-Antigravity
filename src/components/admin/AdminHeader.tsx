@@ -51,6 +51,7 @@ export function AdminHeader() {
         <motion.a
           href="/"
           target="_blank"
+          rel="noopener noreferrer"
           whileHover={{ scale: 1.05, y: -2 }}
           whileTap={{ scale: 0.95 }}
           className="hidden sm:flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#93d35c]/10 text-[#3a6b44] text-[13px] font-semibold hover:bg-[#93d35c]/20 transition-all border border-[#93d35c]/20"
@@ -59,15 +60,13 @@ export function AdminHeader() {
           <span>Preview Site</span>
         </motion.a>
 
-        {/* Publish Button */}
-        <motion.button
-          whileHover={{ scale: 1.05, y: -2 }}
-          whileTap={{ scale: 0.95 }}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#ff5c00] to-[#FF7B29] text-white text-[13px] font-bold shadow-lg shadow-[#ff5c00]/20 hover:shadow-xl hover:shadow-[#ff5c00]/30 transition-all"
-        >
-          <Globe size={15} />
-          <span className="hidden sm:inline">Publish All</span>
-        </motion.button>
+        {/* Publish status pill — replaces the non-functional "Publish All"
+            button. The CMS wiring layer is deferred until Supabase is live,
+            so this indicates state rather than claiming an action. */}
+        <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#feb835]/15 text-[#8a6b00] text-[12px] font-semibold border border-[#feb835]/25">
+          <Globe size={14} />
+          <span className="hidden sm:inline">CMS preview mode</span>
+        </div>
       </div>
     </header>
   );

@@ -9,11 +9,21 @@ export default function MediaLibrary() {
   const [media, setMedia] = useState<{name: string, type: string, size: string, src: string}[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const [loadError, setLoadError] = useState<string | null>(null);
+
   useEffect(() => {
-    getLocalMedia().then(data => {
-      setMedia(data);
-      setLoading(false);
-    });
+    getLocalMedia()
+      .then(data => {
+        setMedia(data);
+      })
+      .catch((err: Error) => {
+        // Most likely cause: `assertAuthenticated` threw because the user's
+        // session expired. Show an error rather than spinning forever.
+        setLoadError(err?.message === 'Unauthorized' ? 'Session expired — please sign in again.' : 'Failed to load media library.');
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   return (
@@ -22,7 +32,8 @@ export default function MediaLibrary() {
       <div className="flex items-center justify-between bg-white/80 backdrop-blur-xl rounded-2xl px-6 py-4 border border-white/60 shadow-sm">
         <div className="flex items-center gap-3">
           <h2 className="text-[16px] font-bold text-[#3a6b44]" style={{ fontFamily: 'var(--font-fredoka)' }}>Media Library</h2>
-          {!loading && <span className="text-[12px] font-medium text-[#5a7d62]/50 bg-[#3a6b44]/5 px-3 py-1 rounded-full">{media.length} files</span>}
+          {!loading && !loadError && <span className="text-[12px] font-medium text-[#5a7d62]/50 bg-[#3a6b44]/5 px-3 py-1 rounded-full">{media.length} files</span>}
+          {!loading && loadError && <span className="text-[12px] font-medium text-red-500 bg-red-500/10 px-3 py-1 rounded-full">{loadError}</span>}
         </div>
         <div className="flex items-center gap-3">
           {/* Search */}

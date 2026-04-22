@@ -86,9 +86,14 @@ export function AdminSidebar() {
   const [userName, setUserName] = useState('Admin');
 
   useEffect(() => {
-    getUser().then(({ user }) => {
-      if (user?.email) setUserName(user.email.split('@')[0]);
-    });
+    getUser()
+      .then(({ user }) => {
+        if (user?.email) setUserName(user.email.split('@')[0]);
+      })
+      .catch(() => {
+        // Leave the default 'Admin' label if the lookup fails; not worth
+        // interrupting the sidebar render over a display-name fetch.
+      });
   }, []);
 
   const toggleExpanded = (label: string) => {
@@ -99,6 +104,10 @@ export function AdminSidebar() {
 
   const handleLogout = async () => {
     await signOut();
+    // refresh() forces a server round-trip so middleware observes the cleared
+    // cookies on the next request. Without this, fast client navigation
+    // can race and still see the user as signed-in for one request.
+    router.refresh();
     router.push('/admin/login');
   };
 

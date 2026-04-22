@@ -1,18 +1,47 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Mail, Lock, ArrowRight, Eye, EyeOff, AlertCircle } from 'lucide-react';
 import { signIn } from '../../../lib/auth';
-import { useRouter } from 'next/navigation';
+import { getSession } from '../../../lib/auth';
+import { useRouter, useSearchParams } from 'next/navigation';
 
+// Next 15 requires any component reading `useSearchParams()` to sit under a
+// <Suspense> boundary during prerendering. Wrapping the inner form here lets
+// the login page remain statically generated.
 export default function AdminLoginPage() {
+  return (
+    <Suspense fallback={<LoginSkeleton />}>
+      <LoginForm />
+    </Suspense>
+  );
+}
+
+function LoginSkeleton() {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-[#f1f8e7] via-[#e8f5d8] to-[#fff9f0] flex items-center justify-center p-6">
+      <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#ff5c00] to-[#feb835] animate-pulse" />
+    </div>
+  );
+}
+
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+
+  // Only permit same-origin relative redirects to prevent open-redirect abuse
+  // via ?redirect=https://evil.example. Default to /admin.
+  const rawRedirect = searchParams.get('redirect');
+  const redirectTo =
+    rawRedirect && rawRedirect.startsWith('/') && !rawRedirect.startsWith('//')
+      ? rawRedirect
+      : '/admin';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,7 +56,12 @@ export default function AdminLoginPage() {
       return;
     }
 
-    router.push('/admin');
+    // `signIn` writes the session cookie asynchronously. If we navigate in
+    // the same tick, middleware may fire before the cookie is persisted and
+    // redirect us back to /admin/login, producing a loop. getSession() here
+    // forces a round-trip that completes only after the cookie is in place.
+    await getSession();
+    router.push(redirectTo);
   };
 
   return (

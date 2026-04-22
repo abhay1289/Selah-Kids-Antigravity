@@ -17,12 +17,15 @@ CREATE TABLE IF NOT EXISTS admin_users (
 
 -- Helper: is the current caller an admin_users row?
 -- SECURITY DEFINER so the function itself can read admin_users regardless of
--- the caller's RLS visibility.
+-- the caller's RLS visibility. SET search_path pins lookups to the `public`
+-- and `pg_temp` schemas — without this, a hijacked search_path could point
+-- `admin_users` at an attacker-owned table in another schema.
 CREATE OR REPLACE FUNCTION is_admin()
 RETURNS BOOLEAN
 LANGUAGE SQL
 SECURITY DEFINER
 STABLE
+SET search_path = public, pg_temp
 AS $$
   SELECT EXISTS (
     SELECT 1 FROM admin_users WHERE user_id = auth.uid()
@@ -142,19 +145,30 @@ DROP POLICY IF EXISTS "Admin write collections" ON collections;
 CREATE POLICY "Admin write collections" ON collections FOR ALL USING (is_admin()) WITH CHECK (is_admin());
 
 -- ============================================
--- Storage bucket (run once via dashboard SQL editor)
+-- Storage bucket
 -- ============================================
--- INSERT INTO storage.buckets (id, name, public) VALUES ('media', 'media', TRUE);
---
--- Then restrict uploads to admins only:
--- CREATE POLICY "Public read media" ON storage.objects FOR SELECT
---   USING (bucket_id = 'media');
--- CREATE POLICY "Admin upload media" ON storage.objects FOR INSERT
---   WITH CHECK (bucket_id = 'media' AND is_admin());
--- CREATE POLICY "Admin update media" ON storage.objects FOR UPDATE
---   USING (bucket_id = 'media' AND is_admin());
--- CREATE POLICY "Admin delete media" ON storage.objects FOR DELETE
---   USING (bucket_id = 'media' AND is_admin());
+-- Create the `media` bucket (public-read, admin-write). Idempotent via ON CONFLICT.
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('media', 'media', TRUE)
+ON CONFLICT (id) DO NOTHING;
+
+-- Policies restrict uploads/updates/deletes to admin_users members. Without
+-- these, a public bucket would accept writes from any anonymous caller.
+DROP POLICY IF EXISTS "Public read media" ON storage.objects;
+CREATE POLICY "Public read media" ON storage.objects FOR SELECT
+  USING (bucket_id = 'media');
+
+DROP POLICY IF EXISTS "Admin upload media" ON storage.objects;
+CREATE POLICY "Admin upload media" ON storage.objects FOR INSERT
+  WITH CHECK (bucket_id = 'media' AND is_admin());
+
+DROP POLICY IF EXISTS "Admin update media" ON storage.objects;
+CREATE POLICY "Admin update media" ON storage.objects FOR UPDATE
+  USING (bucket_id = 'media' AND is_admin());
+
+DROP POLICY IF EXISTS "Admin delete media" ON storage.objects;
+CREATE POLICY "Admin delete media" ON storage.objects FOR DELETE
+  USING (bucket_id = 'media' AND is_admin());
 
 -- ============================================
 -- First-run bootstrap
