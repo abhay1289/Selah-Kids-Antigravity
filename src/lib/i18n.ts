@@ -65,10 +65,23 @@ export function localeHref(path: string, locale: Locale = DEFAULT_LOCALE): strin
   if (path.startsWith('#') || path.startsWith('?')) return path;
   if (path.startsWith('mailto:') || path.startsWith('tel:')) return path;
 
-  const normalized = path.startsWith('/') ? path : `/${path}`;
+  // Split off query and hash so they don't leak into getLocaleFromPathname
+  // (which treats the first segment as-is). Without this split,
+  // localeHref('/en?x=1', 'es') would see 'en?x=1' as the first segment,
+  // fail to recognise the existing 'en' prefix, and double-prefix the URL.
+  const hashIdx = path.indexOf('#');
+  const queryIdx = path.indexOf('?');
+  // Pick whichever delimiter comes first; they may appear in either order
+  // depending on how the caller built the href.
+  const splitIdx =
+    hashIdx === -1 ? queryIdx : queryIdx === -1 ? hashIdx : Math.min(hashIdx, queryIdx);
+  const pathOnly = splitIdx === -1 ? path : path.slice(0, splitIdx);
+  const suffix = splitIdx === -1 ? '' : path.slice(splitIdx);
+
+  const normalized = pathOnly.startsWith('/') ? pathOnly : `/${pathOnly}`;
   const stripped = stripLocale(normalized);
-  if (stripped === '/') return `/${locale}`;
-  return `/${locale}${stripped}`;
+  const prefixed = stripped === '/' ? `/${locale}` : `/${locale}${stripped}`;
+  return prefixed + suffix;
 }
 
 /**

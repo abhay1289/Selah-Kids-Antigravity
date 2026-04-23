@@ -99,6 +99,18 @@ describe('i18n — localeHref', () => {
     expect(localeHref('mailto:info@example.com', 'es')).toBe('mailto:info@example.com');
     expect(localeHref('tel:+15551234', 'es')).toBe('tel:+15551234');
   });
+  test('preserves query string and strips existing locale prefix before it (Codex Phase 2 finding)', () => {
+    expect(localeHref('/en?x=1', 'es')).toBe('/es?x=1');
+    expect(localeHref('/es/about?ref=twitter', 'en')).toBe('/en/about?ref=twitter');
+    expect(localeHref('/about?ref=twitter', 'es')).toBe('/es/about?ref=twitter');
+  });
+  test('preserves fragment and strips existing locale prefix before it', () => {
+    expect(localeHref('/es#top', 'en')).toBe('/en#top');
+    expect(localeHref('/en/about#section-2', 'es')).toBe('/es/about#section-2');
+  });
+  test('preserves combined query + fragment', () => {
+    expect(localeHref('/en/blog?page=2#comments', 'es')).toBe('/es/blog?page=2#comments');
+  });
 });
 
 describe('i18n — negotiateLocale', () => {
