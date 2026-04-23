@@ -57,6 +57,40 @@ function writeLocal<T>(key: string, value: T): void {
 }
 
 // ───────────────────────────────────────────────────────────
+// Revalidate helper
+//
+// Fire-and-forget POST to /api/revalidate. We intentionally do NOT block the
+// save UX on the cache flush — the DB write already succeeded, and the 24h
+// ISR backstop in cms-server.ts will refresh the page on the next request
+// even if every revalidate call in a session fails.
+//
+// We DO inspect res.ok though: a 429 rate-limit or 5xx indicates the public
+// site will keep serving stale content until the backstop kicks in, and
+// admins need to know. We warn to the console; upstream toast wiring can
+// subscribe to the returned promise if a visible banner is desired.
+// ───────────────────────────────────────────────────────────
+
+async function requestRevalidate(tag: string): Promise<void> {
+  try {
+    const res = await fetch('/api/revalidate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tag }),
+    });
+    if (!res.ok) {
+      const retry = res.headers.get('Retry-After');
+      console.warn(
+        `[cms] revalidate(${tag}) returned ${res.status}` +
+          (retry ? ` — retry after ${retry}s` : '') +
+          ' — public cache will refresh via 24h backstop.',
+      );
+    }
+  } catch (err) {
+    console.warn(`[cms] revalidate(${tag}) threw`, err);
+  }
+}
+
+// ───────────────────────────────────────────────────────────
 // useCmsCollection — list of items with the same shape (blog, videos, etc.)
 // ───────────────────────────────────────────────────────────
 
@@ -179,17 +213,7 @@ export function useCmsCollection<T extends { id: string }>(
 
         baselineRef.current = items;
 
-        // Flush Next.js's tag cache so the public site picks up the edit on
-        // the next request. Fire-and-forget: if the call fails, the 24h ISR
-        // backstop in cms-server.ts will eventually refresh the page anyway.
-        // Endpoint: /api/revalidate with { tag: 'collection:<name>' }.
-        void fetch('/api/revalidate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ tag: `collection:${collection}` }),
-        }).catch(() => {
-          // Non-fatal: admin save already succeeded in the DB.
-        });
+        void requestRevalidate(`collection:${collection}`);
       }
     } catch (e) {
       const msg = e instanceof Error ? e.message : 'Save failed';
@@ -262,12 +286,7 @@ export function useCmsSiteSettings<T>(fallback: T): UseCmsSiteSettings<T> {
         );
         if (upErr) throw upErr;
 
-        // Flush the site_settings cache tag so chrome (footer etc.) refreshes.
-        void fetch('/api/revalidate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ tag: 'site_settings' }),
-        }).catch(() => {});
+        void requestRevalidate('site_settings');
       }
     } catch (e) {
       const msg = e instanceof Error ? e.message : 'Save failed';
@@ -380,12 +399,7 @@ export function useCmsPageContent(page: string, fallback: PageFieldMap): UseCmsP
           order += 1;
         }
 
-        // Flush the per-page tag so the public page re-fetches on next render.
-        void fetch('/api/revalidate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ tag: `page_content:${page}` }),
-        }).catch(() => {});
+        void requestRevalidate(`page_content:${page}`);
       }
     } catch (e) {
       const msg = e instanceof Error ? e.message : 'Save failed';

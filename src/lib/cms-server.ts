@@ -106,7 +106,11 @@ async function resolveMode(explicit?: 'preview'): Promise<ReaderMode> {
 }
 
 // ───────────────────────────────────────────────────────────
-// Empty-DB guard — fail-fast in prod if env is set but tables are dry
+// Empty-DB guard — fail-fast in prod if env is set but site_settings is dry.
+// Applied ONLY to site_settings (which has no is_published filter) because
+// that's the unambiguous "DB was never seeded" signal. Collections and
+// page_content can legitimately return zero published rows when an admin
+// unpublishes content — throwing there would take the public site down.
 // ───────────────────────────────────────────────────────────
 
 class EmptyCmsError extends Error {
@@ -117,15 +121,6 @@ class EmptyCmsError extends Error {
     );
     this.name = 'EmptyCmsError';
   }
-}
-
-function assertNotEmpty<T>(rows: T[], source: string): T[] {
-  // Only fail-fast in production. Dev / test can have empty tables without
-  // aborting every render — useful during local seeding.
-  if (rows.length === 0 && process.env.NODE_ENV === 'production') {
-    throw new EmptyCmsError(source);
-  }
-  return rows;
 }
 
 // ───────────────────────────────────────────────────────────
@@ -203,12 +198,15 @@ export async function getCollection<T extends { id: string }>(
     return unpack<T>(data ?? []);
   }
 
-  // Public mode
+  // Public mode. Zero published rows is a valid state (admin unpublished
+  // everything, or the collection legitimately has no entries yet), so we
+  // return an empty list rather than throwing. Empty-DB fail-fast only fires
+  // in getSiteSettings, which has no is_published filter — if that row is
+  // missing, the DB is genuinely unseeded.
   const rows = await pgrestFetch<CollectionRow>(
     `collections?collection=eq.${encodeURIComponent(collection)}&is_published=eq.true&order=sort_order`,
     [`collection:${collection}`],
   );
-  assertNotEmpty(rows, `collection '${collection}'`);
   return unpack<T>(rows);
 }
 
@@ -248,11 +246,12 @@ export async function getPageContent(
     return buildFieldMap(data ?? [], fallback);
   }
 
+  // Zero published rows is valid (admin unpublished every field) — merge
+  // against fallback and return. Only site_settings throws on empty.
   const rows = await pgrestFetch<PageContentRow>(
     `page_content?page=eq.${encodeURIComponent(page)}&is_published=eq.true&order=sort_order`,
     [`page_content:${page}`],
   );
-  assertNotEmpty(rows, `page_content '${page}'`);
   return buildFieldMap(rows, fallback);
 }
 

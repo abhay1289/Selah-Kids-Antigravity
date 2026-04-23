@@ -213,14 +213,22 @@ describe('cms-server — empty-DB guard in production', () => {
     fetchSpy?.mockRestore?.();
   });
 
-  test('getCollection throws EmptyCmsError when DB is empty', async () => {
+  // Empty-DB fail-fast ONLY fires on getSiteSettings (no is_published filter,
+  // so zero rows = genuinely unseeded). getCollection / getPageContent filter
+  // by is_published=true and therefore can legitimately return zero rows when
+  // an admin unpublishes everything — throwing would take the public site
+  // down. They must degrade gracefully to an empty list / fallback map.
+  test('getCollection returns [] when DB is empty (does NOT throw)', async () => {
     const mod = await loadCmsServer();
-    await expect(mod.getCollection('blog_posts', [])).rejects.toThrow(/CMS not seeded/);
+    const out = await mod.getCollection<{ id: string }>('blog_posts', []);
+    expect(out).toEqual([]);
   });
 
-  test('getPageContent throws EmptyCmsError when DB is empty', async () => {
+  test('getPageContent returns fallback when DB is empty (does NOT throw)', async () => {
     const mod = await loadCmsServer();
-    await expect(mod.getPageContent('home', {})).rejects.toThrow(/CMS not seeded/);
+    const fallback = { 'hero.headline': { en: 'x', es: 'y' } };
+    const out = await mod.getPageContent('home', fallback);
+    expect(out).toEqual(fallback);
   });
 
   test('getSiteSettings throws EmptyCmsError when DB is empty', async () => {

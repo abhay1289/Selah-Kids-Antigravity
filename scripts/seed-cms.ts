@@ -192,10 +192,15 @@ async function seedCollections(): Promise<void> {
       sort_order: idx,
       is_published: (item as { isPublished?: boolean }).isPublished ?? true,
     }));
-    // onConflict: 'id' — idempotent replay updates in place.
-    const { error } = await sb.from('collections').upsert(rows, { onConflict: 'id' });
+    // onConflict + ignoreDuplicates — insert new rows, skip existing ones.
+    // This makes the seed safe to re-run after admin edits: we never clobber
+    // live content. If you actually need to re-seed a row (schema shape
+    // change), run a targeted UPDATE manually in SQL.
+    const { error } = await sb
+      .from('collections')
+      .upsert(rows, { onConflict: 'id', ignoreDuplicates: true });
     if (error) throw new Error(`upsert ${group.name}: ${error.message}`);
-    console.log(`   ✓ ${group.name}: ${rows.length} rows`);
+    console.log(`   ✓ ${group.name}: ${rows.length} rows considered (new rows inserted, existing untouched)`);
   }
 }
 
@@ -219,12 +224,13 @@ async function seedPages(): Promise<void> {
         is_published: true,
       };
     });
-    // UNIQUE(page, section, field) — onConflict on the tuple.
+    // UNIQUE(page, section, field) — onConflict on the tuple. Skip existing
+    // rows so a re-run after admin edits doesn't revert text changes.
     const { error } = await sb
       .from('page_content')
-      .upsert(rows, { onConflict: 'page,section,field' });
+      .upsert(rows, { onConflict: 'page,section,field', ignoreDuplicates: true });
     if (error) throw new Error(`upsert page_content:${group.page}: ${error.message}`);
-    console.log(`   ✓ page_content:${group.page}: ${rows.length} fields`);
+    console.log(`   ✓ page_content:${group.page}: ${rows.length} fields considered (new inserted, existing untouched)`);
   }
 }
 

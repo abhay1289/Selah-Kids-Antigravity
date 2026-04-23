@@ -82,49 +82,55 @@ async function checkSiteSettings() {
 // ───────────────────────────────────────────────────────────
 
 async function checkCollectionRowCounts() {
-  const groups: Array<{ name: string; expected: number }> = [
-    { name: 'blog_posts', expected: INITIAL_BLOG_POSTS.length },
-    { name: 'videos', expected: INITIAL_VIDEOS.length },
-    { name: 'team', expected: INITIAL_TEAM.length },
-    { name: 'characters', expected: INITIAL_CHARACTERS.length },
-    { name: 'testimonials', expected: INITIAL_TESTIMONIALS.length },
+  // We only care that each collection the fallbacks consider "seeded" has at
+  // least one row — proves the seeder ran. We intentionally do NOT enforce
+  // `count >= INITIAL_*.length` because admins legitimately delete rows
+  // through the CMS, which would then permanently break every prod deploy.
+  const groups: Array<{ name: string; seeded: boolean }> = [
+    { name: 'blog_posts', seeded: INITIAL_BLOG_POSTS.length > 0 },
+    { name: 'videos', seeded: INITIAL_VIDEOS.length > 0 },
+    { name: 'team', seeded: INITIAL_TEAM.length > 0 },
+    { name: 'characters', seeded: INITIAL_CHARACTERS.length > 0 },
+    { name: 'testimonials', seeded: INITIAL_TESTIMONIALS.length > 0 },
   ];
   for (const g of groups) {
-    if (g.expected === 0) continue; // not yet migrated
+    if (!g.seeded) continue; // collection not yet migrated into fallbacks
     const { count, error } = await sb
       .from('collections')
       .select('id', { count: 'exact', head: true })
       .eq('collection', g.name);
     if (error) { fail(`count ${g.name}: ${error.message}`); continue; }
-    if ((count ?? 0) < g.expected) {
-      fail(`collection:${g.name} has ${count ?? 0} rows, expected >= ${g.expected}`);
+    if ((count ?? 0) === 0) {
+      fail(`collection:${g.name} has 0 rows — run \`bun run seed:cms\``);
     } else {
-      ok(`collection:${g.name}: ${count} rows (>= ${g.expected})`);
+      ok(`collection:${g.name}: ${count} rows`);
     }
   }
 }
 
 async function checkPageFieldCounts() {
-  const groups: Array<{ page: string; expected: number }> = [
-    { page: 'home', expected: Object.keys(INITIAL_PAGE_HOME).length },
-    { page: 'about', expected: Object.keys(INITIAL_PAGE_ABOUT).length },
-    { page: 'watch', expected: Object.keys(INITIAL_PAGE_WATCH).length },
-    { page: 'parents', expected: Object.keys(INITIAL_PAGE_PARENTS).length },
-    { page: 'donate', expected: Object.keys(INITIAL_PAGE_DONATE).length },
-    { page: 'contact', expected: Object.keys(INITIAL_PAGE_CONTACT).length },
-    { page: 'resources', expected: Object.keys(INITIAL_PAGE_RESOURCES).length },
+  // Same relaxation as collections: assert >= 1 field, not >= fallback size.
+  // Admins may delete/clear fields through the CMS.
+  const groups: Array<{ page: string; seeded: boolean }> = [
+    { page: 'home', seeded: Object.keys(INITIAL_PAGE_HOME).length > 0 },
+    { page: 'about', seeded: Object.keys(INITIAL_PAGE_ABOUT).length > 0 },
+    { page: 'watch', seeded: Object.keys(INITIAL_PAGE_WATCH).length > 0 },
+    { page: 'parents', seeded: Object.keys(INITIAL_PAGE_PARENTS).length > 0 },
+    { page: 'donate', seeded: Object.keys(INITIAL_PAGE_DONATE).length > 0 },
+    { page: 'contact', seeded: Object.keys(INITIAL_PAGE_CONTACT).length > 0 },
+    { page: 'resources', seeded: Object.keys(INITIAL_PAGE_RESOURCES).length > 0 },
   ];
   for (const g of groups) {
-    if (g.expected === 0) continue;
+    if (!g.seeded) continue;
     const { count, error } = await sb
       .from('page_content')
       .select('id', { count: 'exact', head: true })
       .eq('page', g.page);
     if (error) { fail(`count page_content:${g.page}: ${error.message}`); continue; }
-    if ((count ?? 0) < g.expected) {
-      fail(`page_content:${g.page} has ${count ?? 0} fields, expected >= ${g.expected}`);
+    if ((count ?? 0) === 0) {
+      fail(`page_content:${g.page} has 0 fields — run \`bun run seed:cms\``);
     } else {
-      ok(`page_content:${g.page}: ${count} fields (>= ${g.expected})`);
+      ok(`page_content:${g.page}: ${count} fields`);
     }
   }
 }
