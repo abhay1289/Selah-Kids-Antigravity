@@ -47,16 +47,9 @@ export type { BlogPost } from './blogPosts';
 // rows, the shape contract is enforced by this type export + seed:diff.
 export type { Episode as Video } from './catalog';
 
-export interface TeamMember {
-  id: string;
-  name: string;
-  titleEn: string;
-  titleEs: string;
-  img: string;
-  bioEn: string;
-  bioEs: string;
-  color: string;
-}
+// TeamMember re-exports the richer shape from src/data/team.ts.
+// Same transition rationale as BlogPost / Character above.
+export type { TeamMember } from './team';
 
 // Character re-exports the richer shape from src/data/characters.ts (catchphrase,
 // favoriteVerse, originStory, etc). Same transition rationale as BlogPost above.
@@ -105,7 +98,9 @@ export const INITIAL_CHARACTERS: Character[] = CHARACTERS;
 import { EPISODES } from './catalog';
 import type { Episode } from './catalog';
 export const INITIAL_VIDEOS: Episode[] = EPISODES;
-export const INITIAL_TEAM: TeamMember[] = [];
+import { TEAM_MEMBERS } from './team';
+import type { TeamMember } from './team';
+export const INITIAL_TEAM: TeamMember[] = TEAM_MEMBERS;
 export const INITIAL_TESTIMONIALS: Testimonial[] = [];
 
 // Phase 2 — page content (per-page field maps, keyed `section.field`)
