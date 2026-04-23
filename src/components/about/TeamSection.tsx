@@ -2,11 +2,18 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { useFieldResolver } from '../../lib/page-fields';
+import type { PageFieldMap } from '../../lib/cms-server';
 import { SectionHeader } from '../SectionHeader';
 import { TEAM_MEMBERS } from '../../data/team';
 
-export function TeamSection() {
-  const { t, language } = useLanguage();
+interface TeamSectionProps {
+  fields?: PageFieldMap;
+}
+
+export function TeamSection({ fields }: TeamSectionProps = {}) {
+  const { language } = useLanguage();
+  const f = useFieldResolver(fields);
 
   return (
     <section className="py-20 md:py-32 relative bg-white overflow-hidden">
@@ -15,10 +22,10 @@ export function TeamSection() {
       <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-selah-orange/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-[1400px] mx-auto px-6 relative z-10">
-        <SectionHeader 
-          badge={t("The Team", "El Equipo")}
-          title={t("Meet the Selah Kids Team!", "¡Conoce al Equipo Selah Kids!")}
-          description={t("The passionate people bringing these stories to life.", "Las personas apasionadas que dan vida a estas historias.")}
+        <SectionHeader
+          badge={f('team.t_badge', 'The Team', 'El Equipo')}
+          title={f('team.t_title', 'Meet the Selah Kids Team!', '¡Conoce al Equipo Selah Kids!')}
+          description={f('team.t_description', 'The passionate people bringing these stories to life.', 'Las personas apasionadas que dan vida a estas historias.')}
           align="center"
         />
 

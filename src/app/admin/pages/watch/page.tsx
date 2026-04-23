@@ -3,39 +3,27 @@
 import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Save, ChevronDown, ChevronUp } from 'lucide-react';
-import { useCmsPageContent, type PageFieldMap } from '../../../../lib/useCms';
-
-interface EditorField { id: string; label: string; type: 'text' | 'textarea'; valueEn: string; valueEs: string; }
-interface EditorSection { id: string; title: string; icon: string; fields: EditorField[]; }
-
-const SECTIONS: EditorSection[] = [
-  { id: 'hero', title: 'Hero Section', icon: '🎬', fields: [
-    { id: 'badge', label: 'Badge', type: 'text', valueEn: 'WATCH & LISTEN', valueEs: 'VER Y ESCUCHAR' },
-    { id: 'title', label: 'Title', type: 'text', valueEn: 'Discover Our Videos', valueEs: 'Descubre Nuestros Videos' },
-    { id: 'desc', label: 'Description', type: 'textarea', valueEn: "Sing, dance, and learn about God's love with our collection of high-quality Christian kids videos.", valueEs: 'Canta, baila y aprende del amor de Dios con nuestra colección de videos cristianos de alta calidad para niños.' },
-  ]},
-];
-
-const keyFor = (sid: string, fid: string) => `${sid}.${fid}`;
-const buildFallback = (): PageFieldMap => {
-  const map: PageFieldMap = {};
-  for (const s of SECTIONS) for (const f of s.fields) map[keyFor(s.id, f.id)] = { en: f.valueEn, es: f.valueEs };
-  return map;
-};
+import { useCmsPageContent } from '../../../../lib/useCms';
+import {
+  PAGE_WATCH_SECTIONS,
+  buildWatchFallback,
+  watchKeyFor,
+  type PageEditorField,
+} from '../../../../data/page-content-watch';
 
 export default function WatchPageEditor() {
-  const fallback = useMemo(buildFallback, []);
+  const fallback = useMemo(buildWatchFallback, []);
   const { fields, setField, isSaving, save, error } = useCmsPageContent('watch', fallback);
   const [openSections, setOpenSections] = useState<string[]>(['hero']);
   const [editedKeys, setEditedKeys] = useState<Set<string>>(new Set());
   const toggleSection = (id: string) => setOpenSections(p => p.includes(id) ? p.filter(s => s !== id) : [...p, id]);
-  const findSectionId = (fid: string) => SECTIONS.find(s => s.fields.some(f => f.id === fid))?.id ?? 'misc';
-  const getVal = (f: EditorField, lang: 'en' | 'es') => {
-    const v = fields[keyFor(findSectionId(f.id), f.id)];
+  const findSectionId = (fid: string) => PAGE_WATCH_SECTIONS.find(s => s.fields.some(f => f.id === fid))?.id ?? 'misc';
+  const getVal = (f: PageEditorField, lang: 'en' | 'es') => {
+    const v = fields[watchKeyFor(findSectionId(f.id), f.id)];
     return v ? v[lang] : (lang === 'en' ? f.valueEn : f.valueEs);
   };
   const setVal = (fid: string, lang: 'en' | 'es', v: string) => {
-    const k = keyFor(findSectionId(fid), fid);
+    const k = watchKeyFor(findSectionId(fid), fid);
     const current = fields[k] ?? { en: '', es: '' };
     setField(k, { ...current, [lang]: v });
     setEditedKeys(prev => { const next = new Set(prev); next.add(k); return next; });
@@ -55,7 +43,7 @@ export default function WatchPageEditor() {
           <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} disabled={editedCount === 0 || isSaving} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#93d35c] to-[#7ebd4e] text-white text-[13px] font-bold shadow-lg shadow-[#93d35c]/20 disabled:opacity-40 transition-all"><Save size={15} /> {isSaving ? 'Saving...' : 'Save'}</motion.button>
         </div>
       </div>
-      {SECTIONS.map(section => {
+      {PAGE_WATCH_SECTIONS.map(section => {
         const isOpen = openSections.includes(section.id);
         return (
           <motion.div key={section.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-white/80 backdrop-blur-xl rounded-2xl border border-white/60 shadow-sm overflow-hidden">

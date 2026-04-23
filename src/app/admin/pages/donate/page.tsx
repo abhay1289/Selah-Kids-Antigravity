@@ -3,34 +3,24 @@
 import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Save } from 'lucide-react';
-import { useCmsPageContent, type PageFieldMap } from '../../../../lib/useCms';
-
-interface EditorField { id: string; label: string; type: 'text' | 'textarea'; valueEn: string; valueEs: string; }
-
-const FIELDS: EditorField[] = [
-  { id: 'badge', label: 'Badge', type: 'text', valueEn: 'MAKE A DIFFERENCE', valueEs: 'HAZ LA DIFERENCIA' },
-  { id: 'title1', label: 'Headline Part 1', type: 'text', valueEn: 'Support', valueEs: 'Apoya' },
-  { id: 'title_accent', label: 'Headline Accent (orange)', type: 'text', valueEn: 'Selah Kids', valueEs: 'Selah Kids' },
-  { id: 'desc', label: 'Description', type: 'textarea', valueEn: "Your generosity helps us create high-quality, faith-filled content that teaches children about God's love.", valueEs: 'Tu generosidad nos ayuda a crear contenido de alta calidad y lleno de fe que enseña a los niños sobre el amor de Dios.' },
-];
-
-const keyFor = (fid: string) => `general.${fid}`;
-const buildFallback = (): PageFieldMap => {
-  const map: PageFieldMap = {};
-  for (const f of FIELDS) map[keyFor(f.id)] = { en: f.valueEn, es: f.valueEs };
-  return map;
-};
+import { useCmsPageContent } from '../../../../lib/useCms';
+import {
+  DONATE_FIELDS,
+  donateKeyFor,
+  buildDonateFallback,
+  type PageEditorField,
+} from '../../../../data/page-content-donate';
 
 export default function DonatePageEditor() {
-  const fallback = useMemo(buildFallback, []);
+  const fallback = useMemo(buildDonateFallback, []);
   const { fields, setField, isSaving, save, error } = useCmsPageContent('donate', fallback);
   const [editedKeys, setEditedKeys] = useState<Set<string>>(new Set());
-  const getVal = (f: EditorField, lang: 'en' | 'es') => {
-    const v = fields[keyFor(f.id)];
+  const getVal = (f: PageEditorField, lang: 'en' | 'es') => {
+    const v = fields[donateKeyFor(f.id)];
     return v ? v[lang] : (lang === 'en' ? f.valueEn : f.valueEs);
   };
   const setVal = (fid: string, lang: 'en' | 'es', v: string) => {
-    const k = keyFor(fid);
+    const k = donateKeyFor(fid);
     const current = fields[k] ?? { en: '', es: '' };
     setField(k, { ...current, [lang]: v });
     setEditedKeys(prev => { const next = new Set(prev); next.add(k); return next; });
@@ -51,7 +41,7 @@ export default function DonatePageEditor() {
         </div>
       </div>
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-white/80 backdrop-blur-xl rounded-2xl border border-white/60 shadow-sm p-6 space-y-5">
-        {FIELDS.map(f => (
+        {DONATE_FIELDS.map(f => (
           <div key={f.id} className="space-y-2">
             <label className="text-[13px] font-semibold text-[#3a6b44]">{f.label}</label>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">

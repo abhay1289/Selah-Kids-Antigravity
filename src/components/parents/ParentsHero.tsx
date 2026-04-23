@@ -2,25 +2,26 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Shield, Heart, BookOpen, Smile } from 'lucide-react';
 import { Badge } from '../UI';
 import NextImage from 'next/image';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useFieldResolver } from '../../lib/page-fields';
+import type { PageFieldMap } from '../../lib/cms-server';
 
-export const ParentsHero = () => {
-  const { t } = useLanguage();
+export const ParentsHero = ({ fields }: { fields?: PageFieldMap } = {}) => {
+  const f = useFieldResolver(fields);
   return (
     <section className="max-w-7xl mx-auto px-6 mb-12 relative z-10">
       <div className="flex flex-col md:flex-row items-center gap-16">
         <div className="w-full md:w-1/2 text-left">
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6 }}>
-            <Badge color="yellow" className="mb-6 shadow-sm">{t("PEACE OF MIND", "TRANQUILIDAD")}</Badge>
+            <Badge color="yellow" className="mb-6 shadow-sm">{f('hero.badge', 'PEACE OF MIND', 'TRANQUILIDAD')}</Badge>
           </motion.div>
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }} className="hero-headline mb-6 tracking-tight leading-[1.1] drop-shadow-sm">
-            {t("Built for Kids.", "Hecho para Niños.")} <span className="text-selah-muted">{t("Trusted by Parents.", "Confiado por Padres.")}</span>
+            {f('hero.title1', 'Built for Kids.', 'Hecho para Niños.')} <span className="text-selah-muted">{f('hero.title2', 'Trusted by Parents.', 'Confiado por Padres.')}</span>
           </motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.2 }} className="body-text max-w-3xl mx-auto leading-relaxed tracking-tight mb-8">
-            {t(
+            {f(
+              'hero.desc',
               "We created Selah Kids because we're parents too. We know how hard it is to find high-quality, safe, and faith-filled media for little ones. Our content is designed to nurture children wholistically — spirit, mind, and heart — through music, stories, and worship.",
               "Creamos Selah Kids porque también somos padres. Sabemos lo difícil que es encontrar medios de alta calidad, seguros y llenos de fe para los pequeños. Nuestro contenido está diseñado para nutrir a los niños de manera integral — espíritu, mente y corazón — a través de música, historias y adoración."
             )}

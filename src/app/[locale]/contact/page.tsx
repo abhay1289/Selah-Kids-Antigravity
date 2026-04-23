@@ -2,8 +2,11 @@ import React from 'react';
 import { ContactHero } from '@/components/contact/ContactHero';
 import { ContactForm } from '@/components/contact/ContactForm';
 import { ContactSidebar } from '@/components/contact/ContactSidebar';
+import { getPageContent } from '@/lib/cms-server';
+import { INITIAL_PAGE_CONTACT } from '@/data/page-content-contact';
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const fields = await getPageContent('contact', INITIAL_PAGE_CONTACT);
   return (
     <div className="bg-gradient-to-b from-[#FFF5EE] via-[#FDFBF7] to-[#F0FAE6] min-h-screen pt-36 md:pt-44 pb-16 relative overflow-hidden selection:bg-selah-orange selection:text-white">
       {/* Vivid Color Washes */}
@@ -14,7 +17,7 @@ export default function ContactPage() {
       {/* Paper Texture */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-multiply" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
 
-      <ContactHero />
+      <ContactHero fields={fields} />
 
       {/* Main Content */}
       <section className="max-w-[1400px] mx-auto px-6 mb-12 relative z-10">

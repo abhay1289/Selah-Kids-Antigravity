@@ -3,10 +3,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Badge } from '../UI';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useFieldResolver } from '../../lib/page-fields';
+import type { PageFieldMap } from '../../lib/cms-server';
 
-export const WatchHero = () => {
-  const { t } = useLanguage();
+export const WatchHero = ({ fields }: { fields?: PageFieldMap } = {}) => {
+  const f = useFieldResolver(fields);
 
   return (
     <section className="text-center px-6 mb-12 relative z-10">
@@ -16,7 +17,7 @@ export const WatchHero = () => {
         transition={{ duration: 0.6 }}
       >
         <Badge color="light" className="mb-6 bg-selah-orange/10 text-selah-orange border-selah-orange/20 backdrop-blur-md">
-          {t("WATCH & LISTEN", "VER Y ESCUCHAR")}
+          {f('hero.badge', 'WATCH & LISTEN', 'VER Y ESCUCHAR')}
         </Badge>
       </motion.div>
       <motion.h1
@@ -25,7 +26,7 @@ export const WatchHero = () => {
         transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
         className="hero-headline mb-6 tracking-tight leading-[1.1] drop-shadow-sm"
       >
-        {t("Discover Our Videos", "Descubre Nuestros Videos")}
+        {f('hero.title', 'Discover Our Videos', 'Descubre Nuestros Videos')}
       </motion.h1>
       <motion.p
         initial={{ opacity: 0, y: 20 }}
@@ -33,7 +34,8 @@ export const WatchHero = () => {
         transition={{ duration: 0.7, delay: 0.2 }}
         className="body-text max-w-3xl mx-auto leading-relaxed tracking-tight mb-8"
       >
-        {t(
+        {f(
+          'hero.desc',
           "Sing, dance, and learn about God's love with our collection of high-quality Christian kids videos.",
           "Canta, baila y aprende del amor de Dios con nuestra colección de videos cristianos de alta calidad para niños."
         )}

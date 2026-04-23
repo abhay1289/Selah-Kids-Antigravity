@@ -25,6 +25,13 @@ import { EPISODES } from './catalog';
 import type { Episode } from './catalog';
 import { TEAM_MEMBERS } from './team';
 import type { TeamMember } from './team';
+import { INITIAL_PAGE_HOME as PAGE_HOME } from './page-content-home';
+import { INITIAL_PAGE_ABOUT as PAGE_ABOUT } from './page-content-about';
+import { INITIAL_PAGE_WATCH as PAGE_WATCH } from './page-content-watch';
+import { INITIAL_PAGE_PARENTS as PAGE_PARENTS } from './page-content-parents';
+import { INITIAL_PAGE_DONATE as PAGE_DONATE } from './page-content-donate';
+import { INITIAL_PAGE_CONTACT as PAGE_CONTACT } from './page-content-contact';
+import { INITIAL_PAGE_RESOURCES as PAGE_RESOURCES } from './page-content-resources';
 
 // ───────────────────────────────────────────────────────────
 // Shared shapes
@@ -74,11 +81,15 @@ export const INITIAL_VIDEOS: Episode[] = EPISODES;
 export const INITIAL_TEAM: TeamMember[] = TEAM_MEMBERS;
 export const INITIAL_TESTIMONIALS: Testimonial[] = [];
 
-// Phase 4 — page content (per-page field maps, keyed `section.field`)
-export const INITIAL_PAGE_HOME: PageFieldMap = {};
-export const INITIAL_PAGE_ABOUT: PageFieldMap = {};
-export const INITIAL_PAGE_WATCH: PageFieldMap = {};
-export const INITIAL_PAGE_PARENTS: PageFieldMap = {};
-export const INITIAL_PAGE_DONATE: PageFieldMap = {};
-export const INITIAL_PAGE_CONTACT: PageFieldMap = {};
-export const INITIAL_PAGE_RESOURCES: PageFieldMap = {};
+// Phase 4 — page content (per-page field maps, keyed `section.field`).
+// Each page's field literals live in src/data/page-content-<page>.ts — the
+// shape admin editors import AND the map the public pages pass to
+// getPageContent() as fallback. Re-exported here so seeding + seed:diff keep
+// their single-source-of-truth over every INITIAL_*.
+export const INITIAL_PAGE_HOME: PageFieldMap = PAGE_HOME;
+export const INITIAL_PAGE_ABOUT: PageFieldMap = PAGE_ABOUT;
+export const INITIAL_PAGE_WATCH: PageFieldMap = PAGE_WATCH;
+export const INITIAL_PAGE_PARENTS: PageFieldMap = PAGE_PARENTS;
+export const INITIAL_PAGE_DONATE: PageFieldMap = PAGE_DONATE;
+export const INITIAL_PAGE_CONTACT: PageFieldMap = PAGE_CONTACT;
+export const INITIAL_PAGE_RESOURCES: PageFieldMap = PAGE_RESOURCES;

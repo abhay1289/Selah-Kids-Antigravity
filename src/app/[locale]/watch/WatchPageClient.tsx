@@ -9,6 +9,7 @@ import { WatchCTA } from '@/components/watch/WatchCTA';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/UI';
 import type { Episode } from '@/data/catalog';
+import type { PageFieldMap } from '@/lib/cms-server';
 
 const UI_CATEGORY_TO_CANONICAL: Record<string, Episode['category'] | 'all'> = {
   all: 'all',
@@ -29,7 +30,7 @@ const sectionEntrance = {
  * Client half of the watch route. Parent Server Component fetches the
  * episodes via cms-server and hands the array down.
  */
-export default function WatchPageClient({ episodes }: { episodes: Episode[] }) {
+export default function WatchPageClient({ episodes, fields }: { episodes: Episode[]; fields?: PageFieldMap }) {
   const [activeCategory, setActiveCategory] = useState('all');
   const { language, setLanguage } = useLanguage();
 
@@ -50,7 +51,7 @@ export default function WatchPageClient({ episodes }: { episodes: Episode[] }) {
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-multiply" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
 
       <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={sectionEntrance}>
-        <WatchHero />
+        <WatchHero fields={fields} />
       </motion.div>
       
       {/* Filter Bar */}
