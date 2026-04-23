@@ -8,22 +8,28 @@ import {
   type NavLink,
   type NavSettings,
 } from '../../data/chrome-navbar';
+import {
+  INITIAL_FOOTER_LINKS,
+  INITIAL_FOOTER_SOCIAL,
+  INITIAL_FOOTER_SETTINGS,
+  type FooterLink,
+  type SocialLink,
+  type FooterSettings,
+} from '../../data/chrome-footer';
 
 /**
  * Dynamic segment layout for /[locale]/.
  *
  * Responsibilities:
- *   1. Validate the locale param (404 for unknown locales — prevents arbitrary
- *      strings like /foo/about from resolving to a page).
+ *   1. Validate the locale param (404 for unknown locales).
  *   2. Pre-generate static params for each supported locale so SSG covers
  *      /en/... and /es/... without per-request rendering.
- *   3. Fetch chrome data (nav_links, nav_settings) once per request and pass
- *      to LayoutShell as props. Fetching here instead of the root layout
- *      keeps /admin/* pages from paying for chrome reads they never render.
+ *   3. Fetch chrome data (nav + footer) once per request and pass to the
+ *      public LayoutShell. Fetching here — not the root layout — keeps
+ *      /admin/* pages from paying for chrome reads they never render.
  *
  * Root layout (src/app/layout.tsx) still owns <html>, <head>, fonts, and
- * LanguageProvider — moving those here would reset them on every locale
- * navigation and break hydration.
+ * LanguageProvider so those survive locale navigations.
  */
 
 export async function generateStaticParams(): Promise<Array<{ locale: Locale }>> {
@@ -39,22 +45,39 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
 
-  // Parallel reads — both tagged and cached, so Next.js can share the fetch
-  // across all pages under /[locale]/* until a revalidateTag fires.
-  const [navLinksDb, navSettingsDb] = await Promise.all([
+  // Parallel reads — all tagged and cached, so Next can share the fetch
+  // across every page under /[locale]/* until a revalidateTag fires.
+  const [
+    navLinksDb,
+    navSettingsDb,
+    footerLinksDb,
+    footerSocialDb,
+    footerSettingsDb,
+  ] = await Promise.all([
     getCollection<NavLink>('nav_links', INITIAL_NAV_LINKS),
     getCollection<NavSettings>('nav_settings', INITIAL_NAV_SETTINGS),
+    getCollection<FooterLink>('footer_links', INITIAL_FOOTER_LINKS),
+    getCollection<SocialLink>('footer_social', INITIAL_FOOTER_SOCIAL),
+    getCollection<FooterSettings>('footer_settings', INITIAL_FOOTER_SETTINGS),
   ]);
 
-  // Chrome fallback: getCollection returns [] (not the fallback array) in
-  // public mode with zero published rows, so an unseeded or fully-unpublished
-  // DB would leave the navbar empty. Chrome is required to navigate the
-  // site — fall back to INITIAL_* when the DB answer is empty.
+  // Chrome fallback: getCollection returns [] (not fallback) in public mode
+  // with zero published rows. Chrome is required to navigate the site —
+  // fall back to INITIAL_* whenever a DB answer is empty.
   const navLinks = navLinksDb.length > 0 ? navLinksDb : INITIAL_NAV_LINKS;
   const navSettings = navSettingsDb[0] ?? INITIAL_NAV_SETTINGS[0]!;
+  const footerLinks = footerLinksDb.length > 0 ? footerLinksDb : INITIAL_FOOTER_LINKS;
+  const footerSocial = footerSocialDb.length > 0 ? footerSocialDb : INITIAL_FOOTER_SOCIAL;
+  const footerSettings = footerSettingsDb[0] ?? INITIAL_FOOTER_SETTINGS[0]!;
 
   return (
-    <LayoutShell navLinks={navLinks} navSettings={navSettings}>
+    <LayoutShell
+      navLinks={navLinks}
+      navSettings={navSettings}
+      footerLinks={footerLinks}
+      footerSocial={footerSocial}
+      footerSettings={footerSettings}
+    >
       {children}
     </LayoutShell>
   );

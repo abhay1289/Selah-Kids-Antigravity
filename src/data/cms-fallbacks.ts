@@ -37,6 +37,12 @@ import {
   INITIAL_NAV_SETTINGS as NAV_SETTINGS,
 } from './chrome-navbar';
 import type { NavLink, NavSettings } from './chrome-navbar';
+import {
+  INITIAL_FOOTER_LINKS as FOOTER_LINKS,
+  INITIAL_FOOTER_SOCIAL as FOOTER_SOCIAL,
+  INITIAL_FOOTER_SETTINGS as FOOTER_SETTINGS,
+} from './chrome-footer';
+import type { FooterLink, SocialLink, FooterSettings } from './chrome-footer';
 
 // ───────────────────────────────────────────────────────────
 // Shared shapes
@@ -56,6 +62,7 @@ export type { Episode as Video } from './catalog';
 export type { TeamMember } from './team';
 export type { Character } from './characters';
 export type { NavLink, NavSettings } from './chrome-navbar';
+export type { FooterLink, SocialLink, FooterSettings } from './chrome-footer';
 
 export interface Testimonial {
   id: string;
@@ -100,8 +107,10 @@ export const INITIAL_PAGE_DONATE: PageFieldMap = PAGE_DONATE;
 export const INITIAL_PAGE_CONTACT: PageFieldMap = PAGE_CONTACT;
 export const INITIAL_PAGE_RESOURCES: PageFieldMap = PAGE_RESOURCES;
 
-// Phase 5 — chrome (navbar first). INITIAL_NAV_SETTINGS is an array with
-// a single row because `nav_settings` rides on the same `collections` table
-// as multi-row collections; the public reader picks items[0].
+// Phase 5 — chrome. Single-row collections (nav_settings, footer_settings)
+// still ride on the `collections` table — public readers pick items[0].
 export const INITIAL_NAV_LINKS: NavLink[] = NAV_LINKS;
 export const INITIAL_NAV_SETTINGS: NavSettings[] = NAV_SETTINGS;
+export const INITIAL_FOOTER_LINKS: FooterLink[] = FOOTER_LINKS;
+export const INITIAL_FOOTER_SOCIAL: SocialLink[] = FOOTER_SOCIAL;
+export const INITIAL_FOOTER_SETTINGS: FooterSettings[] = FOOTER_SETTINGS;

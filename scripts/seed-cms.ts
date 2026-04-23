@@ -37,6 +37,9 @@ import {
   INITIAL_PAGE_RESOURCES,
   INITIAL_NAV_LINKS,
   INITIAL_NAV_SETTINGS,
+  INITIAL_FOOTER_LINKS,
+  INITIAL_FOOTER_SOCIAL,
+  INITIAL_FOOTER_SETTINGS,
   type PageFieldMap,
 } from '../src/data/cms-fallbacks';
 
@@ -94,9 +97,13 @@ const COLLECTIONS: CollectionGroup[] = [
   { name: 'team', items: INITIAL_TEAM },
   { name: 'characters', items: INITIAL_CHARACTERS },
   { name: 'testimonials', items: INITIAL_TESTIMONIALS },
-  // Phase 5a — chrome collections.
+  // Phase 5a — navbar chrome collections.
   { name: 'nav_links', items: INITIAL_NAV_LINKS },
   { name: 'nav_settings', items: INITIAL_NAV_SETTINGS },
+  // Phase 5b — footer chrome collections.
+  { name: 'footer_links', items: INITIAL_FOOTER_LINKS },
+  { name: 'footer_social', items: INITIAL_FOOTER_SOCIAL },
+  { name: 'footer_settings', items: INITIAL_FOOTER_SETTINGS },
 ];
 
 const PAGES: PageGroup[] = [

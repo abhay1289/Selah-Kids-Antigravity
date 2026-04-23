@@ -4,65 +4,22 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Save, Plus, Trash2 } from 'lucide-react';
 import { useCmsCollection } from '../../../lib/useCms';
-
-interface FooterLink { id: string; labelEn: string; labelEs: string; href: string; icon: string; }
-interface SocialLink { id: string; platform: string; urlEn: string; urlEs: string; icon: string; }
-
-interface FooterSettings {
-  id: string;
-  taglineEn: string;
-  taglineEs: string;
-  contactEmail: string;
-  newsletterTitleEn: string;
-  newsletterTitleEs: string;
-  newsletterPlaceholderEn: string;
-  newsletterPlaceholderEs: string;
-  newsletterBtnEn: string;
-  newsletterBtnEs: string;
-  copyrightEn: string;
-  copyrightEs: string;
-  creditText: string;
-  creditLink: string;
-}
-
-const INITIAL_LINKS: FooterLink[] = [
-  { id: '1', labelEn: 'Home', labelEs: 'Inicio', href: '/', icon: '⭐' },
-  { id: '2', labelEn: 'About Us', labelEs: 'Sobre Nosotros', href: '/about', icon: '❤️' },
-  { id: '3', labelEn: 'Watch', labelEs: 'Ver', href: '/watch', icon: '▶️' },
-  { id: '4', labelEn: 'Resources', labelEs: 'Recursos', href: '/resources', icon: '📚' },
-  { id: '5', labelEn: 'Contact Us', labelEs: 'Contáctanos', href: '/contact', icon: '✉️' },
-];
-
-const INITIAL_SOCIAL: SocialLink[] = [
-  { id: '1', platform: 'Instagram', urlEn: 'https://www.instagram.com/selah.kids', urlEs: 'https://www.instagram.com/selahkids_spn/', icon: '📸' },
-  { id: '2', platform: 'YouTube', urlEn: 'https://www.youtube.com/@selahkidsworship', urlEs: 'https://www.youtube.com/@SelahKidsEspanol', icon: '🎬' },
-  { id: '3', platform: 'Music', urlEn: '/music', urlEs: '/music', icon: '🎵' },
-];
-
-const INITIAL_SETTINGS: FooterSettings[] = [{
-  id: 'footer',
-  taglineEn: "We're on a mission to fill every home with faith-filled melodies and stories that spark wonder in the hearts of children.",
-  taglineEs: 'Nuestra misión es llenar cada hogar con melodías llenas de fe e historias que despierten asombro en los corazones de los niños.',
-  contactEmail: 'info.selahkids@gmail.com',
-  newsletterTitleEn: 'Join the Family',
-  newsletterTitleEs: 'Únete a la Familia',
-  newsletterPlaceholderEn: 'Your email',
-  newsletterPlaceholderEs: 'Tu correo',
-  newsletterBtnEn: 'JOIN',
-  newsletterBtnEs: 'UNIRSE',
-  copyrightEn: 'All rights reserved.',
-  copyrightEs: 'Todos los derechos reservados.',
-  creditText: 'Engaze Digital',
-  creditLink: 'https://www.engazedigital.com/',
-}];
+import {
+  INITIAL_FOOTER_LINKS,
+  INITIAL_FOOTER_SOCIAL,
+  INITIAL_FOOTER_SETTINGS,
+  type FooterLink,
+  type SocialLink,
+  type FooterSettings,
+} from '../../../data/chrome-footer';
 
 export default function FooterEditor() {
-  const linksHook = useCmsCollection<FooterLink>('footer_links', INITIAL_LINKS);
-  const socialHook = useCmsCollection<SocialLink>('footer_social', INITIAL_SOCIAL);
-  const settingsHook = useCmsCollection<FooterSettings>('footer_settings', INITIAL_SETTINGS, { sortOrder: false });
+  const linksHook = useCmsCollection<FooterLink>('footer_links', INITIAL_FOOTER_LINKS);
+  const socialHook = useCmsCollection<SocialLink>('footer_social', INITIAL_FOOTER_SOCIAL);
+  const settingsHook = useCmsCollection<FooterSettings>('footer_settings', INITIAL_FOOTER_SETTINGS, { sortOrder: false });
   const { items: links, setItems: setLinks } = linksHook;
   const { items: social, setItems: setSocial } = socialHook;
-  const settings = settingsHook.items[0] ?? INITIAL_SETTINGS[0];
+  const settings = settingsHook.items[0] ?? INITIAL_FOOTER_SETTINGS[0];
   const setSettings = (s: FooterSettings) => settingsHook.setItems([s]);
   const isSaving = linksHook.isSaving || socialHook.isSaving || settingsHook.isSaving;
   const error = linksHook.error || socialHook.error || settingsHook.error;
