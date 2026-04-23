@@ -65,14 +65,9 @@ export interface TeamMember {
   color: string;
 }
 
-export interface Character {
-  id: string;
-  name: string;
-  trait: string;
-  description: string;
-  image: string;
-  color: string;
-}
+// Character re-exports the richer shape from src/data/characters.ts (catchphrase,
+// favoriteVerse, originStory, etc). Same transition rationale as BlogPost above.
+export type { Character } from './characters';
 
 export interface Testimonial {
   id: string;
@@ -108,9 +103,14 @@ export interface Testimonial {
 import { BLOG_POSTS } from './blogPosts';
 import type { BlogPost } from './blogPosts';
 export const INITIAL_BLOG_POSTS: BlogPost[] = BLOG_POSTS;
+
+// Characters: same pattern — re-exported from src/data/characters.ts.
+import { CHARACTERS } from './characters';
+import type { Character } from './characters';
+export const INITIAL_CHARACTERS: Character[] = CHARACTERS;
+
 export const INITIAL_VIDEOS: Video[] = [];
 export const INITIAL_TEAM: TeamMember[] = [];
-export const INITIAL_CHARACTERS: Character[] = [];
 export const INITIAL_TESTIMONIALS: Testimonial[] = [];
 
 // Phase 2 — page content (per-page field maps, keyed `section.field`)
