@@ -5,6 +5,8 @@ import { useRef } from "react";
 import { Youtube, Play } from "lucide-react";
 import { Button, Badge } from "../UI";
 import { useLanguage } from "../../contexts/LanguageContext";
+import { useFieldResolver } from "../../lib/page-fields";
+import type { PageFieldMap } from "../../lib/cms-server";
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -18,8 +20,9 @@ const sectionVariants = {
   }
 };
 
-export function JoinYouTubeSection() {
-  const { t, language } = useLanguage();
+export function JoinYouTubeSection({ fields }: { fields?: PageFieldMap }) {
+  const { language } = useLanguage();
+  const f = useFieldResolver(fields);
   const containerRef = useRef<HTMLElement>(null);
   
   const { scrollYProgress } = useScroll({
@@ -52,13 +55,14 @@ export function JoinYouTubeSection() {
               viewport={{ once: true }}
             >
               <div className="inline-block mb-8">
-                <Badge color="yellow" className="!rotate-0 shadow-sm">{t("SUBSCRIBE & WORSHIP", "SUSCRÍBETE Y ADORA")}</Badge>
+                <Badge color="yellow" className="!rotate-0 shadow-sm">{f('youtube.yt_badge', 'SUBSCRIBE & WORSHIP', 'SUSCRÍBETE Y ADORA')}</Badge>
               </div>
               <h2 className="content-h2 text-white mb-8 leading-[1.05] tracking-[-0.02em] drop-shadow-sm">
-                {t("Join Our YouTube", "Únete a Nuestra")} <br /> {t("Family!", "Familia de YouTube!")}
+                {f('youtube.yt_title_line1', 'Join Our YouTube', 'Únete a Nuestra')} <br /> {f('youtube.yt_title_line2', 'Family!', 'Familia de YouTube!')}
               </h2>
               <p className="text-xl text-white/70 mb-12 max-w-lg leading-relaxed text-balance">
-                {t(
+                {f(
+                  'youtube.yt_description',
                   "Get new worship songs, English and Spanish worship videos, and awesome Christian cartoons every single week! Subscribe to our channel so you never miss a release.",
                   "¡Obtén nuevas canciones de adoración, videos de adoración en inglés y español, y dibujos animados cristianos increíbles cada semana! ¡Suscríbete a nuestro canal para que nunca te pierdas un estreno!"
                 )}
@@ -69,10 +73,10 @@ export function JoinYouTubeSection() {
                   onClick={() => window.open(language === 'ES' ? "https://www.youtube.com/@SelahKidsEspanol" : "https://www.youtube.com/@selahkidsworship", "_blank", "noopener,noreferrer")}
                   className="!bg-[#FF0000] !border-none !px-10 !py-4 ui-button shadow-[0_10px_30px_-10px_rgba(255,0,0,0.5)] hover:shadow-[0_20px_40px_-10px_rgba(255,0,0,0.7)] hover:-translate-y-1 transition-all flex items-center justify-center gap-3 group whitespace-nowrap w-full sm:w-auto"
                 >
-                  <Youtube size={28} className="group-hover:scale-110 transition-transform duration-300" /> {t("Subscribe Now", "Suscríbete Ahora")}
+                  <Youtube size={28} className="group-hover:scale-110 transition-transform duration-300" /> {f('youtube.yt_cta', 'Subscribe Now', 'Suscríbete Ahora')}
                 </Button>
                 <div className="flex items-center gap-4 text-white/60">
-                  <motion.span whileHover={{ scale: 1.05, color: "#fff" }} className="ui-labelr cursor-default transition-colors">{t("JOIN THE COMMUNITY", "ÚNETE A LA COMUNIDAD")}</motion.span>
+                  <motion.span whileHover={{ scale: 1.05, color: "#fff" }} className="ui-labelr cursor-default transition-colors">{f('youtube.yt_community_label', 'JOIN THE COMMUNITY', 'ÚNETE A LA COMUNIDAD')}</motion.span>
                 </div>
               </div>
             </motion.div>
@@ -128,14 +132,14 @@ export function JoinYouTubeSection() {
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute -top-10 -right-10 z-20"
               >
-                <Badge color="light" className="!px-8 !py-4 ui-button shadow-lg border border-white/20">{t("New Weekly!", "¡Nuevo Cada Semana!")}</Badge>
+                <Badge color="light" className="!px-8 !py-4 ui-button shadow-lg border border-white/20">{f('youtube.yt_floating_badge1', 'New Weekly!', '¡Nuevo Cada Semana!')}</Badge>
               </motion.div>
               <motion.div
                 animate={{ y: [10, -10, 10] }}
                 transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
                 className="absolute -bottom-10 -left-10 z-20"
               >
-                <Badge color="yellow" className="!px-8 !py-4 ui-button shadow-lg border border-selah-yellow/20">{t("Bilingual", "Bilingüe")}</Badge>
+                <Badge color="yellow" className="!px-8 !py-4 ui-button shadow-lg border border-selah-yellow/20">{f('youtube.yt_floating_badge2', 'Bilingual', 'Bilingüe')}</Badge>
               </motion.div>
             </motion.div>
           </div>

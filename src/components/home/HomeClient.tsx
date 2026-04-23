@@ -4,6 +4,7 @@ import { motion, useScroll, useSpring } from "framer-motion";
 import React, { useRef } from "react";
 import dynamic from "next/dynamic";
 import { HeroSection } from "./HeroSection";
+import type { PageFieldMap } from "../../lib/cms-server";
 
 // Lazy-load all below-the-fold sections to minimise initial bundle
 const LatestVideosSection  = dynamic(() => import("./LatestVideosSection").then(m => ({ default: m.LatestVideosSection })), { ssr: false });
@@ -13,7 +14,7 @@ const JoinYouTubeSection   = dynamic(() => import("./JoinYouTubeSection").then(m
 const TestimonialsSection  = dynamic(() => import("./TestimonialsSection").then(m => ({ default: m.TestimonialsSection })), { ssr: false });
 const NewsletterSection    = dynamic(() => import("./NewsletterSection").then(m => ({ default: m.NewsletterSection })), { ssr: false });
 
-export default function HomeClient() {
+export default function HomeClient({ fields }: { fields?: PageFieldMap }) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -33,13 +34,13 @@ export default function HomeClient() {
         className="fixed top-0 left-0 right-0 h-1 bg-selah-orange z-[100] origin-left rounded-r-full shadow-[0_1px_8px_rgba(255,92,0,0.4)]"
         style={{ scaleX }}
       />
-      <HeroSection scrollYProgress={scrollYProgress} />
-      <LatestVideosSection />
-      <AboutSection />
-      <JoinYouTubeSection />
-      <WhyChooseSection />
-      <NewsletterSection />
-      <TestimonialsSection />
+      <HeroSection scrollYProgress={scrollYProgress} fields={fields} />
+      <LatestVideosSection fields={fields} />
+      <AboutSection fields={fields} />
+      <JoinYouTubeSection fields={fields} />
+      <WhyChooseSection fields={fields} />
+      <NewsletterSection fields={fields} />
+      <TestimonialsSection fields={fields} />
     </div>
   );
 }

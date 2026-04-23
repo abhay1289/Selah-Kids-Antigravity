@@ -6,6 +6,8 @@ import { Star, Shield, Users } from "lucide-react";
 import { SectionHeader } from "../SectionHeader";
 import { TESTIMONIALS } from "../../constants";
 import { useLanguage } from "../../contexts/LanguageContext";
+import { useFieldResolver } from "../../lib/page-fields";
+import type { PageFieldMap } from "../../lib/cms-server";
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -19,8 +21,9 @@ const sectionVariants = {
   }
 };
 
-export function TestimonialsSection() {
-  const { t, language } = useLanguage();
+export function TestimonialsSection({ fields }: { fields?: PageFieldMap }) {
+  const { language } = useLanguage();
+  const f = useFieldResolver(fields);
   const containerRef = useRef<HTMLElement>(null);
   
   const { scrollYProgress } = useScroll({
@@ -66,10 +69,11 @@ export function TestimonialsSection() {
       
       <motion.div style={{ y: contY }} className="relative z-10">
         <div className="max-w-7xl mx-auto px-6 mb-8">
-          <SectionHeader 
-            badge={t("LOVED BY FAMILIES", "AMADO POR LAS FAMILIAS")}
-            title={t("What Parents Are Saying", "Lo Que Dicen Los Padres")}
-            description={t(
+          <SectionHeader
+            badge={f('testimonials.test_badge', 'LOVED BY FAMILIES', 'AMADO POR LAS FAMILIAS')}
+            title={f('testimonials.test_title', 'What Parents Are Saying', 'Lo Que Dicen Los Padres')}
+            description={f(
+              'testimonials.test_description',
               "Real stories from families who have found joy and faith through Selah Kids.",
               "Historias reales de familias que han encontrado alegría y fe a través de Selah Kids."
             )}

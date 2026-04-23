@@ -7,17 +7,21 @@ import { Button } from "../UI";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "../../contexts/LanguageContext";
 import { useLocalePath } from "../../hooks/useLocalePath";
+import { useFieldResolver } from "../../lib/page-fields";
+import type { PageFieldMap } from "../../lib/cms-server";
 
 interface HeroSectionProps {
   scrollYProgress: MotionValue<number>;
   handleMouseMove?: (e: React.MouseEvent) => void;
   isLoading?: boolean;
+  fields?: PageFieldMap;
 }
 
-export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: HeroSectionProps) {
+export function HeroSection({ scrollYProgress, handleMouseMove, isLoading, fields }: HeroSectionProps) {
   const router = useRouter();
   const { t, language } = useLanguage();
   const { lh } = useLocalePath();
+  const f = useFieldResolver(fields);
 
   const heroY = useTransform(scrollYProgress, [0, 1], [0, 300]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
@@ -217,7 +221,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
             className="glass-thin relative inline-flex items-center gap-2.5 px-5 py-2 rounded-full mb-8"
           >
             <SparklesIcon size={14} className="text-selah-orange" aria-hidden />
-            <span className="ui-label text-selah-dark/80">{t("FAITH-FILLED MUSIC FOR LITTLE ONES", "MÚSICA DE FE PARA LOS PEQUEÑOS")}</span>
+            <span className="ui-label text-selah-dark/80">{f('hero.hero_badge', 'FAITH-FILLED MUSIC FOR LITTLE ONES', 'MÚSICA DE FE PARA LOS PEQUEÑOS')}</span>
           </motion.div>
           
           {/* E1 — One-piece cinematic reveal. No per-word bounce theatre. */}
@@ -227,7 +231,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] as const, delay: 0.35 }}
             className="hero-headline relative z-10 mx-auto mb-6 max-w-[14ch] tracking-[-0.035em] leading-[1.08] text-balance"
           >
-            {t('Christian Music for Kids', 'Música Cristiana para Niños')}
+            {f('hero.hero_title_line1', 'Christian Music for', 'Música Cristiana para')}{' '}{f('hero.hero_title_accent', 'Kids', 'Niños')}
           </motion.h1>
           
           {/* Refined Description */}
@@ -237,7 +241,8 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
             transition={{ type: "spring", stiffness: 60, damping: 20, delay: 0.9 }}
             className="body-text mx-auto mb-8 text-center text-balance"
           >
-            {t(
+            {f(
+              'hero.hero_description',
               "Welcome to Selah Kids! We create original worship songs and Christian cartoons that the whole family will love. Get ready to sing, dance, and learn about God with our catchy music and exciting videos!",
               "¡Bienvenidos a Selah Kids! Creamos canciones de adoración originales y dibujos animados cristianos que encantarán a toda la familia. ¡Prepárate para cantar, bailar y aprender sobre Dios con nuestra música pegajosa y videos emocionantes!"
             )}
@@ -252,10 +257,10 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
           >
             <Button onClick={() => router.push(lh("/watch"))} className="!px-10 !py-4 w-full sm:w-auto">
               <Play size={22} fill="currentColor" aria-hidden />
-              <span>{t("Watch Now", "Ver Ahora")}</span>
+              <span>{f('hero.hero_cta_primary', 'Watch Now', 'Ver Ahora')}</span>
             </Button>
             <Button onClick={() => router.push(lh("/about"))} variant="white" className="!px-10 !py-4 w-full sm:w-auto">
-              <span>{t("Our Story", "Nuestra Historia")}</span>
+              <span>{f('hero.hero_cta_secondary', 'Our Story', 'Nuestra Historia')}</span>
             </Button>
           </motion.div>
 
@@ -272,7 +277,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
             >
               <span className="ui-label text-selah-dark/70 tracking-[0.2em] sm:tracking-[0.3em] flex items-center gap-3 bg-white/70 backdrop-blur-xl px-5 sm:px-6 py-2 sm:py-2.5 rounded-full border-2 border-white shadow-[0_8px_20px_-5px_rgba(0,0,0,0.1)]">
                 <Music size={14} className="text-selah-orange" />
-                {t("AVAILABLE ON", "DISPONIBLE EN")}
+                {f('hero.hero_platforms_label', 'AVAILABLE ON', 'DISPONIBLE EN')}
               </span>
             </motion.div>
             

@@ -5,6 +5,8 @@ import { useRef, useState } from "react";
 import { Music, Star, Heart, SparklesIcon, Mail, ArrowRight } from "lucide-react";
 import { Button, Badge } from "../UI";
 import { useLanguage } from "../../contexts/LanguageContext";
+import { useFieldResolver } from "../../lib/page-fields";
+import type { PageFieldMap } from "../../lib/cms-server";
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -18,9 +20,10 @@ const sectionVariants = {
   }
 };
 
-export function NewsletterSection() {
+export function NewsletterSection({ fields }: { fields?: PageFieldMap }) {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const { t } = useLanguage();
+  const f = useFieldResolver(fields);
   const containerRef = useRef<HTMLElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -110,7 +113,7 @@ export function NewsletterSection() {
               <motion.div whileHover={{ scale: 1.05, y: -2 }} className="inline-block mb-6">
                 <Badge color="orange" className="ui-button !px-6 !py-2 shadow-sm">
                   <SparklesIcon size={16} className="inline mr-2" />
-                  {t("STAY IN THE LOOP", "MANTENTE INFORMADO")}
+                  {f('newsletter.nl_badge', 'STAY IN THE LOOP', 'MANTENTE INFORMADO')}
                 </Badge>
               </motion.div>
               
@@ -131,7 +134,8 @@ export function NewsletterSection() {
               </h2>
               
               <p className="text-selah-muted mb-12 max-w-2xl mx-auto body-text text-balance">
-                {t(
+                {f(
+                  'newsletter.nl_description',
                   "Enter your email address to be the first to know about all things Selah Kids! Get updates on new Christian kids music and exciting videos straight to your inbox.",
                   "¡Ingresa tu correo electrónico para ser el primero en saber todo sobre Selah Kids! Recibe actualizaciones sobre nueva música cristiana para niños y videos emocionantes directamente en tu bandeja de entrada."
                 )}
@@ -159,7 +163,7 @@ export function NewsletterSection() {
                   type="submit"
                   className="!bg-selah-orange hover:!bg-[#e65300] !text-white !border-none !px-10 !py-4 ui-button hover:-translate-y-1 active:translate-y-0 transition-all group shadow-[0_10px_30px_-10px_rgba(255,107,0,0.5)] hover:shadow-[0_20px_40px_-10px_rgba(255,107,0,0.7)] hover:scale-105 whitespace-nowrap"
                 >
-                  {t("Join Now", "Únete Ahora")}
+                  {f('newsletter.nl_cta', 'Join Now', 'Únete Ahora')}
                   <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </form>

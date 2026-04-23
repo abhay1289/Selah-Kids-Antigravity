@@ -9,6 +9,8 @@ import { SectionHeader } from "../SectionHeader";
 import { useLanguage } from "../../contexts/LanguageContext";
 import { useRouter } from "next/navigation";
 import { useLocalePath } from "../../hooks/useLocalePath";
+import { useFieldResolver } from "../../lib/page-fields";
+import type { PageFieldMap } from "../../lib/cms-server";
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -23,10 +25,11 @@ const sectionVariants = {
   }
 };
 
-export function LatestVideosSection() {
+export function LatestVideosSection({ fields }: { fields?: PageFieldMap }) {
   const { t, language } = useLanguage();
   const router = useRouter();
   const { lh } = useLocalePath();
+  const f = useFieldResolver(fields);
   const containerRef = useRef<HTMLElement>(null);
   
   const { scrollYProgress } = useScroll({
@@ -116,10 +119,11 @@ export function LatestVideosSection() {
       </div>
       
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <SectionHeader 
-          badge={t("FRESH CONTENT", "CONTENIDO NUEVO")}
-          title={t("Our Latest Videos", "Nuestros Últimos Videos")}
-          description={t(
+        <SectionHeader
+          badge={f('latest_videos.vid_badge', 'FRESH CONTENT', 'CONTENIDO NUEVO')}
+          title={f('latest_videos.vid_title', 'Our Latest Videos', 'Nuestros Últimos Videos')}
+          description={f(
+            'latest_videos.vid_description',
             "Check out our newest Christian kids music and engaging Christian cartoons! We have awesome worship videos in both English and Spanish. They are perfect for Sunday school songs or hanging out with your family!",
             "¡Mira nuestra nueva música cristiana para niños y emocionantes dibujos animados cristianos! Tenemos increíbles videos de adoración en inglés y español. ¡Son perfectos para canciones de la escuela dominical o para pasar tiempo con tu familia!"
           )}
@@ -244,7 +248,7 @@ export function LatestVideosSection() {
               onClick={() => router.push(lh("/watch"))}
             >
               <span className="flex items-center justify-center">
-                {t("See All Videos", "Ver Todos Los Videos")}
+                {f('latest_videos.vid_cta', 'See All Videos', 'Ver Todos Los Videos')}
                 <ArrowRight className="inline-block ml-3 transition-transform group-hover:translate-x-2" size={24} />
               </span>
             </Button>

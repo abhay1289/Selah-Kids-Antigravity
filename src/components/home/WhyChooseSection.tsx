@@ -6,6 +6,8 @@ import { Cloud, Sun, SparklesIcon } from "lucide-react";
 import { Badge } from "../UI";
 import { WHY_FEATURES } from "../../constants";
 import { useLanguage } from "../../contexts/LanguageContext";
+import { useFieldResolver } from "../../lib/page-fields";
+import type { PageFieldMap } from "../../lib/cms-server";
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -128,13 +130,14 @@ const FeatureCard: React.FC<{ feature: typeof WHY_FEATURES[0], index: number }> 
   );
 };
 
-export function WhyChooseSection() {
+export function WhyChooseSection({ fields }: { fields?: PageFieldMap }) {
   const containerRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
   });
   const { t } = useLanguage();
+  const f = useFieldResolver(fields);
 
   return (
     <motion.section 
@@ -171,7 +174,7 @@ export function WhyChooseSection() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
             className="mb-10"
           >
-            <Badge color="yellow" className="!rotate-0 !scale-125 px-8 py-3 shadow-sm border border-selah-yellow/20">{t("OUR CORE VALUES", "NUESTROS VALORES")}</Badge>
+            <Badge color="yellow" className="!rotate-0 !scale-125 px-8 py-3 shadow-sm border border-selah-yellow/20">{f('why.why_badge', 'OUR CORE VALUES', 'NUESTROS VALORES')}</Badge>
           </motion.div>
           
           <div className="relative">
@@ -203,7 +206,8 @@ export function WhyChooseSection() {
             transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] as const }}
             className="body-text max-w-4xl mx-auto text-selah-muted text-balance"
           >
-            {t(
+            {f(
+              'why.why_description',
               "Created by parents who wanted better shows for their own kids, Selah Kids mixes awesome Christian cartoons with important lessons from the Bible.",
               "Creado por padres que querían mejores programas para sus propios hijos, Selah Kids mezcla increíbles dibujos animados cristianos con lecciones importantes de la Biblia."
             )}
