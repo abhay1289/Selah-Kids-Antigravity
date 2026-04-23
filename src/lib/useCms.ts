@@ -158,18 +158,38 @@ export function useCmsCollection<T extends { id: string }>(
 
         let order = 0;
         for (const item of items) {
+          // Honor the item's own `isPublished` flag when the row carries one.
+          // This matters after Phase 1's RLS split: the public site filters
+          // on is_published = true via RLS, so a hardcoded `true` here would
+          // make the admin's "Draft" toggle decorative.
+          const publishedRaw = (item as unknown as { isPublished?: unknown; is_published?: unknown })
+            .isPublished ?? (item as unknown as { isPublished?: unknown; is_published?: unknown }).is_published;
+          const published = typeof publishedRaw === 'boolean' ? publishedRaw : true;
+
           const { error: upErr } = await upsertCollectionItem({
             id: item.id,
             collection,
             data: { ...(item as unknown as Record<string, unknown>) },
             sort_order: options.sortOrder !== false ? order : 0,
-            is_published: true,
+            is_published: published,
           });
           if (upErr) throw upErr;
           order += 1;
         }
 
         baselineRef.current = items;
+
+        // Flush Next.js's tag cache so the public site picks up the edit on
+        // the next request. Fire-and-forget: if the call fails, the 24h ISR
+        // backstop in cms-server.ts will eventually refresh the page anyway.
+        // Endpoint: /api/revalidate with { tag: 'collection:<name>' }.
+        void fetch('/api/revalidate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tag: `collection:${collection}` }),
+        }).catch(() => {
+          // Non-fatal: admin save already succeeded in the DB.
+        });
       }
     } catch (e) {
       const msg = e instanceof Error ? e.message : 'Save failed';
@@ -241,6 +261,13 @@ export function useCmsSiteSettings<T>(fallback: T): UseCmsSiteSettings<T> {
           settings as unknown as Partial<SiteSettings>,
         );
         if (upErr) throw upErr;
+
+        // Flush the site_settings cache tag so chrome (footer etc.) refreshes.
+        void fetch('/api/revalidate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tag: 'site_settings' }),
+        }).catch(() => {});
       }
     } catch (e) {
       const msg = e instanceof Error ? e.message : 'Save failed';
@@ -352,6 +379,13 @@ export function useCmsPageContent(page: string, fallback: PageFieldMap): UseCmsP
           if (upErr) throw upErr;
           order += 1;
         }
+
+        // Flush the per-page tag so the public page re-fetches on next render.
+        void fetch('/api/revalidate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tag: `page_content:${page}` }),
+        }).catch(() => {});
       }
     } catch (e) {
       const msg = e instanceof Error ? e.message : 'Save failed';

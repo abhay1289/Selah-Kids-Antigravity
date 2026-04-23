@@ -171,6 +171,57 @@ CREATE POLICY "Admin delete media" ON storage.objects FOR DELETE
   USING (bucket_id = 'media' AND is_admin());
 
 -- ============================================
+-- Admin SELECT bypass for preview mode
+-- ============================================
+-- Without these, an authenticated admin hitting /admin/preview/* can't see
+-- unpublished (draft) rows — the "Public read published <table>" policies
+-- filter them out. These additional policies coexist via RLS's OR semantics:
+-- published rows stay visible to the public; admins additionally see drafts.
+-- Preview path stays anon-key + session cookie, so no service-role needed.
+
+DROP POLICY IF EXISTS "Admin read all page_content" ON page_content;
+CREATE POLICY "Admin read all page_content" ON page_content FOR SELECT
+  USING (is_admin());
+
+DROP POLICY IF EXISTS "Admin read all collections" ON collections;
+CREATE POLICY "Admin read all collections" ON collections FOR SELECT
+  USING (is_admin());
+
+-- site_settings is already public-readable (no is_published gate), so admins
+-- see it via the public policy. No extra admin SELECT policy needed there.
+
+-- ============================================
+-- Revalidate audit log
+-- ============================================
+-- Every POST to /api/revalidate writes one row: who, which tag, when,
+-- source IP. Used to detect (a) admin saves that silently fail to propagate
+-- (zero growth = alerting signal) and (b) abuse patterns if the rate limit
+-- is ever bypassed. Admins can read their own rows; nothing is publicly
+-- readable. 30-day retention — prune via a scheduled job.
+CREATE TABLE IF NOT EXISTS cms_audit_log (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+  email TEXT,
+  tag TEXT NOT NULL,
+  ip TEXT,
+  user_agent TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_cms_audit_log_created ON cms_audit_log(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_cms_audit_log_user ON cms_audit_log(user_id, created_at DESC);
+
+ALTER TABLE cms_audit_log ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Admin read cms_audit_log" ON cms_audit_log;
+CREATE POLICY "Admin read cms_audit_log" ON cms_audit_log FOR SELECT
+  USING (is_admin());
+
+DROP POLICY IF EXISTS "Admin insert cms_audit_log" ON cms_audit_log;
+CREATE POLICY "Admin insert cms_audit_log" ON cms_audit_log FOR INSERT
+  WITH CHECK (is_admin());
+
+-- ============================================
 -- First-run bootstrap
 -- ============================================
 -- After creating an account in Supabase Auth, run this once with the UUID

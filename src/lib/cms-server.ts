@@ -1,0 +1,333 @@
+/**
+ * Server-side CMS reader with tagged SSG caching.
+ *
+ * Three modes, selected automatically per call:
+ *   - 'public'  — anon PostgREST fetch with cache: 'force-cache' + 24h backstop.
+ *                 RLS filters to is_published = true. This is the default for
+ *                 every public page render.
+ *   - 'preview' — authenticated fetch using the admin's Supabase session cookie.
+ *                 RLS policy "Admin read all <table>" allows drafts through.
+ *                 cache: 'no-store' — admins always see the latest saved state.
+ *   - 'offline' — no Supabase env vars set. Returns constants from
+ *                 src/data/cms-fallbacks.ts. Dev / demo only.
+ *
+ * Shape invariants:
+ *   - Empty DB + env vars set (prod misconfig) = THROW. Never silently serve
+ *     an empty site. Deploy must run seed before traffic.
+ *   - Admin session cookies pass through via @supabase/ssr createServerClient,
+ *     giving them access to the "Admin read all" RLS policy without service-role.
+ *
+ * Cache tags (invalidated by admin save via /api/revalidate):
+ *   - collection:<name> for each collection row
+ *   - page_content:<page> for page editors
+ *   - site_settings for the global row
+ */
+
+import 'server-only';
+import { cookies } from 'next/headers';
+import { createServerClient } from '@supabase/ssr';
+import type { SupabaseClient } from '@supabase/supabase-js';
+import * as fallbacks from '../data/cms-fallbacks';
+
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const SUPABASE_ANON = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+export const isOfflineMode = !SUPABASE_URL || !SUPABASE_ANON;
+
+// 24h safety-net revalidate. On-demand `revalidateTag` wins for fresh edits.
+// Backstop exists so a single missed revalidate call can't freeze a page
+// forever — after 24h Next.js re-fetches on next request.
+const BACKSTOP_SECONDS = 86400;
+
+// ───────────────────────────────────────────────────────────
+// Types (mirror src/lib/cms.ts plus PageFieldMap shape)
+// ───────────────────────────────────────────────────────────
+
+export interface CollectionRow {
+  id: string;
+  collection: string;
+  data: Record<string, unknown>;
+  sort_order: number;
+  is_published: boolean;
+  updated_at: string;
+}
+
+export interface PageContentRow {
+  id: string;
+  page: string;
+  section: string;
+  field: string;
+  value_en: string;
+  value_es: string;
+  field_type: string;
+  sort_order: number;
+  is_published: boolean;
+  updated_at: string;
+}
+
+export interface PageField {
+  en: string;
+  es: string;
+}
+export type PageFieldMap = Record<string, PageField>;
+
+type ReaderMode = 'public' | 'preview' | 'offline';
+
+// ───────────────────────────────────────────────────────────
+// Mode detection
+// ───────────────────────────────────────────────────────────
+
+/**
+ * Whether the incoming request is an authenticated admin that should see
+ * drafts. Checked by looking for a Supabase auth cookie; verification of the
+ * cookie happens naturally when the RLS policy evaluates auth.uid().
+ */
+async function hasAdminSession(): Promise<boolean> {
+  if (isOfflineMode) return false;
+  const store = await cookies();
+  // @supabase/ssr stores the access token in sb-<project>-auth-token cookies.
+  // Presence alone gates preview mode; RLS enforces admin_users membership.
+  return store.getAll().some((c) => c.name.startsWith('sb-') && c.name.endsWith('-auth-token'));
+}
+
+async function resolveMode(explicit?: 'preview'): Promise<ReaderMode> {
+  if (isOfflineMode) return 'offline';
+  if (explicit === 'preview' && (await hasAdminSession())) return 'preview';
+  return 'public';
+}
+
+// ───────────────────────────────────────────────────────────
+// Empty-DB guard — fail-fast in prod if env is set but tables are dry
+// ───────────────────────────────────────────────────────────
+
+class EmptyCmsError extends Error {
+  constructor(source: string) {
+    super(
+      `CMS not seeded: ${source} returned zero rows with Supabase env configured. ` +
+        `Run 'bun run seed:cms' before serving traffic.`,
+    );
+    this.name = 'EmptyCmsError';
+  }
+}
+
+function assertNotEmpty<T>(rows: T[], source: string): T[] {
+  // Only fail-fast in production. Dev / test can have empty tables without
+  // aborting every render — useful during local seeding.
+  if (rows.length === 0 && process.env.NODE_ENV === 'production') {
+    throw new EmptyCmsError(source);
+  }
+  return rows;
+}
+
+// ───────────────────────────────────────────────────────────
+// Preview-mode Supabase client (reads cookies, bypasses public RLS
+// via "Admin read all" policy)
+// ───────────────────────────────────────────────────────────
+
+async function getPreviewClient(): Promise<SupabaseClient | null> {
+  if (isOfflineMode) return null;
+  const store = await cookies();
+  return createServerClient(SUPABASE_URL!, SUPABASE_ANON!, {
+    cookies: {
+      getAll: () => store.getAll(),
+      setAll: () => {
+        // Preview is read-only; cookie refreshes get written on the next
+        // admin write path. No-op here so we don't clash with that write.
+      },
+    },
+  }) as unknown as SupabaseClient;
+}
+
+// ───────────────────────────────────────────────────────────
+// Public-mode PostgREST fetch (tagged + force-cache + 24h backstop)
+// ───────────────────────────────────────────────────────────
+
+async function pgrestFetch<T>(path: string, tags: string[]): Promise<T[]> {
+  const url = `${SUPABASE_URL}/rest/v1/${path}`;
+  const res = await fetch(url, {
+    headers: {
+      apikey: SUPABASE_ANON!,
+      Authorization: `Bearer ${SUPABASE_ANON}`,
+      // Explicit Accept. Supabase returns JSON either way but this makes the
+      // cache key deterministic.
+      Accept: 'application/json',
+    },
+    cache: 'force-cache',
+    next: { tags, revalidate: BACKSTOP_SECONDS },
+  });
+  if (!res.ok) {
+    throw new Error(`PostgREST ${res.status} on ${path}: ${await res.text()}`);
+  }
+  return (await res.json()) as T[];
+}
+
+// ───────────────────────────────────────────────────────────
+// Public API — getCollection / getPageContent / getSiteSettings
+// ───────────────────────────────────────────────────────────
+
+/**
+ * Fetch a CMS collection. Unpacks rows' `data` JSONB into typed items.
+ *
+ * @param collection  Collection name (e.g. 'blog_posts', 'videos')
+ * @param fallback    Offline-mode default. Must match the item shape.
+ * @param opts.mode   Pass 'preview' from admin preview routes to see drafts.
+ */
+export async function getCollection<T extends { id: string }>(
+  collection: string,
+  fallback: T[],
+  opts: { mode?: 'preview' } = {},
+): Promise<T[]> {
+  const mode = await resolveMode(opts.mode);
+
+  if (mode === 'offline') return fallback;
+
+  if (mode === 'preview') {
+    const client = await getPreviewClient();
+    if (!client) return fallback;
+    const { data, error } = await client
+      .from('collections')
+      .select('*')
+      .eq('collection', collection)
+      .order('sort_order');
+    if (error) throw new Error(`Preview read failed for ${collection}: ${error.message}`);
+    return unpack<T>(data ?? []);
+  }
+
+  // Public mode
+  const rows = await pgrestFetch<CollectionRow>(
+    `collections?collection=eq.${encodeURIComponent(collection)}&is_published=eq.true&order=sort_order`,
+    [`collection:${collection}`],
+  );
+  assertNotEmpty(rows, `collection '${collection}'`);
+  return unpack<T>(rows);
+}
+
+function unpack<T extends { id: string }>(rows: CollectionRow[]): T[] {
+  // Admin writes the item object into `data` and sets `id` from the same
+  // payload. We merge so callers see a flat typed object with id present
+  // even if the admin forgot to put it inside data.
+  return rows.map((row) => {
+    const d = row.data as Record<string, unknown>;
+    return { ...(d as object), id: (d.id as string) ?? row.id } as T;
+  });
+}
+
+/**
+ * Fetch all published page_content rows for a page and return a flat
+ * { 'section.field': { en, es } } map. Matches useCmsPageContent's shape so
+ * admin editors and public readers render from the same structure.
+ */
+export async function getPageContent(
+  page: string,
+  fallback: PageFieldMap,
+  opts: { mode?: 'preview' } = {},
+): Promise<PageFieldMap> {
+  const mode = await resolveMode(opts.mode);
+
+  if (mode === 'offline') return fallback;
+
+  if (mode === 'preview') {
+    const client = await getPreviewClient();
+    if (!client) return fallback;
+    const { data, error } = await client
+      .from('page_content')
+      .select('*')
+      .eq('page', page)
+      .order('sort_order');
+    if (error) throw new Error(`Preview read failed for page ${page}: ${error.message}`);
+    return buildFieldMap(data ?? [], fallback);
+  }
+
+  const rows = await pgrestFetch<PageContentRow>(
+    `page_content?page=eq.${encodeURIComponent(page)}&is_published=eq.true&order=sort_order`,
+    [`page_content:${page}`],
+  );
+  assertNotEmpty(rows, `page_content '${page}'`);
+  return buildFieldMap(rows, fallback);
+}
+
+function buildFieldMap(rows: PageContentRow[], fallback: PageFieldMap): PageFieldMap {
+  // Merge DB rows OVER fallback so any field the admin hasn't edited yet still
+  // renders from the seed, while deletions (cleared fields) show as empty
+  // strings instead of resurrecting the seed.
+  const map: PageFieldMap = { ...fallback };
+  for (const row of rows) {
+    map[`${row.section}.${row.field}`] = { en: row.value_en, es: row.value_es };
+  }
+  return map;
+}
+
+/**
+ * Fetch the single site_settings row. Shape is loose because the schema's
+ * site_settings table has typed columns (site_title, logo_url, etc.) but the
+ * admin editor treats settings as a generic key/value list under
+ * 'site_settings_fields' collection. Callers should type-narrow as needed.
+ */
+export async function getSiteSettings<T>(fallback: T): Promise<T> {
+  const mode = await resolveMode();
+
+  if (mode === 'offline') return fallback;
+
+  // site_settings has a public-read RLS policy (no is_published gate) so
+  // this call is fine for both modes.
+  const rows = await pgrestFetch<T>(`site_settings?select=*`, ['site_settings']);
+  if (rows.length === 0) {
+    if (process.env.NODE_ENV === 'production') throw new EmptyCmsError("site_settings");
+    return fallback;
+  }
+  return rows[0]!;
+}
+
+// ───────────────────────────────────────────────────────────
+// Tag naming (shared with /api/revalidate so allowlist stays honest)
+// ───────────────────────────────────────────────────────────
+
+export const CACHE_TAGS = {
+  collection: (name: string) => `collection:${name}`,
+  pageContent: (page: string) => `page_content:${page}`,
+  siteSettings: 'site_settings',
+} as const;
+
+// Allowlist of tags that /api/revalidate will honor. Keeping this exported
+// means the API route and admin call sites share a single enum — typos in
+// one place don't silently drop cache invalidations.
+export const REVALIDATE_TAG_ALLOWLIST = [
+  // Collections (match admin useCmsCollection names)
+  'collection:blog_posts',
+  'collection:videos',
+  'collection:team',
+  'collection:characters',
+  'collection:testimonials',
+  'collection:nav_links',
+  'collection:nav_settings',
+  'collection:footer_links',
+  'collection:footer_social',
+  'collection:footer_settings',
+  'collection:site_settings_fields',
+  'collection:announcement_banners',
+  'collection:redirects',
+  'collection:forms',
+  'collection:custom_code',
+  'collection:sitemap_data',
+  'collection:theme_colors',
+  'collection:theme_tokens',
+  'collection:seo_pages',
+  'collection:admin_user_profiles',
+  // Page content (one per page)
+  'page_content:home',
+  'page_content:about',
+  'page_content:watch',
+  'page_content:parents',
+  'page_content:donate',
+  'page_content:contact',
+  'page_content:resources',
+  // Site settings single-row
+  'site_settings',
+  // Probe fixture (Phase 1 validator only)
+  'collection:probe',
+] as const;
+
+export type RevalidateTag = (typeof REVALIDATE_TAG_ALLOWLIST)[number];
+
+export function isAllowedTag(tag: string): tag is RevalidateTag {
+  return (REVALIDATE_TAG_ALLOWLIST as readonly string[]).includes(tag);
+}
