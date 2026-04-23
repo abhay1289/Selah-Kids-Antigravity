@@ -304,7 +304,12 @@ export async function getSiteSettings<T>(fallback: T): Promise<T> {
  * Falls back to INITIAL_SEO_PAGES if the DB returns zero rows or no
  * matching path is found.
  */
-function parseRobots(directive: PageSEO['robots']): Metadata['robots'] {
+function parseRobots(directive: PageSEO['robots'] | undefined | null): Metadata['robots'] {
+  // Admin editor stores the directive as a union of four strings, but a
+  // future migration could leave legacy rows with a null or missing value.
+  // Default to the permissive case rather than crashing generateMetadata —
+  // a broken <meta robots> tag is recoverable; a blank page is not.
+  if (!directive) return { index: true, follow: true };
   const [indexDirective, followDirective] = directive.split(',');
   return {
     index: indexDirective === 'index',
@@ -336,22 +341,31 @@ export async function getSeoMetadata(
 
   const localePath = path === '/' ? `/${locale}` : `/${locale}${path}`;
   const canonicalForLocale = `${SITE_ORIGIN}${localePath === `/${locale}` ? `/${locale}/` : localePath}`;
+  const enUrl = `${SITE_ORIGIN}${path === '/' ? '/en/' : `/en${path}`}`;
+  const esUrl = `${SITE_ORIGIN}${path === '/' ? '/es/' : `/es${path}`}`;
   const ogImageUrl = resolveImageUrl(seo.ogImage);
 
   return {
-    title: seo.metaTitle || undefined,
+    // Admin-authored titles already include the brand suffix ("... — Selah
+    // Kids"), so we use `absolute` to prevent any parent `title.template`
+    // from duplicating the brand ("Our Story — Selah Kids | Selah Kids").
+    title: seo.metaTitle ? { absolute: seo.metaTitle } : undefined,
     description: seo.metaDescription || undefined,
     robots: parseRobots(seo.robots),
     alternates: {
       canonical: canonicalForLocale,
       languages: {
-        en: `${SITE_ORIGIN}${path === '/' ? '/en/' : `/en${path}`}`,
-        es: `${SITE_ORIGIN}${path === '/' ? '/es/' : `/es${path}`}`,
+        en: enUrl,
+        es: esUrl,
+        // Google recommends an x-default hint for unmatched locales; we
+        // point it at the English variant.
+        'x-default': enUrl,
       },
     },
     openGraph: {
       title: seo.ogTitle || seo.metaTitle || undefined,
       description: seo.ogDescription || seo.metaDescription || undefined,
+      siteName: 'Selah Kids',
       images: [{ url: ogImageUrl }],
       locale: locale === 'es' ? 'es_ES' : 'en_US',
       type: 'website',
