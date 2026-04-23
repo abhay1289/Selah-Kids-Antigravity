@@ -1,8 +1,19 @@
-import { getCollection, getPageContent } from '@/lib/cms-server';
+import type { Metadata } from 'next';
+import { getCollection, getPageContent, getSeoMetadata } from '@/lib/cms-server';
 import { INITIAL_VIDEOS } from '@/data/cms-fallbacks';
 import { INITIAL_PAGE_WATCH } from '@/data/page-content-watch';
 import type { Episode } from '@/data/catalog';
+import { isLocale } from '@/lib/i18n';
 import WatchPageClient from './WatchPageClient';
+
+interface PageProps {
+  params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return getSeoMetadata('/watch', isLocale(locale) ? locale : 'en');
+}
 
 /**
  * Watch — server component, Phase 3 CMS-driven.

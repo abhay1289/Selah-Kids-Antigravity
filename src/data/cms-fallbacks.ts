@@ -45,6 +45,8 @@ import {
 import type { FooterLink, SocialLink, FooterSettings } from './chrome-footer';
 import { INITIAL_ANNOUNCEMENT_BANNERS as ANNOUNCEMENT_BANNERS } from './chrome-announcements';
 import type { Banner } from './chrome-announcements';
+import { INITIAL_SEO_PAGES as SEO_PAGES } from './chrome-seo';
+import type { PageSEO } from './chrome-seo';
 
 // ───────────────────────────────────────────────────────────
 // Shared shapes
@@ -66,6 +68,7 @@ export type { Character } from './characters';
 export type { NavLink, NavSettings } from './chrome-navbar';
 export type { FooterLink, SocialLink, FooterSettings } from './chrome-footer';
 export type { Banner } from './chrome-announcements';
+export type { PageSEO, RobotsDirective, SchemaType } from './chrome-seo';
 
 export interface Testimonial {
   id: string;
@@ -118,3 +121,4 @@ export const INITIAL_FOOTER_LINKS: FooterLink[] = FOOTER_LINKS;
 export const INITIAL_FOOTER_SOCIAL: SocialLink[] = FOOTER_SOCIAL;
 export const INITIAL_FOOTER_SETTINGS: FooterSettings[] = FOOTER_SETTINGS;
 export const INITIAL_ANNOUNCEMENT_BANNERS: Banner[] = ANNOUNCEMENT_BANNERS;
+export const INITIAL_SEO_PAGES: PageSEO[] = SEO_PAGES;

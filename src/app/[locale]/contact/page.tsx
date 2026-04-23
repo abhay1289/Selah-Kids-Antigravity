@@ -1,9 +1,20 @@
 import React from 'react';
+import type { Metadata } from 'next';
 import { ContactHero } from '@/components/contact/ContactHero';
 import { ContactForm } from '@/components/contact/ContactForm';
 import { ContactSidebar } from '@/components/contact/ContactSidebar';
-import { getPageContent } from '@/lib/cms-server';
+import { getPageContent, getSeoMetadata } from '@/lib/cms-server';
 import { INITIAL_PAGE_CONTACT } from '@/data/page-content-contact';
+import { isLocale } from '@/lib/i18n';
+
+interface PageProps {
+  params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return getSeoMetadata('/contact', isLocale(locale) ? locale : 'en');
+}
 
 export default async function ContactPage() {
   const fields = await getPageContent('contact', INITIAL_PAGE_CONTACT);

@@ -27,7 +27,9 @@ import 'server-only';
 import { cookies } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
 import type { SupabaseClient } from '@supabase/supabase-js';
+import type { Metadata } from 'next';
 import * as fallbacks from '../data/cms-fallbacks';
+import { INITIAL_SEO_PAGES, SITE_ORIGIN, type PageSEO } from '../data/chrome-seo';
 
 // Env is read at call-time (not module-load) so tests can toggle modes per
 // test and so a late-set env var still flips the reader out of offline mode.
@@ -285,6 +287,83 @@ export async function getSiteSettings<T>(fallback: T): Promise<T> {
     return fallback;
   }
   return rows[0]!;
+}
+
+/**
+ * Fetch the seo_pages collection and turn the row matching `path` into a
+ * Next.js `Metadata` object. Pass this into each page's
+ * `generateMetadata()` — the collection is tagged and force-cached so the
+ * SEO read piggybacks on the same request's /[locale]/layout fetch.
+ *
+ *   - `path`   — logical path with no locale prefix ('/', '/about', etc.)
+ *   - `locale` — 'en' | 'es' — used to produce a locale-aware canonical
+ *                and alternates map. Admins store a single canonical in
+ *                the CMS; we rewrite it to `{origin}/${locale}${path}`
+ *                so each locale gets its own canonical and alternate.
+ *
+ * Falls back to INITIAL_SEO_PAGES if the DB returns zero rows or no
+ * matching path is found.
+ */
+function parseRobots(directive: PageSEO['robots']): Metadata['robots'] {
+  const [indexDirective, followDirective] = directive.split(',');
+  return {
+    index: indexDirective === 'index',
+    follow: followDirective === 'follow',
+  };
+}
+
+function resolveImageUrl(raw: string): string {
+  if (!raw) return `${SITE_ORIGIN}/SK_Logo_FN.png`;
+  if (raw.startsWith('http://') || raw.startsWith('https://')) return raw;
+  if (raw.startsWith('/')) return `${SITE_ORIGIN}${raw}`;
+  return `${SITE_ORIGIN}/${raw}`;
+}
+
+export async function getSeoMetadata(
+  path: string,
+  locale: 'en' | 'es',
+): Promise<Metadata> {
+  const rows = await getCollection<PageSEO>('seo_pages', INITIAL_SEO_PAGES);
+  const pool = rows.length > 0 ? rows : INITIAL_SEO_PAGES;
+  const seo =
+    pool.find((p) => p.path === path) ??
+    INITIAL_SEO_PAGES.find((p) => p.path === path);
+
+  if (!seo) {
+    // No seed entry and no DB row — let root metadata win.
+    return {};
+  }
+
+  const localePath = path === '/' ? `/${locale}` : `/${locale}${path}`;
+  const canonicalForLocale = `${SITE_ORIGIN}${localePath === `/${locale}` ? `/${locale}/` : localePath}`;
+  const ogImageUrl = resolveImageUrl(seo.ogImage);
+
+  return {
+    title: seo.metaTitle || undefined,
+    description: seo.metaDescription || undefined,
+    robots: parseRobots(seo.robots),
+    alternates: {
+      canonical: canonicalForLocale,
+      languages: {
+        en: `${SITE_ORIGIN}${path === '/' ? '/en/' : `/en${path}`}`,
+        es: `${SITE_ORIGIN}${path === '/' ? '/es/' : `/es${path}`}`,
+      },
+    },
+    openGraph: {
+      title: seo.ogTitle || seo.metaTitle || undefined,
+      description: seo.ogDescription || seo.metaDescription || undefined,
+      images: [{ url: ogImageUrl }],
+      locale: locale === 'es' ? 'es_ES' : 'en_US',
+      type: 'website',
+      url: canonicalForLocale,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: seo.ogTitle || seo.metaTitle || undefined,
+      description: seo.ogDescription || seo.metaDescription || undefined,
+      images: [ogImageUrl],
+    },
+  };
 }
 
 // ───────────────────────────────────────────────────────────

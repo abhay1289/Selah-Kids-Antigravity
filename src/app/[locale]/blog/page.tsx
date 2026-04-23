@@ -1,7 +1,18 @@
-import { getCollection } from '@/lib/cms-server';
+import type { Metadata } from 'next';
+import { getCollection, getSeoMetadata } from '@/lib/cms-server';
 import { INITIAL_BLOG_POSTS } from '@/data/cms-fallbacks';
 import type { BlogPost } from '@/data/blogPosts';
+import { isLocale } from '@/lib/i18n';
 import BlogPageClient from './BlogPageClient';
+
+interface PageProps {
+  params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  return getSeoMetadata('/blog', isLocale(locale) ? locale : 'en');
+}
 
 /**
  * Blog list — server component, Phase 3 CMS-driven.

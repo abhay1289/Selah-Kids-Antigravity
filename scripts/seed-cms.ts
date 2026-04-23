@@ -41,6 +41,7 @@ import {
   INITIAL_FOOTER_SOCIAL,
   INITIAL_FOOTER_SETTINGS,
   INITIAL_ANNOUNCEMENT_BANNERS,
+  INITIAL_SEO_PAGES,
   type PageFieldMap,
 } from '../src/data/cms-fallbacks';
 
@@ -107,6 +108,8 @@ const COLLECTIONS: CollectionGroup[] = [
   { name: 'footer_settings', items: INITIAL_FOOTER_SETTINGS },
   // Phase 5c — announcement banners.
   { name: 'announcement_banners', items: INITIAL_ANNOUNCEMENT_BANNERS },
+  // Phase 5d — SEO per-page metadata.
+  { name: 'seo_pages', items: INITIAL_SEO_PAGES },
 ];
 
 const PAGES: PageGroup[] = [
