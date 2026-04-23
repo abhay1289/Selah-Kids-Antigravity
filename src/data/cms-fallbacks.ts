@@ -43,6 +43,8 @@ import {
   INITIAL_FOOTER_SETTINGS as FOOTER_SETTINGS,
 } from './chrome-footer';
 import type { FooterLink, SocialLink, FooterSettings } from './chrome-footer';
+import { INITIAL_ANNOUNCEMENT_BANNERS as ANNOUNCEMENT_BANNERS } from './chrome-announcements';
+import type { Banner } from './chrome-announcements';
 
 // ───────────────────────────────────────────────────────────
 // Shared shapes
@@ -63,6 +65,7 @@ export type { TeamMember } from './team';
 export type { Character } from './characters';
 export type { NavLink, NavSettings } from './chrome-navbar';
 export type { FooterLink, SocialLink, FooterSettings } from './chrome-footer';
+export type { Banner } from './chrome-announcements';
 
 export interface Testimonial {
   id: string;
@@ -114,3 +117,4 @@ export const INITIAL_NAV_SETTINGS: NavSettings[] = NAV_SETTINGS;
 export const INITIAL_FOOTER_LINKS: FooterLink[] = FOOTER_LINKS;
 export const INITIAL_FOOTER_SOCIAL: SocialLink[] = FOOTER_SOCIAL;
 export const INITIAL_FOOTER_SETTINGS: FooterSettings[] = FOOTER_SETTINGS;
+export const INITIAL_ANNOUNCEMENT_BANNERS: Banner[] = ANNOUNCEMENT_BANNERS;

@@ -1,6 +1,7 @@
 'use client';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
+import { AnnouncementBanner } from './AnnouncementBanner';
 import { MediaProvider } from '../contexts/MediaContext';
 import VideoOverlay from './player/VideoOverlay';
 import MiniPlayer from './player/MiniPlayer';
@@ -9,6 +10,7 @@ import ShilohCompanion from './world/ShilohCompanion';
 import { useWorld } from '../stores/world';
 import type { NavLink, NavSettings } from '../data/chrome-navbar';
 import type { FooterLink, SocialLink, FooterSettings } from '../data/chrome-footer';
+import type { Banner } from '../data/chrome-announcements';
 
 interface LayoutShellProps {
   children: React.ReactNode;
@@ -17,12 +19,13 @@ interface LayoutShellProps {
   footerLinks: FooterLink[];
   footerSocial: SocialLink[];
   footerSettings: FooterSettings;
+  banners: Banner[];
 }
 
 /**
  * Public locale shell. Mounted by /[locale]/layout.tsx only — admin has its
  * own layout, so this no longer needs to branch on pathname. Chrome data
- * (nav + footer collections) arrives already fetched from the server layout.
+ * arrives already fetched from the server layout.
  */
 export function LayoutShell({
   children,
@@ -31,12 +34,14 @@ export function LayoutShell({
   footerLinks,
   footerSocial,
   footerSettings,
+  banners,
 }: LayoutShellProps) {
   const shilohEnabled = useWorld((s) => s.shilohEnabled);
 
   return (
     <WorldProvider>
       <MediaProvider>
+        <AnnouncementBanner banners={banners} />
         <Navbar navLinks={navLinks} navSettings={navSettings} />
         <main>{children}</main>
         <Footer footerLinks={footerLinks} footerSocial={footerSocial} footerSettings={footerSettings} />

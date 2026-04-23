@@ -40,6 +40,7 @@ import {
   INITIAL_FOOTER_LINKS,
   INITIAL_FOOTER_SOCIAL,
   INITIAL_FOOTER_SETTINGS,
+  INITIAL_ANNOUNCEMENT_BANNERS,
   type PageFieldMap,
 } from '../src/data/cms-fallbacks';
 
@@ -104,6 +105,8 @@ const COLLECTIONS: CollectionGroup[] = [
   { name: 'footer_links', items: INITIAL_FOOTER_LINKS },
   { name: 'footer_social', items: INITIAL_FOOTER_SOCIAL },
   { name: 'footer_settings', items: INITIAL_FOOTER_SETTINGS },
+  // Phase 5c — announcement banners.
+  { name: 'announcement_banners', items: INITIAL_ANNOUNCEMENT_BANNERS },
 ];
 
 const PAGES: PageGroup[] = [

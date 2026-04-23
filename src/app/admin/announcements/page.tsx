@@ -4,29 +4,15 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Save, Eye, EyeOff, X, Megaphone } from 'lucide-react';
 import { useCmsCollection } from '../../../lib/useCms';
-
-interface Banner {
-  id: string;
-  textEn: string;
-  textEs: string;
-  linkText: string;
-  linkHref: string;
-  bgColor: string;
-  textColor: string;
-  isActive: boolean;
-  dismissible: boolean;
-  showOnPages: 'all' | 'home' | 'custom';
-}
-
-const INITIAL_BANNERS: Banner[] = [
-  { id: '1', textEn: '🎉 New Song "I Am Blessed" is out now!', textEs: '🎉 ¡Nueva canción "Soy Bendecido" ya disponible!', linkText: 'Watch Now', linkHref: '/watch', bgColor: '#FF5C00', textColor: '#FFFFFF', isActive: true, dismissible: true, showOnPages: 'all' },
-  { id: '2', textEn: '📖 New blog post: "The Call to Be a Blessing"', textEs: '📖 Nuevo artículo: "El Llamado a Ser de Bendición"', linkText: 'Read', linkHref: '/blog/the-call-to-be-a-blessing', bgColor: '#3A6B44', textColor: '#FFFFFF', isActive: false, dismissible: true, showOnPages: 'home' },
-];
+import {
+  INITIAL_ANNOUNCEMENT_BANNERS,
+  type Banner,
+} from '../../../data/chrome-announcements';
 
 export default function AnnouncementBar() {
   const { items: banners, setItems: setBanners, isSaving, save, error } = useCmsCollection<Banner>(
     'announcement_banners',
-    INITIAL_BANNERS,
+    INITIAL_ANNOUNCEMENT_BANNERS,
   );
 
   const update = <K extends keyof Banner>(id: string, field: K, value: Banner[K]) => setBanners(banners.map(b => b.id === id ? { ...b, [field]: value } : b));

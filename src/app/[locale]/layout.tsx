@@ -16,6 +16,10 @@ import {
   type SocialLink,
   type FooterSettings,
 } from '../../data/chrome-footer';
+import {
+  INITIAL_ANNOUNCEMENT_BANNERS,
+  type Banner,
+} from '../../data/chrome-announcements';
 
 /**
  * Dynamic segment layout for /[locale]/.
@@ -53,17 +57,20 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
     footerLinksDb,
     footerSocialDb,
     footerSettingsDb,
+    bannersDb,
   ] = await Promise.all([
     getCollection<NavLink>('nav_links', INITIAL_NAV_LINKS),
     getCollection<NavSettings>('nav_settings', INITIAL_NAV_SETTINGS),
     getCollection<FooterLink>('footer_links', INITIAL_FOOTER_LINKS),
     getCollection<SocialLink>('footer_social', INITIAL_FOOTER_SOCIAL),
     getCollection<FooterSettings>('footer_settings', INITIAL_FOOTER_SETTINGS),
+    getCollection<Banner>('announcement_banners', INITIAL_ANNOUNCEMENT_BANNERS),
   ]);
 
   // Chrome fallback: getCollection returns [] (not fallback) in public mode
   // with zero published rows. Chrome is required to navigate the site —
-  // fall back to INITIAL_* whenever a DB answer is empty.
+  // fall back to INITIAL_* whenever a DB answer is empty. Announcements
+  // can legitimately be empty (no active promo) — no fallback there.
   const navLinks = navLinksDb.length > 0 ? navLinksDb : INITIAL_NAV_LINKS;
   const navSettings = navSettingsDb[0] ?? INITIAL_NAV_SETTINGS[0]!;
   const footerLinks = footerLinksDb.length > 0 ? footerLinksDb : INITIAL_FOOTER_LINKS;
@@ -77,6 +84,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
       footerLinks={footerLinks}
       footerSocial={footerSocial}
       footerSettings={footerSettings}
+      banners={bannersDb}
     >
       {children}
     </LayoutShell>
