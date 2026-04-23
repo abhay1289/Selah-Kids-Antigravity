@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { LanguageProvider } from "../contexts/LanguageContext";
-import { LayoutShell } from "../components/LayoutShell";
 import { LanguageSync } from "../components/LanguageSync";
 import "./globals.css";
 
@@ -67,9 +66,15 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
+        {/*
+          Root is shared by /[locale]/* (public) and /admin/* (admin). The
+          public locale layout mounts WorldProvider + Navbar + Footer + data
+          fetch; the admin layout owns its own sidebar/header. Root stays
+          lean so admin doesn't pay for public chrome on every page load.
+        */}
         <LanguageProvider>
           <LanguageSync />
-          <LayoutShell>{children}</LayoutShell>
+          {children}
         </LanguageProvider>
       </body>
     </html>

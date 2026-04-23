@@ -35,6 +35,8 @@ import {
   INITIAL_PAGE_DONATE,
   INITIAL_PAGE_CONTACT,
   INITIAL_PAGE_RESOURCES,
+  INITIAL_NAV_LINKS,
+  INITIAL_NAV_SETTINGS,
   type PageFieldMap,
 } from '../src/data/cms-fallbacks';
 
@@ -92,6 +94,9 @@ const COLLECTIONS: CollectionGroup[] = [
   { name: 'team', items: INITIAL_TEAM },
   { name: 'characters', items: INITIAL_CHARACTERS },
   { name: 'testimonials', items: INITIAL_TESTIMONIALS },
+  // Phase 5a — chrome collections.
+  { name: 'nav_links', items: INITIAL_NAV_LINKS },
+  { name: 'nav_settings', items: INITIAL_NAV_SETTINGS },
 ];
 
 const PAGES: PageGroup[] = [

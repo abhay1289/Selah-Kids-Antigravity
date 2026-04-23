@@ -8,8 +8,14 @@ import Link from "next/link";
 import { useLanguage } from "../contexts/LanguageContext";
 import { Button } from "./UI";
 import { fromLanguageKey, localeHref, getLocaleFromPathname, DEFAULT_LOCALE } from "../lib/i18n";
+import type { NavLink as CmsNavLink, NavSettings } from "../data/chrome-navbar";
 
-export function Navbar() {
+interface NavbarProps {
+  navLinks: CmsNavLink[];
+  navSettings: NavSettings;
+}
+
+export function Navbar({ navLinks: cmsLinks, navSettings }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
@@ -39,15 +45,18 @@ export function Navbar() {
   const locale = getLocaleFromPathname(pathname) ?? fromLanguageKey(language) ?? DEFAULT_LOCALE;
   const lh = (path: string) => localeHref(path, locale);
 
-  const navLinks = [
-    { name: t("Home", "Inicio"), href: lh("/") },
-    { name: t("About", "Sobre Nosotros"), href: lh("/about") },
-    { name: t("Watch", "Ver"), href: lh("/watch") },
-    { name: t("Characters", "Personajes"), href: lh("/characters") },
-    { name: t("Families", "Familias"), href: lh("/parents") },
-    { name: t("Blog", "Blog"), href: lh("/blog") },
-    { name: t("Resources", "Recursos"), href: lh("/resources") },
-  ];
+  // Visible CMS links → navigation items. Label picked by active language,
+  // href rewritten through localeHref so /es is preserved on the link.
+  const navLinks = cmsLinks
+    .filter((l) => l.isVisible)
+    .map((l) => ({
+      name: language === 'EN' ? l.labelEn : l.labelEs,
+      href: lh(l.href),
+    }));
+  const ctaLabel = language === 'EN' ? navSettings.ctaLabelEn : navSettings.ctaLabelEs;
+  const ctaHref = lh(navSettings.ctaHref);
+  const logoPath = navSettings.logoPath || '/SK_Logo_FN.png';
+  const showLanguageToggle = navSettings.showLanguageToggle;
 
   const closeMenu = () => setIsMenuOpen(false);
 
@@ -61,7 +70,7 @@ export function Navbar() {
         <div className="flex items-center gap-2">
           <Link href={lh("/")} aria-label="Selah Kids home" onClick={closeMenu}>
             <motion.img
-              src="/SK_Logo_FN.png"
+              src={logoPath}
               alt="Selah Kids"
               className="h-10 md:h-12 cursor-pointer rounded-xl"
               whileHover={{ scale: 1.04 }}
@@ -98,31 +107,33 @@ export function Navbar() {
         <div className="flex items-center gap-3">
           <div className="hidden sm:flex items-center gap-3">
             {/* Language Toggle — Flags */}
-            <div 
-              className={`flex items-center p-1 rounded-full cursor-pointer transition-colors duration-300 ${isScrolled || pathname !== '/' ? 'bg-black/5 hover:bg-black/10' : 'bg-selah-dark/5 hover:bg-selah-dark/10 backdrop-blur-md'}`}
-              onClick={() => setLanguage(l => l === 'EN' ? 'ES' : 'EN')}
-            >
-              <div className={`relative px-3 py-2 rounded-full transition-all duration-300 z-10 text-lg leading-none`}>
-                🇪🇸
-                {language === 'ES' && (
-                  <motion.div layoutId="lang-pill" className="absolute inset-0 bg-white rounded-full -z-10 shadow-sm" transition={{ type: "spring", bounce: 0.2, duration: 0.6 }} />
-                )}
+            {showLanguageToggle && (
+              <div
+                className={`flex items-center p-1 rounded-full cursor-pointer transition-colors duration-300 ${isScrolled || pathname !== '/' ? 'bg-black/5 hover:bg-black/10' : 'bg-selah-dark/5 hover:bg-selah-dark/10 backdrop-blur-md'}`}
+                onClick={() => setLanguage(l => l === 'EN' ? 'ES' : 'EN')}
+              >
+                <div className={`relative px-3 py-2 rounded-full transition-all duration-300 z-10 text-lg leading-none`}>
+                  🇪🇸
+                  {language === 'ES' && (
+                    <motion.div layoutId="lang-pill" className="absolute inset-0 bg-white rounded-full -z-10 shadow-sm" transition={{ type: "spring", bounce: 0.2, duration: 0.6 }} />
+                  )}
+                </div>
+                <div className={`relative px-3 py-2 rounded-full transition-all duration-300 z-10 text-lg leading-none`}>
+                  🇺🇸
+                  {language === 'EN' && (
+                    <motion.div layoutId="lang-pill" className="absolute inset-0 bg-white rounded-full -z-10 shadow-sm" transition={{ type: "spring", bounce: 0.2, duration: 0.6 }} />
+                  )}
+                </div>
               </div>
-              <div className={`relative px-3 py-2 rounded-full transition-all duration-300 z-10 text-lg leading-none`}>
-                🇺🇸
-                {language === 'EN' && (
-                  <motion.div layoutId="lang-pill" className="absolute inset-0 bg-white rounded-full -z-10 shadow-sm" transition={{ type: "spring", bounce: 0.2, duration: 0.6 }} />
-                )}
-              </div>
-            </div>
+            )}
 
-            <Button 
-              variant="primary" 
+            <Button
+              variant={navSettings.ctaStyle === 'secondary' ? 'outline' : 'primary'}
               className="!py-3 !px-8 !rounded-2xl ui-button shadow-lg shadow-selah-orange/20 hover:shadow-xl hover:shadow-selah-orange/30 hover:-translate-y-0.5 transition-all whitespace-nowrap"
               icon={ArrowRight}
-              onClick={() => router.push(lh("/donate"))}
+              onClick={() => router.push(ctaHref)}
             >
-              {t("Donate", "Donar")}
+              {ctaLabel}
             </Button>
           </div>
 
@@ -166,27 +177,29 @@ export function Navbar() {
                 </motion.div>
               ))}
               <div className="flex flex-col gap-4 pt-6 mt-2 border-t border-black/5">
-                <div className="flex items-center justify-between px-2">
-                  <span className="text-selah-dark ui-label">{t("Language", "Idioma")}</span>
-                  <div 
-                    className="flex items-center p-1 rounded-full cursor-pointer bg-black/5"
-                    onClick={() => setLanguage(l => l === 'EN' ? 'ES' : 'EN')}
-                  >
-                    <div className={`px-3 py-2 rounded-full text-lg leading-none transition-all duration-300 ${language === 'ES' ? 'bg-white shadow-sm' : ''}`}>
-                      🇪🇸
-                    </div>
-                    <div className={`px-3 py-2 rounded-full text-lg leading-none transition-all duration-300 ${language === 'EN' ? 'bg-white shadow-sm' : ''}`}>
-                      🇺🇸
+                {showLanguageToggle && (
+                  <div className="flex items-center justify-between px-2">
+                    <span className="text-selah-dark ui-label">{t("Language", "Idioma")}</span>
+                    <div
+                      className="flex items-center p-1 rounded-full cursor-pointer bg-black/5"
+                      onClick={() => setLanguage(l => l === 'EN' ? 'ES' : 'EN')}
+                    >
+                      <div className={`px-3 py-2 rounded-full text-lg leading-none transition-all duration-300 ${language === 'ES' ? 'bg-white shadow-sm' : ''}`}>
+                        🇪🇸
+                      </div>
+                      <div className={`px-3 py-2 rounded-full text-lg leading-none transition-all duration-300 ${language === 'EN' ? 'bg-white shadow-sm' : ''}`}>
+                        🇺🇸
+                      </div>
                     </div>
                   </div>
-                </div>
-                <Button 
-                  variant="primary" 
-                  className="w-full ui-button whitespace-nowrap" 
+                )}
+                <Button
+                  variant={navSettings.ctaStyle === 'secondary' ? 'outline' : 'primary'}
+                  className="w-full ui-button whitespace-nowrap"
                   icon={ArrowRight}
-                  onClick={() => { setIsMenuOpen(false); router.push(lh("/donate")); }}
+                  onClick={() => { setIsMenuOpen(false); router.push(ctaHref); }}
                 >
-                  {t("Donate Now", "Donar Ahora")}
+                  {ctaLabel}
                 </Button>
               </div>
             </div>

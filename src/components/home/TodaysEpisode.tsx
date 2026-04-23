@@ -6,6 +6,7 @@ import { useRef, useState } from 'react';
 import { EPISODES, getTodaysPick } from '../../data/catalog';
 import { useMedia } from '../../contexts/MediaContext';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { localDateString } from '../../lib/today';
 
 const LABELS_EN = ["Today’s Pick", 'Sunday Starter', 'Car-ride Special', 'Midweek Calm', 'Wake-up Joy', 'Family Story Time', 'Dinner Table Question'];
 const LABELS_ES = ['Elección de Hoy', 'Comienzo del Domingo', 'Especial de Viaje', 'Calma de la Semana', 'Alegría Matutina', 'Cuento Familiar', 'Pregunta en la Mesa'];
@@ -18,11 +19,12 @@ export default function TodaysEpisode() {
   const controls = useAnimationControls();
   const [isHandingOff, setIsHandingOff] = useState(false);
   const prevModeRef = useRef(mode);
-  // Single Date instance so weekday label can't skew from the UTC day
-  // used for pick selection (and keeps the component deterministic even
-  // if render spans a day boundary).
+  // Single Date instance so pick-date and weekday label agree even around a
+  // day boundary. Both must be derived from LOCAL calendar — mixing
+  // toISOString() (UTC) with getDay() (local) drifts the pick one day ahead
+  // of the label for U.S. evening visitors.
   const now = new Date();
-  const today = now.toISOString().slice(0, 10);
+  const today = localDateString(now);
   const pick = getTodaysPick(today);
   const rest = EPISODES.filter((e) => e.id !== pick.id).slice(0, 6);
   const label = (language === 'EN' ? LABELS_EN : LABELS_ES)[now.getDay()];

@@ -9,6 +9,7 @@ import { useLanguage } from "../../contexts/LanguageContext";
 import { useMedia } from "../../contexts/MediaContext";
 import { EPISODES, getTodaysPick } from "../../data/catalog";
 import { useFieldResolver } from "../../lib/page-fields";
+import { localDateString } from "../../lib/today";
 import type { PageFieldMap } from "../../lib/cms-server";
 
 const sectionVariants = {
@@ -29,7 +30,7 @@ export function JoinYouTubeSection({ fields }: { fields?: PageFieldMap } = {}) {
   const containerRef = useRef<HTMLElement>(null);
   const f = useFieldResolver(fields);
 
-  const today = new Date().toISOString().slice(0, 10);
+  const today = localDateString();
   const pick = getTodaysPick(today);
   const pickTitle = language === 'ES' && pick.titleEs ? pick.titleEs : pick.title;
   const previewDuration = `${Math.floor(pick.durationSec / 60)}:${String(pick.durationSec % 60).padStart(2, '0')}`;

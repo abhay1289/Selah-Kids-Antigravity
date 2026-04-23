@@ -32,6 +32,11 @@ import { INITIAL_PAGE_PARENTS as PAGE_PARENTS } from './page-content-parents';
 import { INITIAL_PAGE_DONATE as PAGE_DONATE } from './page-content-donate';
 import { INITIAL_PAGE_CONTACT as PAGE_CONTACT } from './page-content-contact';
 import { INITIAL_PAGE_RESOURCES as PAGE_RESOURCES } from './page-content-resources';
+import {
+  INITIAL_NAV_LINKS as NAV_LINKS,
+  INITIAL_NAV_SETTINGS as NAV_SETTINGS,
+} from './chrome-navbar';
+import type { NavLink, NavSettings } from './chrome-navbar';
 
 // ───────────────────────────────────────────────────────────
 // Shared shapes
@@ -50,6 +55,7 @@ export type { BlogPost } from './blogPosts';
 export type { Episode as Video } from './catalog';
 export type { TeamMember } from './team';
 export type { Character } from './characters';
+export type { NavLink, NavSettings } from './chrome-navbar';
 
 export interface Testimonial {
   id: string;
@@ -93,3 +99,9 @@ export const INITIAL_PAGE_PARENTS: PageFieldMap = PAGE_PARENTS;
 export const INITIAL_PAGE_DONATE: PageFieldMap = PAGE_DONATE;
 export const INITIAL_PAGE_CONTACT: PageFieldMap = PAGE_CONTACT;
 export const INITIAL_PAGE_RESOURCES: PageFieldMap = PAGE_RESOURCES;
+
+// Phase 5 — chrome (navbar first). INITIAL_NAV_SETTINGS is an array with
+// a single row because `nav_settings` rides on the same `collections` table
+// as multi-row collections; the public reader picks items[0].
+export const INITIAL_NAV_LINKS: NavLink[] = NAV_LINKS;
+export const INITIAL_NAV_SETTINGS: NavSettings[] = NAV_SETTINGS;

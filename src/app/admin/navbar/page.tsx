@@ -4,58 +4,24 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Save, Plus, Trash2, GripVertical, Eye, EyeOff } from 'lucide-react';
 import { useCmsCollection } from '../../../lib/useCms';
-
-interface NavLink {
-  id: string;
-  labelEn: string;
-  labelEs: string;
-  href: string;
-  isVisible: boolean;
-}
-
-interface NavSettings {
-  id: string;
-  logoPath: string;
-  ctaLabelEn: string;
-  ctaLabelEs: string;
-  ctaHref: string;
-  ctaStyle: 'primary' | 'secondary';
-  stickyOnScroll: boolean;
-  showLanguageToggle: boolean;
-}
-
-const INITIAL_LINKS: NavLink[] = [
-  { id: '1', labelEn: 'Home', labelEs: 'Inicio', href: '/', isVisible: true },
-  { id: '2', labelEn: 'About', labelEs: 'Sobre Nosotros', href: '/about', isVisible: true },
-  { id: '3', labelEn: 'Watch', labelEs: 'Ver', href: '/watch', isVisible: true },
-  { id: '4', labelEn: 'Characters', labelEs: 'Personajes', href: '/characters', isVisible: true },
-  { id: '5', labelEn: 'Families', labelEs: 'Familias', href: '/parents', isVisible: true },
-  { id: '6', labelEn: 'Blog', labelEs: 'Blog', href: '/blog', isVisible: true },
-  { id: '7', labelEn: 'Resources', labelEs: 'Recursos', href: '/resources', isVisible: true },
-];
-
-const INITIAL_SETTINGS: NavSettings[] = [{
-  id: 'nav',
-  logoPath: '/SK_Logo_FN.jpg',
-  ctaLabelEn: 'Donate',
-  ctaLabelEs: 'Donar',
-  ctaHref: '/donate',
-  ctaStyle: 'primary',
-  stickyOnScroll: true,
-  showLanguageToggle: true,
-}];
+import {
+  INITIAL_NAV_LINKS,
+  INITIAL_NAV_SETTINGS,
+  type NavLink,
+  type NavSettings,
+} from '../../../data/chrome-navbar';
 
 export default function NavbarEditor() {
   const { items: links, setItems: setLinks, isSaving: linksSaving, save: saveLinks, error: linksError } = useCmsCollection<NavLink>(
     'nav_links',
-    INITIAL_LINKS,
+    INITIAL_NAV_LINKS,
   );
   const { items: settingsArr, setItems: setSettingsArr, isSaving: settingsSaving, save: saveSettings, error: settingsError } = useCmsCollection<NavSettings>(
     'nav_settings',
-    INITIAL_SETTINGS,
+    INITIAL_NAV_SETTINGS,
     { sortOrder: false },
   );
-  const settings = settingsArr[0] ?? INITIAL_SETTINGS[0];
+  const settings = settingsArr[0] ?? INITIAL_NAV_SETTINGS[0];
   const setSettings = (s: NavSettings) => setSettingsArr([s]);
   const isSaving = linksSaving || settingsSaving;
   const error = linksError || settingsError;

@@ -1,5 +1,4 @@
 'use client';
-import { usePathname } from 'next/navigation';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { MediaProvider } from '../contexts/MediaContext';
@@ -8,18 +7,26 @@ import MiniPlayer from './player/MiniPlayer';
 import { WorldProvider } from './world/WorldProvider';
 import ShilohCompanion from './world/ShilohCompanion';
 import { useWorld } from '../stores/world';
+import type { NavLink, NavSettings } from '../data/chrome-navbar';
 
-export function LayoutShell({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
+interface LayoutShellProps {
+  children: React.ReactNode;
+  navLinks: NavLink[];
+  navSettings: NavSettings;
+}
+
+/**
+ * Public locale shell. Mounted by /[locale]/layout.tsx only — admin has its
+ * own layout, so this no longer needs to branch on pathname. Chrome data
+ * (navLinks, navSettings) arrives already fetched from the server layout.
+ */
+export function LayoutShell({ children, navLinks, navSettings }: LayoutShellProps) {
   const shilohEnabled = useWorld((s) => s.shilohEnabled);
-
-  // Admin owns its own shell (sidebar + header). Don't double-wrap with public chrome.
-  if (pathname?.startsWith('/admin')) return <>{children}</>;
 
   return (
     <WorldProvider>
       <MediaProvider>
-        <Navbar />
+        <Navbar navLinks={navLinks} navSettings={navSettings} />
         <main>{children}</main>
         <Footer />
         <VideoOverlay />
