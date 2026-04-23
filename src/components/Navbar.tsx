@@ -69,8 +69,9 @@ export function Navbar({ navLinks: cmsLinks, navSettings }: NavbarProps) {
   const closeMenu = () => setIsMenuOpen(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 flex justify-center p-4 md:p-6 pointer-events-none">
-      <motion.div
+    <div className="sticky top-0 z-50 w-full h-0">
+      <nav className="flex justify-center p-4 md:p-6 pointer-events-none">
+        <motion.div
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         className="pointer-events-auto glass-chrome flex items-center justify-between w-full max-w-7xl px-6 py-2 rounded-[2rem] transition-shadow duration-500"
@@ -219,6 +220,7 @@ export function Navbar({ navLinks: cmsLinks, navSettings }: NavbarProps) {
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+      </nav>
+    </div>
   );
 }

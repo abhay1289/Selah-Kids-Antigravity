@@ -16,13 +16,24 @@ const STORAGE_PREFIX = 'selahkids:banner-dismissed:';
  */
 function sanitizeHref(raw: string | undefined): string | null {
   if (!raw) return null;
-  if (raw.startsWith('/')) return raw;
+  if (raw.startsWith('/') || raw.startsWith('#') || raw.startsWith('?') || raw.startsWith('mailto:') || raw.startsWith('tel:')) return raw;
   try {
     const parsed = new URL(raw);
     return parsed.protocol === 'http:' || parsed.protocol === 'https:' ? raw : null;
   } catch {
     return null;
   }
+}
+
+/**
+ * Banner ids flow into an inline <script> / <style> and into a CSS class
+ * name, so any character that could close a quote or open a new JS/CSS
+ * token is rejected. Admin-authored ids that fail this gate fall back to
+ * a stable hash so the render still works — but we lose dismissal
+ * persistence for that row, which surfaces the bad id to the editor.
+ */
+function safeId(raw: string): string {
+  return /^[A-Za-z0-9_-]+$/.test(raw) ? raw : 'banner';
 }
 
 function matchesPage(banner: Banner, locale: 'en' | 'es', pathname: string | null): boolean {
@@ -42,13 +53,13 @@ export function AnnouncementBanner({ banners }: { banners: Banner[] }) {
 
   const [dismissed, setDismissed] = useState(false);
 
-  // Dismissal lives in sessionStorage so it clears when the tab closes but
-  // persists through internal navigations. Read happens after mount to
-  // avoid a hydration mismatch (server has no sessionStorage).
+  // Dismissal lives in localStorage so it persists across tabs.
+  // Read happens after mount to avoid a hydration mismatch. An inline
+  // script hides the banner before hydration to avoid a visual flash.
   useEffect(() => {
     if (!banner) return;
     try {
-      if (window.sessionStorage.getItem(STORAGE_PREFIX + banner.id) === '1') {
+      if (window.localStorage.getItem(STORAGE_PREFIX + banner.id) === '1') {
         setDismissed(true);
       }
     } catch {
@@ -63,39 +74,53 @@ export function AnnouncementBanner({ banners }: { banners: Banner[] }) {
   const text = locale === 'en' ? banner.textEn : banner.textEs;
   const safeHref = sanitizeHref(banner.linkHref);
   const href = safeHref?.startsWith('/') ? localeHref(safeHref, locale) : safeHref;
+  const bid = safeId(banner.id);
+  const storageKey = STORAGE_PREFIX + bid;
 
   const handleDismiss = () => {
     setDismissed(true);
     try {
-      window.sessionStorage.setItem(STORAGE_PREFIX + banner.id, '1');
+      window.localStorage.setItem(storageKey, '1');
     } catch {
       /* storage disabled — dismiss still works for this view. */
     }
   };
 
+  // Inline script + style hide the banner before React hydrates to avoid
+  // a visible flash for returning visitors. `bid` is constrained to
+  // `[A-Za-z0-9_-]+` so interpolation into the JS/CSS strings is safe —
+  // no quoting or escaping is needed.
+  const hideScript = `try{if(localStorage.getItem(${JSON.stringify(storageKey)})==='1')document.documentElement.classList.add('hide-banner-${bid}')}catch(e){}`;
+  const hideStyle = `.hide-banner-${bid} #announcement-${bid} { display: none !important; }`;
+
   return (
-    <div
-      role="region"
-      aria-label="Site announcement"
-      className="w-full flex items-center justify-center gap-3 px-4 py-2 text-[13px] font-semibold"
-      style={{ backgroundColor: banner.bgColor, color: banner.textColor }}
-    >
-      <span>{text}</span>
-      {href && banner.linkText && (
-        <Link href={href} className="underline underline-offset-2 hover:opacity-80 transition-opacity">
-          {banner.linkText} →
-        </Link>
-      )}
-      {banner.dismissible && (
-        <button
-          type="button"
-          onClick={handleDismiss}
-          aria-label="Dismiss announcement"
-          className="ml-2 rounded-full p-1 hover:bg-white/15 transition-colors"
-        >
-          <X size={14} />
-        </button>
-      )}
-    </div>
+    <>
+      <script dangerouslySetInnerHTML={{ __html: hideScript }} />
+      <style dangerouslySetInnerHTML={{ __html: hideStyle }} />
+      <div
+        id={`announcement-${bid}`}
+        role="region"
+        aria-label="Site announcement"
+        className="w-full flex items-center justify-center gap-3 px-4 py-2 text-[13px] font-semibold"
+        style={{ backgroundColor: banner.bgColor, color: banner.textColor }}
+      >
+        <span>{text}</span>
+        {href && banner.linkText && (
+          <Link href={href} className="underline underline-offset-2 hover:opacity-80 transition-opacity">
+            {banner.linkText} →
+          </Link>
+        )}
+        {banner.dismissible && (
+          <button
+            type="button"
+            onClick={handleDismiss}
+            aria-label="Dismiss announcement"
+            className="ml-2 rounded-full p-1 hover:bg-white/15 transition-colors"
+          >
+            <X size={14} aria-hidden="true" />
+          </button>
+        )}
+      </div>
+    </>
   );
 }
