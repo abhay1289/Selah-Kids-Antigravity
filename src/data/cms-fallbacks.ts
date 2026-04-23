@@ -40,19 +40,12 @@ export type PageFieldMap = Record<string, PageField>;
 // Post-Phase-3 consolidation will inline this type here and delete blogPosts.ts.
 export type { BlogPost } from './blogPosts';
 
-export interface Video {
-  id: string;
-  title: string;
-  titleEs: string;
-  description: string;
-  descriptionEs: string;
-  category: string;
-  language: string;
-  img: string;
-  youtubeUrl: string;
-  date: string;
-  isPublished: boolean;
-}
+// Video re-exports Episode from src/data/catalog.ts — the canonical shape
+// that the watch page and WatchGrid both render from. The admin editor's
+// simpler shape (title, titleEs, category, language, img, youtubeUrl, date,
+// isPublished) is a subset; when the admin editor eventually writes Episode
+// rows, the shape contract is enforced by this type export + seed:diff.
+export type { Episode as Video } from './catalog';
 
 export interface TeamMember {
   id: string;
@@ -109,7 +102,9 @@ import { CHARACTERS } from './characters';
 import type { Character } from './characters';
 export const INITIAL_CHARACTERS: Character[] = CHARACTERS;
 
-export const INITIAL_VIDEOS: Video[] = [];
+import { EPISODES } from './catalog';
+import type { Episode } from './catalog';
+export const INITIAL_VIDEOS: Episode[] = EPISODES;
 export const INITIAL_TEAM: TeamMember[] = [];
 export const INITIAL_TESTIMONIALS: Testimonial[] = [];
 
