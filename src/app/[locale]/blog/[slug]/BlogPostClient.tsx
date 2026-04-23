@@ -186,7 +186,7 @@ export default function BlogPostClient({ post, allPosts }: BlogPostClientProps) 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {prevPost && (
               <Link
-                href={`/blog/${prevPost.slug}`}
+                href={lh(`/blog/${prevPost.slug}`)}
                 className="group flex items-center gap-4 p-5 bg-white/80 backdrop-blur-xl rounded-2xl border border-selah-dark/5 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300"
               >
                 <ArrowLeft size={18} className="text-selah-orange group-hover:-translate-x-1 transition-transform shrink-0" />
@@ -200,7 +200,7 @@ export default function BlogPostClient({ post, allPosts }: BlogPostClientProps) 
             )}
             {nextPost && (
               <Link
-                href={`/blog/${nextPost.slug}`}
+                href={lh(`/blog/${nextPost.slug}`)}
                 className="group flex items-center gap-4 p-5 bg-white/80 backdrop-blur-xl rounded-2xl border border-selah-dark/5 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 text-right md:col-start-2"
               >
                 <div className="min-w-0 flex-1">

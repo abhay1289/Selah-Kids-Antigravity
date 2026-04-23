@@ -7,53 +7,52 @@ import {
   Play, Eye, EyeOff, Link2
 } from 'lucide-react';
 import { useCmsCollection } from '../../../../lib/useCms';
+import { INITIAL_VIDEOS } from '../../../../data/cms-fallbacks';
+import type { Episode, EpisodeCategory, EpisodeLanguage, AgeBand } from '../../../../data/catalog';
 
-interface Video {
-  id: string;
-  title: string;
-  titleEs: string;
-  description: string;
-  descriptionEs: string;
-  category: string;
-  language: string;
-  img: string;
-  youtubeUrl: string;
-  date: string;
-  isPublished: boolean;
-}
+// Admin-editable wrapper around canonical Episode shape. `isPublished` is a
+// UI-only flag that useCmsCollection.save() reads to drive the separate
+// `is_published` DB column (Phase 1 RLS filter).
+type EpisodeEditable = Episode & { isPublished?: boolean };
 
-const INITIAL_VIDEOS: Video[] = [
-  { id: '1', title: 'I Am Blessed', titleEs: 'Bendecido Estoy', description: 'A wonderful reminder of our blessings from God.', descriptionEs: 'Un hermoso recordatorio de nuestras bendiciones.', category: 'Music Video', language: 'EN', img: '/thumb-i-am-blessed-en.jpg', youtubeUrl: 'https://www.youtube.com/watch?v=example1', date: '2024', isPublished: true },
-  { id: '2', title: 'The Great News!', titleEs: '¡La Gran Noticia!', description: 'The Great News song teaches kids about the good news of Jesus.', descriptionEs: 'Esta canción enseña a los niños sobre las buenas nuevas de Jesús.', category: 'Music Video', language: 'EN', img: '/thumb-the-great-news-en.jpg', youtubeUrl: 'https://www.youtube.com/watch?v=example2', date: '2024', isPublished: true },
-  { id: '3', title: 'David and Goliath', titleEs: 'David y Goliat', description: 'The story of David and Goliath teaches courage.', descriptionEs: 'La historia de David y Goliat enseña valentía.', category: 'Cartoon', language: 'EN', img: '/thumb-david-goliath-en.jpg', youtubeUrl: 'https://www.youtube.com/watch?v=example3', date: '2025', isPublished: true },
-];
+const INITIAL_EDITABLE: EpisodeEditable[] = INITIAL_VIDEOS.map((e) => ({ ...e, isPublished: true }));
+
+const CATEGORIES: EpisodeCategory[] = ['music-video', 'sing-along', 'sensory'];
+const LANGUAGES: EpisodeLanguage[] = ['EN', 'ES'];
+const AGE_BANDS: AgeBand[] = ['2-4', '3-6', '5-8', 'all'];
 
 export default function VideoManager() {
-  const { items: videos, setItems: setVideos, isSaving, save, error } = useCmsCollection<Video>(
+  const { items: videos, setItems: setVideos, isSaving, save, error } = useCmsCollection<EpisodeEditable>(
     'videos',
-    INITIAL_VIDEOS,
+    INITIAL_EDITABLE,
   );
   const [expandedVideo, setExpandedVideo] = useState<string | null>(null);
 
   const addNewVideo = () => {
-    const newVideo: Video = {
-      id: Date.now().toString(),
+    const newId = `new-video-${Date.now()}`;
+    const newVideo: EpisodeEditable = {
+      id: newId,
+      youtubeId: '',
       title: 'New Video',
       titleEs: 'Nuevo Video',
       description: '',
       descriptionEs: '',
-      category: 'Music Video',
+      category: 'music-video',
       language: 'EN',
-      img: '',
-      youtubeUrl: '',
-      date: new Date().getFullYear().toString(),
+      thumbnail: '',
+      dateIso: new Date().toISOString().slice(0, 10),
+      dateLabel: '',
+      durationSec: 0,
+      ageBand: 'all',
+      tags: [],
+      sensoryFriendly: false,
       isPublished: false,
     };
     setVideos([newVideo, ...videos]);
     setExpandedVideo(newVideo.id);
   };
 
-  const updateVideo = <K extends keyof Video>(id: string, field: K, value: Video[K]) => {
+  const updateVideo = <K extends keyof EpisodeEditable>(id: string, field: K, value: EpisodeEditable[K]) => {
     setVideos(videos.map(v => v.id === id ? { ...v, [field]: value } : v));
   };
 
@@ -93,12 +92,12 @@ export default function VideoManager() {
             <motion.div key={video.id} layout initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95 }} className="bg-white/80 backdrop-blur-xl rounded-2xl border border-white/60 shadow-sm overflow-hidden">
               <button onClick={() => setExpandedVideo(expandedVideo === video.id ? null : video.id)} className="w-full flex items-center gap-4 px-6 py-4 text-left hover:bg-[#3a6b44]/[0.02] transition-colors group">
                 <div className="w-20 h-12 rounded-xl bg-[#3a6b44]/5 border border-[#3a6b44]/10 overflow-hidden flex-shrink-0 relative">
-                  {video.img && <img src={video.img} alt="" className="w-full h-full object-cover" />}
+                  {video.thumbnail && <img src={video.thumbnail} alt="" className="w-full h-full object-cover" />}
                   <div className="absolute inset-0 flex items-center justify-center bg-black/20"><Play size={14} className="text-white" /></div>
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="text-[14px] font-bold text-[#3a6b44] truncate group-hover:text-[#ff5c00] transition-colors">{video.title}</h3>
-                  <p className="text-[12px] text-[#5a7d62]/50 font-medium">{video.category} • {video.language} • {video.date}</p>
+                  <p className="text-[12px] text-[#5a7d62]/50 font-medium">{video.category} • {video.language} • {video.dateLabel || video.dateIso}</p>
                 </div>
                 <span className={`px-3 py-1 rounded-full text-[11px] font-semibold flex-shrink-0 ${video.isPublished ? 'bg-[#93d35c]/10 text-[#3a6b44]' : 'bg-[#feb835]/10 text-[#feb835]'}`}>
                   {video.isPublished ? 'Published' : 'Draft'}
@@ -112,26 +111,38 @@ export default function VideoManager() {
                     <div className="p-6 border-t border-[#3a6b44]/5 space-y-4">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div><label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 block">Title (EN) 🇺🇸</label><input value={video.title} onChange={(e) => updateVideo(video.id, 'title', e.target.value)} className="w-full h-[44px] px-4 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 focus:bg-white text-[#3a6b44] text-[14px] font-medium outline-none transition-all" /></div>
-                        <div><label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 block">Title (ES) 🇪🇸</label><input value={video.titleEs} onChange={(e) => updateVideo(video.id, 'titleEs', e.target.value)} className="w-full h-[44px] px-4 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 focus:bg-white text-[#3a6b44] text-[14px] font-medium outline-none transition-all" /></div>
+                        <div><label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 block">Title (ES) 🇪🇸</label><input value={video.titleEs ?? ''} onChange={(e) => updateVideo(video.id, 'titleEs', e.target.value)} className="w-full h-[44px] px-4 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 focus:bg-white text-[#3a6b44] text-[14px] font-medium outline-none transition-all" /></div>
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div><label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 block">Description (EN)</label><textarea value={video.description} onChange={(e) => updateVideo(video.id, 'description', e.target.value)} rows={3} className="w-full px-4 py-3 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 focus:bg-white text-[#3a6b44] text-[14px] font-medium outline-none transition-all resize-none" /></div>
-                        <div><label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 block">Description (ES)</label><textarea value={video.descriptionEs} onChange={(e) => updateVideo(video.id, 'descriptionEs', e.target.value)} rows={3} className="w-full px-4 py-3 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 focus:bg-white text-[#3a6b44] text-[14px] font-medium outline-none transition-all resize-none" /></div>
+                        <div><label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 block">Description (ES)</label><textarea value={video.descriptionEs ?? ''} onChange={(e) => updateVideo(video.id, 'descriptionEs', e.target.value)} rows={3} className="w-full px-4 py-3 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 focus:bg-white text-[#3a6b44] text-[14px] font-medium outline-none transition-all resize-none" /></div>
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div><label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 block">Category</label><select value={video.category} onChange={(e) => updateVideo(video.id, 'category', e.target.value)} className="w-full h-[44px] px-4 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 text-[#3a6b44] text-[14px] font-medium outline-none"><option value="Music Video">Music Video</option><option value="Cartoon">Cartoon</option><option value="Worship">Worship</option></select></div>
-                        <div><label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 block">Language</label><select value={video.language} onChange={(e) => updateVideo(video.id, 'language', e.target.value)} className="w-full h-[44px] px-4 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 text-[#3a6b44] text-[14px] font-medium outline-none"><option value="EN">English</option><option value="ES">Español</option><option value="Both">Both</option></select></div>
-                        <div><label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 block">Year</label><input value={video.date} onChange={(e) => updateVideo(video.id, 'date', e.target.value)} className="w-full h-[44px] px-4 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 focus:bg-white text-[#3a6b44] text-[14px] font-medium outline-none transition-all" /></div>
+                        <div><label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 block">Category</label><select value={video.category} onChange={(e) => updateVideo(video.id, 'category', e.target.value as EpisodeCategory)} className="w-full h-[44px] px-4 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 text-[#3a6b44] text-[14px] font-medium outline-none">{CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}</select></div>
+                        <div><label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 block">Language</label><select value={video.language} onChange={(e) => updateVideo(video.id, 'language', e.target.value as EpisodeLanguage)} className="w-full h-[44px] px-4 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 text-[#3a6b44] text-[14px] font-medium outline-none">{LANGUAGES.map((l) => <option key={l} value={l}>{l}</option>)}</select></div>
+                        <div><label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 block">Age Band</label><select value={video.ageBand} onChange={(e) => updateVideo(video.id, 'ageBand', e.target.value as AgeBand)} className="w-full h-[44px] px-4 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 text-[#3a6b44] text-[14px] font-medium outline-none">{AGE_BANDS.map((a) => <option key={a} value={a}>{a}</option>)}</select></div>
                       </div>
-                      <div><label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 flex items-center gap-1"><Link2 size={12} /> YouTube URL</label><input value={video.youtubeUrl} onChange={(e) => updateVideo(video.id, 'youtubeUrl', e.target.value)} placeholder="https://www.youtube.com/watch?v=..." className="w-full h-[44px] px-4 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 focus:bg-white text-[#3a6b44] text-[13px] font-medium outline-none transition-all" /></div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div><label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 block">Date (YYYY-MM-DD)</label><input value={video.dateIso} onChange={(e) => updateVideo(video.id, 'dateIso', e.target.value)} placeholder="2025-04-01" className="w-full h-[44px] px-4 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 focus:bg-white text-[#3a6b44] text-[14px] font-medium outline-none transition-all" /></div>
+                        <div><label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 block">Date Label</label><input value={video.dateLabel} onChange={(e) => updateVideo(video.id, 'dateLabel', e.target.value)} placeholder="APR 2025" className="w-full h-[44px] px-4 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 focus:bg-white text-[#3a6b44] text-[14px] font-medium outline-none transition-all" /></div>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div><label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 flex items-center gap-1"><Link2 size={12} /> YouTube ID</label><input value={video.youtubeId} onChange={(e) => updateVideo(video.id, 'youtubeId', e.target.value)} placeholder="11-char ID (e.g. dQw4w9WgXcQ)" className="w-full h-[44px] px-4 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 focus:bg-white text-[#3a6b44] text-[13px] font-medium outline-none transition-all" /></div>
+                        <div><label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 block">Duration (seconds)</label><input type="number" value={video.durationSec} onChange={(e) => updateVideo(video.id, 'durationSec', Number(e.target.value) || 0)} className="w-full h-[44px] px-4 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 focus:bg-white text-[#3a6b44] text-[14px] font-medium outline-none transition-all" /></div>
+                      </div>
                       <div><label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 block">Thumbnail</label>
                         <div className="flex items-center gap-3">
-                          <div className="w-24 h-14 rounded-xl bg-[#3a6b44]/5 border-2 border-dashed border-[#3a6b44]/10 overflow-hidden">{video.img && <img src={video.img} alt="" className="w-full h-full object-cover" />}</div>
-                          <input value={video.img} onChange={(e) => updateVideo(video.id, 'img', e.target.value)} placeholder="Image path" className="flex-1 h-[44px] px-4 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 focus:bg-white text-[#3a6b44] text-[13px] font-medium outline-none transition-all" />
+                          <div className="w-24 h-14 rounded-xl bg-[#3a6b44]/5 border-2 border-dashed border-[#3a6b44]/10 overflow-hidden">{video.thumbnail && <img src={video.thumbnail} alt="" className="w-full h-full object-cover" />}</div>
+                          <input value={video.thumbnail} onChange={(e) => updateVideo(video.id, 'thumbnail', e.target.value)} placeholder="/thumb-foo.jpg" className="flex-1 h-[44px] px-4 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 focus:bg-white text-[#3a6b44] text-[13px] font-medium outline-none transition-all" />
                         </div>
                       </div>
+                      <div><label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 block">Tags (comma-separated)</label><input value={video.tags.join(', ')} onChange={(e) => updateVideo(video.id, 'tags', e.target.value.split(',').map(t => t.trim()).filter(Boolean))} placeholder="joy, praise, worship" className="w-full h-[44px] px-4 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 focus:bg-white text-[#3a6b44] text-[13px] font-medium outline-none transition-all" /></div>
+                      <div><label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 block">Paired ID (same song, other language)</label><input value={video.pairedId ?? ''} onChange={(e) => updateVideo(video.id, 'pairedId', e.target.value || undefined)} placeholder="e.g. jesus-me-ama-es" className="w-full h-[44px] px-4 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 focus:bg-white text-[#3a6b44] text-[13px] font-medium outline-none transition-all" /></div>
                       <div className="flex items-center justify-between pt-4 border-t border-[#3a6b44]/5">
-                        <motion.button whileTap={{ scale: 0.98 }} onClick={() => updateVideo(video.id, 'isPublished', !video.isPublished)} className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[12px] font-bold transition-all ${video.isPublished ? 'bg-[#93d35c]/10 text-[#3a6b44] border border-[#93d35c]/20' : 'bg-[#feb835]/10 text-[#feb835] border border-[#feb835]/20'}`}>{video.isPublished ? <Eye size={14} /> : <EyeOff size={14} />}{video.isPublished ? 'Published' : 'Draft'}</motion.button>
+                        <div className="flex items-center gap-3">
+                          <motion.button whileTap={{ scale: 0.98 }} onClick={() => updateVideo(video.id, 'isPublished', !video.isPublished)} className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[12px] font-bold transition-all ${video.isPublished ? 'bg-[#93d35c]/10 text-[#3a6b44] border border-[#93d35c]/20' : 'bg-[#feb835]/10 text-[#feb835] border border-[#feb835]/20'}`}>{video.isPublished ? <Eye size={14} /> : <EyeOff size={14} />}{video.isPublished ? 'Published' : 'Draft'}</motion.button>
+                          <label className="flex items-center gap-2 text-[12px] font-semibold text-[#3a6b44] cursor-pointer"><input type="checkbox" checked={video.sensoryFriendly} onChange={(e) => updateVideo(video.id, 'sensoryFriendly', e.target.checked)} /> Sensory-friendly</label>
+                        </div>
                         <motion.button whileTap={{ scale: 0.95 }} onClick={() => deleteVideo(video.id)} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-red-500/5 text-red-500 text-[12px] font-bold hover:bg-red-500/10 border border-red-500/10"><Trash2 size={14} /> Delete</motion.button>
                       </div>
                     </div>

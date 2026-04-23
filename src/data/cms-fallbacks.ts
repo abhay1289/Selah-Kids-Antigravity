@@ -12,15 +12,22 @@
  * go through Supabase. `bun run seed:diff` asserts zero drift between this
  * file and the DB before each Phase swaps a page from hardcoded to CMS-read.
  *
- * Shapes here must mirror the `INITIAL_*` constants in the corresponding
- * admin page files (`src/app/admin/**`). The shape contract is enforced by
- * type re-export: the admin page imports the type from here, and the
- * seed-diff checksum fails if the admin page's runtime value disagrees with
- * the DB. Additions to an admin editor must land here first, then be seeded.
+ * Shapes here re-export from the source-of-truth data files
+ * (blogPosts.ts, characters.ts, catalog.ts, team.ts). Consolidation into
+ * inline definitions happens once Phase 4/5 deletes the legacy files.
  */
 
+import { BLOG_POSTS } from './blogPosts';
+import type { BlogPost } from './blogPosts';
+import { CHARACTERS } from './characters';
+import type { Character } from './characters';
+import { EPISODES } from './catalog';
+import type { Episode } from './catalog';
+import { TEAM_MEMBERS } from './team';
+import type { TeamMember } from './team';
+
 // ───────────────────────────────────────────────────────────
-// Shared shape from cms-server.ts
+// Shared shapes
 // ───────────────────────────────────────────────────────────
 
 export interface PageField {
@@ -29,30 +36,12 @@ export interface PageField {
 }
 export type PageFieldMap = Record<string, PageField>;
 
-// ───────────────────────────────────────────────────────────
-// Collection item shapes
-// ───────────────────────────────────────────────────────────
-
-// BlogPost re-exports the richer shape from src/data/blogPosts.ts (which has
-// contentEn / contentEs / category). Phase 3 migrates the blog pages to read
-// through cms-server.ts; by keeping blogPosts.ts as the single source of
-// shape truth during the transition, we avoid drift between the two.
-// Post-Phase-3 consolidation will inline this type here and delete blogPosts.ts.
+// Re-export the canonical collection shapes so consumers can import every
+// type from one place. Phase 4/5 may absorb these back in here once the
+// legacy data files are retired.
 export type { BlogPost } from './blogPosts';
-
-// Video re-exports Episode from src/data/catalog.ts — the canonical shape
-// that the watch page and WatchGrid both render from. The admin editor's
-// simpler shape (title, titleEs, category, language, img, youtubeUrl, date,
-// isPublished) is a subset; when the admin editor eventually writes Episode
-// rows, the shape contract is enforced by this type export + seed:diff.
 export type { Episode as Video } from './catalog';
-
-// TeamMember re-exports the richer shape from src/data/team.ts.
-// Same transition rationale as BlogPost / Character above.
 export type { TeamMember } from './team';
-
-// Character re-exports the richer shape from src/data/characters.ts (catchphrase,
-// favoriteVerse, originStory, etc). Same transition rationale as BlogPost above.
 export type { Character } from './characters';
 
 export interface Testimonial {
@@ -67,43 +56,25 @@ export interface Testimonial {
 }
 
 // ───────────────────────────────────────────────────────────
-// INITIAL_* constants
+// INITIAL_* constants — seed source + offline-mode fallback
 //
-// These are populated in phases:
-//   Phase 2 — content collections (blog, videos, team, characters,
-//             testimonials) + page content (home, about, watch, parents,
-//             donate, contact, resources)
-//   Phase 5 — chrome (navbar, footer, announcements, SEO, theme,
-//             redirects, forms, custom code, sitemap, users)
+// Populated in phases:
+//   Phase 3 — collections: blog, videos, team, characters, testimonials
+//   Phase 4 — page content maps (home, about, watch, …)
+//   Phase 5 — chrome (navbar, footer, announcements, SEO, theme, …)
 //
 // Until a constant is populated here, its admin page keeps its local
-// INITIAL_* definition. Seeding and the `seed:diff` drift check only cover
-// constants exported from this file.
+// INITIAL_* definition. Seeding and the seed:diff drift check only
+// cover constants exported from this file.
 // ───────────────────────────────────────────────────────────
 
-// Phase 3 — content collections (populated as each page migrates to cms-server)
-// Blog posts: re-exported from src/data/blogPosts.ts as the Phase 3 fallback
-// until the DB is seeded. Once seed:diff is clean on prod, consumers move to
-// getCollection('blog_posts', INITIAL_BLOG_POSTS) and this array is the
-// fail-open default the server falls back to in offline mode.
-import { BLOG_POSTS } from './blogPosts';
-import type { BlogPost } from './blogPosts';
 export const INITIAL_BLOG_POSTS: BlogPost[] = BLOG_POSTS;
-
-// Characters: same pattern — re-exported from src/data/characters.ts.
-import { CHARACTERS } from './characters';
-import type { Character } from './characters';
 export const INITIAL_CHARACTERS: Character[] = CHARACTERS;
-
-import { EPISODES } from './catalog';
-import type { Episode } from './catalog';
 export const INITIAL_VIDEOS: Episode[] = EPISODES;
-import { TEAM_MEMBERS } from './team';
-import type { TeamMember } from './team';
 export const INITIAL_TEAM: TeamMember[] = TEAM_MEMBERS;
 export const INITIAL_TESTIMONIALS: Testimonial[] = [];
 
-// Phase 2 — page content (per-page field maps, keyed `section.field`)
+// Phase 4 — page content (per-page field maps, keyed `section.field`)
 export const INITIAL_PAGE_HOME: PageFieldMap = {};
 export const INITIAL_PAGE_ABOUT: PageFieldMap = {};
 export const INITIAL_PAGE_WATCH: PageFieldMap = {};
