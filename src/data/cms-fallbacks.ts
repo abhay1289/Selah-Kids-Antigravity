@@ -33,17 +33,12 @@ export type PageFieldMap = Record<string, PageField>;
 // Collection item shapes
 // ───────────────────────────────────────────────────────────
 
-export interface BlogPost {
-  id: string;
-  slug: string;
-  titleEn: string;
-  titleEs: string;
-  dateEn: string;
-  dateEs: string;
-  img: string;
-  isPublished: boolean;
-  isOpen: boolean;
-}
+// BlogPost re-exports the richer shape from src/data/blogPosts.ts (which has
+// contentEn / contentEs / category). Phase 3 migrates the blog pages to read
+// through cms-server.ts; by keeping blogPosts.ts as the single source of
+// shape truth during the transition, we avoid drift between the two.
+// Post-Phase-3 consolidation will inline this type here and delete blogPosts.ts.
+export type { BlogPost } from './blogPosts';
 
 export interface Video {
   id: string;
@@ -105,8 +100,14 @@ export interface Testimonial {
 // constants exported from this file.
 // ───────────────────────────────────────────────────────────
 
-// Phase 2 — content collections (populated as each page migrates)
-export const INITIAL_BLOG_POSTS: BlogPost[] = [];
+// Phase 3 — content collections (populated as each page migrates to cms-server)
+// Blog posts: re-exported from src/data/blogPosts.ts as the Phase 3 fallback
+// until the DB is seeded. Once seed:diff is clean on prod, consumers move to
+// getCollection('blog_posts', INITIAL_BLOG_POSTS) and this array is the
+// fail-open default the server falls back to in offline mode.
+import { BLOG_POSTS } from './blogPosts';
+import type { BlogPost } from './blogPosts';
+export const INITIAL_BLOG_POSTS: BlogPost[] = BLOG_POSTS;
 export const INITIAL_VIDEOS: Video[] = [];
 export const INITIAL_TEAM: TeamMember[] = [];
 export const INITIAL_CHARACTERS: Character[] = [];

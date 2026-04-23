@@ -1,7 +1,10 @@
 export type BlogCategory = 'faith' | 'family' | 'worship';
 
 export interface BlogPost {
-  id: number;
+  // String ids align with the generic Collection shape (id: string) used by
+  // cms-server.getCollection and with the admin editor's Date.now().toString()
+  // id generator. Slug is the stable external key for URLs; id is internal.
+  id: string;
   slug: string;
   category: BlogCategory;
   titleEn: string;
@@ -15,7 +18,7 @@ export interface BlogPost {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
-    id: 1,
+    id: '1',
     slug: "the-strong-tower-of-security",
     category: "faith",
     titleEn: "The Strong Tower of Security",
@@ -41,7 +44,7 @@ export const BLOG_POSTS: BlogPost[] = [
     ]
   },
   {
-    id: 2,
+    id: '2',
     slug: "are-we-repeating-patterns",
     category: "family",
     titleEn: "Are We Repeating Patterns?",
@@ -73,7 +76,7 @@ export const BLOG_POSTS: BlogPost[] = [
     ]
   },
   {
-    id: 3,
+    id: '3',
     slug: "the-call-to-be-a-blessing",
     category: "worship",
     titleEn: "The Call to Be a Blessing",
@@ -110,6 +113,6 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
   return BLOG_POSTS.find(post => post.slug === slug);
 }
 
-export function getPostById(id: number): BlogPost | undefined {
+export function getPostById(id: string): BlogPost | undefined {
   return BLOG_POSTS.find(post => post.id === id);
 }

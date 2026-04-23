@@ -1,55 +1,23 @@
-'use client';
+import { getCollection } from '@/lib/cms-server';
+import { INITIAL_BLOG_POSTS } from '@/data/cms-fallbacks';
+import type { BlogPost } from '@/data/blogPosts';
+import BlogPageClient from './BlogPageClient';
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { BlogHero } from '@/components/blog/BlogHero';
-import { BlogCategories } from '@/components/blog/BlogCategories';
-import { BlogGrid } from '@/components/blog/BlogGrid';
-import { BLOG_POSTS } from '@/data/blogPosts';
-import { useLanguage } from '@/contexts/LanguageContext';
-
-export default function BlogPage() {
-  const { t } = useLanguage();
-  const [activeCategory, setActiveCategory] = useState('all');
-
-  const categories = [
-    { id: 'all', label: t('All Articles', 'Todos los Artículos') },
-    { id: 'faith', label: t('Faith', 'Fe') },
-    { id: 'family', label: t('Family', 'Familia') },
-    { id: 'worship', label: t('Worship', 'Adoración') },
-  ];
-
-  return (
-    <div className="bg-gradient-to-b from-[#FFF5EE] via-[#FDFBF7] to-[#F0FAE6] min-h-screen pt-36 md:pt-44 pb-16 relative overflow-hidden selection:bg-selah-orange selection:text-white">
-      {/* Vivid Color Washes */}
-      <div className="absolute top-0 right-0 w-[55vw] h-[45vh] bg-gradient-to-bl from-[#FF7F50]/10 via-[#FF5C00]/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[50vw] h-[45vh] bg-gradient-to-tr from-[#93D35C]/10 to-transparent rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-[30%] left-[5%] w-[40vw] h-[35vh] bg-[#FEB835]/8 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-[20%] right-[10%] w-[35vw] h-[30vh] bg-[#00BFFF]/6 rounded-full blur-[100px] pointer-events-none" />
-      {/* Paper Texture */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-multiply" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
-
-      <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}>
-        <BlogHero />
-      </motion.div>
-
-      <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}>
-        <BlogCategories
-          categories={categories}
-          activeCategory={activeCategory}
-          setActiveCategory={setActiveCategory}
-        />
-      </motion.div>
-
-      <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}>
-        <BlogGrid
-          posts={
-            activeCategory === 'all'
-              ? BLOG_POSTS
-              : BLOG_POSTS.filter((p) => p.category === activeCategory)
-          }
-        />
-      </motion.div>
-    </div>
-  );
+/**
+ * Blog list — server component, Phase 3 CMS-driven.
+ *
+ * Public read path: cms-server.getCollection('blog_posts', INITIAL_BLOG_POSTS)
+ * - offline mode (no Supabase env) → returns INITIAL_BLOG_POSTS unchanged
+ * - online mode → tagged fetch against Supabase with 24h backstop, filtered
+ *   to is_published=true by the public RLS policy
+ * - admin preview mode → not plumbed here yet; Phase 4 adds preview routes
+ *
+ * Data shape: BlogPost from src/data/blogPosts.ts is the source-of-truth
+ * shape during the Phase 3 transition. Collection rows store the same
+ * shape in their JSONB `data` column and unpack back into BlogPost via
+ * cms-server's generic.
+ */
+export default async function BlogPage() {
+  const posts = await getCollection<BlogPost>('blog_posts', INITIAL_BLOG_POSTS);
+  return <BlogPageClient posts={posts} />;
 }
