@@ -10,7 +10,7 @@ import { useLocalePath } from "../../hooks/useLocalePath";
 
 interface HeroSectionProps {
   scrollYProgress: MotionValue<number>;
-  handleMouseMove: (e: React.MouseEvent) => void;
+  handleMouseMove?: (e: React.MouseEvent) => void;
   isLoading?: boolean;
 }
 
@@ -70,7 +70,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: Her
   const spotlightBackground = useMotionTemplate`radial-gradient(1200px circle at ${spotX} ${spotY}, rgba(255,255,255,0.08), transparent 40%)`;
 
   const onHeroMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    handleMouseMove(e); // Maintain the global original parallax if any
+    handleMouseMove?.(e); // Maintain the global original parallax if any
     const { clientX, clientY } = e;
     const { innerWidth, innerHeight } = window;
     // Normalize to [-0.5, 0.5]
