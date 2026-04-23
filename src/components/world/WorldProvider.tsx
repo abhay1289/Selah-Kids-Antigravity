@@ -54,10 +54,16 @@ export function WorldProvider({ children }: { children: React.ReactNode }) {
     // but ScrollTrigger listens to native window scroll, so without this
     // ScrollTrigger never updates under Lenis's virtual scroll.
     // Dynamic import so GSAP stays out of the first-paint bundle.
+    let cancelled = false;
     let detachScroll: (() => void) | null = null;
     (async () => {
       const { ScrollTrigger } = await import('gsap/ScrollTrigger');
       const { default: gsap } = await import('gsap');
+      // Guard against unmount during dynamic import — without this the
+      // listener would register on a Lenis instance the cleanup already
+      // destroyed, leaking a subscription and holding a closure over the
+      // destroyed RAF.
+      if (cancelled) return;
       gsap.registerPlugin(ScrollTrigger);
       const update = () => ScrollTrigger.update();
       lenis.on('scroll', update);
@@ -87,6 +93,7 @@ export function WorldProvider({ children }: { children: React.ReactNode }) {
     rafId = requestAnimationFrame(tick);
 
     return () => {
+      cancelled = true;
       window.clearInterval(moodTimer);
       window.removeEventListener('pointermove', onMouseMove);
       cancelAnimationFrame(rafId);

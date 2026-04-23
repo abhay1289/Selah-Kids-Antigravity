@@ -18,10 +18,14 @@ export default function TodaysEpisode() {
   const controls = useAnimationControls();
   const [isHandingOff, setIsHandingOff] = useState(false);
   const prevModeRef = useRef(mode);
-  const today = new Date().toISOString().slice(0, 10);
+  // Single Date instance so weekday label can't skew from the UTC day
+  // used for pick selection (and keeps the component deterministic even
+  // if render spans a day boundary).
+  const now = new Date();
+  const today = now.toISOString().slice(0, 10);
   const pick = getTodaysPick(today);
   const rest = EPISODES.filter((e) => e.id !== pick.id).slice(0, 6);
-  const label = (language === 'EN' ? LABELS_EN : LABELS_ES)[new Date().getDay()];
+  const label = (language === 'EN' ? LABELS_EN : LABELS_ES)[now.getDay()];
   const pickTitle = language === 'ES' && pick.titleEs ? pick.titleEs : pick.title;
   const pickDuration = `${Math.floor(pick.durationSec / 60)}:${String(pick.durationSec % 60).padStart(2, '0')}`;
 
