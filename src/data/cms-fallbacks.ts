@@ -47,6 +47,8 @@ import { INITIAL_ANNOUNCEMENT_BANNERS as ANNOUNCEMENT_BANNERS } from './chrome-a
 import type { Banner } from './chrome-announcements';
 import { INITIAL_SEO_PAGES as SEO_PAGES } from './chrome-seo';
 import type { PageSEO } from './chrome-seo';
+import { INITIAL_THEME_COLORS as THEME_COLORS } from './chrome-theme';
+import type { ColorToken } from './chrome-theme';
 
 // ───────────────────────────────────────────────────────────
 // Shared shapes
@@ -69,6 +71,7 @@ export type { NavLink, NavSettings } from './chrome-navbar';
 export type { FooterLink, SocialLink, FooterSettings } from './chrome-footer';
 export type { Banner } from './chrome-announcements';
 export type { PageSEO, RobotsDirective, SchemaType } from './chrome-seo';
+export type { ColorToken } from './chrome-theme';
 
 export interface Testimonial {
   id: string;
@@ -122,3 +125,4 @@ export const INITIAL_FOOTER_SOCIAL: SocialLink[] = FOOTER_SOCIAL;
 export const INITIAL_FOOTER_SETTINGS: FooterSettings[] = FOOTER_SETTINGS;
 export const INITIAL_ANNOUNCEMENT_BANNERS: Banner[] = ANNOUNCEMENT_BANNERS;
 export const INITIAL_SEO_PAGES: PageSEO[] = SEO_PAGES;
+export const INITIAL_THEME_COLORS: ColorToken[] = THEME_COLORS;

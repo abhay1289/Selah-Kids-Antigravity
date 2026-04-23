@@ -42,6 +42,7 @@ import {
   INITIAL_FOOTER_SETTINGS,
   INITIAL_ANNOUNCEMENT_BANNERS,
   INITIAL_SEO_PAGES,
+  INITIAL_THEME_COLORS,
   type PageFieldMap,
 } from '../src/data/cms-fallbacks';
 
@@ -110,6 +111,8 @@ const COLLECTIONS: CollectionGroup[] = [
   { name: 'announcement_banners', items: INITIAL_ANNOUNCEMENT_BANNERS },
   // Phase 5d — SEO per-page metadata.
   { name: 'seo_pages', items: INITIAL_SEO_PAGES },
+  // Phase 5e — theme palette.
+  { name: 'theme_colors', items: INITIAL_THEME_COLORS },
 ];
 
 const PAGES: PageGroup[] = [

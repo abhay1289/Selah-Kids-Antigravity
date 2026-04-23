@@ -4,22 +4,9 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Save, Palette, Type, Sparkles } from 'lucide-react';
 import { useCmsCollection } from '../../../lib/useCms';
+import { INITIAL_THEME_COLORS as INITIAL_COLORS, type ColorToken } from '../../../data/chrome-theme';
 
-interface ColorToken { id: string; label: string; cssVar: string; value: string; }
 interface FontSetting { id: string; label: string; family: string; weight: string; usage: string; }
-
-const INITIAL_COLORS: ColorToken[] = [
-  { id: '1', label: 'Primary Orange', cssVar: '--selah-orange', value: '#FF5C00' },
-  { id: '2', label: 'Dark Green', cssVar: '--selah-dark', value: '#3A6B44' },
-  { id: '3', label: 'Lime Green', cssVar: '--selah-green', value: '#93D35C' },
-  { id: '4', label: 'Yellow', cssVar: '--selah-yellow', value: '#FEB835' },
-  { id: '5', label: 'Sky Blue', cssVar: '--selah-blue', value: '#00BFFF' },
-  { id: '6', label: 'Red (YouTube)', cssVar: '--selah-red', value: '#FF0000' },
-  { id: '7', label: 'Background', cssVar: '--selah-bg', value: '#FAFDF6' },
-  { id: '8', label: 'Muted Text', cssVar: '--selah-muted', value: '#5A7D62' },
-  { id: '9', label: 'Border', cssVar: '--selah-border', value: '#E8F0E0' },
-  { id: '10', label: 'Light BG', cssVar: '--selah-light', value: '#F1F8E7' },
-];
 
 const INITIAL_FONTS: FontSetting[] = [
   { id: '1', label: 'Display Font', family: 'Fredoka', weight: '600-700', usage: 'Headings, titles, hero text' },

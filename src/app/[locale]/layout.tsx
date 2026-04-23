@@ -20,6 +20,8 @@ import {
   INITIAL_ANNOUNCEMENT_BANNERS,
   type Banner,
 } from '../../data/chrome-announcements';
+import { INITIAL_THEME_COLORS, type ColorToken } from '../../data/chrome-theme';
+import { ThemeVars } from '../../components/ThemeVars';
 
 /**
  * Dynamic segment layout for /[locale]/.
@@ -58,6 +60,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
     footerSocialDb,
     footerSettingsDb,
     bannersDb,
+    themeColorsDb,
   ] = await Promise.all([
     getCollection<NavLink>('nav_links', INITIAL_NAV_LINKS),
     getCollection<NavSettings>('nav_settings', INITIAL_NAV_SETTINGS),
@@ -65,6 +68,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
     getCollection<SocialLink>('footer_social', INITIAL_FOOTER_SOCIAL),
     getCollection<FooterSettings>('footer_settings', INITIAL_FOOTER_SETTINGS),
     getCollection<Banner>('announcement_banners', INITIAL_ANNOUNCEMENT_BANNERS),
+    getCollection<ColorToken>('theme_colors', INITIAL_THEME_COLORS),
   ]);
 
   // Chrome fallback: getCollection returns [] (not fallback) in public mode
@@ -76,17 +80,25 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
   const footerLinks = footerLinksDb.length > 0 ? footerLinksDb : INITIAL_FOOTER_LINKS;
   const footerSocial = footerSocialDb.length > 0 ? footerSocialDb : INITIAL_FOOTER_SOCIAL;
   const footerSettings = footerSettingsDb[0] ?? INITIAL_FOOTER_SETTINGS[0]!;
+  // Theme palette: only partial overrides are valid (a single dropped row
+  // shouldn't erase the rest), so we merge DB values onto the seed so
+  // missing ids keep their baked-in defaults.
+  const themeById = new Map(themeColorsDb.map((c) => [c.id, c]));
+  const themeColors = INITIAL_THEME_COLORS.map((seed) => themeById.get(seed.id) ?? seed);
 
   return (
-    <LayoutShell
-      navLinks={navLinks}
-      navSettings={navSettings}
-      footerLinks={footerLinks}
-      footerSocial={footerSocial}
-      footerSettings={footerSettings}
-      banners={bannersDb}
-    >
-      {children}
-    </LayoutShell>
+    <>
+      <ThemeVars colors={themeColors} />
+      <LayoutShell
+        navLinks={navLinks}
+        navSettings={navSettings}
+        footerLinks={footerLinks}
+        footerSocial={footerSocial}
+        footerSettings={footerSettings}
+        banners={bannersDb}
+      >
+        {children}
+      </LayoutShell>
+    </>
   );
 }
