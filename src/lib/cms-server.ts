@@ -29,9 +29,19 @@ import { createServerClient } from '@supabase/ssr';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import * as fallbacks from '../data/cms-fallbacks';
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const SUPABASE_ANON = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-export const isOfflineMode = !SUPABASE_URL || !SUPABASE_ANON;
+// Env is read at call-time (not module-load) so tests can toggle modes per
+// test and so a late-set env var still flips the reader out of offline mode.
+// Runtime cost is negligible — two property reads per call.
+function env() {
+  return {
+    url: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    anon: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  };
+}
+export function isOfflineMode(): boolean {
+  const { url, anon } = env();
+  return !url || !anon;
+}
 
 // 24h safety-net revalidate. On-demand `revalidateTag` wins for fresh edits.
 // Backstop exists so a single missed revalidate call can't freeze a page
@@ -82,7 +92,7 @@ type ReaderMode = 'public' | 'preview' | 'offline';
  * cookie happens naturally when the RLS policy evaluates auth.uid().
  */
 async function hasAdminSession(): Promise<boolean> {
-  if (isOfflineMode) return false;
+  if (isOfflineMode()) return false;
   const store = await cookies();
   // @supabase/ssr stores the access token in sb-<project>-auth-token cookies.
   // Presence alone gates preview mode; RLS enforces admin_users membership.
@@ -90,7 +100,7 @@ async function hasAdminSession(): Promise<boolean> {
 }
 
 async function resolveMode(explicit?: 'preview'): Promise<ReaderMode> {
-  if (isOfflineMode) return 'offline';
+  if (isOfflineMode()) return 'offline';
   if (explicit === 'preview' && (await hasAdminSession())) return 'preview';
   return 'public';
 }
@@ -124,9 +134,10 @@ function assertNotEmpty<T>(rows: T[], source: string): T[] {
 // ───────────────────────────────────────────────────────────
 
 async function getPreviewClient(): Promise<SupabaseClient | null> {
-  if (isOfflineMode) return null;
+  const { url, anon } = env();
+  if (!url || !anon) return null;
   const store = await cookies();
-  return createServerClient(SUPABASE_URL!, SUPABASE_ANON!, {
+  return createServerClient(url, anon, {
     cookies: {
       getAll: () => store.getAll(),
       setAll: () => {
@@ -142,11 +153,11 @@ async function getPreviewClient(): Promise<SupabaseClient | null> {
 // ───────────────────────────────────────────────────────────
 
 async function pgrestFetch<T>(path: string, tags: string[]): Promise<T[]> {
-  const url = `${SUPABASE_URL}/rest/v1/${path}`;
-  const res = await fetch(url, {
+  const { url: base, anon } = env();
+  const res = await fetch(`${base}/rest/v1/${path}`, {
     headers: {
-      apikey: SUPABASE_ANON!,
-      Authorization: `Bearer ${SUPABASE_ANON}`,
+      apikey: anon!,
+      Authorization: `Bearer ${anon}`,
       // Explicit Accept. Supabase returns JSON either way but this makes the
       // cache key deterministic.
       Accept: 'application/json',

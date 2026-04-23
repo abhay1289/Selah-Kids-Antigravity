@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed:cms": "bun run scripts/seed-cms.ts",
+    "seed:diff": "bun run scripts/seed-cms.ts --diff",
+    "seed:dry": "bun run scripts/seed-cms.ts --dry",
+    "deploy:check": "bun run scripts/deploy-check.ts",
+    "test": "bun test"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.2",
