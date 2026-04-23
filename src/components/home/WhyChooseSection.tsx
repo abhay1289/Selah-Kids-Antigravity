@@ -1,8 +1,7 @@
 "use client";
 
-import { motion, useScroll, useTransform, useMotionValue, useSpring, useMotionTemplate } from "framer-motion";
+import { motion } from "framer-motion";
 import { useRef, useState } from "react";
-import { Cloud, Sun, SparklesIcon } from "lucide-react";
 import { Badge } from "../UI";
 import { WHY_FEATURES } from "../../constants";
 import { useLanguage } from "../../contexts/LanguageContext";
@@ -23,28 +22,15 @@ const sectionVariants = {
 
 const CreativeIcon: React.FC<{ icon: React.ReactNode, color: string }> = ({ icon, color }) => {
   return (
-    <motion.div
-      animate={{ 
-        y: [0, -6, 0],
-        rotate: [0, 3, -3, 0],
-      }}
-      transition={{ 
-        duration: 4, 
-        ease: "easeInOut", 
-        repeat: Infinity 
-      }}
-      className="relative"
-    >
-      <motion.div
-        animate={{ scale: [1, 1.15, 1], opacity: [0.15, 0.35, 0.15] }}
-        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute inset-0 rounded-3xl blur-md"
+    <div className="relative">
+      <div
+        className="absolute inset-0 rounded-3xl blur-md opacity-20 transition-opacity duration-500 group-hover:opacity-40"
         style={{ backgroundColor: color }}
       />
       <div className="relative z-10">
         {icon}
       </div>
-    </motion.div>
+    </div>
   );
 };
 
@@ -52,21 +38,6 @@ const FeatureCard: React.FC<{ feature: typeof WHY_FEATURES[0], index: number }> 
   const { language } = useLanguage();
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const smoothX = useSpring(mouseX, { stiffness: 200, damping: 25 });
-  const smoothY = useSpring(mouseY, { stiffness: 200, damping: 25 });
-
-  const spotX = useTransform(smoothX, [-0.5, 0.5], ["0%", "100%"]);
-  const spotY = useTransform(smoothY, [-0.5, 0.5], ["0%", "100%"]);
-  const spotlightBg = useMotionTemplate`radial-gradient(450px circle at ${spotX} ${spotY}, ${feature.color}12, transparent 60%)`;
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    mouseX.set((e.clientX - rect.left) / rect.width - 0.5);
-    mouseY.set((e.clientY - rect.top) / rect.height - 0.5);
-  };
 
   return (
     <motion.div 
@@ -75,19 +46,12 @@ const FeatureCard: React.FC<{ feature: typeof WHY_FEATURES[0], index: number }> 
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       whileHover={{ y: -10 }}
       transition={{ type: "spring", stiffness: 60, damping: 14, delay: index * 0.15 }}
-      viewport={{ once: true, margin: "-50px" }}
-      onMouseMove={handleMouseMove}
+      viewport={{ once: true, amount: 0.01, margin: "0px" }}
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => { setIsHovered(false); mouseX.set(0); mouseY.set(0); }}
+      onMouseLeave={() => setIsHovered(false)}
       className="group relative h-full"
     >
-      <div className="bg-white/95 backdrop-blur-xl p-8 sm:p-10 lg:p-12 h-full border border-white/60 overflow-hidden relative flex flex-col transition-all duration-500 rounded-[30px] sm:rounded-[40px] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.06)] hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.12)]">
-        
-        {/* Mouse-tracking spotlight */}
-        <motion.div
-          className="absolute inset-0 rounded-[30px] sm:rounded-[40px] pointer-events-none z-[1] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-          style={{ background: spotlightBg }}
-        />
+      <div className="bg-[var(--paper-cream)] p-8 sm:p-10 lg:p-12 h-full border border-white/60 overflow-hidden relative flex flex-col transition-all duration-500 rounded-[30px] sm:rounded-[40px] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.06)] hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.12)]">
 
         {/* Shimmer sweep on hover */}
         <motion.div
@@ -107,7 +71,10 @@ const FeatureCard: React.FC<{ feature: typeof WHY_FEATURES[0], index: number }> 
           </motion.div>
         </div>
 
-        <div className="flex-grow relative z-10">
+        <div 
+          className="flex-grow relative z-10 cursor-default"
+          tabIndex={0}
+        >
           <h3 className="content-h3 text-selah-dark mb-4 group-hover:text-selah-orange transition-colors duration-300 tracking-tight">
             {language === 'ES' && feature.titleEs ? feature.titleEs : feature.title}
           </h3>
@@ -130,41 +97,22 @@ const FeatureCard: React.FC<{ feature: typeof WHY_FEATURES[0], index: number }> 
   );
 };
 
-export function WhyChooseSection({ fields }: { fields?: PageFieldMap }) {
-  const containerRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
+export function WhyChooseSection({ fields }: { fields?: PageFieldMap } = {}) {
   const { t } = useLanguage();
   const f = useFieldResolver(fields);
 
   return (
-    <motion.section 
-      ref={containerRef}
-      id="why-selah" 
+    <motion.section
+      id="why-selah"
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-100px" }}
+      viewport={{ once: true, amount: 0.01, margin: "0px" }}
       variants={sectionVariants}
-      className="py-10 md:py-16 bg-[#FFFBF0] relative overflow-hidden"
+      className="py-10 md:py-16 relative"
     >
-      {/* Naturalistic Texture Overlay */}
-      <div className="absolute inset-0 opacity-[0.05] pointer-events-none z-50 mix-blend-multiply" 
-           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }} />
-
-      {/* Soft Background Glows */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <motion.div 
-          style={{ y: useTransform(scrollYProgress, [0, 1], [0, -200]) }}
-          className="absolute -top-[15%] -left-[10%] w-[60%] h-[60%] bg-selah-yellow/10 rounded-[40%_60%_70%_30%/40%_50%_60%_50%] blur-[120px]"
-        />
-        <motion.div 
-          style={{ y: useTransform(scrollYProgress, [0, 1], [0, 200]) }}
-          className="absolute -bottom-[15%] -right-[10%] w-[70%] h-[70%] bg-selah-orange/5 rounded-[60%_40%_30%_70%/50%_60%_40%_50%] blur-[140px]"
-        />
-      </div>
-
+      {/* Per-section blob glows removed — they were clipped by this section's
+         overflow-hidden and read as hard bands at section edges. Atmosphere is
+         now carried entirely by .atmos-spine (page-fixed continuous gradient). */}
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="flex flex-col items-center text-center mb-12">
@@ -174,7 +122,7 @@ export function WhyChooseSection({ fields }: { fields?: PageFieldMap }) {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
             className="mb-10"
           >
-            <Badge color="yellow" className="!rotate-0 !scale-125 px-8 py-3 shadow-sm border border-selah-yellow/20">{f('why.why_badge', 'OUR CORE VALUES', 'NUESTROS VALORES')}</Badge>
+            <Badge color="yellow" className="!rotate-0 !scale-125 px-8 py-3 shadow-sm border border-selah-yellow/20">{f("why.why_badge", "OUR CORE VALUES", "NUESTROS VALORES")}</Badge>
           </motion.div>
           
           <div className="relative">
@@ -207,7 +155,7 @@ export function WhyChooseSection({ fields }: { fields?: PageFieldMap }) {
             className="body-text max-w-4xl mx-auto text-selah-muted text-balance"
           >
             {f(
-              'why.why_description',
+              "why.why_description",
               "Created by parents who wanted better shows for their own kids, Selah Kids mixes awesome Christian cartoons with important lessons from the Bible.",
               "Creado por padres que querían mejores programas para sus propios hijos, Selah Kids mezcla increíbles dibujos animados cristianos con lecciones importantes de la Biblia."
             )}

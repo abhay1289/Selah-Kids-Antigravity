@@ -15,7 +15,7 @@ export const AboutMarqueeSection = () => {
         transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
       >
         {[...Array(6)].map((_, i) => (
-          <div key={i} className="flex items-center gap-8">
+          <div key={i} className="flex items-center gap-8" aria-hidden={i > 0 ? "true" : undefined}>
             <span className="content-h3 text-white uppercase tracking-widest">{t("Joyful", "Gozoso")}</span>
             <SparklesIcon className="text-selah-yellow" size={40} />
             <span className="content-h3 text-white uppercase tracking-widest">{t("Faith-Filled", "Lleno de Fe")}</span>

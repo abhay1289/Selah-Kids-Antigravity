@@ -20,11 +20,11 @@ const sectionVariants = {
   }
 };
 
-export function NewsletterSection({ fields }: { fields?: PageFieldMap }) {
+export function NewsletterSection({ fields }: { fields?: PageFieldMap } = {}) {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const { t } = useLanguage();
-  const f = useFieldResolver(fields);
   const containerRef = useRef<HTMLElement>(null);
+  const f = useFieldResolver(fields);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -45,7 +45,7 @@ export function NewsletterSection({ fields }: { fields?: PageFieldMap }) {
       className="py-10 md:py-16 bg-selah-orange relative overflow-hidden"
     >
       {/* Playful Animated Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
         {/* Sunburst effect using CSS */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150vw] h-[150vw] opacity-10"
              style={{
@@ -92,13 +92,14 @@ export function NewsletterSection({ fields }: { fields?: PageFieldMap }) {
               className="bg-white p-6 sm:p-10 md:p-16 rounded-[30px] sm:rounded-[40px] md:rounded-[60px] relative shadow-[0_40px_100px_-20px_rgba(0,0,0,0.2),0_20px_40px_-10px_rgba(0,0,0,0.1)]"
             >
               {/* Decorative tape */}
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-32 h-10 bg-white/60 backdrop-blur-sm rotate-[-3deg] z-20 shadow-sm" style={{ clipPath: 'polygon(2% 0, 98% 5%, 100% 95%, 0 100%)' }} />
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-32 h-10 bg-white/60 backdrop-blur-sm rotate-[-3deg] z-20 shadow-sm" style={{ clipPath: 'polygon(2% 0, 98% 5%, 100% 95%, 0 100%)' }} aria-hidden="true" />
               
               {/* Decorative overlapping elements */}
               <motion.div 
                 animate={{ rotate: [0, 10, 0], scale: [1, 1.05, 1] }} 
                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute -top-12 -right-12 text-selah-yellow z-20 hidden md:block drop-shadow-xl"
+                aria-hidden="true"
               >
                 <Star size={100} fill="currentColor" />
               </motion.div>
@@ -106,6 +107,7 @@ export function NewsletterSection({ fields }: { fields?: PageFieldMap }) {
                 animate={{ y: [0, 15, 0], rotate: [0, -10, 0] }} 
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute -bottom-10 -left-10 text-selah-light z-20 hidden md:block drop-shadow-xl"
+                aria-hidden="true"
               >
                 <Music size={80} fill="currentColor" />
               </motion.div>
@@ -113,7 +115,7 @@ export function NewsletterSection({ fields }: { fields?: PageFieldMap }) {
               <motion.div whileHover={{ scale: 1.05, y: -2 }} className="inline-block mb-6">
                 <Badge color="orange" className="ui-button !px-6 !py-2 shadow-sm">
                   <SparklesIcon size={16} className="inline mr-2" />
-                  {f('newsletter.nl_badge', 'STAY IN THE LOOP', 'MANTENTE INFORMADO')}
+                  {f("newsletter.nl_badge", "STAY IN THE LOOP", "MANTENTE INFORMADO")}
                 </Badge>
               </motion.div>
               
@@ -135,7 +137,7 @@ export function NewsletterSection({ fields }: { fields?: PageFieldMap }) {
               
               <p className="text-selah-muted mb-12 max-w-2xl mx-auto body-text text-balance">
                 {f(
-                  'newsletter.nl_description',
+                  "newsletter.nl_description",
                   "Enter your email address to be the first to know about all things Selah Kids! Get updates on new Christian kids music and exciting videos straight to your inbox.",
                   "¡Ingresa tu correo electrónico para ser el primero en saber todo sobre Selah Kids! Recibe actualizaciones sobre nueva música cristiana para niños y videos emocionantes directamente en tu bandeja de entrada."
                 )}
@@ -155,6 +157,7 @@ export function NewsletterSection({ fields }: { fields?: PageFieldMap }) {
                   <input 
                     type="email" 
                     required
+                    aria-label={t("Your email address", "Tu correo electrónico")}
                     placeholder={t("Your email address", "Tu correo electrónico")} 
                     className="w-full pl-16 pr-8 py-6 rounded-full bg-selah-bg text-selah-dark content-h3 focus:outline-none focus:ring-[6px] focus:ring-selah-orange/30 transition-all border-2 border-transparent focus:border-selah-orange shadow-inner"
                   />
@@ -163,7 +166,7 @@ export function NewsletterSection({ fields }: { fields?: PageFieldMap }) {
                   type="submit"
                   className="!bg-selah-orange hover:!bg-[#e65300] !text-white !border-none !px-10 !py-4 ui-button hover:-translate-y-1 active:translate-y-0 transition-all group shadow-[0_10px_30px_-10px_rgba(255,107,0,0.5)] hover:shadow-[0_20px_40px_-10px_rgba(255,107,0,0.7)] hover:scale-105 whitespace-nowrap"
                 >
-                  {f('newsletter.nl_cta', 'Join Now', 'Únete Ahora')}
+                  {f("newsletter.nl_cta", "Join Now", "Únete Ahora")}
                   <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </form>
@@ -183,7 +186,7 @@ export function NewsletterSection({ fields }: { fields?: PageFieldMap }) {
               className="bg-white p-8 sm:p-16 md:p-24 rounded-[30px] sm:rounded-[40px] md:rounded-[60px] relative overflow-hidden group shadow-[0_30px_100px_-20px_rgba(0,0,0,0.4)]"
             >
               {/* Success Confetti Effect - Enhanced */}
-              <div className="absolute inset-0 pointer-events-none">
+              <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
                 {[...Array(30)].map((_, i) => (
                   <motion.div
                     key={i}
@@ -225,6 +228,7 @@ export function NewsletterSection({ fields }: { fields?: PageFieldMap }) {
                     initial={{ pathLength: 0, opacity: 0 }}
                     animate={{ pathLength: 1, opacity: 1 }}
                     transition={{ duration: 1, delay: 0.5, ease: "easeInOut" }}
+                    aria-hidden="true"
                   >
                     <path d="M0 10 Q 50 20 100 10" fill="none" stroke="currentColor" strokeWidth="8" strokeLinecap="round" />
                   </motion.svg>

@@ -21,10 +21,10 @@ const sectionVariants = {
   }
 };
 
-export function TestimonialsSection({ fields }: { fields?: PageFieldMap }) {
-  const { language } = useLanguage();
-  const f = useFieldResolver(fields);
+export function TestimonialsSection({ fields }: { fields?: PageFieldMap } = {}) {
+  const { t, language } = useLanguage();
   const containerRef = useRef<HTMLElement>(null);
+  const f = useFieldResolver(fields);
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -43,37 +43,17 @@ export function TestimonialsSection({ fields }: { fields?: PageFieldMap }) {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={sectionVariants}
-      className="py-8 md:py-12 bg-[#FFFDF7] relative overflow-hidden"
+      className="py-8 md:py-12 relative"
     >
-      {/* Creative Background Elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        <motion.div 
-          style={{ y: bgY1 }}
-          animate={{ 
-            scale: [1, 1.2, 1],
-            opacity: [0.05, 0.1, 0.05]
-          }}
-          transition={{ duration: 10, repeat: Infinity }}
-          className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-selah-orange rounded-full blur-[150px]"
-        />
-        <motion.div 
-          style={{ y: bgY2 }}
-          animate={{ 
-            scale: [1, 1.3, 1],
-            opacity: [0.05, 0.1, 0.05]
-          }}
-          transition={{ duration: 12, repeat: Infinity, delay: 2 }}
-          className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-selah-light rounded-full blur-[150px]"
-        />
-      </div>
-      
+      {/* Per-section blobs removed — atmos-spine carries atmosphere continuously. */}
+
       <motion.div style={{ y: contY }} className="relative z-10">
         <div className="max-w-7xl mx-auto px-6 mb-8">
           <SectionHeader
-            badge={f('testimonials.test_badge', 'LOVED BY FAMILIES', 'AMADO POR LAS FAMILIAS')}
-            title={f('testimonials.test_title', 'What Parents Are Saying', 'Lo Que Dicen Los Padres')}
+            badge={f("testimonials.test_badge", "LOVED BY FAMILIES", "AMADO POR LAS FAMILIAS")}
+            title={f("testimonials.test_title", "What Parents Are Saying", "Lo Que Dicen Los Padres")}
             description={f(
-              'testimonials.test_description',
+              "testimonials.test_description",
               "Real stories from families who have found joy and faith through Selah Kids.",
               "Historias reales de familias que han encontrado alegría y fe a través de Selah Kids."
             )}
@@ -81,16 +61,12 @@ export function TestimonialsSection({ fields }: { fields?: PageFieldMap }) {
           />
         </div>
         
-        {/* Infinite Carousel Container */}
-        <div className="relative flex overflow-hidden py-4">
-          <motion.div 
+        {/* Infinite Carousel Container — pauses on hover/focus so parents can actually read */}
+        <div className="relative flex overflow-hidden py-4 group/marquee">
+          <motion.div
             animate={{ x: ["0%", "-50%"] }}
-            transition={{ 
-              duration: 40, 
-              repeat: Infinity, 
-              ease: "linear" 
-            }}
-            className="flex gap-8 px-4 whitespace-nowrap"
+            transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+            className="flex gap-8 px-4 whitespace-nowrap [animation-play-state:running] group-hover/marquee:[animation-play-state:paused]"
             style={{ width: "fit-content" }}
           >
             {[...TESTIMONIALS, ...TESTIMONIALS].map((item, i) => (
@@ -101,7 +77,9 @@ export function TestimonialsSection({ fields }: { fields?: PageFieldMap }) {
                   scale: 1.02,
                   boxShadow: "0_40px_80px_-20px_rgba(0,0,0,0.15),0_20px_40px_-10px_rgba(0,0,0,0.05)"
                 }}
-                className="w-[280px] sm:w-[360px] md:w-[400px] shrink-0 bg-white p-8 rounded-[2.5rem] border border-selah-bg shadow-[0_10px_30px_-5px_rgba(0,0,0,0.03),0_4px_6px_-2px_rgba(0,0,0,0.01)] flex flex-col gap-6 group transition-all duration-500 relative overflow-hidden"
+                className="w-[280px] sm:w-[360px] md:w-[400px] shrink-0 glass-regular p-8 rounded-[2.5rem] flex flex-col gap-6 group transition-shadow duration-500 relative overflow-hidden"
+                tabIndex={0}
+                aria-hidden={i >= TESTIMONIALS.length ? "true" : undefined}
               >
                 {/* Subtle hover gradient */}
                 <div className="absolute inset-0 bg-gradient-to-br from-transparent to-black/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
@@ -124,7 +102,7 @@ export function TestimonialsSection({ fields }: { fields?: PageFieldMap }) {
                 </div>
                 
                 <p className="body-quote whitespace-normal relative z-10 tracking-tight">
-                  "{language === 'ES' && item.quoteEs ? item.quoteEs : item.quote}"
+                  &ldquo;{language === 'ES' && item.quoteEs ? item.quoteEs : item.quote}&rdquo;
                 </p>
                 
                 <div className="mt-auto pt-6 border-t border-selah-bg flex items-center gap-4 relative z-10">

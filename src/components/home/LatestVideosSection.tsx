@@ -25,7 +25,7 @@ const sectionVariants = {
   }
 };
 
-export function LatestVideosSection({ fields }: { fields?: PageFieldMap }) {
+export function LatestVideosSection({ fields }: { fields?: PageFieldMap } = {}) {
   const { t, language } = useLanguage();
   const router = useRouter();
   const { lh } = useLocalePath();
@@ -120,10 +120,10 @@ export function LatestVideosSection({ fields }: { fields?: PageFieldMap }) {
       
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <SectionHeader
-          badge={f('latest_videos.vid_badge', 'FRESH CONTENT', 'CONTENIDO NUEVO')}
-          title={f('latest_videos.vid_title', 'Our Latest Videos', 'Nuestros Últimos Videos')}
+          badge={f("latest_videos.vid_badge", "FRESH CONTENT", "CONTENIDO NUEVO")}
+          title={f("latest_videos.vid_title", "Our Latest Videos", "Nuestros Últimos Videos")}
           description={f(
-            'latest_videos.vid_description',
+            "latest_videos.vid_description",
             "Check out our newest Christian kids music and engaging Christian cartoons! We have awesome worship videos in both English and Spanish. They are perfect for Sunday school songs or hanging out with your family!",
             "¡Mira nuestra nueva música cristiana para niños y emocionantes dibujos animados cristianos! Tenemos increíbles videos de adoración en inglés y español. ¡Son perfectos para canciones de la escuela dominical o para pasar tiempo con tu familia!"
           )}
@@ -248,7 +248,7 @@ export function LatestVideosSection({ fields }: { fields?: PageFieldMap }) {
               onClick={() => router.push(lh("/watch"))}
             >
               <span className="flex items-center justify-center">
-                {f('latest_videos.vid_cta', 'See All Videos', 'Ver Todos Los Videos')}
+                {f("latest_videos.vid_cta", "See All Videos", "Ver Todos Los Videos")}
                 <ArrowRight className="inline-block ml-3 transition-transform group-hover:translate-x-2" size={24} />
               </span>
             </Button>

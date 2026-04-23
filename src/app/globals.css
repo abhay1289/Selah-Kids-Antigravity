@@ -31,6 +31,32 @@
   --color-light-blue: #E0F7FA;
   --color-cream: #FFFDF5;
 
+  /* D1.2 — Elevation scale (use via var(--elevation-N), not arbitrary shadow strings) */
+  --elevation-1: 0 1px 2px rgb(0 0 0 / 0.04);
+  --elevation-2: 0 2px 8px rgb(0 0 0 / 0.06), 0 1px 2px rgb(0 0 0 / 0.04);
+  --elevation-3: 0 8px 24px rgb(0 0 0 / 0.08), 0 2px 4px rgb(0 0 0 / 0.04);
+  --elevation-4: 0 24px 64px -12px rgb(0 0 0 / 0.12), 0 8px 16px rgb(0 0 0 / 0.06);
+  --elevation-5: 0 48px 96px -20px rgb(0 0 0 / 0.18), 0 16px 32px rgb(0 0 0 / 0.08);
+  /* Warm-brand tinted elevations for primary CTAs */
+  --elevation-warm-3: 0 8px 24px -4px rgb(255 92 0 / 0.28), 0 2px 4px rgb(0 0 0 / 0.04);
+  --elevation-warm-4: 0 24px 64px -12px rgb(255 92 0 / 0.32), 0 8px 16px rgb(255 92 0 / 0.16);
+
+  /* D1.1 — Paper / cardstock material tokens.
+     The world is a pop-up book: opaque matte surfaces, hard contact shadows,
+     visible paper grain. The glass-* classes below are kept for API
+     compatibility but now render as cardstock, not glass. */
+  --paper-cream: #FFFDF6;
+  --paper-warm: #FFF6E7;
+  --paper-cool: #F5F2E7;
+  --paper-edge: rgb(120 90 40 / 0.18);
+  --paper-crease: rgb(120 90 40 / 0.12);
+  /* 48×48 fractalNoise SVG at ~5% alpha — looks like subtle paper tooth */
+  --paper-grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='5'/><feColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.32 0 0 0 0 0.14 0 0 0 0.05 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  /* Contact-shadow under a card sitting on a page — the defining mark of paper. */
+  --paper-shadow-1: 0 2px 0 var(--paper-edge), 0 6px 12px -2px rgb(60 40 20 / 0.14);
+  --paper-shadow-2: 0 3px 0 var(--paper-edge), 0 10px 24px -4px rgb(60 40 20 / 0.20), 0 2px 6px rgb(60 40 20 / 0.08);
+  --paper-shadow-3: 0 4px 0 var(--paper-edge), 0 18px 38px -8px rgb(60 40 20 / 0.26), 0 6px 12px -2px rgb(60 40 20 / 0.12);
+
   --animate-float: float 6s ease-in-out infinite;
   --animate-spin-slow: spin 12s linear infinite;
   --animate-wiggle: wiggle 4s ease-in-out infinite;
@@ -106,12 +132,177 @@
   background: linear-gradient(to right, #FF7F50, #FF6347);
 }
 
-.glass-morphism {
-  @apply backdrop-blur-2xl bg-white/40 border border-white/60 shadow-[0_8px_32px_rgba(0,0,0,0.04)];
+/* D1.1 — Paper / cardstock material system.
+   Class names are retained for API compatibility (many components reference
+   .glass-thin/regular/thick/chrome). The implementation swaps glass → paper:
+   opaque matte surface + visible grain + hard contact shadow. No blur, no
+   saturation boost — paper blocks light, it doesn't transmit it. */
+.glass-thin {
+  background-color: var(--paper-cream);
+  background-image: var(--paper-grain);
+  background-size: 96px 96px;
+  box-shadow: var(--paper-shadow-1);
+}
+.glass-regular {
+  background-color: var(--paper-warm);
+  background-image: var(--paper-grain);
+  background-size: 96px 96px;
+  box-shadow: var(--paper-shadow-2);
+}
+.glass-thick {
+  background-color: var(--paper-cream);
+  background-image: var(--paper-grain);
+  background-size: 96px 96px;
+  box-shadow: var(--paper-shadow-3);
+}
+/* Navbar-style chrome — paper strip lifted off the page. Keeps a very soft cream translucency
+   so the page faintly shows through at the edges, but it is not glass. */
+.glass-chrome {
+  background-color: rgb(255 253 246 / 0.94);
+  background-image: var(--paper-grain);
+  background-size: 96px 96px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow:
+    0 1px 0 var(--paper-edge),
+    0 6px 16px -4px rgb(60 40 20 / 0.12),
+    0 12px 32px -8px rgb(60 40 20 / 0.10);
 }
 
+/* Paper material utilities for net-new components. Use these going forward;
+   .glass-* aliases above exist only so legacy code keeps rendering. */
+.cardstock {
+  background-color: var(--paper-cream);
+  background-image: var(--paper-grain);
+  background-size: 96px 96px;
+  box-shadow: var(--paper-shadow-2);
+}
+.cardstock-warm {
+  background-color: var(--paper-warm);
+  background-image: var(--paper-grain);
+  background-size: 96px 96px;
+  box-shadow: var(--paper-shadow-2);
+}
+/* A faint spine crease along the left edge — useful for cards that feel bound into a book. */
+.paper-crease-left {
+  position: relative;
+}
+.paper-crease-left::before {
+  content: "";
+  position: absolute;
+  inset: 8% auto 8% 0;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, var(--paper-crease) 18%, var(--paper-crease) 82%, transparent);
+  pointer-events: none;
+}
+
+/* D1.3 — Contact shadow for floating subjects (characters, cards).
+   Use as an ::after via the helper class; sibling elements can use .contact-shadow-soft directly. */
+.contact-shadow {
+  position: relative;
+}
+.contact-shadow::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  width: 58%;
+  height: 14px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at center, rgb(40 28 14 / 0.28), transparent 62%);
+  filter: blur(5px);
+  z-index: -1;
+  pointer-events: none;
+}
+/* Direct shadow for cards (Codex: .shadow-contact-soft) */
+.shadow-contact-soft {
+  box-shadow: 0 10px 20px rgb(48 34 12 / 0.10), 0 2px 6px rgb(48 34 12 / 0.06);
+}
+
+/* D1.4 — Time-of-day mood palettes. Set by inline <head> script before hydrate.
+   Each palette tints the atmospheric spine, paper shadows, and a global
+   --mood-warm / --mood-cool accent that components can opt into via var(). */
+html.mood-dawn {
+  --mood-warm: #FFD4BC;
+  --mood-cool: #E8D7E6;
+  --mood-accent: #F59E7F;
+  --mood-bg-top: #FFF3E8;
+  --mood-bg-mid: #FFF9F2;
+  --mood-bg-bot: #F3EFE6;
+  --mood-shadow-tint: rgb(180 110 80 / 0.18);
+}
+html.mood-noon {
+  --mood-warm: #FFC89A;
+  --mood-cool: #BEDFA5;
+  --mood-accent: #FF8E55;
+  --mood-bg-top: #FFF8EE;
+  --mood-bg-mid: #FFFDF7;
+  --mood-bg-bot: #F1F8E7;
+  --mood-shadow-tint: rgb(120 90 40 / 0.20);
+}
+html.mood-golden {
+  --mood-warm: #FFB074;
+  --mood-cool: #F2D796;
+  --mood-accent: #FF6A2A;
+  --mood-bg-top: #FFEBCE;
+  --mood-bg-mid: #FFF5E2;
+  --mood-bg-bot: #F6E8C8;
+  --mood-shadow-tint: rgb(150 80 30 / 0.26);
+}
+html.mood-dusk {
+  --mood-warm: #D8A0D0;
+  --mood-cool: #8A9FC4;
+  --mood-accent: #7E6CB8;
+  --mood-bg-top: #E4DDEB;
+  --mood-bg-mid: #EEE9F2;
+  --mood-bg-bot: #DDD6E5;
+  --mood-shadow-tint: rgb(60 50 80 / 0.28);
+}
+
+/* D1.5 — Atmospheric spine, now mood-aware. Same CSS vars that useScroll
+   drifts across the day, but the colour stops come from the mood palette. */
+.atmos-spine {
+  position: fixed;
+  inset: 0;
+  z-index: -50;
+  pointer-events: none;
+  /* Multi-layer atmosphere — grain on top, two mood-aware radial washes,
+     and a vertical mood gradient at the base. Because the spine is `fixed`,
+     every section shares the SAME atmosphere, which eliminates the
+     per-section "textured band" seam problem. */
+  background:
+    var(--paper-grain),
+    radial-gradient(72vw 56vh at var(--spine-cx-1, 18%) var(--spine-cy-1, 18%), var(--mood-warm, #FFC89A), transparent 62%),
+    radial-gradient(68vw 58vh at var(--spine-cx-2, 84%) var(--spine-cy-2, 78%), var(--mood-cool, #BEDFA5), transparent 64%),
+    linear-gradient(180deg, var(--mood-bg-top, #FFF8EE) 0%, var(--mood-bg-mid, #FFFDF7) 45%, var(--mood-bg-bot, #F1F8E7) 100%);
+  background-size: 96px 96px, auto, auto, auto;
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat;
+  opacity: 0.92;
+  transition: background 2400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Codex: atmospheric-perspective — distant objects desaturate + lose contrast instead of blurring */
+.atmosphere-far {
+  opacity: 0.78;
+  filter: saturate(0.88) contrast(0.96);
+}
+
+/* Legacy shim — now rendered as cardstock, same as .glass-regular. */
+.glass-morphism {
+  background-color: var(--paper-warm);
+  background-image: var(--paper-grain);
+  background-size: 96px 96px;
+  box-shadow: var(--paper-shadow-2);
+}
+/* Dark slab — kept for the (dark) video modal side-rails. Outside paper world. */
 .glass-morphism-dark {
-  @apply backdrop-blur-2xl bg-black/20 border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.2)];
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  background: linear-gradient(135deg, rgb(0 0 0 / 0.28) 0%, rgb(0 0 0 / 0.12) 100%);
+  box-shadow:
+    inset 0 1px 0 0 rgb(255 255 255 / 0.12),
+    inset 0 0 0 0.5px rgb(255 255 255 / 0.06),
+    var(--elevation-3);
 }
 
 @layer base {
@@ -123,7 +314,12 @@
   }
   
   body {
-    @apply font-sans text-selah-muted bg-white selection:bg-selah-orange/30 overflow-x-hidden antialiased;
+    @apply font-sans text-selah-muted selection:bg-selah-orange/30 overflow-x-hidden antialiased;
+    /* Seamless floor — match the middle tone of the atmos-spine gradient
+       so the 10% transparency in atmos-spine blends into warm cream, not
+       snow-white. Also prevents a white flash in the split-second before
+       the client-side atmos-spine div mounts. */
+    background: var(--mood-bg-mid, var(--paper-cream));
     /* Create stacking context without breaking fixed positioning */
     isolation: isolate;
     font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
@@ -149,20 +345,31 @@
     }
   }
 
-  /* GPU compositing hint for animated elements */
-  [data-animate],
-  .animate-float,
-  .animate-wiggle,
-  .animate-sparkle,
-  .animate-blob {
-    will-change: transform;
+  /* D1.9 — Opt-in GPU compositing. Previously applied to every blur utility which caused layer bloat.
+     Individual components add will-change: transform on ONE hot element as needed. */
+
+  /* D1.6 — Soft Apple-style focus ring (double-stop rgba rather than hard outline) */
+  :focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px rgb(255 255 255 / 0.95),
+      0 0 0 5px rgb(255 92 0 / 0.38);
+    border-radius: inherit;
+    transition: box-shadow 160ms ease-out;
   }
 
-  /* Focus-visible ring for accessibility (WCAG AA) */
-  :focus-visible {
-    outline: 3px solid var(--color-selah-orange);
-    outline-offset: 4px;
-    border-radius: 12px;
+  /* D1.7 — Tabular digits wherever numerals change (durations, counters, preloader %) */
+  time, .num, .counter, [data-counter], .tabular { font-variant-numeric: tabular-nums; }
+
+  /* Scrollbar-hide utility — hides native scrollbars on opt-in containers.
+     Critical for horizontal carousels (catalog rows, chip strips) where the
+     native track would render as a hard orange band across the viewport. */
+  .scrollbar-hide {
+    scrollbar-width: none;          /* Firefox */
+    -ms-overflow-style: none;       /* legacy Edge / IE */
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;                  /* Chrome/Safari */
   }
 
   /* Custom Ultra-Premium Scrollbar */
@@ -186,30 +393,22 @@
     background: rgba(255, 92, 0, 0.9);
   }
 
-  /* Vibrant Highlight Selection */
+  /* Softer Apple-style text selection — 36% alpha brand yellow, not opaque flag */
   ::selection {
-    background-color: var(--color-selah-yellow);
-    color: var(--color-selah-dark);
+    background-color: rgb(254 184 53 / 0.38);
+    color: inherit;
     text-shadow: none;
   }
   ::-moz-selection {
-    background-color: var(--color-selah-yellow);
-    color: var(--color-selah-dark);
+    background-color: rgb(254 184 53 / 0.38);
+    color: inherit;
     text-shadow: none;
   }
 
-  /* GPU-accelerate elements that use backdrop-blur (expensive) */
-  .backdrop-blur-xl,
-  .backdrop-blur-md,
-  .backdrop-blur-sm,
-  .backdrop-blur-2xl {
-    will-change: transform;
-    transform: translateZ(0);
-  }
-
-  /* Isolate heavy sections to prevent full-page repaints */
+  /* D1.10 — contain: paint is where the real perf win lives (prevents children from painting
+     outside the box). layout+style caused silent sticky-child breakage in some sections. */
   section {
-    contain: layout style;
+    contain: layout paint;
   }
 }
 

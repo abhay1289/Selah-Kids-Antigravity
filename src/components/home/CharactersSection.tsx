@@ -39,36 +39,16 @@ export function CharactersSection() {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={sectionVariants}
-      className="py-10 md:py-16 bg-gradient-to-b from-[#FFF5E6] to-[#FFF0DB] relative overflow-hidden"
+      className="py-10 md:py-16 relative"
     >
-      {/* Playful Background Shapes */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <motion.div 
-          animate={{ 
-            scale: [1, 1.2, 1],
-            rotate: [0, 90, 0],
-            x: [0, 50, 0]
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-20 -left-20 w-96 h-96 bg-selah-orange/5 rounded-full blur-[100px]"
-        />
-        <motion.div 
-          animate={{ 
-            scale: [1, 1.3, 1],
-            rotate: [0, -90, 0],
-            x: [0, -50, 0]
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -bottom-20 -right-20 w-[500px] h-[500px] bg-selah-light/10 rounded-full blur-[120px]"
-        />
-      </div>
+      {/* Per-section blobs removed — atmos-spine carries the atmosphere continuously across sections. */}
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <SectionHeader 
           badge={t("Meet the Characters", "Conoce a los Personajes")}
           title={t("Andy, Libni, and Shiloh", "Andy, Libni y Shiloh")}
           description={t(
-            "Say hello to Andy, Libni, and Shiloh! These amazing friends go on exciting adventures to help kids learn about God, friendship, and faith in a way that's easy to understand.",
+            "Say hello to Andy, Libni, and Shiloh! These amazing friends go on exciting adventures to help kids learn about God, friendship, and faith in a way that’s easy to understand.",
             "¡Saluda a Andy, Libni y Shiloh! Estos increíbles amigos van en emocionantes aventuras para ayudar a los niños a aprender sobre Dios, la amistad y la fe de una manera fácil de entender."
           )}
           align="center"
@@ -89,32 +69,27 @@ export function CharactersSection() {
               }}
               className="group relative"
             >
-              <a href="/characters" className="block h-full">
+              <a href={`/characters/${char.name.toLowerCase()}`} className="block h-full" aria-label={`Read more about ${char.name}`}>
                 <div className={`relative h-full rounded-[36px] sm:rounded-[48px] overflow-hidden bg-gradient-to-br ${char.color} p-6 sm:p-8 pt-8 sm:pt-12 flex flex-col items-center text-center transition-all duration-500 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1),0_10px_15px_-3px_rgba(0,0,0,0.05)] group-hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.2),0_20px_30px_-5px_rgba(0,0,0,0.1)]`}>
                   {/* Character Image Container */}
                   <div className="relative w-[65%] sm:w-full max-w-[200px] sm:max-w-none aspect-[4/5] mb-5 sm:mb-8 flex items-center justify-center">
-                    {/* Glow effect behind character */}
-                    <div className="absolute inset-0 bg-white/20 blur-[40px] sm:blur-[60px] rounded-full scale-75 group-hover:scale-100 transition-transform duration-700" />
-                    
-                    <motion.img 
-                      src={char.img} 
+                    {/* D2.11 — Ground glow at the bottom edge only (not a full-card halo).
+                       Character appears to be STANDING on a soft colored light. */}
+                    <div className="absolute inset-x-[10%] bottom-[6%] h-[18%] rounded-full bg-white/35 blur-[22px] scale-90 group-hover:scale-100 transition-transform duration-700" />
+
+                    <motion.img
+                      src={char.img}
                       alt={char.name}
-                      className="relative z-10 w-full h-full object-contain drop-shadow-2xl"
-                      animate={{ 
-                        y: [0, -15, 0],
-                        rotate: [0, 2, 0]
-                      }}
-                      whileHover={{
-                        scale: 1.1,
-                        rotate: [0, -5, 5, 0],
-                        transition: { duration: 0.5 }
-                      }}
-                      transition={{ 
-                        duration: 4 + i, 
-                        repeat: Infinity, 
-                        ease: "easeInOut",
-                        delay: char.delay 
-                      }}
+                      className="relative z-10 w-full h-full object-contain [filter:drop-shadow(0_18px_22px_rgba(40,28,14,0.22))_drop-shadow(0_4px_8px_rgba(40,28,14,0.14))]"
+                      style={char.name === 'Shiloh' ? {
+                        WebkitMaskImage: 'radial-gradient(ellipse 55% 58% at 50% 48%, #000 58%, rgba(0,0,0,0.8) 72%, transparent 88%)',
+                        maskImage: 'radial-gradient(ellipse 55% 58% at 50% 48%, #000 58%, rgba(0,0,0,0.8) 72%, transparent 88%)',
+                      } : undefined}
+                      initial={{ y: 12, opacity: 0 }}
+                      whileInView={{ y: 0, opacity: 1 }}
+                      viewport={{ once: true, amount: 0.35 }}
+                      transition={{ type: "spring", stiffness: 90, damping: 18, delay: char.delay * 0.15 }}
+                      whileHover={{ y: -6, scale: 1.04 }}
                       referrerPolicy="no-referrer"
                     />
                   </div>
@@ -137,7 +112,7 @@ export function CharactersSection() {
                       whileInView={{ opacity: 1, y: 0 }}
                       className="inline-flex items-center gap-2 text-white ui-label bg-white/20 backdrop-blur-md px-6 py-3 rounded-full border border-white/30 group-hover:bg-white group-hover:text-selah-dark transition-all duration-300 shadow-[0_4px_12px_rgba(0,0,0,0.1)] group-hover:shadow-[0_8px_24px_rgba(0,0,0,0.2)]"
                     >
-                      {t("Who's that?", "¿Quién es?")} <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                      {t("Who’s that?", "¿Quién es?")} <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
                     </motion.div>
                   </div>
                 </div>

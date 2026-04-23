@@ -221,7 +221,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading, field
             className="glass-thin relative inline-flex items-center gap-2.5 px-5 py-2 rounded-full mb-8"
           >
             <SparklesIcon size={14} className="text-selah-orange" aria-hidden />
-            <span className="ui-label text-selah-dark/80">{f('hero.hero_badge', 'FAITH-FILLED MUSIC FOR LITTLE ONES', 'MÚSICA DE FE PARA LOS PEQUEÑOS')}</span>
+            <span className="ui-label text-selah-dark/80">{f("hero.hero_badge", "FAITH-FILLED MUSIC FOR LITTLE ONES", "MÚSICA DE FE PARA LOS PEQUEÑOS")}</span>
           </motion.div>
           
           {/* E1 — One-piece cinematic reveal. No per-word bounce theatre. */}
@@ -231,7 +231,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading, field
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] as const, delay: 0.35 }}
             className="hero-headline relative z-10 mx-auto mb-6 max-w-[14ch] tracking-[-0.035em] leading-[1.08] text-balance"
           >
-            {f('hero.hero_title_line1', 'Christian Music for', 'Música Cristiana para')}{' '}{f('hero.hero_title_accent', 'Kids', 'Niños')}
+            {f('hero.hero_title_line1', 'Christian Music for', 'Música Cristiana para')} {f('hero.hero_title_accent', 'Kids', 'Niños')}
           </motion.h1>
           
           {/* Refined Description */}
@@ -257,10 +257,10 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading, field
           >
             <Button onClick={() => router.push(lh("/watch"))} className="!px-10 !py-4 w-full sm:w-auto">
               <Play size={22} fill="currentColor" aria-hidden />
-              <span>{f('hero.hero_cta_primary', 'Watch Now', 'Ver Ahora')}</span>
+              <span>{f("hero.hero_cta_primary", "Watch Now", "Ver Ahora")}</span>
             </Button>
             <Button onClick={() => router.push(lh("/about"))} variant="white" className="!px-10 !py-4 w-full sm:w-auto">
-              <span>{f('hero.hero_cta_secondary', 'Our Story', 'Nuestra Historia')}</span>
+              <span>{f("hero.hero_cta_secondary", "Our Story", "Nuestra Historia")}</span>
             </Button>
           </motion.div>
 
@@ -277,7 +277,7 @@ export function HeroSection({ scrollYProgress, handleMouseMove, isLoading, field
             >
               <span className="ui-label text-selah-dark/70 tracking-[0.2em] sm:tracking-[0.3em] flex items-center gap-3 bg-white/70 backdrop-blur-xl px-5 sm:px-6 py-2 sm:py-2.5 rounded-full border-2 border-white shadow-[0_8px_20px_-5px_rgba(0,0,0,0.1)]">
                 <Music size={14} className="text-selah-orange" />
-                {f('hero.hero_platforms_label', 'AVAILABLE ON', 'DISPONIBLE EN')}
+                {f("hero.hero_platforms_label", "AVAILABLE ON", "DISPONIBLE EN")}
               </span>
             </motion.div>
             

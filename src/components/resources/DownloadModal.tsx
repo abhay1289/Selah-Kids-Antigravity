@@ -138,6 +138,16 @@ export const DownloadModal = ({ isOpen, onClose, onSuccess, resourceTitle }: Dow
   }, []);
 
   useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
+  useEffect(() => {
     if (isOpen) {
       setFirstName('');
       setLastName('');
@@ -178,7 +188,12 @@ export const DownloadModal = ({ isOpen, onClose, onSuccess, resourceTitle }: Dow
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+      <div 
+        className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Download resource"
+      >
         {/* Cinematic Backdrop */}
         <motion.div 
           initial={{ opacity: 0 }}
@@ -308,6 +323,7 @@ export const DownloadModal = ({ isOpen, onClose, onSuccess, resourceTitle }: Dow
                     <CheckCircle2 size={48} />
                   </motion.div>
                   <motion.h4 
+
                     initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}
                     className="text-3xl font-black text-selah-dark mb-3 font-display tracking-tight"
                   >
@@ -416,6 +432,7 @@ export const DownloadModal = ({ isOpen, onClose, onSuccess, resourceTitle }: Dow
                 >
                   <div className="text-center mb-6">
                     <motion.h3 
+
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.1 }}
@@ -510,6 +527,7 @@ export const DownloadModal = ({ isOpen, onClose, onSuccess, resourceTitle }: Dow
                 >
                   <div className="text-center mb-6">
                     <motion.h3 
+
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.1 }}
