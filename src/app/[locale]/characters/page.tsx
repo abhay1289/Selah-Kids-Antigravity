@@ -3,9 +3,10 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import NextImage from 'next/image';
-import { Badge } from '../../components/UI';
+import { Badge } from '@/components/UI';
 import { Star, Heart, Music, Sparkles } from 'lucide-react';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { useLocalePath } from '@/hooks/useLocalePath';
 
 const CHARACTERS = [
   {
@@ -322,6 +323,7 @@ function CharacterSection({ char, index }: { char: typeof CHARACTERS[0]; index: 
 /* ── Main page ─────────────────────────────────────── */
 export default function CharactersPage() {
   const { t, language } = useLanguage();
+  const { lh } = useLocalePath();
   return (
     <div className="bg-gradient-to-b from-[#FFF5EE] via-[#FDFBF7] to-[#F0FAE6] min-h-screen overflow-hidden selection:bg-selah-orange selection:text-white relative">
       {/* Vivid Color Washes */}
@@ -367,7 +369,7 @@ export default function CharactersPage() {
           )}
         </p>
         <motion.a
-          href="/watch"
+          href={lh("/watch")}
           onClick={(e) => { e.preventDefault(); window.location.href = '/watch'; }}
           whileHover={{ scale: 1.05, y: -3 }}
           whileTap={{ scale: 0.97 }}

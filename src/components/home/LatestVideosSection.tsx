@@ -8,6 +8,7 @@ import { Button } from "../UI";
 import { SectionHeader } from "../SectionHeader";
 import { useLanguage } from "../../contexts/LanguageContext";
 import { useRouter } from "next/navigation";
+import { useLocalePath } from "../../hooks/useLocalePath";
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -25,6 +26,7 @@ const sectionVariants = {
 export function LatestVideosSection() {
   const { t, language } = useLanguage();
   const router = useRouter();
+  const { lh } = useLocalePath();
   const containerRef = useRef<HTMLElement>(null);
   
   const { scrollYProgress } = useScroll({
@@ -74,7 +76,7 @@ export function LatestVideosSection() {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={sectionVariants}
-      className="py-10 md:py-16 bg-[#FFF9F0] relative overflow-hidden"
+      className="py-10 md:py-16 relative overflow-hidden"
     >
       {/* Artistic Background Elements - Playful & Creative */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -146,6 +148,16 @@ export function LatestVideosSection() {
                 const url = video.youtubeUrl || (language === 'ES' ? "https://www.youtube.com/@SelahKidsEspanol" : "https://www.youtube.com/@selahkidsworship");
                 window.open(url, "_blank", "noopener,noreferrer");
               }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  const url = video.youtubeUrl || (language === 'ES' ? "https://www.youtube.com/@SelahKidsEspanol" : "https://www.youtube.com/@selahkidsworship");
+                  window.open(url, "_blank", "noopener,noreferrer");
+                }
+              }}
+              tabIndex={0}
+              role="button"
+              aria-label={`Watch ${video.title}`}
               className="group cursor-pointer relative"
             >
               {/* Thumbnail Area - Large & Prominent */}
@@ -179,7 +191,7 @@ export function LatestVideosSection() {
                     whileHover={{ scale: 1.2, rotate: 5 }}
                     className="w-24 h-24 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-selah-dark transition-all duration-500 group-hover:bg-white group-hover:text-selah-orange shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1),0_4px_10px_-2px_rgba(0,0,0,0.05)] group-hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.2)]"
                   >
-                    <Play fill="currentColor" size={32} className="ml-1.5" />
+                    <Play fill="currentColor" size={32} className="ml-1.5" aria-hidden="true" />
                   </motion.div>
                 </div>
 
@@ -229,7 +241,7 @@ export function LatestVideosSection() {
             <Button 
               variant="outline"
               className="!px-10 !py-4 ui-button !border-2 !border-selah-orange !text-selah-orange hover:!bg-selah-orange hover:!text-white transition-all group shadow-[0_10px_30px_-10px_rgba(255,107,0,0.3)] hover:shadow-[0_20px_40px_-10px_rgba(255,107,0,0.5)] whitespace-nowrap w-full sm:w-auto"
-              onClick={() => router.push("/watch")}
+              onClick={() => router.push(lh("/watch"))}
             >
               <span className="flex items-center justify-center">
                 {t("See All Videos", "Ver Todos Los Videos")}

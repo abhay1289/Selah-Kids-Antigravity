@@ -6,15 +6,19 @@ import Image from "next/image";
 import { Button } from "../UI";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "../../contexts/LanguageContext";
+import { useLocalePath } from "../../hooks/useLocalePath";
 
 interface HeroSectionProps {
   scrollYProgress: MotionValue<number>;
+  handleMouseMove: (e: React.MouseEvent) => void;
+  isLoading?: boolean;
 }
 
-export function HeroSection({ scrollYProgress }: HeroSectionProps) {
+export function HeroSection({ scrollYProgress, handleMouseMove, isLoading }: HeroSectionProps) {
   const router = useRouter();
   const { t, language } = useLanguage();
-  
+  const { lh } = useLocalePath();
+
   const heroY = useTransform(scrollYProgress, [0, 1], [0, 300]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const sunRotate = useTransform(scrollYProgress, [0, 1], [0, 360]);
@@ -66,6 +70,7 @@ export function HeroSection({ scrollYProgress }: HeroSectionProps) {
   const spotlightBackground = useMotionTemplate`radial-gradient(1200px circle at ${spotX} ${spotY}, rgba(255,255,255,0.08), transparent 40%)`;
 
   const onHeroMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    handleMouseMove(e); // Maintain the global original parallax if any
     const { clientX, clientY } = e;
     const { innerWidth, innerHeight } = window;
     // Normalize to [-0.5, 0.5]
@@ -73,24 +78,30 @@ export function HeroSection({ scrollYProgress }: HeroSectionProps) {
     mouseY.set(clientY / innerHeight - 0.5);
   };
 
+  if (isLoading) {
+    return <section className="relative min-h-[90svh] md:min-h-[750px]" />;
+  }
+
   return (
-    <motion.section 
+    <motion.section
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] as const }}
       onMouseMove={onHeroMouseMove}
-      className="relative min-h-[90svh] md:min-h-[750px] pb-10 md:pb-0 flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#FFE0C0] via-[#FFD4A8] to-[#D4EDC0] perspective-1000"
+      className="relative min-h-[90svh] md:min-h-[750px] pb-10 md:pb-0 flex items-center justify-center overflow-hidden perspective-1000"
     >
-      {/* Vivid color washes — enterprise-grade vibrancy */}
-      <div className="absolute top-0 right-0 w-[70vw] h-[65vh] bg-gradient-to-bl from-[#FF7F50]/30 via-[#FF5C00]/15 to-transparent rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[65vw] h-[60vh] bg-gradient-to-tr from-[#93D35C]/30 via-[#98FF98]/15 to-transparent rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-[10%] left-[5%] w-[45vw] h-[45vh] bg-[#FEB835]/25 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-[10%] right-[5%] w-[40vw] h-[40vh] bg-[#FF69B4]/20 rounded-full blur-[90px] pointer-events-none" />
-      <div className="absolute top-[30%] right-[15%] w-[35vw] h-[35vh] bg-[#00BFFF]/18 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute top-[5%] left-[35%] w-[30vw] h-[30vh] bg-[#9B59B6]/14 rounded-full blur-[90px] pointer-events-none" />
-      
-      <motion.div 
-        style={{ y: heroY, opacity: heroOpacity }}
+      {/* D2.1 — Single warm key-light. The cool haze blob was deleted (its hard-clipped
+         lower edge at `bottom-0` sat exactly at the hero/section boundary and read as a
+         visible horizontal band). The page-fixed atmos-spine already carries cool tones. */}
+      <div className="absolute top-0 right-[10%] w-[55vw] h-[45vh] bg-gradient-to-bl from-[#FF7F50]/18 via-[#FF5C00]/8 to-transparent rounded-full blur-[110px] pointer-events-none" />
+
+      <motion.div
+        style={{
+          y: heroY,
+          opacity: heroOpacity,
+          WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
+          maskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
+        }}
         className="absolute inset-0 z-0 overflow-hidden pointer-events-none"
       >
 
@@ -130,16 +141,14 @@ export function HeroSection({ scrollYProgress }: HeroSectionProps) {
           transition={{ type: "spring", stiffness: 50, damping: 14, delay: 0.1, mass: 1.2 }}
           className="absolute top-[24%] sm:top-[45%] md:top-[50%] -translate-y-1/2 left-0 -ml-[2%] sm:ml-4 md:ml-12 w-[32%] sm:w-[25%] md:w-[18%] z-0 md:z-20 opacity-30 sm:opacity-50 md:opacity-100 pointer-events-none"
         >
-          <motion.div
-            animate={{ y: [0, -15, 0], rotate: [-1, 1, -1] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          >
+          <motion.div>
             <Image
-              src="/SK_Libni_Intro_Pose-removebg-preview.png" 
+              src="/SK_Libni_Intro_Pose-removebg-preview.png"
               alt="Libni"
               width={320}
               height={480}
-              className="w-full h-auto drop-shadow-[0_15px_40px_rgba(255,100,150,0.5)]"
+              data-fold-char
+              className="w-full h-auto [filter:drop-shadow(0_20px_22px_rgba(82,52,16,0.18))_drop-shadow(0_4px_8px_rgba(82,52,16,0.12))]"
               priority
               quality={60}
             />
@@ -159,16 +168,14 @@ export function HeroSection({ scrollYProgress }: HeroSectionProps) {
           transition={{ type: "spring", stiffness: 50, damping: 14, delay: 0.15, mass: 1.2 }}
           className="absolute top-[24%] sm:top-[45%] md:top-[50%] -translate-y-1/2 right-0 -mr-[2%] sm:mr-4 md:mr-12 w-[32%] sm:w-[25%] md:w-[18%] z-0 md:z-20 opacity-30 sm:opacity-50 md:opacity-100 pointer-events-none"
         >
-          <motion.div
-            animate={{ y: [0, -18, 0], rotate: [1, -1, 1] }}
-            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          >
+          <motion.div>
             <Image
-              src="/SK_Andy_Intro_Pose-removebg-preview.png" 
+              src="/SK_Andy_Intro_Pose-removebg-preview.png"
               alt="Andy"
               width={320}
               height={480}
-              className="w-full h-auto drop-shadow-[0_15px_40px_rgba(0,180,255,0.4)]"
+              data-fold-char
+              className="w-full h-auto [filter:drop-shadow(0_20px_22px_rgba(82,52,16,0.18))_drop-shadow(0_4px_8px_rgba(82,52,16,0.12))]"
               priority
               quality={60}
             />
@@ -185,13 +192,14 @@ export function HeroSection({ scrollYProgress }: HeroSectionProps) {
 
         {/* Cinematic Lighting: Magical Ambient Sun Rays */}
         <motion.div 
-          animate={{ opacity: [0.2, 0.5, 0.2] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-0 inset-x-0 h-[120%] pointer-events-none mix-blend-overlay z-10 hidden md:block" 
-          style={{ background: "radial-gradient(circle at 50% -10%, rgba(255,255,255,0.9) 0%, rgba(255,220,150,0.3) 35%, transparent 60%)" }} 
+          className="absolute top-0 inset-x-0 h-[120%] pointer-events-none mix-blend-overlay z-10 hidden md:block opacity-35"
+          style={{ background: "radial-gradient(circle at 50% -10%, rgba(255,255,255,0.9) 0%, rgba(255,220,150,0.3) 35%, transparent 60%)" }}
         />
         {/* Gradient Overlay for Text Readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#FFF8EE]/50 via-transparent to-[#FFFDF5]/40 z-10 pointer-events-none" />
+        {/* Hero top-down readability vignette — tinted only at the TOP so the
+            hero's bottom edge is fully transparent and flows into the next
+            section's atmos-spine without a tone step. */}
+        <div className="absolute inset-x-0 top-0 h-[40%] bg-gradient-to-b from-[var(--mood-bg-top,#FFF8EE)]/45 to-transparent z-10 pointer-events-none" />
 
 
       </motion.div>
@@ -201,52 +209,26 @@ export function HeroSection({ scrollYProgress }: HeroSectionProps) {
           style={{ opacity: heroOpacity, y: contentY }}
           className="flex flex-col items-center"
         >
-          {/* Premium Pill Badge */}
-          <motion.div 
-            initial={{ scale: 0.8, opacity: 0, y: 30, filter: "blur(10px)" }}
-            animate={{ scale: 1, opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ type: "spring", stiffness: 70, damping: 15, delay: 0.3 }}
-            className="relative inline-flex items-center gap-3 px-6 py-2.5 bg-white/60 backdrop-blur-2xl border border-white/80 shadow-[0_8px_32px_rgba(0,0,0,0.08)] rounded-full mb-8 cursor-default overflow-hidden group hover:shadow-[0_16px_48px_rgba(0,0,0,0.12)] transition-shadow duration-500"
+          {/* E3 — Premium pill badge as true thin glass, single entrance, no shimmer loop */}
+          <motion.div
+            initial={{ scale: 0.96, opacity: 0, y: 16 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            transition={{ type: 'spring', stiffness: 70, damping: 18, delay: 0.25 }}
+            className="glass-thin relative inline-flex items-center gap-2.5 px-5 py-2 rounded-full mb-8"
           >
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/90 to-transparent -skew-x-12"
-              animate={{ x: ['-200%', '200%'] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", repeatDelay: 2 }}
-            />
-            <SparklesIcon size={16} className="text-selah-orange relative z-10" />
-            <span className="ui-label text-selah-dark/90 relative z-10">{t("FAITH-FILLED MUSIC FOR LITTLE ONES", "MÚSICA DE FE PARA LOS PEQUEÑOS")}</span>
+            <SparklesIcon size={14} className="text-selah-orange" aria-hidden />
+            <span className="ui-label text-selah-dark/80">{t("FAITH-FILLED MUSIC FOR LITTLE ONES", "MÚSICA DE FE PARA LOS PEQUEÑOS")}</span>
           </motion.div>
           
-          {/* Cinematic Title Reveal with Magical Aura */}
-          <div className="relative mt-2">
-
-            
-            <h1 className="hero-headline flex flex-wrap justify-center gap-x-3 lg:gap-x-4 mb-6 drop-shadow-lg relative z-10 max-w-[260px] sm:max-w-[350px] md:max-w-[800px] mx-auto leading-[1.2]">
-            {t("Christian", "Música").split(" ").concat(t("Music for", "Cristiana para").split(" ")).map((word, i) => (
-              <span key={i} className="overflow-hidden inline-block pb-4 px-1">
-                <motion.span
-                  initial={{ y: "150%", opacity: 0, rotateZ: 15, scale: 0.8, filter: "blur(8px)" }}
-                  animate={{ y: 0, opacity: 1, rotateZ: 0, scale: 1, filter: "blur(0px)" }}
-                  transition={{ type: "spring", bounce: 0.4, duration: 1.2, delay: i * 0.1 + 0.4 }}
-                  className="inline-block origin-bottom-left"
-                >
-                  {word}
-                </motion.span>
-              </span>
-            ))}
-            <span className="overflow-hidden inline-block pb-4">
-              <motion.span
-                initial={{ y: "150%", opacity: 0, rotateZ: -10, scale: 0.5, filter: "blur(12px)" }}
-                animate={{ y: 0, opacity: 1, rotateZ: 0, scale: 1, filter: "blur(0px)" }}
-                transition={{ type: "spring", bounce: 0.5, duration: 1.5, delay: 0.7 }}
-                whileHover={{ scale: 1.1, rotate: 2 }}
-                className="inline-block origin-bottom-left pr-4 drop-shadow-[0_10px_20px_rgba(255,107,0,0.4)]"
-              >
-                {t("Kids", "Niños")}
-              </motion.span>
-            </span>
-          </h1>
-          </div>
+          {/* E1 — One-piece cinematic reveal. No per-word bounce theatre. */}
+          <motion.h1
+            initial={{ opacity: 0, y: 24, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] as const, delay: 0.35 }}
+            className="hero-headline relative z-10 mx-auto mb-6 max-w-[14ch] tracking-[-0.035em] leading-[1.08] text-balance"
+          >
+            {t('Christian Music for Kids', 'Música Cristiana para Niños')}
+          </motion.h1>
           
           {/* Refined Description */}
           <motion.p 
@@ -268,30 +250,13 @@ export function HeroSection({ scrollYProgress }: HeroSectionProps) {
             transition={{ type: "spring", stiffness: 60, damping: 20, delay: 1.1 }}
             className="flex flex-col sm:flex-row justify-center gap-4 relative z-20 w-full sm:w-auto px-6 mb-10"
           >
-            <motion.div>
-              <Button 
-                onClick={() => router.push("/watch")}
-                className="group overflow-hidden relative !px-10 !py-4 ui-button flex items-center justify-center gap-3 whitespace-nowrap shadow-[0_20px_40px_-15px_rgba(255,92,0,0.5)] hover:shadow-[0_30px_60px_-15px_rgba(255,92,0,0.7)] hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto"
-              >
-                {/* Shine Sweep Effect */}
-                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12 transition-transform duration-[800ms] ease-out" />
-                
-                <Play size={22} className="fill-white relative z-10 transition-transform duration-300 group-hover:rotate-12" />
-                <span className="relative z-10">{t("Watch Now", "Ver Ahora")}</span>
-              </Button>
-            </motion.div>
-            <motion.div>
-              <Button 
-                onClick={() => router.push("/about")}
-                variant="white" 
-                className="group overflow-hidden relative !px-10 !py-4 ui-button flex items-center justify-center whitespace-nowrap shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto"
-              >
-                {/* Shine Sweep Effect */}
-                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-selah-pink/20 to-transparent skew-x-12 transition-transform duration-[800ms] ease-out" />
-                
-                <span className="relative z-10">{t("Our Story", "Nuestra Historia")}</span>
-              </Button>
-            </motion.div>
+            <Button onClick={() => router.push(lh("/watch"))} className="!px-10 !py-4 w-full sm:w-auto">
+              <Play size={22} fill="currentColor" aria-hidden />
+              <span>{t("Watch Now", "Ver Ahora")}</span>
+            </Button>
+            <Button onClick={() => router.push(lh("/about"))} variant="white" className="!px-10 !py-4 w-full sm:w-auto">
+              <span>{t("Our Story", "Nuestra Historia")}</span>
+            </Button>
           </motion.div>
 
           {/* Platform Links - Playful Morphing Liquid Blobs */}

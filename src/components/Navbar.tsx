@@ -7,11 +7,11 @@ import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { useLanguage } from "../contexts/LanguageContext";
 import { Button } from "./UI";
+import { fromLanguageKey, localeHref, getLocaleFromPathname, DEFAULT_LOCALE } from "../lib/i18n";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [hoveredLink, setHoveredLink] = useState<string | null>(null);
   const { language, setLanguage, t } = useLanguage();
   const router = useRouter();
   const pathname = usePathname();
@@ -32,14 +32,21 @@ export function Navbar() {
     };
   }, []);
 
+  // Derive locale from URL first, fall back to the client context's language
+  // choice. URL is the source of truth once middleware redirects are wired;
+  // the language-context fallback lets the navbar stay correct during
+  // client-side language toggles that haven't hit the server yet.
+  const locale = getLocaleFromPathname(pathname) ?? fromLanguageKey(language) ?? DEFAULT_LOCALE;
+  const lh = (path: string) => localeHref(path, locale);
+
   const navLinks = [
-    { name: t("Home", "Inicio"), href: "/" },
-    { name: t("About", "Sobre Nosotros"), href: "/about" },
-    { name: t("Watch", "Ver"), href: "/watch" },
-    { name: t("Characters", "Personajes"), href: "/characters" },
-    { name: t("Families", "Familias"), href: "/parents" },
-    { name: t("Blog", "Blog"), href: "/blog" },
-    { name: t("Resources", "Recursos"), href: "/resources" },
+    { name: t("Home", "Inicio"), href: lh("/") },
+    { name: t("About", "Sobre Nosotros"), href: lh("/about") },
+    { name: t("Watch", "Ver"), href: lh("/watch") },
+    { name: t("Characters", "Personajes"), href: lh("/characters") },
+    { name: t("Families", "Familias"), href: lh("/parents") },
+    { name: t("Blog", "Blog"), href: lh("/blog") },
+    { name: t("Resources", "Recursos"), href: lh("/resources") },
   ];
 
   const closeMenu = () => setIsMenuOpen(false);
@@ -49,67 +56,38 @@ export function Navbar() {
       <motion.div
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className={`
-          pointer-events-auto
-          flex items-center justify-between w-full max-w-7xl px-6 py-2
-          rounded-[2rem] transition-all duration-700
-          ${isScrolled || pathname !== '/'
-            ? "bg-white/70 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] border border-white/40" 
-            : "bg-white/10 backdrop-blur-md border border-white/10"
-          }
-        `}
+        className="pointer-events-auto glass-chrome flex items-center justify-between w-full max-w-7xl px-6 py-2 rounded-[2rem] transition-shadow duration-500"
       >
-        <motion.div 
-          className="flex items-center gap-2"
-          whileHover={{ scale: 1.02 }}
-        >
-          <Link href="/" aria-label="Selah Kids home" onClick={closeMenu}>
+        <div className="flex items-center gap-2">
+          <Link href={lh("/")} aria-label="Selah Kids home" onClick={closeMenu}>
             <motion.img
               src="/SK_Logo_FN.png"
               alt="Selah Kids"
-              className="h-10 md:h-12 cursor-pointer rounded-xl shadow-sm"
-              animate={{ rotate: [-1, 1, -1] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              whileHover={{ rotate: 0, scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
+              className="h-10 md:h-12 cursor-pointer rounded-xl"
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 25 }}
             />
           </Link>
-        </motion.div>
+        </div>
 
         {/* Desktop Nav */}
         <div className="hidden lg:flex items-center gap-1 xl:gap-2">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
-            const isHovered = hoveredLink === link.name;
             return (
               <Link
                 key={link.name}
                 href={link.href}
                 prefetch
-                onMouseEnter={() => setHoveredLink(link.name)}
-                onMouseLeave={() => setHoveredLink(null)}
-                className={`group relative px-4 xl:px-5 py-2.5 ui-nav rounded-xl transition-colors duration-300 ${isActive ? "text-selah-orange" : "text-selah-dark hover:text-selah-orange"}`}
+                className={`relative px-4 xl:px-5 py-2.5 ui-nav rounded-xl transition-colors duration-200 ${isActive ? "text-selah-orange" : "text-selah-dark hover:text-selah-orange"}`}
               >
                 <span className="relative z-10">{link.name}</span>
-                
-                {/* Active Pill Background */}
                 {isActive && (
                   <motion.div
                     layoutId="nav-active-pill"
                     className="absolute inset-0 bg-selah-orange/10 rounded-xl z-0"
                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                  />
-                )}
-                
-                {/* Magnetic Hover Underline */}
-                {isHovered && (
-                  <motion.div
-                    layoutId="nav-hover-underline"
-                    className="absolute bottom-1.5 left-4 right-4 h-0.5 bg-selah-orange rounded-full z-10"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
                   />
                 )}
               </Link>
@@ -142,7 +120,7 @@ export function Navbar() {
               variant="primary" 
               className="!py-3 !px-8 !rounded-2xl ui-button shadow-lg shadow-selah-orange/20 hover:shadow-xl hover:shadow-selah-orange/30 hover:-translate-y-0.5 transition-all whitespace-nowrap"
               icon={ArrowRight}
-              onClick={() => router.push("/donate")}
+              onClick={() => router.push(lh("/donate"))}
             >
               {t("Donate", "Donar")}
             </Button>
@@ -167,7 +145,8 @@ export function Navbar() {
             initial={{ opacity: 0, y: -20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
-            className="fixed inset-x-4 top-24 z-40 lg:hidden bg-white/90 backdrop-blur-2xl rounded-[2.5rem] p-6 sm:p-8 shadow-2xl border border-white/20 pointer-events-auto"
+            style={{ boxShadow: 'var(--paper-shadow-2)' }}
+            className="fixed inset-x-4 top-24 z-40 lg:hidden bg-[var(--paper-cream)] rounded-[2.5rem] p-6 sm:p-8 border border-white/20 pointer-events-auto"
           >
             <div className="flex flex-col gap-3 sm:gap-4">
               {navLinks.map((link, i) => (
@@ -205,7 +184,7 @@ export function Navbar() {
                   variant="primary" 
                   className="w-full ui-button whitespace-nowrap" 
                   icon={ArrowRight}
-                  onClick={() => { setIsMenuOpen(false); router.push("/donate"); }}
+                  onClick={() => { setIsMenuOpen(false); router.push(lh("/donate")); }}
                 >
                   {t("Donate Now", "Donar Ahora")}
                 </Button>

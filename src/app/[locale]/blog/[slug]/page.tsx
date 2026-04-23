@@ -6,15 +6,17 @@ import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Calendar, ArrowLeft, Share2, BookOpen } from 'lucide-react';
-import { useLanguage } from '../../../contexts/LanguageContext';
-import { getPostBySlug, BLOG_POSTS } from '../../../data/blogPosts';
-import { Badge, Button } from '../../../components/UI';
-import BlogComments from '../../../components/blog/BlogComments';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { getPostBySlug, BLOG_POSTS } from '@/data/blogPosts';
+import { Badge, Button } from '@/components/UI';
+import BlogComments from '@/components/blog/BlogComments';
+import { useLocalePath } from '@/hooks/useLocalePath';
 
 export default function BlogPostPage() {
   const params = useParams();
   const router = useRouter();
   const { language, t } = useLanguage();
+  const { lh } = useLocalePath();
   const slug = params.slug as string;
   const post = getPostBySlug(slug);
 
@@ -26,7 +28,7 @@ export default function BlogPostPage() {
           <p className="body-text mx-auto mb-8">
             {t("The blog post you're looking for doesn't exist.", "La publicación que buscas no existe.")}
           </p>
-          <Button onClick={() => router.push('/blog')} className="!px-8 !py-4 ui-button">
+          <Button onClick={() => router.push(lh('/blog'))} className="!px-8 !py-4 ui-button">
             <ArrowLeft size={18} className="mr-2" />
             {t("Back to Blog", "Volver al Blog")}
           </Button>
@@ -72,7 +74,7 @@ export default function BlogPostPage() {
             transition={{ duration: 0.5 }}
           >
             <Link
-              href="/blog"
+              href={lh("/blog")}
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/80 backdrop-blur-xl rounded-full border border-selah-dark/5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 text-selah-dark ui-button group"
             >
               <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform duration-300" />

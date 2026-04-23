@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ResourcesHero } from '../../components/resources/ResourcesHero';
-import { ResourceCard } from '../../components/resources/ResourceCard';
-import { DownloadModal } from '../../components/resources/DownloadModal';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { ResourcesHero } from '@/components/resources/ResourcesHero';
+import { ResourceCard } from '@/components/resources/ResourceCard';
+import { DownloadModal } from '@/components/resources/DownloadModal';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const CATEGORIES = ['All', 'Printables', 'Lessons', 'Devotionals'];
 

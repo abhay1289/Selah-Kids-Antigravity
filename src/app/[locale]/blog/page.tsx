@@ -2,11 +2,11 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { BlogHero } from '../../components/blog/BlogHero';
-import { BlogCategories } from '../../components/blog/BlogCategories';
-import { BlogGrid } from '../../components/blog/BlogGrid';
-import { BLOG_POSTS } from '../../data/blogPosts';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { BlogHero } from '@/components/blog/BlogHero';
+import { BlogCategories } from '@/components/blog/BlogCategories';
+import { BlogGrid } from '@/components/blog/BlogGrid';
+import { BLOG_POSTS } from '@/data/blogPosts';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function BlogPage() {
   const { t } = useLanguage();

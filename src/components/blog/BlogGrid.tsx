@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useLanguage } from '../../contexts/LanguageContext';
 import type { BlogPost } from '../../data/blogPosts';
+import { useLocalePath } from '../../hooks/useLocalePath';
 
 interface BlogGridProps {
   posts: BlogPost[];
@@ -14,6 +15,7 @@ interface BlogGridProps {
 
 const BlogCard = ({ post, index }: { post: BlogPost; index: number }) => {
   const { language, t } = useLanguage();
+  const { lh } = useLocalePath();
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const mouseX = useMotionValue(0);
@@ -46,7 +48,7 @@ const BlogCard = ({ post, index }: { post: BlogPost; index: number }) => {
       onMouseLeave={() => { setIsHovered(false); mouseX.set(0); mouseY.set(0); }}
     >
       <Link
-        href={`/blog/${post.slug}`}
+        href={lh(`/blog/${post.slug}`)}
         className="group relative flex flex-col bg-white/95 backdrop-blur-2xl rounded-[2.5rem] p-3 border border-white/60 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)] hover:shadow-[0_40px_100px_-20px_rgba(255,92,0,0.15)] transition-all duration-700 overflow-hidden"
       >
         {/* Mouse-tracking spotlight */}

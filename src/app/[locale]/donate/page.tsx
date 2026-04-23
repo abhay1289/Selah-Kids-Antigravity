@@ -2,9 +2,9 @@
 
 import React, { useState } from 'react';
 import { Music, Video, Globe } from 'lucide-react';
-import { DonateHero } from '../../components/donate/DonateHero';
-import { DonateCard } from '../../components/donate/DonateCard';
-import { DonateImpact } from '../../components/donate/DonateImpact';
+import { DonateHero } from '@/components/donate/DonateHero';
+import { DonateCard } from '@/components/donate/DonateCard';
+import { DonateImpact } from '@/components/donate/DonateImpact';
 
 const AMOUNTS = [10, 20, 30, 50];
 
