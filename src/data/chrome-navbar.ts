@@ -43,7 +43,7 @@ export const INITIAL_NAV_LINKS: NavLink[] = [
 export const INITIAL_NAV_SETTINGS: NavSettings[] = [
   {
     id: 'nav',
-    logoPath: '/SK_Logo_FN.jpg',
+    logoPath: '/SK_Logo_FN.png',
     ctaLabelEn: 'Donate',
     ctaLabelEs: 'Donar',
     ctaHref: '/donate',

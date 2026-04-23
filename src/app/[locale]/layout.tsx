@@ -41,13 +41,20 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
 
   // Parallel reads — both tagged and cached, so Next.js can share the fetch
   // across all pages under /[locale]/* until a revalidateTag fires.
-  const [navLinks, navSettings] = await Promise.all([
+  const [navLinksDb, navSettingsDb] = await Promise.all([
     getCollection<NavLink>('nav_links', INITIAL_NAV_LINKS),
     getCollection<NavSettings>('nav_settings', INITIAL_NAV_SETTINGS),
   ]);
 
+  // Chrome fallback: getCollection returns [] (not the fallback array) in
+  // public mode with zero published rows, so an unseeded or fully-unpublished
+  // DB would leave the navbar empty. Chrome is required to navigate the
+  // site — fall back to INITIAL_* when the DB answer is empty.
+  const navLinks = navLinksDb.length > 0 ? navLinksDb : INITIAL_NAV_LINKS;
+  const navSettings = navSettingsDb[0] ?? INITIAL_NAV_SETTINGS[0]!;
+
   return (
-    <LayoutShell navLinks={navLinks} navSettings={navSettings[0] ?? INITIAL_NAV_SETTINGS[0]}>
+    <LayoutShell navLinks={navLinks} navSettings={navSettings}>
       {children}
     </LayoutShell>
   );

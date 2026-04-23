@@ -45,18 +45,26 @@ export function Navbar({ navLinks: cmsLinks, navSettings }: NavbarProps) {
   const locale = getLocaleFromPathname(pathname) ?? fromLanguageKey(language) ?? DEFAULT_LOCALE;
   const lh = (path: string) => localeHref(path, locale);
 
-  // Visible CMS links → navigation items. Label picked by active language,
-  // href rewritten through localeHref so /es is preserved on the link.
+  // Locale-derived label selection. Using `locale` (from pathname) instead
+  // of the `language` context avoids a first-paint flash where server
+  // renders one language and client hydrates with the other — the
+  // LanguageContext default is EN, but the URL is authoritative.
+  const labelLang: 'en' | 'es' = locale;
   const navLinks = cmsLinks
     .filter((l) => l.isVisible)
     .map((l) => ({
-      name: language === 'EN' ? l.labelEn : l.labelEs,
+      name: labelLang === 'en' ? l.labelEn : l.labelEs,
       href: lh(l.href),
     }));
-  const ctaLabel = language === 'EN' ? navSettings.ctaLabelEn : navSettings.ctaLabelEs;
+  const ctaLabel = labelLang === 'en' ? navSettings.ctaLabelEn : navSettings.ctaLabelEs;
   const ctaHref = lh(navSettings.ctaHref);
   const logoPath = navSettings.logoPath || '/SK_Logo_FN.png';
   const showLanguageToggle = navSettings.showLanguageToggle;
+
+  // "At the top of the home page" — under /[locale]/* routing, home is
+  // `/en` or `/es`, never `/`. The old check (`pathname !== '/'`) always
+  // returned true here, breaking the transparent-nav home style.
+  const isHomePage = pathname === `/${locale}` || pathname === '/';
 
   const closeMenu = () => setIsMenuOpen(false);
 
@@ -83,7 +91,12 @@ export function Navbar({ navLinks: cmsLinks, navSettings }: NavbarProps) {
         {/* Desktop Nav */}
         <div className="hidden lg:flex items-center gap-1 xl:gap-2">
           {navLinks.map((link) => {
-            const isActive = pathname === link.href;
+            // Active highlight on exact match OR — for Home only — when on
+            // the bare locale root (`/en` ≡ `/en/`) so the Home pill lights
+            // up while on the home page.
+            const isActive =
+              pathname === link.href ||
+              (link.href === `/${locale}` && (pathname === `/${locale}` || pathname === '/'));
             return (
               <Link
                 key={link.name}
@@ -109,7 +122,7 @@ export function Navbar({ navLinks: cmsLinks, navSettings }: NavbarProps) {
             {/* Language Toggle — Flags */}
             {showLanguageToggle && (
               <div
-                className={`flex items-center p-1 rounded-full cursor-pointer transition-colors duration-300 ${isScrolled || pathname !== '/' ? 'bg-black/5 hover:bg-black/10' : 'bg-selah-dark/5 hover:bg-selah-dark/10 backdrop-blur-md'}`}
+                className={`flex items-center p-1 rounded-full cursor-pointer transition-colors duration-300 ${isScrolled || !isHomePage ? 'bg-black/5 hover:bg-black/10' : 'bg-selah-dark/5 hover:bg-selah-dark/10 backdrop-blur-md'}`}
                 onClick={() => setLanguage(l => l === 'EN' ? 'ES' : 'EN')}
               >
                 <div className={`relative px-3 py-2 rounded-full transition-all duration-300 z-10 text-lg leading-none`}>
@@ -141,7 +154,7 @@ export function Navbar({ navLinks: cmsLinks, navSettings }: NavbarProps) {
           <motion.button 
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.9 }}
-            className={`lg:hidden p-3 rounded-2xl transition-all duration-300 ${isScrolled || pathname !== '/' ? "bg-selah-dark/5 text-selah-dark" : "bg-selah-dark/5 text-selah-dark backdrop-blur-md"}`} 
+            className={`lg:hidden p-3 rounded-2xl transition-all duration-300 ${isScrolled || !isHomePage ? "bg-selah-dark/5 text-selah-dark" : "bg-selah-dark/5 text-selah-dark backdrop-blur-md"}`} 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
