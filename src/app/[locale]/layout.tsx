@@ -82,9 +82,15 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
   const footerSettings = footerSettingsDb[0] ?? INITIAL_FOOTER_SETTINGS[0]!;
   // Theme palette: only partial overrides are valid (a single dropped row
   // shouldn't erase the rest), so we merge DB values onto the seed so
-  // missing ids keep their baked-in defaults.
+  // missing ids keep their baked-in defaults. Merge only the `value`
+  // field — `cssVar` must stay locked to the seed so an accidental
+  // admin edit of the variable name can't knock out the whole theme
+  // override (Tailwind's @theme keys are load-bearing).
   const themeById = new Map(themeColorsDb.map((c) => [c.id, c]));
-  const themeColors = INITIAL_THEME_COLORS.map((seed) => themeById.get(seed.id) ?? seed);
+  const themeColors = INITIAL_THEME_COLORS.map((seed) => {
+    const row = themeById.get(seed.id);
+    return row ? { ...seed, value: row.value } : seed;
+  });
 
   return (
     <>
