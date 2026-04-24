@@ -8,8 +8,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Calendar, ArrowLeft, Share2, BookOpen } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import type { BlogPost } from '@/data/blogPosts';
-import { Badge, Button } from '@/components/UI';
+import { pairedBlogSlug, type BlogPost } from '@/data/blogPosts';
+import { Badge } from '@/components/UI';
+import { LanguageCrossPromo } from '@/components/design';
 import BlogComments from '@/components/blog/BlogComments';
 import { useLocalePath } from '@/hooks/useLocalePath';
 
@@ -38,6 +39,15 @@ export default function BlogPostClient({ post, allPosts }: BlogPostClientProps) 
   const currentIndex = allPosts.findIndex((p) => p.slug === post.slug);
   const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
   const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+
+  // Compute the paired slug in the opposite locale so the cross-promo
+  // card can deep-link to the translated article. Falls back to the
+  // shared `slug` if the post hasn't been split per-locale yet.
+  const targetLocale: 'en' | 'es' = language === 'EN' ? 'es' : 'en';
+  const crossPromoPairedPath = (() => {
+    const pair = pairedBlogSlug(allPosts, post.slug, targetLocale);
+    return pair ? `/blog/${pair}` : null;
+  })();
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -213,6 +223,14 @@ export default function BlogPostClient({ post, allPosts }: BlogPostClientProps) 
               </Link>
             )}
           </div>
+        </div>
+
+        {/* Language cross-promo — deep-links to the translated article
+            when a paired slug exists, otherwise flips the locale on the
+            same slug (still correct because resolveBlogPost accepts
+            the legacy slug on either side). */}
+        <div className="max-w-4xl mx-auto mb-16">
+          <LanguageCrossPromo pairedPath={crossPromoPairedPath ?? undefined} />
         </div>
 
         {/* Comments Section */}

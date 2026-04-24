@@ -35,6 +35,7 @@ import {
   INITIAL_PAGE_DONATE,
   INITIAL_PAGE_CONTACT,
   INITIAL_PAGE_RESOURCES,
+  INITIAL_PAGE_BLOG,
   INITIAL_NAV_LINKS,
   INITIAL_NAV_SETTINGS,
   INITIAL_FOOTER_LINKS,
@@ -123,6 +124,7 @@ const PAGES: PageGroup[] = [
   { page: 'donate', fields: INITIAL_PAGE_DONATE },
   { page: 'contact', fields: INITIAL_PAGE_CONTACT },
   { page: 'resources', fields: INITIAL_PAGE_RESOURCES },
+  { page: 'blog', fields: INITIAL_PAGE_BLOG },
 ];
 
 // ───────────────────────────────────────────────────────────

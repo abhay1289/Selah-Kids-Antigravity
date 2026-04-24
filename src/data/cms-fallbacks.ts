@@ -32,6 +32,7 @@ import { INITIAL_PAGE_PARENTS as PAGE_PARENTS } from './page-content-parents';
 import { INITIAL_PAGE_DONATE as PAGE_DONATE } from './page-content-donate';
 import { INITIAL_PAGE_CONTACT as PAGE_CONTACT } from './page-content-contact';
 import { INITIAL_PAGE_RESOURCES as PAGE_RESOURCES } from './page-content-resources';
+import { INITIAL_PAGE_BLOG as PAGE_BLOG } from './page-content-blog';
 import {
   INITIAL_NAV_LINKS as NAV_LINKS,
   INITIAL_NAV_SETTINGS as NAV_SETTINGS,
@@ -115,6 +116,7 @@ export const INITIAL_PAGE_PARENTS: PageFieldMap = PAGE_PARENTS;
 export const INITIAL_PAGE_DONATE: PageFieldMap = PAGE_DONATE;
 export const INITIAL_PAGE_CONTACT: PageFieldMap = PAGE_CONTACT;
 export const INITIAL_PAGE_RESOURCES: PageFieldMap = PAGE_RESOURCES;
+export const INITIAL_PAGE_BLOG: PageFieldMap = PAGE_BLOG;
 
 // Phase 5 — chrome. Single-row collections (nav_settings, footer_settings)
 // still ride on the `collections` table — public readers pick items[0].

@@ -6,6 +6,7 @@ import { Music, Star, Heart, SparklesIcon, Mail, ArrowRight } from "lucide-react
 import { Button, Badge } from "../UI";
 import { useLanguage } from "../../contexts/LanguageContext";
 import { useFieldResolver } from "../../lib/page-fields";
+import { trackNewsletterSubmit, trackNewsletterSuccess, track } from "../../lib/analytics";
 import type { PageFieldMap } from "../../lib/cms-server";
 
 const sectionVariants = {
@@ -22,9 +23,38 @@ const sectionVariants = {
 
 export function NewsletterSection({ fields }: { fields?: PageFieldMap } = {}) {
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const { t } = useLanguage();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const { t, language } = useLanguage();
   const containerRef = useRef<HTMLElement>(null);
   const f = useFieldResolver(fields);
+
+  const submit = async (email: string) => {
+    const locale = language === 'ES' ? 'es' : 'en';
+    const source = 'home_newsletter';
+    trackNewsletterSubmit(locale, source);
+    setSubmitError(null);
+    setIsSubmitting(true);
+    try {
+      const res = await fetch('/api/newsletter/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, locale, source }),
+      });
+      if (!res.ok) {
+        track('newsletter_subscribe_error', { status: res.status });
+        setSubmitError(t('Hmm, that didn’t go through. Try again?', 'Algo salió mal. ¿Puedes intentarlo de nuevo?'));
+        return;
+      }
+      trackNewsletterSuccess(locale, source);
+      setIsSubscribed(true);
+    } catch {
+      track('newsletter_subscribe_error', { status: 0 });
+      setSubmitError(t('Network issue. Please try again.', 'Error de red. Intenta de nuevo.'));
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -143,33 +173,56 @@ export function NewsletterSection({ fields }: { fields?: PageFieldMap } = {}) {
                 )}
               </p>
               
-              <form 
-                className="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto relative" 
+              <form
+                className="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto relative"
                 onSubmit={(e) => {
                   e.preventDefault();
-                  setIsSubscribed(true);
+                  if (isSubmitting) return;
+                  const input = e.currentTarget.querySelector<HTMLInputElement>('input[type="email"]');
+                  const email = input?.value?.trim();
+                  if (email) void submit(email);
                 }}
               >
                 <div className="relative flex-1 group">
                   <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none transition-colors duration-300 group-focus-within:text-selah-orange">
                     <Mail className="text-selah-muted/50 group-focus-within:text-selah-orange transition-colors duration-300" size={24} />
                   </div>
-                  <input 
-                    type="email" 
+                  <input
+                    type="email"
+                    name="email"
                     required
+                    disabled={isSubmitting}
                     aria-label={t("Your email address", "Tu correo electrónico")}
-                    placeholder={t("Your email address", "Tu correo electrónico")} 
-                    className="w-full pl-16 pr-8 py-6 rounded-full bg-selah-bg text-selah-dark content-h3 focus:outline-none focus:ring-[6px] focus:ring-selah-orange/30 transition-all border-2 border-transparent focus:border-selah-orange shadow-inner"
+                    placeholder={t("Your email address", "Tu correo electrónico")}
+                    className="w-full pl-16 pr-8 py-6 rounded-full bg-selah-bg text-selah-dark content-h3 focus:outline-none focus:ring-[6px] focus:ring-selah-orange/30 transition-all border-2 border-transparent focus:border-selah-orange shadow-inner disabled:opacity-60"
                   />
                 </div>
-                <Button 
+                {/* Honeypot — hidden bot trap; humans never see or fill it. */}
+                <input
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="hidden"
+                />
+                <Button
                   type="submit"
+                  disabled={isSubmitting}
                   className="!bg-selah-orange hover:!bg-[#e65300] !text-white !border-none !px-10 !py-4 ui-button hover:-translate-y-1 active:translate-y-0 transition-all group shadow-[0_10px_30px_-10px_rgba(255,107,0,0.5)] hover:shadow-[0_20px_40px_-10px_rgba(255,107,0,0.7)] hover:scale-105 whitespace-nowrap"
                 >
-                  {f("newsletter.nl_cta", "Join Now", "Únete Ahora")}
+                  {isSubmitting
+                    ? t('Sending…', 'Enviando…')
+                    : f('newsletter.nl_cta', 'Join Now', 'Únete Ahora')}
                   <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </form>
+
+              {submitError && (
+                <p role="alert" aria-live="polite" className="mt-4 text-center text-selah-orange text-sm font-medium">
+                  {submitError}
+                </p>
+              )}
               
               <div className="mt-12 flex items-center justify-center gap-4 bg-selah-bg/50 inline-flex px-6 py-3 rounded-full border border-selah-border/50 shadow-sm">
                 <p className="text-selah-dark content-h3">

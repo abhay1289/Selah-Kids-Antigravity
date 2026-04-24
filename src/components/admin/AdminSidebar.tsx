@@ -36,6 +36,7 @@ const NAV_ITEMS: NavItem[] = [
       { label: 'Donate', href: '/admin/pages/donate' },
       { label: 'Contact', href: '/admin/pages/contact' },
       { label: 'Resources', href: '/admin/pages/resources' },
+      { label: 'Blog', href: '/admin/pages/blog' },
     ]
   },
   {

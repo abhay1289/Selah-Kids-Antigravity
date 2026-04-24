@@ -11,6 +11,7 @@ import {
   toLanguageKey,
   type Locale,
 } from '../lib/i18n';
+import { trackLanguageSwitch } from '../lib/analytics';
 
 /**
  * LanguageContext — Phase 2 URL-driven edition.
@@ -55,6 +56,9 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const setLanguage = useCallback(
     (next: Language | ((prev: Language) => Language)) => {
       const resolved = typeof next === 'function' ? (next as (p: Language) => Language)(language) : next;
+      if (resolved !== language) {
+        trackLanguageSwitch(language, resolved);
+      }
       const newLocale = fromLanguageKey(resolved);
       // Best-effort persistence for first-visit UX across sessions. Swallowed
       // on failure — quota errors / private-browsing restrictions aren't

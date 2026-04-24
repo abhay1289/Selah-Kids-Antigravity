@@ -1,7 +1,8 @@
 import { notFound } from 'next/navigation';
 import { getCollection } from '@/lib/cms-server';
 import { INITIAL_BLOG_POSTS } from '@/data/cms-fallbacks';
-import type { BlogPost } from '@/data/blogPosts';
+import { resolveBlogPost, type BlogPost } from '@/data/blogPosts';
+import { isLocale } from '@/lib/i18n';
 import BlogPostClient from './BlogPostClient';
 
 /**
@@ -23,9 +24,13 @@ interface BlogSlugPageProps {
 }
 
 export default async function BlogSlugPage({ params }: BlogSlugPageProps) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
+  // Only EN/ES are supported; anything else falls back to EN so the
+  // resolver treats the request as the default locale rather than
+  // short-circuiting on a narrowed union type mismatch.
+  const resolvedLocale = isLocale(locale) ? locale : 'en';
   const posts = await getCollection<BlogPost>('blog_posts', INITIAL_BLOG_POSTS);
-  const post = posts.find((p) => p.slug === slug);
+  const post = resolveBlogPost(posts, slug, resolvedLocale);
   if (!post) notFound();
   return <BlogPostClient post={post} allPosts={posts} />;
 }

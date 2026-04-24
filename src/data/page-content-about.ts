@@ -63,6 +63,51 @@ export const ABOUT_SECTIONS: PageEditorSection[] = [
       { id: 't_description', label: 'Description', type: 'textarea', valueEn: 'The passionate people bringing these stories to life.', valueEs: 'Las personas apasionadas que dan vida a estas historias.' },
     ]
   },
+  {
+    id: 'bento', title: 'Bento Grid', icon: '🧩',
+    fields: [
+      { id: 'bento_1_title', label: 'Tile 1 Title', type: 'text', valueEn: 'Our Story', valueEs: 'Nuestra Historia' },
+      { id: 'bento_1_body', label: 'Tile 1 Body', type: 'textarea', valueEn: 'Two bilingual families, one longing: songs our kids could sing without us skipping a track.', valueEs: 'Dos familias bilingües, un anhelo: canciones que nuestros hijos pudieran cantar sin que tuviéramos que saltar una pista.' },
+      { id: 'bento_2_title', label: 'Tile 2 Title', type: 'text', valueEn: 'Our Mission', valueEs: 'Nuestra Misión' },
+      { id: 'bento_2_body', label: 'Tile 2 Body', type: 'textarea', valueEn: 'Fill every home with faith-filled melodies that spark wonder in the hearts of children.', valueEs: 'Llenar cada hogar con melodías llenas de fe que despiertan asombro en los corazones de los niños.' },
+      { id: 'bento_3_title', label: 'Tile 3 Title', type: 'text', valueEn: 'Our Heart', valueEs: 'Nuestro Corazón' },
+      { id: 'bento_3_body', label: 'Tile 3 Body', type: 'textarea', valueEn: 'Worship that meets kids where they are — joyful, gentle, theologically honest, and fun enough to request on repeat.', valueEs: 'Adoración que encuentra a los niños donde están — alegre, gentil, teológicamente honesta y lo suficientemente divertida como para pedirla en repetición.' },
+      { id: 'bento_4_title', label: 'Tile 4 Title', type: 'text', valueEn: 'Our Craft', valueEs: 'Nuestro Arte' },
+      { id: 'bento_4_body', label: 'Tile 4 Body', type: 'textarea', valueEn: 'Studio-recorded songs. Hand-animated scenes. Bilingual by default — not as an afterthought.', valueEs: 'Canciones grabadas en estudio. Escenas animadas a mano. Bilingüe por defecto — no como una idea tardía.' },
+      { id: 'bento_5_title', label: 'Tile 5 Title', type: 'text', valueEn: 'Our Ministry', valueEs: 'Nuestro Ministerio' },
+      { id: 'bento_5_body', label: 'Tile 5 Body', type: 'textarea', valueEn: 'Free for every family. Supported by listeners, partners, and the occasional church who adopts a song for their VBS.', valueEs: 'Gratis para cada familia. Apoyado por oyentes, colaboradores y la iglesia ocasional que adopta una canción para su escuela bíblica de verano.' },
+      { id: 'bento_6_title', label: 'Tile 6 Title', type: 'text', valueEn: 'Our Community', valueEs: 'Nuestra Comunidad' },
+      { id: 'bento_6_body', label: 'Tile 6 Body', type: 'textarea', valueEn: '20,000+ parents across 40 countries raising worship-filled kids together.', valueEs: '20,000+ padres en 40 países criando juntos niños llenos de adoración.' },
+    ]
+  },
+  {
+    id: 'gallery', title: 'Gallery Captions', icon: '📸',
+    fields: [
+      { id: 'gallery_caption_1', label: 'Caption 1', type: 'text', valueEn: 'Recording day one.', valueEs: 'Primer día de grabación.' },
+      { id: 'gallery_caption_2', label: 'Caption 2', type: 'text', valueEn: 'Storyboards on the kitchen table.', valueEs: 'Guiones gráficos en la mesa de la cocina.' },
+      { id: 'gallery_caption_3', label: 'Caption 3', type: 'text', valueEn: 'Voice takes with a toddler audience.', valueEs: 'Tomas de voz con una audiencia de pequeños.' },
+      { id: 'gallery_caption_4', label: 'Caption 4', type: 'text', valueEn: 'The songwriting room.', valueEs: 'La sala de composición.' },
+      { id: 'gallery_caption_5', label: 'Caption 5', type: 'text', valueEn: 'Animation review, take twenty.', valueEs: 'Revisión de animación, toma veinte.' },
+      { id: 'gallery_caption_6', label: 'Caption 6', type: 'text', valueEn: 'Spanish tracking with our bilingual vocalists.', valueEs: 'Grabación en español con nuestras voces bilingües.' },
+      { id: 'gallery_caption_7', label: 'Caption 7', type: 'text', valueEn: 'Episode premiere night.', valueEs: 'Noche de estreno del episodio.' },
+      { id: 'gallery_caption_8', label: 'Caption 8', type: 'text', valueEn: "A quiet moment after wrap.", valueEs: 'Un momento tranquilo al terminar.' },
+    ]
+  },
+  {
+    id: 'marquee', title: 'Marquee Words', icon: '🌀',
+    fields: [
+      { id: 'marquee_safe', label: 'Marquee Word: Safe', type: 'text', valueEn: 'Safe', valueEs: 'Seguro' },
+      { id: 'marquee_original', label: 'Marquee Word: Original', type: 'text', valueEn: 'Original', valueEs: 'Original' },
+    ]
+  },
+  {
+    id: 'cta', title: 'About CTA', icon: '🎯',
+    fields: [
+      { id: 'cta_headline', label: 'CTA Headline', type: 'text', valueEn: 'Ready to sing along?', valueEs: '¿Listo para cantar con nosotros?' },
+      { id: 'cta_primary', label: 'Primary CTA', type: 'text', valueEn: 'Watch now', valueEs: 'Míralo ahora' },
+      { id: 'cta_secondary', label: 'Secondary CTA', type: 'text', valueEn: 'Subscribe on YouTube', valueEs: 'Suscríbete en YouTube' },
+    ]
+  },
 ];
 
 export const aboutKeyFor = (sectionId: string, fieldId: string) => `${sectionId}.${fieldId}`;

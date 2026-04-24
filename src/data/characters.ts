@@ -25,6 +25,55 @@ export interface Character {
   posePng: string;
   episodeIds: string[];
   coloringPdfUrl?: string;
+  /**
+   * Optional per-locale slug overrides. When present, the public
+   * /{locale}/characters/{slug} route resolves to `slugEn` on /en and
+   * `slugEs` on /es so Spanish visitors can land on natural Spanish
+   * URLs. When absent, both locales share the legacy `slug` field.
+   *
+   * Migration is soft: `resolveCharacter()` still matches the legacy
+   * slug against both locales, so adding a slug pair never breaks the
+   * old URL.
+   */
+  slugEn?: string;
+  slugEs?: string;
+}
+
+/**
+ * Resolve a character by slug + locale with a fallback chain:
+ *   1. Prefer the locale-matching slug override.
+ *   2. Accept the opposite-locale slug — keeps deep links alive during
+ *      partial translations.
+ *   3. Accept the legacy `slug` — unmigrated characters keep working.
+ */
+export function resolveCharacter(
+  characters: Character[],
+  slug: string,
+  locale: 'en' | 'es',
+): Character | undefined {
+  return characters.find((c) => {
+    const primary = locale === 'es' ? c.slugEs : c.slugEn;
+    const secondary = locale === 'es' ? c.slugEn : c.slugEs;
+    return primary === slug || secondary === slug || c.slug === slug;
+  });
+}
+
+/**
+ * Find the paired slug for the opposite locale so LanguageCrossPromo
+ * can flip /en/characters/foo → /es/characters/foo-es without bouncing
+ * the visitor back to the index. Returns null when no pair exists.
+ */
+export function pairedCharacterSlug(
+  characters: Character[],
+  currentSlug: string,
+  targetLocale: 'en' | 'es',
+): string | null {
+  const character = characters.find(
+    (c) => c.slug === currentSlug || c.slugEn === currentSlug || c.slugEs === currentSlug,
+  );
+  if (!character) return null;
+  const pair = targetLocale === 'es' ? character.slugEs : character.slugEn;
+  return pair ?? character.slug ?? null;
 }
 
 export const CHARACTERS: Character[] = [

@@ -14,6 +14,7 @@ const PAGE_TITLES: Record<string, string> = {
   '/admin/pages/donate': 'Donate Page Editor',
   '/admin/pages/contact': 'Contact Page Editor',
   '/admin/pages/resources': 'Resources Page Editor',
+  '/admin/pages/blog': 'Blog Page Editor',
   '/admin/content/blog': 'Blog Manager',
   '/admin/content/videos': 'Video Library',
   '/admin/content/characters': 'Characters Manager',

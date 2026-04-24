@@ -12,18 +12,29 @@ function CharCounter({ value, max, warn }: { value: number; max: number; warn: n
   return <span className={`flex items-center gap-1 text-[11px] font-bold ${color}`}>{icon} {value}/{max}</span>;
 }
 
+function scorePage(p: PageSEO): number {
+  // Score against the EN copy — legacy fields mirror EN so this keeps
+  // the score stable while ES translations are in flight.
+  const title = p.metaTitleEn || p.metaTitle;
+  const description = p.metaDescriptionEn || p.metaDescription;
+  const ogTitle = p.ogTitleEn || p.ogTitle;
+  const ogDescription = p.ogDescriptionEn || p.ogDescription;
+  let s = 0;
+  if (title.length > 10 && title.length <= 60) s += 20;
+  else if (title.length > 0) s += 10;
+  if (description.length > 50 && description.length <= 160) s += 20;
+  else if (description.length > 0) s += 10;
+  if (ogTitle) s += 15;
+  if (ogDescription) s += 10;
+  if (p.ogImage) s += 10;
+  if (p.focusKeyword) s += 10;
+  if (p.canonical) s += 10;
+  if (p.robots === 'index,follow') s += 5;
+  return s;
+}
+
 function SeoScore({ page }: { page: PageSEO }) {
-  let score = 0;
-  if (page.metaTitle.length > 10 && page.metaTitle.length <= 60) score += 20;
-  else if (page.metaTitle.length > 0) score += 10;
-  if (page.metaDescription.length > 50 && page.metaDescription.length <= 160) score += 20;
-  else if (page.metaDescription.length > 0) score += 10;
-  if (page.ogTitle) score += 15;
-  if (page.ogDescription) score += 10;
-  if (page.ogImage) score += 10;
-  if (page.focusKeyword) score += 10;
-  if (page.canonical) score += 10;
-  if (page.robots === 'index,follow') score += 5;
+  const score = scorePage(page);
   const color = score >= 85 ? 'text-[#93d35c] bg-[#93d35c]/10' : score >= 60 ? 'text-[#feb835] bg-[#feb835]/10' : 'text-red-500 bg-red-500/10';
   return <span className={`text-[12px] font-bold px-2.5 py-1 rounded-lg ${color}`}>{score}/100</span>;
 }
@@ -67,24 +78,37 @@ export default function SEOManager() {
   const [openPage, setOpenPage] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState<'meta' | 'social' | 'schema'>('meta');
+  const [activeLocale, setActiveLocale] = useState<'en' | 'es'>('en');
 
   const filtered = useMemo(() => {
     if (!searchQuery) return pages;
     return pages.filter(p => p.page.toLowerCase().includes(searchQuery.toLowerCase()) || p.path.includes(searchQuery));
   }, [pages, searchQuery]);
 
-  const update = (id: string, field: keyof PageSEO, value: string) => setPages(pages.map(p => p.id === id ? { ...p, [field]: value } : p));
+  /**
+   * Update one field, with legacy-mirroring side effects so un-migrated
+   * DB readers still see the EN copy in the flat fields. The admin only
+   * ever edits the per-locale fields through this function; callers pass
+   * the `*En` or `*Es` key.
+   */
+  const update = (id: string, field: keyof PageSEO, value: string) => {
+    setPages(pages.map(p => {
+      if (p.id !== id) return p;
+      const next: PageSEO = { ...p, [field]: value };
+      // Keep legacy flat fields in sync with EN so existing readers
+      // (public metadata layer, older admin builds) stay coherent.
+      if (field === 'metaTitleEn') next.metaTitle = value;
+      if (field === 'metaDescriptionEn') next.metaDescription = value;
+      if (field === 'ogTitleEn') next.ogTitle = value;
+      if (field === 'ogDescriptionEn') next.ogDescription = value;
+      return next;
+    }));
+  };
   const handleSave = async () => { try { await save(); } catch { /* surfaced via hook */ } };
 
   const avgScore = useMemo(() => {
-    const scores = pages.map(p => {
-      let s = 0;
-      if (p.metaTitle.length > 10 && p.metaTitle.length <= 60) s += 20; else if (p.metaTitle.length > 0) s += 10;
-      if (p.metaDescription.length > 50 && p.metaDescription.length <= 160) s += 20; else if (p.metaDescription.length > 0) s += 10;
-      if (p.ogTitle) s += 15; if (p.ogDescription) s += 10; if (p.ogImage) s += 10; if (p.focusKeyword) s += 10; if (p.canonical) s += 10; if (p.robots === 'index,follow') s += 5;
-      return s;
-    });
-    return Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
+    const scores = pages.map(scorePage);
+    return Math.round(scores.reduce((a, b) => a + b, 0) / (scores.length || 1));
   }, [pages]);
 
   const scoreColor = avgScore >= 85 ? 'from-[#93d35c] to-[#7ebd4e]' : avgScore >= 60 ? 'from-[#feb835] to-[#FFD700]' : 'from-red-500 to-red-400';
@@ -149,20 +173,49 @@ export default function SEOManager() {
 
                       {activeTab === 'meta' && (
                         <div className="space-y-5">
-                          <div>
-                            <div className="flex items-center justify-between mb-1.5">
-                              <label className="text-[12px] font-semibold text-[#3a6b44]">Meta Title</label>
-                              <CharCounter value={page.metaTitle.length} max={60} warn={50} />
-                            </div>
-                            <input value={page.metaTitle} onChange={e => update(page.id, 'metaTitle', e.target.value)} className="w-full h-[44px] px-4 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 focus:bg-white text-[#3a6b44] text-[14px] font-medium outline-none transition-all" />
+                          {/* Locale switcher — meta title + description are the only
+                              per-locale fields; focus keyword / canonical / robots are
+                              shared across both EN and ES. */}
+                          <div className="inline-flex items-center gap-1 bg-[#3a6b44]/5 rounded-lg p-1 text-[12px] font-bold">
+                            <button
+                              type="button"
+                              onClick={() => setActiveLocale('en')}
+                              className={`px-3 py-1.5 rounded-md transition-all ${activeLocale === 'en' ? 'bg-white text-[#ff5c00] shadow-sm' : 'text-[#5a7d62]/60 hover:text-[#3a6b44]'}`}
+                            >
+                              🇺🇸 English
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setActiveLocale('es')}
+                              className={`px-3 py-1.5 rounded-md transition-all ${activeLocale === 'es' ? 'bg-white text-[#ff5c00] shadow-sm' : 'text-[#5a7d62]/60 hover:text-[#3a6b44]'}`}
+                            >
+                              🇪🇸 Español
+                            </button>
                           </div>
-                          <div>
-                            <div className="flex items-center justify-between mb-1.5">
-                              <label className="text-[12px] font-semibold text-[#3a6b44]">Meta Description</label>
-                              <CharCounter value={page.metaDescription.length} max={160} warn={140} />
-                            </div>
-                            <textarea value={page.metaDescription} onChange={e => update(page.id, 'metaDescription', e.target.value)} rows={3} className="w-full px-4 py-3 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 focus:bg-white text-[#3a6b44] text-[14px] font-medium outline-none transition-all resize-none" />
-                          </div>
+                          {(() => {
+                            const titleField = activeLocale === 'es' ? 'metaTitleEs' : 'metaTitleEn';
+                            const descField = activeLocale === 'es' ? 'metaDescriptionEs' : 'metaDescriptionEn';
+                            const title = activeLocale === 'es' ? page.metaTitleEs : page.metaTitleEn;
+                            const description = activeLocale === 'es' ? page.metaDescriptionEs : page.metaDescriptionEn;
+                            return (
+                              <>
+                                <div>
+                                  <div className="flex items-center justify-between mb-1.5">
+                                    <label className="text-[12px] font-semibold text-[#3a6b44]">Meta Title ({activeLocale.toUpperCase()})</label>
+                                    <CharCounter value={title.length} max={60} warn={50} />
+                                  </div>
+                                  <input value={title} onChange={e => update(page.id, titleField, e.target.value)} className="w-full h-[44px] px-4 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 focus:bg-white text-[#3a6b44] text-[14px] font-medium outline-none transition-all" />
+                                </div>
+                                <div>
+                                  <div className="flex items-center justify-between mb-1.5">
+                                    <label className="text-[12px] font-semibold text-[#3a6b44]">Meta Description ({activeLocale.toUpperCase()})</label>
+                                    <CharCounter value={description.length} max={160} warn={140} />
+                                  </div>
+                                  <textarea value={description} onChange={e => update(page.id, descField, e.target.value)} rows={3} className="w-full px-4 py-3 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 focus:bg-white text-[#3a6b44] text-[14px] font-medium outline-none transition-all resize-none" />
+                                </div>
+                              </>
+                            );
+                          })()}
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                               <label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 block">Focus Keyword</label>
@@ -182,27 +235,61 @@ export default function SEOManager() {
                             <label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 block">Canonical URL</label>
                             <input value={page.canonical} onChange={e => update(page.id, 'canonical', e.target.value)} className="w-full h-[44px] px-4 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 focus:bg-white text-[#3a6b44] text-[13px] font-medium outline-none transition-all font-mono" />
                           </div>
-                          <GooglePreview title={page.metaTitle} description={page.metaDescription} path={page.path} />
+                          <GooglePreview
+                            title={activeLocale === 'es' ? page.metaTitleEs : page.metaTitleEn}
+                            description={activeLocale === 'es' ? page.metaDescriptionEs : page.metaDescriptionEn}
+                            path={page.path}
+                          />
                         </div>
                       )}
 
                       {activeTab === 'social' && (
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                           <div className="space-y-4">
-                            <div>
-                              <label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 block">OG Title</label>
-                              <input value={page.ogTitle} onChange={e => update(page.id, 'ogTitle', e.target.value)} className="w-full h-[44px] px-4 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 focus:bg-white text-[#3a6b44] text-[14px] font-medium outline-none transition-all" />
+                            <div className="inline-flex items-center gap-1 bg-[#3a6b44]/5 rounded-lg p-1 text-[12px] font-bold">
+                              <button
+                                type="button"
+                                onClick={() => setActiveLocale('en')}
+                                className={`px-3 py-1.5 rounded-md transition-all ${activeLocale === 'en' ? 'bg-white text-[#ff5c00] shadow-sm' : 'text-[#5a7d62]/60 hover:text-[#3a6b44]'}`}
+                              >
+                                🇺🇸 EN
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setActiveLocale('es')}
+                                className={`px-3 py-1.5 rounded-md transition-all ${activeLocale === 'es' ? 'bg-white text-[#ff5c00] shadow-sm' : 'text-[#5a7d62]/60 hover:text-[#3a6b44]'}`}
+                              >
+                                🇪🇸 ES
+                              </button>
                             </div>
+                            {(() => {
+                              const ogTitleField = activeLocale === 'es' ? 'ogTitleEs' : 'ogTitleEn';
+                              const ogDescField = activeLocale === 'es' ? 'ogDescriptionEs' : 'ogDescriptionEn';
+                              const ogTitle = activeLocale === 'es' ? page.ogTitleEs : page.ogTitleEn;
+                              const ogDesc = activeLocale === 'es' ? page.ogDescriptionEs : page.ogDescriptionEn;
+                              return (
+                                <>
+                                  <div>
+                                    <label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 block">OG Title ({activeLocale.toUpperCase()})</label>
+                                    <input value={ogTitle} onChange={e => update(page.id, ogTitleField, e.target.value)} className="w-full h-[44px] px-4 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 focus:bg-white text-[#3a6b44] text-[14px] font-medium outline-none transition-all" />
+                                  </div>
+                                  <div>
+                                    <label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 block">OG Description ({activeLocale.toUpperCase()})</label>
+                                    <textarea value={ogDesc} onChange={e => update(page.id, ogDescField, e.target.value)} rows={2} className="w-full px-4 py-3 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 focus:bg-white text-[#3a6b44] text-[14px] font-medium outline-none transition-all resize-none" />
+                                  </div>
+                                </>
+                              );
+                            })()}
                             <div>
-                              <label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 block">OG Description</label>
-                              <textarea value={page.ogDescription} onChange={e => update(page.id, 'ogDescription', e.target.value)} rows={2} className="w-full px-4 py-3 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 focus:bg-white text-[#3a6b44] text-[14px] font-medium outline-none transition-all resize-none" />
-                            </div>
-                            <div>
-                              <label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 block">OG Image Path</label>
+                              <label className="text-[12px] font-semibold text-[#3a6b44] mb-1.5 block">OG Image Path (shared)</label>
                               <input value={page.ogImage} onChange={e => update(page.id, 'ogImage', e.target.value)} className="w-full h-[44px] px-4 rounded-xl bg-[#3a6b44]/[0.02] border-2 border-transparent focus:border-[#ff5c00]/20 focus:bg-white text-[#3a6b44] text-[13px] font-medium outline-none transition-all" />
                             </div>
                           </div>
-                          <SocialPreview title={page.ogTitle} description={page.ogDescription} image={page.ogImage} />
+                          <SocialPreview
+                            title={activeLocale === 'es' ? page.ogTitleEs : page.ogTitleEn}
+                            description={activeLocale === 'es' ? page.ogDescriptionEs : page.ogDescriptionEn}
+                            image={page.ogImage}
+                          />
                         </div>
                       )}
 
@@ -224,8 +311,8 @@ export default function SEOManager() {
 {JSON.stringify({
   "@context": "https://schema.org",
   "@type": page.schemaType,
-  "name": page.metaTitle,
-  "description": page.metaDescription,
+  "name": page.metaTitleEn || page.metaTitle,
+  "description": page.metaDescriptionEn || page.metaDescription,
   "url": page.canonical,
   ...(page.ogImage ? { "image": `https://selahkids.com${page.ogImage}` } : {}),
   ...(page.schemaType === 'Organization' ? { "logo": "https://selahkids.com/SK_Logo_FN.jpg", "sameAs": ["https://www.youtube.com/@selahkidsworship", "https://www.instagram.com/selah.kids", "https://open.spotify.com/artist/6lShgHNhA1vXSZ6f4UXMa4"] } : {})

@@ -14,6 +14,57 @@ export interface BlogPost {
   contentEs: string[];
   dateEn: string;
   dateEs: string;
+  /**
+   * Optional per-locale slug overrides. When present, the public blog
+   * route resolves to `slugEn` on /en/blog/* and `slugEs` on /es/blog/*
+   * so Spanish visitors get natural Spanish URLs. When absent, both
+   * locales share the legacy `slug` field.
+   *
+   * Migration is soft: adding a slug pair to an existing post never
+   * breaks the legacy URL because `resolveBlogPost()` also matches the
+   * legacy `slug` against both locales.
+   */
+  slugEn?: string;
+  slugEs?: string;
+}
+
+/**
+ * Resolve a blog post by slug + locale with a fallback chain that
+ * tolerates partial translations:
+ *   1. Prefer the locale-matching slug override (`slugEn` on /en, `slugEs` on /es).
+ *   2. Accept the opposite-locale slug — keeps deep-links alive when
+ *      admins add only one side of the translation.
+ *   3. Accept the legacy single-locale `slug` — unmigrated posts keep working.
+ */
+export function resolveBlogPost(
+  posts: BlogPost[],
+  slug: string,
+  locale: 'en' | 'es',
+): BlogPost | undefined {
+  return posts.find((p) => {
+    const primary = locale === 'es' ? p.slugEs : p.slugEn;
+    const secondary = locale === 'es' ? p.slugEn : p.slugEs;
+    return primary === slug || secondary === slug || p.slug === slug;
+  });
+}
+
+/**
+ * Find the paired slug for the opposite locale, so LanguageCrossPromo
+ * can flip /en/blog/foo → /es/blog/foo-es without bouncing the visitor
+ * back to the list page. Returns null when no pair exists; the caller
+ * should surface a "post not yet translated" hint.
+ */
+export function pairedBlogSlug(
+  posts: BlogPost[],
+  currentSlug: string,
+  targetLocale: 'en' | 'es',
+): string | null {
+  const post = posts.find(
+    (p) => p.slug === currentSlug || p.slugEn === currentSlug || p.slugEs === currentSlug,
+  );
+  if (!post) return null;
+  const pair = targetLocale === 'es' ? post.slugEs : post.slugEn;
+  return pair ?? post.slug ?? null;
 }
 
 export const BLOG_POSTS: BlogPost[] = [

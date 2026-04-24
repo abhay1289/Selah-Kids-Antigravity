@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useRef, useState, useCallback } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { X, ZoomIn } from 'lucide-react';
+import React, { useMemo, useRef, useState, useCallback } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { ZoomIn } from 'lucide-react';
 import Image from 'next/image';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { PhotoLightbox, type LightboxPhoto } from '../design';
 
 const photosRow1 = [
   '/render/IAB_Still_001.png',
@@ -85,39 +86,47 @@ const PhotoCard = ({ src, index, onOpen }: { src: string; index: number; onOpen:
   );
 };
 
-const Lightbox = ({ src, onClose }: { src: string | null; onClose: () => void }) => {
-  const { t } = useLanguage();
-  return (
-    <AnimatePresence>
-      {src && (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }} className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/85 backdrop-blur-xl cursor-pointer" onClick={onClose}>
-          <motion.button initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="absolute top-6 right-6 p-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-colors backdrop-blur-sm cursor-pointer z-10" onClick={onClose} aria-label="Close lightbox">
-            <X className="w-6 h-6" />
-          </motion.button>
-          <motion.div initial={{ scale: 0.85, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.85, opacity: 0 }} transition={{ type: 'spring', stiffness: 260, damping: 25 }} className="relative w-[90vw] h-[80vh] max-w-[1200px] rounded-3xl overflow-hidden shadow-2xl" onClick={(e) => e.stopPropagation()}>
-            <Image src={src} alt="Full view" fill className="object-contain" priority />
-          </motion.div>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 0.5 }} transition={{ delay: 0.4 }} className="absolute bottom-6 text-white/50 text-sm font-sans">
-            {t("Click anywhere to close", "Haz clic en cualquier lugar para cerrar")}
-          </motion.p>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-};
-
 export const AboutPhotoCarousel = () => {
   const { t } = useLanguage();
   const sectionRef = useRef(null);
-  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] });
   const headerY = useTransform(scrollYProgress, [0, 1], [40, -40]);
   const headerOpacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0, 1, 1, 0]);
   const row1Items = [...photosRow1, ...photosRow1, ...photosRow1, ...photosRow1, ...photosRow1];
   const row2Items = [...photosRow2, ...photosRow2, ...photosRow2, ...photosRow2, ...photosRow2];
 
-  const openLightbox = useCallback((src: string) => { setLightboxSrc(src); document.body.style.overflow = 'hidden'; }, []);
-  const closeLightbox = useCallback(() => { setLightboxSrc(null); document.body.style.overflow = ''; }, []);
+  // Deduped list of source photos for the lightbox. We keep a single
+  // entry per asset even though the carousel duplicates each row 5x for
+  // the infinite-scroll illusion, so arrow-key nav doesn't cycle
+  // through duplicates.
+  const lightboxPhotos: LightboxPhoto[] = useMemo(() => {
+    const seen = new Set<string>();
+    const photos: LightboxPhoto[] = [];
+    const altPrefix = t('Behind the scenes photo', 'Foto detrás de escenas');
+    [...photosRow1, ...photosRow2].forEach((src) => {
+      if (seen.has(src)) return;
+      seen.add(src);
+      photos.push({
+        src,
+        alt: `${altPrefix} ${photos.length + 1}`,
+        // Source assets vary in exact size but all render fine at a
+        // generous 16:10 aspect inside the lightbox's max-height cap.
+        width: 1600,
+        height: 1000,
+      });
+    });
+    return photos;
+  }, [t]);
+
+  const openLightbox = useCallback(
+    (src: string) => {
+      const idx = lightboxPhotos.findIndex((p) => p.src === src);
+      setOpenIndex(idx >= 0 ? idx : 0);
+    },
+    [lightboxPhotos],
+  );
+  const closeLightbox = useCallback(() => setOpenIndex(null), []);
 
   return (
     <>
@@ -160,7 +169,12 @@ export const AboutPhotoCarousel = () => {
           </motion.div>
         </div>
       </section>
-      <Lightbox src={lightboxSrc} onClose={closeLightbox} />
+      <PhotoLightbox
+        photos={lightboxPhotos}
+        openIndex={openIndex}
+        onClose={closeLightbox}
+        onIndexChange={setOpenIndex}
+      />
     </>
   );
 };

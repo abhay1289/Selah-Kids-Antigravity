@@ -17,3 +17,4 @@ export {
 } from './MarqueeStrip';
 export { SectionShell, type SectionShellProps } from './SectionShell';
 export { LanguageCrossPromo, type LanguageCrossPromoProps } from './LanguageCrossPromo';
+export { PhotoLightbox, type LightboxPhoto, type PhotoLightboxProps } from './PhotoLightbox';
