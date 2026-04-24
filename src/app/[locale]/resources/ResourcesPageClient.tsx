@@ -6,6 +6,7 @@ import { ResourcesHero } from '@/components/resources/ResourcesHero';
 import { ResourceCard } from '@/components/resources/ResourceCard';
 import { DownloadModal } from '@/components/resources/DownloadModal';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { PageShell } from '@/components/design';
 import type { PageFieldMap } from '@/lib/cms-server';
 
 const CATEGORIES = ['All', 'Printables', 'Lessons', 'Devotionals'];
@@ -105,19 +106,7 @@ export default function ResourcesPageClient({ fields }: { fields?: PageFieldMap 
   );
 
   return (
-    <div className="bg-gradient-to-b from-[#FFF5EE] via-[#FDFBF7] to-[#F0FAE6] min-h-screen pt-36 md:pt-44 pb-16 relative overflow-hidden selection:bg-selah-orange selection:text-white">
-      {/* Vivid Color Washes — enterprise-grade vibrancy matching home */}
-      <div className="absolute top-0 right-0 w-[60vw] h-[50vh] bg-gradient-to-bl from-[#FF7F50]/15 via-[#FF5C00]/8 to-transparent rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[55vw] h-[50vh] bg-gradient-to-tr from-[#93D35C]/15 via-[#98FF98]/8 to-transparent rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-[20%] left-[10%] w-[40vw] h-[40vh] bg-[#FEB835]/12 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-[20%] right-[5%] w-[35vw] h-[35vh] bg-[#FF69B4]/10 rounded-full blur-[90px] pointer-events-none" />
-      <div className="absolute top-[50%] right-[20%] w-[30vw] h-[30vh] bg-[#00BFFF]/8 rounded-full blur-[100px] pointer-events-none" />
-
-      {/* Paper Texture */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none z-0 mix-blend-multiply" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
-
-
-
+    <PageShell mainClassName="pt-36 md:pt-44 pb-16">
       <ResourcesHero fields={fields} />
 
       {/* Premium Filter Bar */}
@@ -176,6 +165,6 @@ export default function ResourcesPageClient({ fields }: { fields?: PageFieldMap 
           }
         }}
       />
-    </div>
+    </PageShell>
   );
 }
