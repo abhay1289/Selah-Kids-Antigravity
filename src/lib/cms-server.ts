@@ -24,7 +24,7 @@
  */
 
 import 'server-only';
-import { cookies, headers } from 'next/headers';
+import { cookies } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Metadata } from 'next';
@@ -103,17 +103,12 @@ async function hasAdminSession(): Promise<boolean> {
 
 async function resolveMode(explicit?: 'preview'): Promise<ReaderMode> {
   if (isOfflineMode()) return 'offline';
-  const hasAdmin = await hasAdminSession();
-  if (explicit === 'preview' && hasAdmin) return 'preview';
-  // Auto-enter preview when the middleware has flagged the request as an
-  // admin preview render (`x-selah-preview: 1`). The admin cookie check
-  // still gates the read, so the flag alone is not enough.
-  try {
-    const h = await headers();
-    if (hasAdmin && h.get('x-selah-preview') === '1') return 'preview';
-  } catch {
-    /* headers() is unavailable during build-time static analysis — fall through to public. */
-  }
+  // CRITICAL: short-circuit before reading cookies() when the caller
+  // hasn't requested preview. Reading cookies()/headers() in a Server
+  // Component opts the surrounding route into dynamic rendering and
+  // kills SSG on every public page. The admin preview dispatcher passes
+  // `explicit: 'preview'` to every read, so that path stays covered.
+  if (explicit === 'preview' && (await hasAdminSession())) return 'preview';
   return 'public';
 }
 
@@ -411,8 +406,10 @@ export interface SiteSettingsField {
   group: string;
 }
 
-export async function getSiteSettingsFields(): Promise<Record<string, string>> {
-  const rows = await getCollection<SiteSettingsField>('site_settings_fields', []);
+export async function getSiteSettingsFields(
+  opts: { mode?: 'preview' } = {},
+): Promise<Record<string, string>> {
+  const rows = await getCollection<SiteSettingsField>('site_settings_fields', [], opts);
   const out: Record<string, string> = {};
   for (const row of rows) {
     if (row && typeof row.id === 'string') out[row.id] = row.value ?? '';

@@ -64,7 +64,11 @@ export async function middleware(req: NextRequest) {
     // Offline mode: Supabase not configured → let the client-side guard handle it.
     if (!url || !anon) return NextResponse.next();
 
+    // Defense in depth: drop any inbound `x-selah-preview` header before
+    // re-setting it. Otherwise a public request that carried the header
+    // could let an attacker push it onto the admin branch unchanged.
     const reqHeaders = new Headers(req.headers);
+    reqHeaders.delete('x-selah-preview');
     if (isPreview) reqHeaders.set('x-selah-preview', '1');
     const res = NextResponse.next({ request: { headers: reqHeaders } });
     const supabase = createServerClient(url, anon, {
