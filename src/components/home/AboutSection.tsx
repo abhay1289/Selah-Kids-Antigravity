@@ -6,6 +6,7 @@ import NextImage from "next/image";
 import { Music, BookOpen, ArrowRight } from "lucide-react";
 import { Button } from "../UI";
 import { SectionHeader } from "../SectionHeader";
+import { ScrapbookCard, FloatingBadge } from "../design";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "../../contexts/LanguageContext";
 import { useLocalePath } from "../../hooks/useLocalePath";
@@ -56,37 +57,32 @@ export function AboutSection({ fields }: { fields?: PageFieldMap } = {}) {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 md:gap-20 items-center">
-        <motion.div 
+        <motion.div
           style={{ y: imgY }}
-          initial={{ opacity: 0, scale: 0.9, rotate: -2 }}
-          whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           transition={{ type: "spring", stiffness: 50, damping: 15 }}
           viewport={{ once: true, margin: "-100px" }}
-          className="relative group mt-10 md:mt-0"
+          className="relative mt-10 md:mt-0"
         >
-          <div className="aspect-[4/5] rounded-[40px] md:rounded-[80px] overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1),0_10px_15px_-3px_rgba(0,0,0,0.05)] transition-all duration-1000 group-hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.2),0_20px_40px_-10px_rgba(0,0,0,0.1)] group-hover:rotate-1">
-            <NextImage 
-              src="/TGN_SingleFrames+(9).jpg" 
-              alt="Selah Kids" 
+          <ScrapbookCard
+            ratio="4/5"
+            badge={
+              <FloatingBadge className="absolute -bottom-8 -right-8 z-20">
+                {f("about.about_floating_badge", "Made by parents", "Hecho por padres")}
+              </FloatingBadge>
+            }
+          >
+            <NextImage
+              src="/TGN_SingleFrames+(9).jpg"
+              alt="Selah Kids"
               fill
               className="object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-105"
               sizes="(max-width: 768px) 100vw, 40vw"
               loading="lazy"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-selah-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-          </div>
-          <motion.div
-            initial={{ y: 20, opacity: 0, rotate: 6 }}
-            whileInView={{ y: 0, opacity: 1, rotate: 10 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ type: "spring", stiffness: 80, damping: 16, delay: 0.4 }}
-            whileHover={{ y: -4, rotate: 6 }}
-            className="absolute -bottom-8 -right-8 z-20"
-          >
-            <div className="bg-[var(--paper-cream)] bg-[image:var(--paper-grain)] bg-[length:96px_96px] px-8 py-4 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.08)] border border-white/50 flex items-center justify-center">
-              <span className="ui-label text-selah-dark tracking-widest">{f("about.about_floating_badge", "Made by parents", "Hecho por padres")}</span>
-            </div>
-          </motion.div>
+          </ScrapbookCard>
         </motion.div>
 
         <motion.div 

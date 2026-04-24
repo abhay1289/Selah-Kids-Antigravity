@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { CHARACTERS } from "../../constants";
 import { BouncingDots } from "../UI";
+import { AtmosSpine } from "../design";
 import { HeroSection } from "./HeroSection";
 import type { PageFieldMap } from "@/lib/cms-server";
 
@@ -25,43 +26,44 @@ export default function HomeClient({ fields }: { fields?: PageFieldMap }) {
   const [progress, setProgress] = useState(0);
   const [phase, setPhase] = useState<"floating" | "converging" | "burst">("floating");
 
-  // 1. Progress counting effect
+  // Intro sequence: single effect that owns the whole loader timeline.
+  //
+  // All side effects (Math.random, clearInterval, setTimeout scheduling)
+  // MUST live outside the setProgress updater — React 19 StrictMode
+  // double-invokes state updaters to detect impure reducers, so putting
+  // side effects inside causes doubled timers and Math.random drift,
+  // which previously left two intervals racing and the loader stuck.
+  // The updater here is now a pure `prev -> next` return; the interval
+  // callback tracks progress in a local variable and schedules the
+  // completion timers synchronously when it hits 99.
   useEffect(() => {
-    if (phase !== "floating") return;
-    
-    // Slow down start, speed up middle, slow down end for an enterprise "real" loading curve
-    const interval = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 99) {
-          clearInterval(interval);
-          return 99;
-        }
-        const delta = prev > 80 ? 1 : prev > 20 ? Math.floor(Math.random() * 5) + 2 : Math.floor(Math.random() * 3) + 1;
-        return Math.min(99, prev + delta);
-      });
+    const finishTimers: number[] = [];
+    let current = 0;
+    const interval = window.setInterval(() => {
+      if (current >= 99) return;
+      const delta =
+        current > 80
+          ? 1
+          : current > 20
+            ? Math.floor(Math.random() * 5) + 2
+            : Math.floor(Math.random() * 3) + 1;
+      current = Math.min(99, current + delta);
+      setProgress(current);
+      if (current >= 99) {
+        window.clearInterval(interval);
+        finishTimers.push(
+          window.setTimeout(() => setPhase("converging"), 0),
+          window.setTimeout(() => setPhase("burst"), 700),
+          window.setTimeout(() => setIsLoading(false), 1200),
+        );
+      }
     }, 35);
 
-    return () => clearInterval(interval);
-  }, [phase]);
-
-  // 2. Phase transitions when 99% reached.
-  // Timeout IDs tracked so unmount mid-intro can't fire stale state updates.
-  useEffect(() => {
-    if (progress < 99 || phase !== "floating") return;
-    setPhase("converging");
-
-    const convergingTimer = setTimeout(() => {
-      setPhase("burst");
-    }, 700);
-    const burstTimer = setTimeout(() => {
-      setIsLoading(false);
-    }, 700 + 500);
-
     return () => {
-      clearTimeout(convergingTimer);
-      clearTimeout(burstTimer);
+      window.clearInterval(interval);
+      finishTimers.forEach((id) => window.clearTimeout(id));
     };
-  }, [progress, phase]);
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const { clientX, clientY } = e;
@@ -85,25 +87,10 @@ export default function HomeClient({ fields }: { fields?: PageFieldMap }) {
   const parallaxX = useTransform(mouseX, [-800, 800], [50, -50]);
   const parallaxY = useTransform(mouseY, [-400, 400], [30, -30]);
 
-  // E5 — Wire atmospheric-spine gradient stops to scroll so the page's atmosphere drifts like a film colour-grade.
-  const spineCx1 = useTransform(scrollYProgress, [0, 0.5, 1], ["18%", "62%", "82%"]);
-  const spineCy1 = useTransform(scrollYProgress, [0, 0.5, 1], ["18%", "48%", "68%"]);
-  const spineCx2 = useTransform(scrollYProgress, [0, 0.5, 1], ["84%", "38%", "18%"]);
-  const spineCy2 = useTransform(scrollYProgress, [0, 0.5, 1], ["78%", "62%", "32%"]);
-
   return (
     <div ref={containerRef} onMouseMove={handleMouseMove}>
-      {/* D1.4 — Single atmospheric spine. Gradient stops drift with scroll → continuous colour-grade */}
-      <motion.div
-        className="atmos-spine"
-        aria-hidden="true"
-        style={{
-          ['--spine-cx-1' as any]: spineCx1,
-          ['--spine-cy-1' as any]: spineCy1,
-          ['--spine-cx-2' as any]: spineCx2,
-          ['--spine-cy-2' as any]: spineCy2,
-        }}
-      />
+      {/* Atmospheric spine — gradient stops drift with scroll via shared primitive. */}
+      <AtmosSpine scrollYProgress={scrollYProgress} />
       <AnimatePresence>
         {isLoading && (
           <motion.div
