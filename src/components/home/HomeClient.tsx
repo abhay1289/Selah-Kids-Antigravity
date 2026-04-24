@@ -7,6 +7,7 @@ import Image from "next/image";
 import { CHARACTERS } from "../../constants";
 import { BouncingDots } from "../UI";
 import { AtmosSpine } from "../design";
+import { usePrefersReducedMotion } from "../../hooks/usePrefersReducedMotion";
 import { HeroSection } from "./HeroSection";
 import type { PageFieldMap } from "@/lib/cms-server";
 
@@ -17,6 +18,7 @@ const CharactersSection    = dynamic(() => import("./CharactersSection").then(m 
 const WhyChooseSection     = dynamic(() => import("./WhyChooseSection").then(m => ({ default: m.WhyChooseSection })), { ssr: false });
 const JoinYouTubeSection   = dynamic(() => import("./JoinYouTubeSection").then(m => ({ default: m.JoinYouTubeSection })), { ssr: false });
 const TestimonialsSection  = dynamic(() => import("./TestimonialsSection").then(m => ({ default: m.TestimonialsSection })), { ssr: false });
+const NewsletterSection    = dynamic(() => import("./NewsletterSection").then(m => ({ default: m.NewsletterSection })), { ssr: false });
 
 export default function HomeClient({ fields }: { fields?: PageFieldMap }) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -25,6 +27,7 @@ export default function HomeClient({ fields }: { fields?: PageFieldMap }) {
   const [isLoading, setIsLoading] = useState(true);
   const [progress, setProgress] = useState(0);
   const [phase, setPhase] = useState<"floating" | "converging" | "burst">("floating");
+  const reduceMotion = usePrefersReducedMotion();
 
   // Intro sequence: single effect that owns the whole loader timeline.
   //
@@ -36,7 +39,21 @@ export default function HomeClient({ fields }: { fields?: PageFieldMap }) {
   // The updater here is now a pure `prev -> next` return; the interval
   // callback tracks progress in a local variable and schedules the
   // completion timers synchronously when it hits 99.
+  //
+  // Reduced-motion shortcut: when the OS asks for reduced motion, skip
+  // the character orbit entirely. A loader that orbits, converges, and
+  // bursts is pure flourish — sensitive visitors get the site without
+  // the 1.2s animation gauntlet. Drop the loader after ~400ms so the
+  // fade-out still reads as a deliberate landing, not a page pop-in.
   useEffect(() => {
+    if (reduceMotion) {
+      const t = window.setTimeout(() => {
+        setProgress(99);
+        setIsLoading(false);
+      }, 400);
+      return () => window.clearTimeout(t);
+    }
+
     const finishTimers: number[] = [];
     let current = 0;
     const interval = window.setInterval(() => {
@@ -63,7 +80,7 @@ export default function HomeClient({ fields }: { fields?: PageFieldMap }) {
       window.clearInterval(interval);
       finishTimers.forEach((id) => window.clearTimeout(id));
     };
-  }, []);
+  }, [reduceMotion]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const { clientX, clientY } = e;
@@ -91,6 +108,20 @@ export default function HomeClient({ fields }: { fields?: PageFieldMap }) {
     <div ref={containerRef} onMouseMove={handleMouseMove}>
       {/* Atmospheric spine — gradient stops drift with scroll via shared primitive. */}
       <AtmosSpine scrollYProgress={scrollYProgress} />
+
+      {/* Scroll progress strip — hidden while the intro loader occupies the viewport,
+         then grows left-to-right as the visitor scrolls. Uses scaleX (not width)
+         so it animates on the compositor without triggering layout. */}
+      {!isLoading && (
+        <motion.div
+          role="progressbar"
+          aria-label="Page scroll progress"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          className="fixed top-0 left-0 right-0 h-[3px] bg-selah-orange origin-left z-[60] pointer-events-none"
+          style={{ scaleX }}
+        />
+      )}
       <AnimatePresence>
         {isLoading && (
           <motion.div
@@ -124,7 +155,7 @@ export default function HomeClient({ fields }: { fields?: PageFieldMap }) {
                        stroke="currentColor" 
                        strokeWidth="2.5" 
                        strokeLinecap="round"
-                       className="text-selah-orange drop-shadow-[0_0_8px_rgba(255,92,0,0.4)]"
+                       className="[color:var(--mood-accent,theme(colors.selah.orange))] drop-shadow-[0_0_8px_rgba(255,92,0,0.4)]"
                        initial={{ pathLength: 0 }}
                        animate={{ pathLength: progress / 100 }}
                        transition={{ duration: 0.1, ease: "easeOut" }}
@@ -250,6 +281,7 @@ export default function HomeClient({ fields }: { fields?: PageFieldMap }) {
       <WhyChooseSection fields={fields} />
       <JoinYouTubeSection fields={fields} />
       <TestimonialsSection fields={fields} />
+      <NewsletterSection fields={fields} />
     </div>
   );
 }
