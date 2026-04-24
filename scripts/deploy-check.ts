@@ -67,14 +67,38 @@ const sb = createClient(URL, SERVICE, {
 });
 
 // ───────────────────────────────────────────────────────────
-// 2. site_settings
+// 2. site settings
 // ───────────────────────────────────────────────────────────
 
+/**
+ * Live site reads through `site_settings_fields` (collections table) —
+ * `getSiteSettingsFields()` in cms-server.ts. The typed `site_settings`
+ * table is legacy; probing only it gives a false-positive green when
+ * editors haven't populated the collection. Check both so the signal
+ * reflects what the public site actually consumes.
+ */
 async function checkSiteSettings() {
-  const { data, error } = await sb.from('site_settings').select('id').eq('id', 'global').maybeSingle();
-  if (error) return fail(`site_settings read error: ${error.message}`);
-  if (!data) return fail("site_settings 'global' row missing — run `bun run seed:cms`");
+  const { data: typed, error: typedErr } = await sb
+    .from('site_settings')
+    .select('id')
+    .eq('id', 'global')
+    .maybeSingle();
+  if (typedErr) return fail(`site_settings read error: ${typedErr.message}`);
+  if (!typed) return fail("site_settings 'global' row missing — run `bun run seed:cms`");
   ok('site_settings global row present');
+
+  const { data: fields, error: fieldsErr } = await sb
+    .from('collections')
+    .select('id')
+    .eq('collection', 'site_settings_fields')
+    .limit(1);
+  if (fieldsErr) return fail(`site_settings_fields read error: ${fieldsErr.message}`);
+  if (!fields || fields.length === 0) {
+    return fail(
+      "site_settings_fields collection empty — public site will render fallback seed values. Run `bun run seed:cms`",
+    );
+  }
+  ok('site_settings_fields collection populated');
 }
 
 // ───────────────────────────────────────────────────────────

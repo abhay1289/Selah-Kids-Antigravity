@@ -129,13 +129,38 @@ async function renderPreview(rest: string[]): Promise<React.ReactNode> {
         const posts = await getCollection<BlogPost>('blog_posts', INITIAL_BLOG_POSTS, opts);
         return <BlogPageClient posts={posts} />;
       }
-      // Individual blog post preview is not dispatched here yet — blog/[slug]
-      // renders rich content that we want to QA end-to-end before surfacing.
-      return null;
+      // Individual post preview needs rich-content sanitisation work before
+      // we can safely render admin-authored bodies here. Signal that
+      // specifically so editors aren't told to "add a case" when the real
+      // blocker is content validation.
+      return <BlogSlugNotice slug={tail[0] ?? ''} />;
     }
     default:
       return null;
   }
+}
+
+function BlogSlugNotice({ slug }: { slug: string }) {
+  return (
+    <div className="max-w-[760px] mx-auto p-10 space-y-5">
+      <h1
+        className="text-[26px] font-bold text-[#3a6b44]"
+        style={{ fontFamily: 'var(--font-fredoka), system-ui, sans-serif' }}
+      >
+        Blog post preview not yet available
+      </h1>
+      <p className="text-[15px] leading-relaxed text-[#5a7d62]">
+        Draft preview for individual blog posts is pending rich-content
+        validation work — admin-authored post bodies need sanitisation before
+        we can safely render them here. For now, draft posts (
+        <code className="mx-1 px-1.5 py-0.5 rounded bg-[#3a6b44]/10 font-mono text-[13px]">
+          {slug || '(no slug)'}
+        </code>
+        ) can be previewed by toggling publish in the editor and visiting the
+        public URL directly.
+      </p>
+    </div>
+  );
 }
 
 function UnmappedNotice({ target }: { target: string }) {
