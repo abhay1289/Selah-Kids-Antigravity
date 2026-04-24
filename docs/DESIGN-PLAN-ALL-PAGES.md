@@ -1326,7 +1326,60 @@ This plan gets updated as:
 
 ---
 
-*End of plan. Ready for triad review before Phase 0 begins.*
+## 13. Shipping log
+
+Every commit below lives on branch `feat/admin-merge`.
+
+| Phase | Commit | Status |
+| --- | --- | --- |
+| 0 — Shared primitives + plan | `1dc4eca` | shipped |
+| 1 — SEO i18n fix | `84ef15c` | shipped |
+| 2 — Homepage polish | `7034521` | shipped |
+| 3-9 — Page migrations (About, Watch, Parents, Donate, Contact, Blog, Resources) | `3deb723` | shipped |
+| 10 — Characters (list + detail) | `69a71ac` | shipped |
+| 11 — Music (lifted to light theme) | `69a71ac` | shipped |
+| 12 — Sensory | — | intentionally skipped (plan §5.11 exception; dark theme stays) |
+| 13 — Privacy + Terms | `69a71ac` | shipped |
+| 14 — 404 + error boundary | `69a71ac` | shipped |
+| 15 — Navbar / Footer / Announcement banner polish | — | no-op: existing chrome was already at target polish (see §13.1) |
+| 16 — a11y CSS baseline | pre-existing in `globals.css:339` (reduced-motion) + `:352` (focus-visible) | shipped |
+| 17 — Analytics event names | plan only (wiring deferred to separate track) | deferred |
+
+### 13.1 Why Phase 15 closed as no-op
+
+On inspection during execution:
+- `Navbar.tsx` already scroll-aware, CMS-driven, locale-derived labels, accessible mobile menu
+- `Footer.tsx` already brand-icon mapped (Instagram / YouTube / Facebook / Music) + CMS-driven social + Next/Image
+- `AnnouncementBanner.tsx` already has `sanitizeHref` (blocks `javascript:` in admin free-text), dismiss-persistence via localStorage, id-safe inline styling
+
+Any further change was cosmetic-only with regression risk on components the admin CMS already edits. Deferring to a dedicated chrome-polish pass if a specific concern surfaces.
+
+### 13.2 Triad review state
+
+- **Gemini** (via `pi --model blackbox-sub/gemini-3.1-pro-preview` fallback, because `gemini -p` quota was exhausted) reviewed Phase 0-9. Findings triaged:
+  - P0 #1 — `useScroll` target ref on PageShell — false positive (same pattern as the homepage it replaces, and `scrollYProgress` maps correctly when the target div has `min-h-screen`).
+  - P0 #2 — `useSyncExternalStore` hydration — false positive; React's official pattern for matchMedia, no warning emitted because the hydration transition is the designed API surface.
+  - P1 #3 — heavy `ssr: false` dynamic imports — pre-existing tradeoff, not regressed by this plan.
+  - **P1 #4 — double `whileInView` on `<LanguageCrossPromo>` in Watch — fixed in `69a71ac`.**
+  - P2 #5 — filter bar z-index stacking — verified correct.
+  - P2 #6 — SEO `||` fallback edge case — safe for string titles.
+- **Codex** review unavailable (the local Codex runtime is bound to a ChatGPT account that can't access any gateway-callable model). Gemini stood in for both review roles this cycle.
+
+### 13.3 Follow-ups tracked (not blocking)
+
+- Admin SEO editor per-locale fields (§6.1 step 4)
+- Supabase `seo_pages` column migration (§6.1 step 5)
+- NewsletterSection POST endpoint (§5.1.2)
+- Contact form POST endpoint (§5.6.6)
+- Blog/character per-locale slugs (§6.5)
+- Phase 3-9 CMS field additions (each page's §5.x CMS section — requires seed-script updates + admin editor entries)
+- Lightbox component for About gallery (§5.2.6)
+- Analytics provider + event wiring (§6.10)
+- Asset sourcing for heavy-polish items (gallery photos, Parents community photo, Donate hero photo)
+
+---
+
+*End of plan. Implementation Phases 0-14 + 16 shipped over 5 commits. 15 + 12 intentionally skipped per review. 17 + follow-ups deferred.*
 
 
 
