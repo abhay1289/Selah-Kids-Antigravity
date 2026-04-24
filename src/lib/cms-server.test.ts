@@ -19,12 +19,18 @@ import { describe, test, expect, beforeEach, afterEach, mock } from 'bun:test';
 // ───────────────────────────────────────────────────────────
 
 // next/headers: cookies() is async; return a store with .getAll().
+// headers() returns a Map-like interface so resolveMode's preview-header
+// auto-detection has something safe to call.
 let __cookies: Array<{ name: string; value: string }> = [];
+let __headers: Record<string, string> = {};
 mock.module('next/headers', () => ({
   cookies: async () => ({
     getAll: () => __cookies,
     get: (name: string) => __cookies.find((c) => c.name === name),
     set: () => {},
+  }),
+  headers: async () => ({
+    get: (name: string) => __headers[name.toLowerCase()] ?? null,
   }),
 }));
 

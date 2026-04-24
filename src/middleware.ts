@@ -43,6 +43,12 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(url, 308);
   }
 
+  // ── 2a. Preview mode marker — cms-server reads this to flip getCollection /
+  // getPageContent into 'preview' mode (drafts visible). The cookie-backed
+  // admin check still gates the actual data read, so setting this header
+  // on a non-admin request is harmless.
+  const isPreview = pathname.startsWith('/admin/preview/');
+
   // ── 2. Admin auth (unchanged from pre-locale behavior) ──
   if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
     // Next 15 sends a separate RSC prefetch for each linked admin route. Skip
@@ -58,7 +64,9 @@ export async function middleware(req: NextRequest) {
     // Offline mode: Supabase not configured → let the client-side guard handle it.
     if (!url || !anon) return NextResponse.next();
 
-    const res = NextResponse.next();
+    const reqHeaders = new Headers(req.headers);
+    if (isPreview) reqHeaders.set('x-selah-preview', '1');
+    const res = NextResponse.next({ request: { headers: reqHeaders } });
     const supabase = createServerClient(url, anon, {
       cookies: {
         getAll: () => req.cookies.getAll(),
