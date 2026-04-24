@@ -3,9 +3,10 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import NextImage from 'next/image';
+import Link from 'next/link';
 import { Badge } from '@/components/UI';
 import { PageShell } from '@/components/design';
-import { Star, Heart, Music, Sparkles } from 'lucide-react';
+import { Star, Heart, Music, Sparkles, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useLocalePath } from '@/hooks/useLocalePath';
 
@@ -90,6 +91,7 @@ function FloatingParticle({ delay, size, x, color }: { delay: number; size: numb
 /* ── 3D Tilt Card: follows mouse ───────────────────── */
 function CharacterImage({ char, index }: { char: typeof CHARACTERS[0]; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
+  const { lh } = useLocalePath();
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
@@ -108,6 +110,11 @@ function CharacterImage({ char, index }: { char: typeof CHARACTERS[0]; index: nu
   const handleMouseLeave = () => { x.set(0); y.set(0); };
 
   return (
+    <Link
+      href={lh(`/characters/${char.id}`)}
+      aria-label={`Meet ${char.name}`}
+      className="block focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-selah-orange/30 rounded-[3.5rem]"
+    >
     <motion.div
       ref={ref}
       onMouseMove={handleMouseMove}
@@ -163,12 +170,14 @@ function CharacterImage({ char, index }: { char: typeof CHARACTERS[0]; index: nu
         </div>
       </motion.div>
     </motion.div>
+    </Link>
   );
 }
 
 /* ── Character detail section ──────────────────────── */
 function CharacterSection({ char, index }: { char: typeof CHARACTERS[0]; index: number }) {
   const { t, language } = useLanguage();
+  const { lh } = useLocalePath();
   const sectionRef = useRef<HTMLElement>(null);
   const isEven = index % 2 === 0;
 
@@ -314,6 +323,25 @@ function CharacterSection({ char, index }: { char: typeof CHARACTERS[0]; index: 
                 ))}
               </ul>
             </motion.div>
+
+            {/* Meet-this-character CTA — makes the route to the detail page
+                discoverable for keyboard + screen-reader users who may not
+                realize the whole tilt card is clickable. */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+            >
+              <Link
+                href={lh(`/characters/${char.id}`)}
+                className="inline-flex items-center gap-3 px-7 py-3.5 rounded-2xl bg-white/90 border border-black/5 shadow-[0_16px_32px_-18px_rgba(0,0,0,0.15)] hover:shadow-[0_24px_48px_-18px_rgba(0,0,0,0.25)] hover:-translate-y-0.5 transition-all duration-300 ui-button text-selah-dark"
+                style={{ color: char.accentColor }}
+              >
+                {t(`Meet ${char.name}`, `Conoce a ${char.name}`)}
+                <ArrowRight size={18} />
+              </Link>
+            </motion.div>
           </div>
         </div>
       </div>
@@ -362,16 +390,15 @@ export default function CharactersPage() {
             "¡Mira a Andy, Libni y Shiloh cantar, bailar y adorar juntos en nuestro canal de YouTube!"
           )}
         </p>
-        <motion.a
-          href={lh("/watch")}
-          onClick={(e) => { e.preventDefault(); window.location.href = '/watch'; }}
-          whileHover={{ scale: 1.05, y: -3 }}
-          whileTap={{ scale: 0.97 }}
-          className="inline-flex items-center gap-3 px-10 py-4 bg-selah-orange text-white rounded-2xl ui-button shadow-[0_20px_40px_-10px_rgba(255,92,0,0.4)] hover:shadow-[0_30px_60px_-10px_rgba(255,92,0,0.5)] transition-all duration-300"
-        >
-          {t("Watch Our Videos", "Ver Nuestros Videos")}
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-        </motion.a>
+        <motion.div whileHover={{ scale: 1.05, y: -3 }} whileTap={{ scale: 0.97 }} className="inline-block">
+          <Link
+            href={lh('/watch')}
+            className="inline-flex items-center gap-3 px-10 py-4 bg-selah-orange text-white rounded-2xl ui-button shadow-[0_20px_40px_-10px_rgba(255,92,0,0.4)] hover:shadow-[0_30px_60px_-10px_rgba(255,92,0,0.5)] transition-all duration-300"
+          >
+            {t("Watch Our Videos", "Ver Nuestros Videos")}
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+          </Link>
+        </motion.div>
       </motion.section>
     </PageShell>
   );

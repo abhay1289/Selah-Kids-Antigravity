@@ -148,7 +148,7 @@ export const CHARACTERS: Character[] = [
     personalityTraits: ['gentle', 'peacemaker', 'innocent', 'loyal'],
     favoriteSong: 'This Is How We Praise The Lord | Sensory',
     bestFriendWith: ['libni', 'andy'],
-    posePng: '/SK_Libni_Intro_Pose-removebg-preview.png',
+    posePng: '/SK_Shiloh_Intro_Pose.png',
     episodeIds: [],
     coloringPdfUrl: '/coloring/shiloh.pdf'
   }
