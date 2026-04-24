@@ -32,6 +32,7 @@ import ParentsPageClient from '@/app/[locale]/parents/ParentsPageClient';
 import DonatePageClient from '@/app/[locale]/donate/DonatePageClient';
 import BlogPageClient from '@/app/[locale]/blog/BlogPageClient';
 import ResourcesPageClient from '@/app/[locale]/resources/ResourcesPageClient';
+import { PreviewProviders } from './PreviewProviders';
 
 import { getCollection, getPageContent } from '@/lib/cms-server';
 import { INITIAL_PAGE_HOME } from '@/data/page-content-home';
@@ -182,7 +183,7 @@ export default async function PreviewCatchAll({ params }: PreviewPageProps) {
         <span className="text-white/70 font-medium ml-auto">Editor: {admin.email}</span>
       </div>
 
-      {rendered ?? <UnmappedNotice target={target} />}
+      <PreviewProviders>{rendered ?? <UnmappedNotice target={target} />}</PreviewProviders>
     </div>
   );
 }
