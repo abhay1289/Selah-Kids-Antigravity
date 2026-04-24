@@ -24,7 +24,7 @@
  */
 
 import 'server-only';
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Metadata } from 'next';
@@ -103,7 +103,17 @@ async function hasAdminSession(): Promise<boolean> {
 
 async function resolveMode(explicit?: 'preview'): Promise<ReaderMode> {
   if (isOfflineMode()) return 'offline';
-  if (explicit === 'preview' && (await hasAdminSession())) return 'preview';
+  const hasAdmin = await hasAdminSession();
+  if (explicit === 'preview' && hasAdmin) return 'preview';
+  // Auto-enter preview when the middleware has flagged the request as an
+  // admin preview render (`x-selah-preview: 1`). The admin cookie check
+  // still gates the read, so the flag alone is not enough.
+  try {
+    const h = await headers();
+    if (hasAdmin && h.get('x-selah-preview') === '1') return 'preview';
+  } catch {
+    /* headers() is unavailable during build-time static analysis — fall through to public. */
+  }
   return 'public';
 }
 
@@ -269,10 +279,14 @@ function buildFieldMap(rows: PageContentRow[], fallback: PageFieldMap): PageFiel
 }
 
 /**
- * Fetch the single site_settings row. Shape is loose because the schema's
- * site_settings table has typed columns (site_title, logo_url, etc.) but the
- * admin editor treats settings as a generic key/value list under
- * 'site_settings_fields' collection. Callers should type-narrow as needed.
+ * @deprecated Use `getSiteSettingsFields()` instead.
+ *
+ * Legacy reader for the typed `site_settings` table. Kept for
+ * backwards-compat and as a probe fixture — all active callers (admin
+ * GlobalSettings editor, the public site) now use the generic
+ * `site_settings_fields` collection via `getSiteSettingsFields()` or
+ * `getCollection('site_settings_fields', …)`. When no code references this
+ * function, delete it along with the `site_settings` table.
  */
 export async function getSiteSettings<T>(fallback: T): Promise<T> {
   const mode = await resolveMode();
@@ -378,6 +392,32 @@ export async function getSeoMetadata(
       images: [ogImageUrl],
     },
   };
+}
+
+/**
+ * Canonical site-settings reader. Reads the `site_settings_fields`
+ * collection (which the admin Global Settings editor writes to) and
+ * returns a `Record<id, value>` dict so page code can do
+ * `settings.footer_tagline_en` instead of iterating the array.
+ *
+ * Tagged + force-cached via getCollection — invalidated on-demand via
+ * `revalidateTag('collection:site_settings_fields')`.
+ */
+export interface SiteSettingsField {
+  id: string;
+  label: string;
+  value: string;
+  type: 'text' | 'url';
+  group: string;
+}
+
+export async function getSiteSettingsFields(): Promise<Record<string, string>> {
+  const rows = await getCollection<SiteSettingsField>('site_settings_fields', []);
+  const out: Record<string, string> = {};
+  for (const row of rows) {
+    if (row && typeof row.id === 'string') out[row.id] = row.value ?? '';
+  }
+  return out;
 }
 
 // ───────────────────────────────────────────────────────────

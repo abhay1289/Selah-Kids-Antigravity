@@ -6,24 +6,6 @@ import { supabase } from './supabase';
  * If Supabase is unavailable, returns null so components can fall back to static data.
  */
 
-export interface SiteSettings {
-  id: string;
-  site_title: string;
-  meta_description: string;
-  meta_description_es: string;
-  logo_url: string;
-  footer_tagline: string;
-  footer_tagline_es: string;
-  footer_email: string;
-  youtube_url_en: string;
-  youtube_url_es: string;
-  instagram_url_en: string;
-  instagram_url_es: string;
-  spotify_url: string;
-  apple_music_url: string;
-  updated_at: string;
-}
-
 export interface PageContent {
   id: string;
   page: string;
@@ -46,29 +28,11 @@ export interface CollectionItem {
   updated_at: string;
 }
 
-// ─── Site Settings ───────────────────────────────────────────
-export async function getSiteSettings(): Promise<SiteSettings | null> {
-  try {
-    const { data, error } = await supabase
-      .from('site_settings')
-      .select('*')
-      .single();
-    if (error) throw error;
-    return data;
-  } catch {
-    return null;
-  }
-}
-
-export async function updateSiteSettings(settings: Partial<SiteSettings>) {
-  const { data, error } = await supabase
-    .from('site_settings')
-    .update({ ...settings, updated_at: new Date().toISOString() })
-    .eq('id', 'global')
-    .select()
-    .single();
-  return { data, error };
-}
+// Site settings are edited through the generic `site_settings_fields`
+// collection (see `useCmsCollection` consumers under src/app/admin). The
+// typed `site_settings` table readers previously exported from this file
+// were unused and have been removed to keep one source of truth for
+// global config — see cms-server.ts::getSiteSettingsFields().
 
 // ─── Page Content ────────────────────────────────────────────
 export async function getPageContent(page: string): Promise<PageContent[]> {

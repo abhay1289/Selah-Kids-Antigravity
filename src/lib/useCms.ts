@@ -16,14 +16,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   getAllCollectionItems,
-  getSiteSettings,
   getAllPageContent,
   upsertCollectionItem,
-  updateSiteSettings,
   upsertPageContent,
   deleteCollectionItem,
   type CollectionItem,
-  type SiteSettings,
   type PageContent,
 } from './cms';
 
@@ -228,79 +225,6 @@ export function useCmsCollection<T extends { id: string }>(
 }
 
 // ───────────────────────────────────────────────────────────
-// useCmsSiteSettings — single global row in site_settings
-// ───────────────────────────────────────────────────────────
-
-export interface UseCmsSiteSettings<T> {
-  settings: T;
-  setSettings: React.Dispatch<React.SetStateAction<T>>;
-  isLoading: boolean;
-  isSaving: boolean;
-  error: string | null;
-  save: () => Promise<void>;
-  mode: 'live' | 'offline';
-}
-
-export function useCmsSiteSettings<T>(fallback: T): UseCmsSiteSettings<T> {
-  const [settings, setSettings] = useState<T>(fallback);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const storageKey = 'selah-cms:site_settings';
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function load() {
-      try {
-        if (isOfflineMode) {
-          const local = readLocal<T>(storageKey);
-          if (!cancelled) setSettings(local ?? fallback);
-        } else {
-          const row = await getSiteSettings();
-          if (!cancelled) setSettings((row as unknown as T) ?? fallback);
-        }
-      } catch (e) {
-        if (!cancelled) setError(e instanceof Error ? e.message : 'Load failed');
-      } finally {
-        if (!cancelled) setIsLoading(false);
-      }
-    }
-
-    load();
-    return () => {
-      cancelled = true;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const save = useCallback(async () => {
-    setIsSaving(true);
-    setError(null);
-    try {
-      if (isOfflineMode) {
-        writeLocal(storageKey, settings);
-      } else {
-        const { error: upErr } = await updateSiteSettings(
-          settings as unknown as Partial<SiteSettings>,
-        );
-        if (upErr) throw upErr;
-
-        void requestRevalidate('site_settings');
-      }
-    } catch (e) {
-      const msg = e instanceof Error ? e.message : 'Save failed';
-      setError(msg);
-      throw new Error(msg);
-    } finally {
-      setIsSaving(false);
-    }
-  }, [settings]);
-
-  return { settings, setSettings, isLoading, isSaving, error, save, mode: isOfflineMode ? 'offline' : 'live' };
-}
-
-// ───────────────────────────────────────────────────────────
 // useCmsPageContent — key/value per-page fields (home, about, etc.)
 // ───────────────────────────────────────────────────────────
 
@@ -414,4 +338,4 @@ export function useCmsPageContent(page: string, fallback: PageFieldMap): UseCmsP
 }
 
 // Re-export types for convenience
-export type { CollectionItem, SiteSettings, PageContent };
+export type { CollectionItem, PageContent };
