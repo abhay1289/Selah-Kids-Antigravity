@@ -3,15 +3,16 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Shield, BookOpen, Smile, Heart } from 'lucide-react';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useFieldResolver } from '../../lib/page-fields';
+import type { PageFieldMap } from '../../lib/cms-server';
 
-export const ParentsTrustBadges = () => {
-  const { t } = useLanguage();
+export const ParentsTrustBadges = ({ fields }: { fields?: PageFieldMap } = {}) => {
+  const f = useFieldResolver(fields);
   const TRUST_BADGES = [
-    { icon: Shield, label: t("Safe Content", "Contenido Seguro"), color: "text-[#00BFFF]", bg: "bg-[#00BFFF]/10" },
-    { icon: BookOpen, label: t("Scripture-Based", "Basado en la Biblia"), color: "text-[#FFD700]", bg: "bg-[#FFD700]/10" },
-    { icon: Smile, label: t("Wholistic Growth", "Crecimiento Integral"), color: "text-[#98FF98]", bg: "bg-[#98FF98]/10" },
-    { icon: Heart, label: t("Parent Approved", "Aprobado por Padres"), color: "text-[#FF7F50]", bg: "bg-[#FF7F50]/10" }
+    { icon: Shield, label: f('trust.badge_1_title', 'Safe Content', 'Contenido Seguro'), color: "text-[#00BFFF]", bg: "bg-[#00BFFF]/10" },
+    { icon: BookOpen, label: f('trust.badge_2_title', 'Scripture-Based', 'Basado en la Biblia'), color: "text-[#FFD700]", bg: "bg-[#FFD700]/10" },
+    { icon: Smile, label: f('trust.badge_3_title', 'Wholistic Growth', 'Crecimiento Integral'), color: "text-[#98FF98]", bg: "bg-[#98FF98]/10" },
+    { icon: Heart, label: f('trust.badge_4_title', 'Parent Approved', 'Aprobado por Padres'), color: "text-[#FF7F50]", bg: "bg-[#FF7F50]/10" },
   ];
 
   return (

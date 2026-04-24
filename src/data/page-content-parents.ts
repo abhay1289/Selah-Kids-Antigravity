@@ -45,10 +45,10 @@ export const PAGE_PARENTS_SECTIONS: PageEditorSection[] = [
     title: 'Trust Badges',
     icon: '🛡️',
     fields: [
-      { id: 'badge_1_title', label: 'Badge 1 Title', type: 'text', valueEn: 'Ad-Free', valueEs: 'Sin Anuncios' },
-      { id: 'badge_2_title', label: 'Badge 2 Title', type: 'text', valueEn: 'Faith-Based', valueEs: 'Basado en la Fe' },
-      { id: 'badge_3_title', label: 'Badge 3 Title', type: 'text', valueEn: 'Bilingual', valueEs: 'Bilingüe' },
-      { id: 'badge_4_title', label: 'Badge 4 Title', type: 'text', valueEn: 'Screen-Safe', valueEs: 'Pantalla Segura' },
+      { id: 'badge_1_title', label: 'Badge 1 Title', type: 'text', valueEn: 'Safe Content', valueEs: 'Contenido Seguro' },
+      { id: 'badge_2_title', label: 'Badge 2 Title', type: 'text', valueEn: 'Scripture-Based', valueEs: 'Basado en la Biblia' },
+      { id: 'badge_3_title', label: 'Badge 3 Title', type: 'text', valueEn: 'Wholistic Growth', valueEs: 'Crecimiento Integral' },
+      { id: 'badge_4_title', label: 'Badge 4 Title', type: 'text', valueEn: 'Parent Approved', valueEs: 'Aprobado por Padres' },
     ],
   },
   {
@@ -96,8 +96,8 @@ export const PAGE_PARENTS_SECTIONS: PageEditorSection[] = [
     title: 'Community CTA',
     icon: '💌',
     fields: [
-      { id: 'community_headline', label: 'Headline', type: 'text', valueEn: 'Join 20,000+ parents raising worship-filled kids', valueEs: 'Únete a 20,000+ padres que crían niños llenos de adoración' },
-      { id: 'community_body', label: 'Body', type: 'textarea', valueEn: 'One email a month with a new song, a free printable, and a letter from the team. No noise — just the stuff you actually want.', valueEs: 'Un correo al mes con una canción nueva, un imprimible gratis y una carta del equipo. Sin ruido — solo lo que realmente quieres.' },
+      { id: 'community_headline', label: 'Headline', type: 'text', valueEn: 'The Parenting Edit', valueEs: 'Boletín para Padres' },
+      { id: 'community_body', label: 'Body', type: 'textarea', valueEn: 'A monthly, no-fluff email with media recommendations, encouragement, and early access to new Selah Kids releases.', valueEs: 'Un correo mensual sin rodeos con recomendaciones de medios, aliento y acceso anticipado al contenido de Selah Kids.' },
     ],
   },
 ];

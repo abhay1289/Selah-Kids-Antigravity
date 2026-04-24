@@ -31,15 +31,15 @@ export default function ParentsPageClient({ fields }: { fields?: PageFieldMap })
       </motion.div>
 
       <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={sectionEntrance}>
-        <ParentsTrustBadges />
+        <ParentsTrustBadges fields={fields} />
       </motion.div>
 
       <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={sectionEntrance}>
-        <ParentsAccordion />
+        <ParentsAccordion fields={fields} />
       </motion.div>
 
       <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={sectionEntrance}>
-        <ParentsCommunity />
+        <ParentsCommunity fields={fields} />
       </motion.div>
     </PageShell>
   );

@@ -1349,6 +1349,7 @@ Every commit below lives on branch `feat/admin-merge`.
 | F3 — Blog/character per-locale slug resolvers + LanguageCrossPromo pairedPath | pending commit | shipped |
 | F4 — About gallery wired to PhotoLightbox primitive | pending commit | shipped |
 | F5 — Phase 3-9 CMS field additions (About bento/gallery/cta/marquee; Parents trust/features/FAQ/community; Donate impact/FAQ/trust; Contact form/sidebar; Resources empty/modal/categories; Watch CTA/finder; Blog chrome editor) | pending commit | shipped |
+| F6 — Public-side rendering wired to new CMS fields (Parents trust badges + community headline; Donate impact tiers; Watch CTA) | pending commit | shipped |
 
 ### 13.1 Why Phase 15 closed as no-op
 

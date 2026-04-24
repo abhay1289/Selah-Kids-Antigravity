@@ -60,7 +60,7 @@ export default function WatchPageClient({ episodes, fields }: { episodes: Episod
       </motion.div>
 
       <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={sectionEntrance}>
-        <WatchCTA />
+        <WatchCTA fields={fields} />
       </motion.div>
     </PageShell>
   );

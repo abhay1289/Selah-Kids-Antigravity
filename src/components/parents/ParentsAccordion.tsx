@@ -4,9 +4,18 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Lightbulb, ShieldCheck, ChevronDown, CheckCircle2 } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { useFieldResolver } from '../../lib/page-fields';
+import type { PageFieldMap } from '../../lib/cms-server';
 
-export const ParentsAccordion = () => {
+export const ParentsAccordion = ({ fields }: { fields?: PageFieldMap } = {}) => {
   const { t, language } = useLanguage();
+  // The accordion's list bodies are language-switched arrays that don't map
+  // cleanly to individual CMS fields — they're handled here as hardcoded
+  // lists. `f()` is wired through so pillar titles + section chrome can
+  // hang off the CMS seed when those fields are added. Use-site silences
+  // the "declared but unused" path at runtime — no perf hit.
+  const f = useFieldResolver(fields);
+  void f;
   const [openSection, setOpenSection] = useState<string | null>("spirit");
   const toggleSection = (id: string) => setOpenSection(openSection === id ? null : id);
 

@@ -7,11 +7,14 @@ import { useRouter } from 'next/navigation';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Badge, Button } from '../UI';
 import { useLocalePath } from '../../hooks/useLocalePath';
+import { useFieldResolver } from '../../lib/page-fields';
+import type { PageFieldMap } from '../../lib/cms-server';
 
-export const ParentsCommunity = () => {
+export const ParentsCommunity = ({ fields }: { fields?: PageFieldMap } = {}) => {
   const { t } = useLanguage();
   const router = useRouter();
   const { lh } = useLocalePath();
+  const f = useFieldResolver(fields);
   return (
     <section className="max-w-4xl mx-auto px-6 mb-24 relative z-10">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16">
@@ -55,11 +58,18 @@ export const ParentsCommunity = () => {
               <Mail size={32} className="text-selah-orange" />
             </div>
             <Badge color="orange" className="mb-4 bg-white/10 border-white/20 text-selah-orange hover:bg-white/20">{t("JOIN COMMUNITY", "ÚNETE A LA COMUNIDAD")}</Badge>
-            <h3 className="text-2xl md:text-3xl font-black tracking-tight font-outfit mb-4">{t("The Parenting Edit", "Boletín para Padres")}</h3>
+            <h3 className="text-2xl md:text-3xl font-black tracking-tight font-outfit mb-4">
+              {f(
+                'community.community_headline',
+                'The Parenting Edit',
+                'Boletín para Padres',
+              )}
+            </h3>
             <p className="text-white/70 font-medium mb-8">
-              {t(
-                "A monthly, no-fluff email with media recommendations, encouragement, and early access to new Selah Kids releases.",
-                "Un correo mensual sin rodeos con recomendaciones de medios, aliento y acceso anticipado al contenido de Selah Kids."
+              {f(
+                'community.community_body',
+                'A monthly, no-fluff email with media recommendations, encouragement, and early access to new Selah Kids releases.',
+                'Un correo mensual sin rodeos con recomendaciones de medios, aliento y acceso anticipado al contenido de Selah Kids.',
               )}
             </p>
             

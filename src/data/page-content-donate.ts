@@ -25,16 +25,17 @@ export const DONATE_FIELDS: PageEditorField[] = [
   { id: 'title_accent', label: 'Headline Accent (orange)', type: 'text', valueEn: 'Selah Kids', valueEs: 'Selah Kids' },
   { id: 'desc', label: 'Description', type: 'textarea', valueEn: "Your generosity helps us create high-quality, faith-filled content that teaches children about God's love.", valueEs: 'Tu generosidad nos ayuda a crear contenido de alta calidad y lleno de fe que enseña a los niños sobre el amor de Dios.' },
   { id: 'hero_cta', label: 'Hero CTA Label', type: 'text', valueEn: 'Give a gift', valueEs: 'Dar una ofrenda' },
-  // Impact tiers
-  { id: 'impact_1_title', label: 'Impact 1 Title', type: 'text', valueEn: 'Every $10 records one new song', valueEs: 'Cada $10 graba una canción nueva' },
-  { id: 'impact_1_body', label: 'Impact 1 Body', type: 'textarea', valueEn: 'Studio time, guest vocalists, and mastering. Ten dollars. One worship song a family will sing for years.', valueEs: 'Tiempo de estudio, vocalistas invitados y masterización. Diez dólares. Una canción de adoración que una familia cantará por años.' },
-  { id: 'impact_2_title', label: 'Impact 2 Title', type: 'text', valueEn: 'Every $25 animates one scene', valueEs: 'Cada $25 anima una escena' },
-  { id: 'impact_2_body', label: 'Impact 2 Body', type: 'textarea', valueEn: 'Character animation, background paint, and compositing — the ingredients of a single storyboard frame.', valueEs: 'Animación de personajes, pintura de fondo y composición — los ingredientes de un solo fotograma del guion gráfico.' },
-  { id: 'impact_3_title', label: 'Impact 3 Title', type: 'text', valueEn: 'Every $50 translates an episode', valueEs: 'Cada $50 traduce un episodio' },
-  { id: 'impact_3_body', label: 'Impact 3 Body', type: 'textarea', valueEn: 'Bilingual voice talent plus a translator review — so our Spanish-speaking kids hear the story the same day as everyone else.', valueEs: 'Talento de voz bilingüe más la revisión de un traductor — para que nuestros niños hispanohablantes escuchen la historia el mismo día que los demás.' },
-  { id: 'impact_4_title', label: 'Impact 4 Title', type: 'text', valueEn: 'Every $100 ships a full episode', valueEs: 'Cada $100 publica un episodio completo' },
+  // Impact tiers — the three currently rendered in DonateImpact. Slots
+  // 4 and 5 are reserved for future higher-tier gifts the admin can add.
+  { id: 'impact_1_title', label: 'Impact 1 Title ($10)', type: 'text', valueEn: 'Funds one worship song lyric sheet', valueEs: 'Financia una hoja de letras de adoración' },
+  { id: 'impact_1_body', label: 'Impact 1 Body', type: 'textarea', valueEn: 'Your gift underwrites the lyric typography, illustration, and bilingual translation for one original song.', valueEs: 'Tu donación financia la tipografía, ilustración y traducción bilingüe de una canción original.' },
+  { id: 'impact_2_title', label: 'Impact 2 Title ($20)', type: 'text', valueEn: 'Sponsors a minute of animation', valueEs: 'Patrocina un minuto de animación' },
+  { id: 'impact_2_body', label: 'Impact 2 Body', type: 'textarea', valueEn: 'Animation is our most expensive craft. $20/month funds a minute of story-grade 2D animation.', valueEs: 'La animación es nuestro oficio más costoso. $20/mes financia un minuto de animación 2D de calidad.' },
+  { id: 'impact_3_title', label: 'Impact 3 Title ($30)', type: 'text', valueEn: 'Unlocks a family in a new language', valueEs: 'Alcanza a una familia en un nuevo idioma' },
+  { id: 'impact_3_body', label: 'Impact 3 Body', type: 'textarea', valueEn: 'Bilingual production doubles our cost. Your gift keeps every song and story accessible in English and Spanish.', valueEs: 'La producción bilingüe duplica el costo. Tu donación mantiene cada canción e historia en inglés y español.' },
+  { id: 'impact_4_title', label: 'Impact 4 Title (future $100)', type: 'text', valueEn: 'Ships a full episode', valueEs: 'Publica un episodio completo' },
   { id: 'impact_4_body', label: 'Impact 4 Body', type: 'textarea', valueEn: 'From script to final mix — one complete Selah Kids episode from a family like yours.', valueEs: 'Desde el guion hasta la mezcla final — un episodio completo de Selah Kids de parte de una familia como la tuya.' },
-  { id: 'impact_5_title', label: 'Impact 5 Title', type: 'text', valueEn: 'Every $250 launches a new character', valueEs: 'Cada $250 lanza un personaje nuevo' },
+  { id: 'impact_5_title', label: 'Impact 5 Title (future $250)', type: 'text', valueEn: 'Launches a new character', valueEs: 'Lanza un personaje nuevo' },
   { id: 'impact_5_body', label: 'Impact 5 Body', type: 'textarea', valueEn: 'Character design, voice casting, puppet build. A new friend to walk alongside kids for years of episodes.', valueEs: 'Diseño de personaje, selección de voz, construcción del títere. Un nuevo amigo para acompañar a los niños durante años de episodios.' },
   // FAQ
   { id: 'faq_1_q', label: 'FAQ 1 Question', type: 'text', valueEn: 'Are donations tax-deductible?', valueEs: '¿Las donaciones son deducibles de impuestos?' },

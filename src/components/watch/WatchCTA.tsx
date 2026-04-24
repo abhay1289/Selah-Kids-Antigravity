@@ -5,9 +5,12 @@ import { motion } from 'framer-motion';
 import { Youtube } from 'lucide-react';
 import { Button } from '../UI';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { useFieldResolver } from '../../lib/page-fields';
+import type { PageFieldMap } from '../../lib/cms-server';
 
-export const WatchCTA = () => {
-  const { t, language } = useLanguage();
+export const WatchCTA = ({ fields }: { fields?: PageFieldMap } = {}) => {
+  const { language } = useLanguage();
+  const f = useFieldResolver(fields);
 
   return (
     <section className="max-w-5xl mx-auto px-6 pt-8 pb-8 relative z-10">
@@ -23,24 +26,28 @@ export const WatchCTA = () => {
             <Youtube size={48} className="text-[#FF0000]" />
           </motion.div>
           <h2 className="content-h2 mb-6 tracking-tight">
-            {t("Want more videos?", "¿Quieres más videos?")}
+            {f('cta.cta_headline', 'Never miss an episode', 'No te pierdas ningún episodio')}
           </h2>
           <p className="body-text !max-w-none mb-12 mx-auto leading-relaxed">
-            {t(
-              "Subscribe to our YouTube channel to never miss a new release!",
-              "¡Suscríbete a nuestro canal de YouTube para no perderte ningún estreno!"
+            {f(
+              'cta.cta_body',
+              'Subscribe on YouTube for new songs, full episodes, and bilingual sing-alongs every month.',
+              'Suscríbete en YouTube para nuevas canciones, episodios completos y canto bilingüe cada mes.',
             )}
           </p>
           <div className="flex justify-center w-full">
             <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }}>
-              <Button 
+              <Button
                 onClick={() => window.open(language === 'ES' ? "https://www.youtube.com/@SelahKidsEspanol" : "https://www.youtube.com/@selahkidsworship", "_blank", "noopener,noreferrer")}
                 className="!bg-[#FF0000] hover:!bg-white !text-white hover:!text-[#FF0000] !border-none !px-10 !py-4 ui-button transition-all duration-500 shadow-[0_20px_40px_-15px_rgba(255,0,0,0.3)] hover:shadow-[0_30px_60px_-15px_rgba(255,255,255,0.4)]"
               >
-                {t("Subscribe Now", "Suscríbete Ahora")}
+                {f('cta.cta_primary_label', 'Subscribe on YouTube', 'Suscríbete en YouTube')}
               </Button>
             </motion.div>
           </div>
+          <p className="ui-caption text-selah-muted/60 mt-6 italic">
+            {f('cta.cta_subscriber_stat', '20,000+ families subscribed', '20,000+ familias suscritas')}
+          </p>
         </div>
       </div>
     </section>
