@@ -4,6 +4,7 @@ import { Music, ExternalLink } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import SpotifyEmbed from '@/components/music/SpotifyEmbed';
 import { AppleMusicEmbed } from '@/components/music/AppleMusicEmbed';
+import { PageShell } from '@/components/design';
 
 export default function MusicPage() {
   const { language } = useLanguage();
@@ -39,41 +40,37 @@ export default function MusicPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 pt-32 pb-24 px-4 sm:px-6 relative overflow-hidden">
-      {/* Background Gradients */}
-      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-purple-500/20 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[150px] pointer-events-none" />
-
-      <motion.div 
+    <PageShell mainClassName="pt-32 pb-24 px-4 sm:px-6">
+      <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="max-w-4xl mx-auto relative z-10 space-y-16"
+        className="max-w-4xl mx-auto space-y-16"
       >
         {/* Header */}
         <motion.div variants={itemVariants} className="text-center space-y-6">
-          <div className="w-16 h-16 rounded-full bg-purple-500/20 flex items-center justify-center mx-auto mb-6">
-            <Music className="w-8 h-8 text-purple-400" />
+          <div className="w-16 h-16 rounded-full bg-selah-orange/15 flex items-center justify-center mx-auto mb-6">
+            <Music className="w-8 h-8 text-selah-orange" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
+          <h1 className="hero-headline tracking-tight">
             {title}
           </h1>
-          <p className="text-lg text-slate-300 max-w-2xl mx-auto">
+          <p className="body-text mx-auto">
             {subtitle}
           </p>
         </motion.div>
 
-        {/* Primary: Spotify Embed */}
-        <motion.div variants={itemVariants} className="bg-slate-800/50 backdrop-blur-sm rounded-3xl p-6 md:p-8 border border-slate-700/50 shadow-2xl">
+        {/* Primary: Spotify Embed — dark slab on warm cream atmosphere */}
+        <motion.div variants={itemVariants} className="glass-morphism-dark rounded-3xl p-6 md:p-8">
           <SpotifyEmbed theme="light" height={420} />
         </motion.div>
 
         {/* Secondary: Apple Music */}
         <motion.div variants={itemVariants} className="space-y-6">
-          <h2 className="text-2xl font-bold text-white text-center">
+          <h2 className="content-h2 text-center">
             {secondaryTitle}
           </h2>
-          <div className="bg-slate-800/50 backdrop-blur-sm rounded-3xl p-6 md:p-8 border border-slate-700/50 shadow-2xl">
+          <div className="glass-morphism-dark rounded-3xl p-6 md:p-8">
             <AppleMusicEmbed />
           </div>
         </motion.div>
@@ -84,22 +81,22 @@ export default function MusicPage() {
             href={youtubeMusicUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center space-x-2 px-6 py-3 bg-red-600/10 hover:bg-red-600/20 text-red-400 rounded-full transition-colors border border-red-500/20"
+            className="flex items-center space-x-2 px-6 py-3 bg-red-600/10 hover:bg-red-600/20 text-red-600 rounded-full transition-colors border border-red-500/20 ui-button"
           >
-            <span className="font-medium">YouTube Music</span>
+            <span>YouTube Music</span>
             <ExternalLink className="w-4 h-4" />
           </a>
           <a
             href="https://music.amazon.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center space-x-2 px-6 py-3 bg-cyan-600/10 hover:bg-cyan-600/20 text-cyan-400 rounded-full transition-colors border border-cyan-500/20"
+            className="flex items-center space-x-2 px-6 py-3 bg-cyan-600/10 hover:bg-cyan-600/20 text-cyan-700 rounded-full transition-colors border border-cyan-500/20 ui-button"
           >
-            <span className="font-medium">Amazon Music</span>
+            <span>Amazon Music</span>
             <ExternalLink className="w-4 h-4" />
           </a>
         </motion.div>
       </motion.div>
-    </div>
+    </PageShell>
   );
 }

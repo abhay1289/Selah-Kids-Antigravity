@@ -4,6 +4,7 @@ import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import NextImage from 'next/image';
 import { Badge } from '@/components/UI';
+import { PageShell } from '@/components/design';
 import { Star, Heart, Music, Sparkles } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useLocalePath } from '@/hooks/useLocalePath';
@@ -325,16 +326,9 @@ export default function CharactersPage() {
   const { t, language } = useLanguage();
   const { lh } = useLocalePath();
   return (
-    <div className="bg-gradient-to-b from-[#FFF5EE] via-[#FDFBF7] to-[#F0FAE6] min-h-screen overflow-hidden selection:bg-selah-orange selection:text-white relative">
-      {/* Vivid Color Washes */}
-      <div className="absolute top-0 right-0 w-[55vw] h-[45vh] bg-gradient-to-bl from-[#FF7F50]/10 via-[#FF5C00]/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-[50%] left-0 w-[45vw] h-[40vh] bg-gradient-to-r from-[#00BFFF]/8 to-transparent rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-[10%] right-[5%] w-[40vw] h-[40vh] bg-[#FFD700]/8 rounded-full blur-[100px] pointer-events-none" />
-      {/* Paper Texture */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-multiply" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
-
+    <PageShell>
       {/* Hero Section */}
-      <section className="pt-36 md:pt-44 pb-8 relative z-10 text-center px-6">
+      <section className="pt-36 md:pt-44 pb-8 text-center px-6">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
           <Badge color="orange" className="mb-8 shadow-md">{t("MEET THE CREW", "CONOCE AL EQUIPO")}</Badge>
         </motion.div>
@@ -379,6 +373,6 @@ export default function CharactersPage() {
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
         </motion.a>
       </motion.section>
-    </div>
+    </PageShell>
   );
 }

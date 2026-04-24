@@ -4,19 +4,14 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Shield } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { PageShell } from '@/components/design';
 
 export default function PrivacyPage() {
   const { t } = useLanguage();
 
   return (
-    <div className="bg-gradient-to-b from-[#FFF5EE] via-[#FDFBF7] to-[#F0FAE6] min-h-screen pt-36 md:pt-44 pb-16 relative overflow-hidden selection:bg-selah-orange selection:text-white">
-      {/* Vivid Color Washes */}
-      <div className="absolute top-0 right-0 w-[50vw] h-[40vh] bg-gradient-to-bl from-[#FF7F50]/8 to-transparent rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[45vw] h-[40vh] bg-gradient-to-tr from-[#93D35C]/8 to-transparent rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute top-[50%] left-[10%] w-[30vw] h-[30vh] bg-[#00BFFF]/5 rounded-full blur-[100px] pointer-events-none" />
-      {/* Paper Texture */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-multiply" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }} />
-      <div className="max-w-3xl mx-auto px-6 relative z-10">
+    <PageShell mainClassName="pt-36 md:pt-44 pb-16" spineStops={{ stopsCx1: ['30%', '50%', '70%'], stopsCy1: ['22%', '40%', '58%'], stopsCx2: ['70%', '50%', '30%'], stopsCy2: ['72%', '58%', '42%'] }}>
+      <div className="max-w-3xl mx-auto px-6">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
           <div className="w-20 h-20 bg-selah-orange/10 rounded-[1.5rem] flex items-center justify-center mx-auto mb-8">
             <Shield size={40} className="text-selah-orange" />
@@ -55,6 +50,6 @@ export default function PrivacyPage() {
           </div>
         </motion.div>
       </div>
-    </div>
+    </PageShell>
   );
 }

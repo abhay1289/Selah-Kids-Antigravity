@@ -50,9 +50,10 @@ export default function WatchPageClient({ episodes, fields }: { episodes: Episod
         <WatchCategories activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
       </div>
 
-      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={sectionEntrance} className="mb-12">
-        <LanguageCrossPromo />
-      </motion.div>
+      {/* LanguageCrossPromo owns its own viewport-triggered entrance — no
+         parent motion wrapper, otherwise both animations fight for the
+         same viewport enter event and the card jitters. */}
+      <LanguageCrossPromo className="mb-12" />
 
       <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={sectionEntrance}>
         <WatchGrid episodes={filteredEpisodes} />
