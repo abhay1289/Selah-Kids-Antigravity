@@ -2,127 +2,125 @@
 import Image from 'next/image';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { useRef } from 'react';
-import { Play } from 'lucide-react';
-import { Character } from '../../data/characters';
+import type { Character } from '../../data/characters';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 interface CharacterHeroProps {
   character: Character;
 }
 
+/**
+ * Character detail hero — lifted to the site's light/cream theme so it
+ * blends seamlessly with CharacterVerse and CharacterEpisodes below.
+ *
+ * Previous version used `bg-zinc-950 text-white` and rendered the
+ * favorite verse inline, which collided with the now-uniform paper-cream
+ * aesthetic and duplicated the verse card in CharacterVerse. Both fixed:
+ *   - No local background color — PageShell / AtmosSpine owns the page
+ *     ambience now, so the hero flows into the sections below without a
+ *     visual seam.
+ *   - Verse rendering moved entirely to CharacterVerse.
+ *   - The character's `colorPrimary` still drives the name color, the
+ *     blurred accent blob, and the watermark letters — just at tasteful
+ *     opacities for a light surface.
+ *   - Dropped the unwired `Play my theme song` button (it was
+ *     console.log-only, dead weight).
+ */
 export default function CharacterHero({ character }: CharacterHeroProps) {
   const { language } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
-  
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ['start start', 'end start']
+    offset: ['start start', 'end start'],
   });
 
   const smoothProgress = useSpring(scrollYProgress, { damping: 20, stiffness: 100 });
 
-  // Parallax transforms
-  // Text moves slightly to the right
-  const textX = useTransform(smoothProgress, [0, 1], ['0%', '10%']);
-  // Character moves slightly to the left and up
-  const characterX = useTransform(smoothProgress, [0, 1], ['0%', '-5%']);
-  const characterY = useTransform(smoothProgress, [0, 1], ['0%', '-10%']);
+  // Gentler parallax on the light surface — aggressive transforms look
+  // jittery against the paper-grain; ±6% keeps it subtle.
+  const textX = useTransform(smoothProgress, [0, 1], ['0%', '6%']);
+  const characterY = useTransform(smoothProgress, [0, 1], ['0%', '-6%']);
 
   const role = language === 'ES' ? (character.roleEs || character.role) : character.role;
   const catchphrase = language === 'ES' ? character.catchphrase?.es : character.catchphrase?.en;
-  
-  // Verse text
-  const verseRef = language === 'ES' && character.favoriteVerse?.refEs 
-    ? character.favoriteVerse.refEs 
-    : character.favoriteVerse?.ref;
-  const verseText = language === 'ES' 
-    ? character.favoriteVerse?.text_es 
-    : character.favoriteVerse?.text_en;
-
-  const playText = language === 'ES' ? 'Reproducir mi canción' : 'Play my theme song';
-
-  const poseSrc = (character as any).posePng || `/images/characters/${character.slug}-pose.png`;
 
   return (
-    <div 
+    <section
       ref={containerRef}
-      className="relative w-full min-h-[80vh] flex items-center justify-center overflow-hidden bg-zinc-950 text-white pt-24 pb-12"
+      className="relative w-full min-h-[70vh] flex items-center justify-center overflow-hidden"
     >
-      {/* Blurred Color Blobs */}
-      <div 
-        className="absolute inset-0 pointer-events-none opacity-10 blur-[100px]"
+      {/* Soft color washes — tuned for a light surface so they read as
+          ambient glow, not saturated slabs. */}
+      <div
+        className="absolute top-[-10%] left-[10%] w-[480px] h-[480px] rounded-full pointer-events-none opacity-[0.18] blur-[120px]"
         style={{ backgroundColor: character.colorPrimary }}
       />
-      <div 
-        className="absolute top-1/4 right-1/4 w-96 h-96 rounded-full pointer-events-none opacity-20 blur-[120px]"
+      <div
+        className="absolute bottom-[-8%] right-[8%] w-[420px] h-[420px] rounded-full pointer-events-none opacity-[0.14] blur-[110px]"
         style={{ backgroundColor: character.colorAccent || character.colorPrimary }}
       />
 
-      {/* Giant Background Text */}
-      <motion.div 
-        className="absolute top-1/2 left-0 -translate-y-1/2 whitespace-nowrap text-[22vw] font-black tracking-tighter opacity-5 pointer-events-none uppercase font-display"
-        style={{ x: textX, color: character.colorPrimary }}
+      {/* Giant watermark — low opacity so it's a texture, not a focal point. */}
+      <motion.div
+        aria-hidden="true"
+        className="absolute top-1/2 left-0 -translate-y-1/2 whitespace-nowrap text-[22vw] font-black tracking-tighter pointer-events-none uppercase font-display select-none"
+        style={{ x: textX, color: character.colorPrimary, opacity: 0.06 }}
       >
         {character.name}
       </motion.div>
 
       <div className="container mx-auto px-6 lg:px-12 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        {/* Character Pose */}
-        <motion.div 
-          className="relative h-[50vh] lg:h-[60vh] flex items-center justify-center lg:justify-end"
-          style={{ x: characterX, y: characterY }}
+        {/* Character pose */}
+        <motion.div
+          className="relative h-[48vh] lg:h-[60vh] flex items-center justify-center lg:justify-end"
+          style={{ y: characterY }}
         >
           <div className="relative w-full h-full max-w-lg">
             <Image
-              src={poseSrc}
+              src={character.posePng}
               alt={character.name}
               fill
               priority
-              className="object-contain object-bottom drop-shadow-2xl"
+              className="object-contain object-bottom drop-shadow-[0_20px_40px_rgba(0,0,0,0.12)]"
+              sizes="(max-width: 1024px) 92vw, 520px"
             />
           </div>
         </motion.div>
 
-        {/* Right Side Content */}
-        <div className="flex flex-col items-center text-center lg:items-start lg:text-left space-y-8">
-          <div className="space-y-4">
-            <h2 className="text-xl md:text-2xl uppercase tracking-widest text-zinc-400 font-semibold">
-              {role}
-            </h2>
-            <h1 className="text-5xl md:text-7xl font-bold font-display" style={{ color: character.colorPrimary }}>
-              {character.name}
-            </h1>
-          </div>
+        {/* Right column — role, name, catchphrase */}
+        <div className="flex flex-col items-center text-center lg:items-start lg:text-left space-y-6">
+          <motion.h2
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="ui-label text-selah-muted tracking-[0.2em]"
+          >
+            {role}
+          </motion.h2>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.75, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+            className="hero-headline tracking-tight leading-[1.02]"
+            style={{ color: character.colorPrimary }}
+          >
+            {character.name}
+          </motion.h1>
 
           {catchphrase && (
-            <p className="text-2xl md:text-3xl italic font-light text-zinc-300 border-l-4 pl-6" style={{ borderColor: character.colorPrimary }}>
-              &quot;{catchphrase}&quot;
-            </p>
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.18 }}
+              className="text-2xl md:text-3xl italic font-light text-selah-dark/75 border-l-4 pl-6 max-w-xl"
+              style={{ borderColor: character.colorPrimary }}
+            >
+              &ldquo;{catchphrase}&rdquo;
+            </motion.p>
           )}
-
-          {verseRef && verseText && (
-            <div className="bg-zinc-900/50 p-6 rounded-2xl backdrop-blur-sm border border-zinc-800/50 max-w-xl">
-              <p className="text-lg md:text-xl text-zinc-200 mb-2 font-medium">&quot;{verseText}&quot;</p>
-              <p className="text-sm uppercase tracking-wider font-semibold" style={{ color: character.colorAccent || character.colorPrimary }}>
-                — {verseRef}
-              </p>
-            </div>
-          )}
-
-          <button 
-            onClick={() => console.log(`Play theme song for ${character.name}`)}
-            className="group flex items-center space-x-3 px-8 py-4 rounded-full font-bold text-lg transition-all hover:scale-105 active:scale-95 shadow-lg"
-            style={{ 
-              backgroundColor: character.colorPrimary,
-              color: '#fff',
-              boxShadow: `0 10px 30px -10px ${character.colorPrimary}80`
-            }}
-          >
-            <Play className="w-6 h-6 fill-current group-hover:scale-110 transition-transform" />
-            <span>{playText}</span>
-          </button>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
