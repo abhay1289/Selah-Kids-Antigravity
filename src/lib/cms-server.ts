@@ -333,6 +333,32 @@ function resolveImageUrl(raw: string): string {
   return `${SITE_ORIGIN}/${raw}`;
 }
 
+/**
+ * Pick the locale-matching value from a PageSEO row. Falls back through a
+ * chain so older DB rows (or partial translations) keep producing valid
+ * metadata instead of going undefined:
+ *
+ *   1. Requested locale (`_es` for es, `_en` for en).
+ *   2. Opposite-locale variant (better to show EN copy on an ES page
+ *      than to ship an empty `<title>`).
+ *   3. Legacy single-locale field (pre-migration rows).
+ */
+function selectSeoField(
+  seo: PageSEO,
+  locale: 'en' | 'es',
+  base: 'metaTitle' | 'metaDescription' | 'ogTitle' | 'ogDescription',
+): string | undefined {
+  const enKey = `${base}En` as const;
+  const esKey = `${base}Es` as const;
+  const enVal = (seo as unknown as Record<string, string | undefined>)[enKey];
+  const esVal = (seo as unknown as Record<string, string | undefined>)[esKey];
+  const legacy = (seo as unknown as Record<string, string | undefined>)[base];
+  const primary = locale === 'es' ? esVal : enVal;
+  const fallback = locale === 'es' ? enVal : esVal;
+  const pick = primary || fallback || legacy;
+  return pick && pick.length > 0 ? pick : undefined;
+}
+
 export async function getSeoMetadata(
   path: string,
   locale: 'en' | 'es',
@@ -354,12 +380,17 @@ export async function getSeoMetadata(
   const esUrl = `${SITE_ORIGIN}${path === '/' ? '/es/' : `/es${path}`}`;
   const ogImageUrl = resolveImageUrl(seo.ogImage);
 
+  const metaTitle = selectSeoField(seo, locale, 'metaTitle');
+  const metaDescription = selectSeoField(seo, locale, 'metaDescription');
+  const ogTitle = selectSeoField(seo, locale, 'ogTitle') ?? metaTitle;
+  const ogDescription = selectSeoField(seo, locale, 'ogDescription') ?? metaDescription;
+
   return {
     // Admin-authored titles already include the brand suffix ("... — Selah
     // Kids"), so we use `absolute` to prevent any parent `title.template`
     // from duplicating the brand ("Our Story — Selah Kids | Selah Kids").
-    title: seo.metaTitle ? { absolute: seo.metaTitle } : undefined,
-    description: seo.metaDescription || undefined,
+    title: metaTitle ? { absolute: metaTitle } : undefined,
+    description: metaDescription,
     robots: parseRobots(seo.robots),
     alternates: {
       canonical: canonicalForLocale,
@@ -372,8 +403,8 @@ export async function getSeoMetadata(
       },
     },
     openGraph: {
-      title: seo.ogTitle || seo.metaTitle || undefined,
-      description: seo.ogDescription || seo.metaDescription || undefined,
+      title: ogTitle,
+      description: ogDescription,
       siteName: 'Selah Kids',
       images: [{ url: ogImageUrl }],
       locale: locale === 'es' ? 'es_ES' : 'en_US',
@@ -382,8 +413,8 @@ export async function getSeoMetadata(
     },
     twitter: {
       card: 'summary_large_image',
-      title: seo.ogTitle || seo.metaTitle || undefined,
-      description: seo.ogDescription || seo.metaDescription || undefined,
+      title: ogTitle,
+      description: ogDescription,
       images: [ogImageUrl],
     },
   };
