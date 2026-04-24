@@ -3,13 +3,17 @@ import { createServerClient } from '@supabase/ssr';
 import { getLocaleFromPathname, negotiateLocale } from './lib/i18n';
 
 /**
- * Middleware combines two independent responsibilities:
+ * Middleware combines three responsibilities:
  *
  *   1. **Public-path locale redirect** — URLs without a /en or /es prefix
- *      308-redirect to the prefixed form using Accept-Language negotiation.
+ *      307-redirect to the prefixed form using Accept-Language negotiation.
  *      Phase 2 invariant: every rendered public page lives under /[locale]/.
  *
- *   2. **Admin auth** — /admin/* requires a valid Supabase session; unauth'd
+ *   2. **Locale header for SSR `<html lang>`** — on /en/* and /es/*
+ *      requests, stamp `x-selah-locale` on the forwarded request so the
+ *      root layout can set the correct `lang` attribute before hydration.
+ *
+ *   3. **Admin auth** — /admin/* requires a valid Supabase session; unauth'd
  *      callers bounce to /admin/login. Preserves cookie refresh behavior.
  */
 
@@ -38,9 +42,33 @@ export async function middleware(req: NextRequest) {
     const locale = negotiateLocale(req.headers.get('accept-language'));
     const url = req.nextUrl.clone();
     url.pathname = pathname === '/' ? `/${locale}` : `/${locale}${pathname}`;
-    // 308 (permanent + preserve method) — POSTs to legacy URLs don't silently
-    // downgrade to GET. SEO crawlers treat 308 like 301 for canonicalization.
-    return NextResponse.redirect(url, 308);
+    // 307 (temporary + preserve method). 308 was wrong here: a permanent
+    // redirect for locale negotiation means a browser that once saw
+    // /→/en can get stuck on /en even after the visitor changes their
+    // system language. Google treats 307 like 302 for canonicalization
+    // — it probes both targets — which is what we want since the
+    // canonical URLs are the /en and /es leaves, not /.
+    return NextResponse.redirect(url, 307);
+  }
+
+  // ── 1a. Locale header for downstream layouts ──
+  // `<html lang>` must be correct in the SSR response, before hydration.
+  // Middleware knows the pathname (and therefore the locale) for every
+  // request — stamp it on the forwarded request headers so the root
+  // layout can set `lang` via `headers().get('x-selah-locale')`.
+  const localeFromPath = getLocaleFromPathname(pathname);
+  if (localeFromPath) {
+    const reqHeaders = new Headers(req.headers);
+    reqHeaders.delete('x-selah-locale');
+    reqHeaders.set('x-selah-locale', localeFromPath);
+    // The /admin branch below will re-derive its own request headers from
+    // `req.headers`, but non-admin public routes need this header on the
+    // *forwarded* request. Apply it here and carry the NextResponse
+    // forward. The admin branch returns its own response so won't stomp
+    // on this one.
+    if (!pathname.startsWith('/admin')) {
+      return NextResponse.next({ request: { headers: reqHeaders } });
+    }
   }
 
   // ── 2a. Preview mode marker — cms-server reads this to flip getCollection /

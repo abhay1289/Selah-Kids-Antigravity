@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { headers } from "next/headers";
 import { LanguageProvider } from "../contexts/LanguageContext";
 import { LanguageSync } from "../components/LanguageSync";
+import { SITE_ORIGIN } from "../data/chrome-seo";
 import "./globals.css";
 
 // Self-hosted fonts (Fredoka + Quicksand from Google Fonts, committed under
@@ -33,25 +35,30 @@ const quicksand = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_ORIGIN),
   title: "Selah Kids | Faith-based original music & Christian cartoons",
   description: "A faith-based platform featuring original worship music, Christian cartoons, and engaging activities for children and families.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // `<html lang>` must be correct at SSR time — before hydration — so
+  // Google, Bing, and screen readers see the right language on the first
+  // byte. Middleware stamps `x-selah-locale` on every /en/* and /es/*
+  // request; fall back to 'en' for /admin/* and anything else.
+  const headerList = await headers();
+  const locale = headerList.get('x-selah-locale') === 'es' ? 'es' : 'en';
+
   return (
     <html
-      lang="en"
+      lang={locale}
       className={`${fredoka.variable} ${quicksand.variable}`}
-      translate="no"
       suppressHydrationWarning
     >
       <head>
-        {/* Prevent Google Translate from auto-translating — site has built-in EN/ES toggle */}
-        <meta name="google" content="notranslate" />
         {/* DNS prefetch for external resources */}
         <link rel="dns-prefetch" href="https://www.transparenttextures.com" />
         {/*
