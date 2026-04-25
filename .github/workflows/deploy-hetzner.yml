@@ -1,0 +1,59 @@
+name: Deploy to Hetzner
+
+# Auto-deploy to the Hetzner CPX11 (selahkids-prod, 87.99.148.55) on
+# every push to the production branch. The remote /usr/local/bin/
+# deploy-site.sh handles the work: git fetch + reset --hard, bun
+# install, bun run build, systemctl restart selahkids. Caddy is left
+# alone so Let's Encrypt cert state isn't churned on every deploy.
+#
+# Required GitHub repo secrets (set under Settings → Secrets → Actions):
+#   HETZNER_HOST       — VM IP (currently 87.99.148.55)
+#   HETZNER_SSH_KEY    — the private half of the deploy-only ed25519
+#                        keypair. The public half is in /home/app/.ssh/
+#                        authorized_keys on the VM and only authorizes
+#                        sudoless run of /usr/local/bin/deploy-site.sh.
+
+on:
+  push:
+    branches:
+      - feat/admin-merge
+      - main
+  workflow_dispatch: {}
+
+concurrency:
+  # Serialize deploys so a fast-follow push can't overlap an in-flight
+  # bun install / next build. The previous run gets canceled.
+  group: deploy-hetzner
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Configure SSH
+        run: |
+          install -m 700 -d ~/.ssh
+          install -m 600 /dev/stdin ~/.ssh/id_ed25519 <<<"${{ secrets.HETZNER_SSH_KEY }}"
+          ssh-keyscan -t ed25519 -H "${{ secrets.HETZNER_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Trigger deploy
+        run: |
+          ssh -i ~/.ssh/id_ed25519 -o ConnectTimeout=15 \
+            "app@${{ secrets.HETZNER_HOST }}" \
+            'sudo -n /usr/local/bin/deploy-site.sh'
+
+      - name: Smoke-test
+        run: |
+          # Wait up to 60s for the service to come back, then probe.
+          for i in $(seq 1 12); do
+            sleep 5
+            code=$(curl -sS -o /dev/null -w "%{http_code}" --max-time 10 \
+              -H "Host: selahkids.com" "http://${{ secrets.HETZNER_HOST }}/es")
+            if [ "$code" = "200" ]; then
+              echo "✓ /es returns 200"
+              exit 0
+            fi
+          done
+          echo "✗ /es did not return 200 after restart"
+          exit 1

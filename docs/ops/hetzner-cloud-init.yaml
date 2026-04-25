@@ -1,0 +1,88 @@
+#cloud-config
+package_update: true
+package_upgrade: false
+packages:
+  - git
+  - curl
+  - ufw
+  - unzip
+  - debian-keyring
+  - debian-archive-keyring
+  - apt-transport-https
+  - ca-certificates
+  - build-essential
+
+write_files:
+  - path: /etc/systemd/system/selahkids.service
+    content: |
+      [Unit]
+      Description=Selah Kids Next.js
+      After=network.target
+      [Service]
+      Type=simple
+      User=app
+      WorkingDirectory=/srv/app/site
+      ExecStart=/home/app/.bun/bin/bun run start
+      Environment=NODE_ENV=production
+      Environment=PORT=3000
+      Environment=HOSTNAME=0.0.0.0
+      Restart=always
+      RestartSec=5
+      [Install]
+      WantedBy=multi-user.target
+
+  - path: /etc/caddy/Caddyfile
+    content: |
+      {
+        email info.selahkids@gmail.com
+      }
+      selahkids.com, www.selahkids.com {
+        encode gzip zstd
+        reverse_proxy localhost:3000
+      }
+
+  - path: /usr/local/bin/deploy-site.sh
+    permissions: '0755'
+    content: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      cd /srv/app/site
+      sudo -u app git fetch --all --prune
+      sudo -u app git reset --hard origin/feat/admin-merge
+      sudo -u app /home/app/.bun/bin/bun install --frozen-lockfile
+      sudo -u app /home/app/.bun/bin/bun run build
+      systemctl restart selahkids
+
+runcmd:
+  # 1. Node 22 + bun for the app user
+  - curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
+  - apt-get install -y nodejs
+  - useradd -m -s /bin/bash app
+  - sudo -u app bash -lc 'curl -fsSL https://bun.sh/install | bash'
+  # 2. Caddy — pre-create the system user the deb post-install script
+  # *should* create but doesn't always on a fresh Ubuntu image. Without
+  # this the systemd unit fails with `status=217/USER` on first boot.
+  - groupadd --system caddy || true
+  - useradd --system --gid caddy --create-home --home-dir /var/lib/caddy --shell /usr/sbin/nologin --comment "Caddy web server" caddy || true
+  - curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+  - curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | tee /etc/apt/sources.list.d/caddy-stable.list
+  - apt-get update
+  - apt-get install -y caddy
+  # 3. Firewall
+  - ufw allow OpenSSH
+  - ufw allow 80/tcp
+  - ufw allow 443/tcp
+  - ufw --force enable
+  # 4. Clone + build
+  - mkdir -p /srv/app
+  - chown -R app:app /srv/app
+  - sudo -u app git clone --branch feat/admin-merge https://github.com/abhay1289/Selah-Kids-Antigravity.git /srv/app/site
+  - sudo -u app /home/app/.bun/bin/bun install --frozen-lockfile --cwd /srv/app/site
+  - sudo -u app bash -lc 'cd /srv/app/site && /home/app/.bun/bin/bun run build'
+  # 5. Boot the app + Caddy
+  - systemctl daemon-reload
+  - systemctl enable --now selahkids
+  - systemctl restart caddy
+  - touch /var/lib/cloud/instance/selahkids-bootstrap-done
+
+final_message: "Selah Kids bootstrap complete in $UPTIME — site listening on :3000, Caddy fronting :80/:443"
