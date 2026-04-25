@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
-import { getLocaleFromPathname, negotiateLocale } from './lib/i18n';
+import { DEFAULT_LOCALE, getLocaleFromPathname } from './lib/i18n';
 
 /**
  * Middleware combines three responsibilities:
@@ -39,15 +39,18 @@ export async function middleware(req: NextRequest) {
 
   // ── 1. Locale redirect (public pages only, no locale prefix present) ──
   if (shouldLocaleRedirect(pathname)) {
-    const locale = negotiateLocale(req.headers.get('accept-language'));
+    // Always redirect to DEFAULT_LOCALE (Spanish), regardless of the
+    // browser's Accept-Language header. The site's primary audience is
+    // Spanish-speaking; English visitors can still switch to /en via
+    // the in-page language toggle or by visiting /en/* URLs directly.
+    // Negotiating against Accept-Language meant English-system users
+    // never saw the Spanish-default brand on first visit, which is the
+    // wrong mental model for this product.
     const url = req.nextUrl.clone();
-    url.pathname = pathname === '/' ? `/${locale}` : `/${locale}${pathname}`;
-    // 307 (temporary + preserve method). 308 was wrong here: a permanent
-    // redirect for locale negotiation means a browser that once saw
-    // /→/en can get stuck on /en even after the visitor changes their
-    // system language. Google treats 307 like 302 for canonicalization
-    // — it probes both targets — which is what we want since the
-    // canonical URLs are the /en and /es leaves, not /.
+    url.pathname = pathname === '/' ? `/${DEFAULT_LOCALE}` : `/${DEFAULT_LOCALE}${pathname}`;
+    // 307 (temporary + preserve method) — keep the redirect probable so
+    // when the user toggles language and gets cookied onto /en, browsers
+    // don't permanently cache the /→/es path.
     return NextResponse.redirect(url, 307);
   }
 
