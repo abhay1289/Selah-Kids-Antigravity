@@ -1,28 +1,26 @@
 import path from 'node:path';
 
-// Build-time env var guard.
+// Build-time env var check.
 //
-// In production, the CMS is the source of truth — missing Supabase env vars
-// would cause the public site to render offline-mode fallbacks (seed data).
-// Fail the build before that silent regression can reach production.
-//
-// VERCEL_ENV distinguishes 'production' from 'preview' / 'development'. The
-// guard only trips on real production promotions, so preview deploys can
-// boot without a DB (useful for design review on a not-yet-seeded stack).
-// Local `next build` still enforces the check via NODE_ENV when VERCEL_ENV
-// is absent, so devs don't accidentally ship a DB-less prod build.
-const isRealProdBuild =
+// In production, the CMS is the source of truth. Without Supabase env vars
+// the public site falls back to bundled seed data (offline mode). For the
+// pre-launch phase we accept that fallback so the domain can be wired up
+// before the DB is provisioned — but we log a loud warning so it can't be
+// missed in the build output. Once Supabase is set in the Vercel project,
+// the warning disappears.
+const isProdLike =
   process.env.VERCEL_ENV === 'production' ||
   (!process.env.VERCEL_ENV && process.env.NODE_ENV === 'production');
-if (isRealProdBuild) {
+if (isProdLike) {
   const missing = [];
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) missing.push('NEXT_PUBLIC_SUPABASE_URL');
   if (!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) missing.push('NEXT_PUBLIC_SUPABASE_ANON_KEY');
   if (missing.length) {
-    throw new Error(
-      `Production build aborted — missing Supabase env vars: ${missing.join(', ')}.\n` +
-        `Set them in the deploy environment. For a preview deploy without a DB, ` +
-        `Vercel sets VERCEL_ENV=preview which bypasses this guard.`,
+    // eslint-disable-next-line no-console
+    console.warn(
+      `\n⚠️  Production build proceeding WITHOUT Supabase env vars: ${missing.join(', ')}.\n` +
+        `   The site will render offline-mode (seed) content until these are set.\n` +
+        `   Add them in Vercel → Project → Settings → Environment Variables.\n`,
     );
   }
 }
