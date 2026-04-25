@@ -86,12 +86,24 @@ const nextConfig = {
       { source: '/downloads', destination: '/resources', permanent: true },
       { source: '/printables', destination: '/resources', permanent: true },
 
-      // Contact + donate synonyms
+      // Contact synonyms
       { source: '/contact-us', destination: '/contact', permanent: true },
       { source: '/get-in-touch', destination: '/contact', permanent: true },
-      { source: '/support', destination: '/donate', permanent: true },
-      { source: '/give', destination: '/donate', permanent: true },
-      { source: '/giving', destination: '/donate', permanent: true },
+
+      // Donate page is paused (not permanently retired) — every donate-
+      // shaped URL lands on /contact for now. Temporary (307) so that
+      // browsers and search engines don't cache this forever; if
+      // donations are restored later we just delete the rule and the
+      // /donate page picks up its own canonical again. Locale-aware
+      // variants cover /en/donate and /es/donate which would otherwise
+      // skip the apex-only redirects above.
+      { source: '/donate', destination: '/contact', permanent: false },
+      { source: '/donate/:path*', destination: '/contact', permanent: false },
+      { source: '/:locale(en|es)/donate', destination: '/:locale/contact', permanent: false },
+      { source: '/:locale(en|es)/donate/:path*', destination: '/:locale/contact', permanent: false },
+      { source: '/support', destination: '/contact', permanent: false },
+      { source: '/give', destination: '/contact', permanent: false },
+      { source: '/giving', destination: '/contact', permanent: false },
 
       // Privacy + terms synonyms
       { source: '/privacy-policy', destination: '/privacy', permanent: true },

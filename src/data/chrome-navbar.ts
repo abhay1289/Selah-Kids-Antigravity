@@ -44,9 +44,9 @@ export const INITIAL_NAV_SETTINGS: NavSettings[] = [
   {
     id: 'nav',
     logoPath: '/SK_Logo_FN.png',
-    ctaLabelEn: 'Donate',
-    ctaLabelEs: 'Donar',
-    ctaHref: '/donate',
+    ctaLabelEn: 'Contact Us',
+    ctaLabelEs: 'Contáctanos',
+    ctaHref: '/contact',
     ctaStyle: 'primary',
     stickyOnScroll: true,
     showLanguageToggle: true,
