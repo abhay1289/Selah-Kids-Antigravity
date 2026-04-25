@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: CharacterSlugPageProps): Prom
   const languages: Record<string, string> = { [resolvedLocale]: canonical };
   if (paired) {
     languages[resolvedLocale === 'es' ? 'en' : 'es'] = resolvedLocale === 'es' ? enUrl : esUrl;
-    languages['x-default'] = enUrl;
+    languages['x-default'] = esUrl;
   }
 
   return {

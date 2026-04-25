@@ -2,10 +2,12 @@
  * Locale primitives for the Phase 2 URL-segmented bilingual routing.
  *
  * URL shape:
- *   /en/...  — English (default)
- *   /es/...  — Spanish
- *   /        — redirected to /en (by middleware)
- *   /about   — redirected to /en/about (by middleware)
+ *   /es/...  — Spanish (default)
+ *   /en/...  — English
+ *   /        — redirected to /es (by middleware) unless Accept-Language
+ *              prefers English
+ *   /about   — redirected to /es/about (by middleware) unless Accept-
+ *              Language prefers English
  *
  * This module is pure: no React, no Next.js imports, no side effects.
  * Safe to import from server, client, middleware, tests, and scripts.
@@ -13,7 +15,10 @@
 
 export const SUPPORTED_LOCALES = ['en', 'es'] as const;
 export type Locale = (typeof SUPPORTED_LOCALES)[number];
-export const DEFAULT_LOCALE: Locale = 'en';
+// Spanish is the primary audience — visitors with no Accept-Language
+// preference, or one we don't recognize, land on /es. English speakers
+// still get /en via the negotiation in `negotiateLocale()`.
+export const DEFAULT_LOCALE: Locale = 'es';
 
 export function isLocale(x: string): x is Locale {
   return (SUPPORTED_LOCALES as readonly string[]).includes(x);
@@ -90,8 +95,8 @@ export function localeHref(path: string, locale: Locale = DEFAULT_LOCALE): strin
  *
  *   'es-MX,es;q=0.9,en;q=0.8'  → 'es'
  *   'en-US,en;q=0.9'           → 'en'
- *   'fr-FR'                     → 'en'  (DEFAULT_LOCALE)
- *   null                        → 'en'
+ *   'fr-FR'                     → 'es'  (DEFAULT_LOCALE)
+ *   null                        → 'es'
  */
 export function negotiateLocale(acceptLanguage: string | null): Locale {
   if (!acceptLanguage) return DEFAULT_LOCALE;

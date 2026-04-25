@@ -60,7 +60,7 @@ export async function generateMetadata({ params }: BlogSlugPageProps): Promise<M
   if (paired) {
     const otherUrl = resolvedLocale === 'es' ? enUrl : esUrl;
     languages[resolvedLocale === 'es' ? 'en' : 'es'] = otherUrl;
-    languages['x-default'] = enUrl;
+    languages['x-default'] = esUrl;
   }
 
   return {

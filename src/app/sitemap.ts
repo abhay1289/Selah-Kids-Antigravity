@@ -59,7 +59,7 @@ function buildEntry(path: string, priority: number, changeFrequency: StaticRoute
         languages: {
           en: enUrl,
           es: esUrl,
-          'x-default': enUrl,
+          'x-default': esUrl,
         },
       },
     },
@@ -72,7 +72,7 @@ function buildEntry(path: string, priority: number, changeFrequency: StaticRoute
         languages: {
           en: enUrl,
           es: esUrl,
-          'x-default': enUrl,
+          'x-default': esUrl,
         },
       },
     },

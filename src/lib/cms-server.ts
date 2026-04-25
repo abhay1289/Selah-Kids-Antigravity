@@ -398,8 +398,8 @@ export async function getSeoMetadata(
         en: enUrl,
         es: esUrl,
         // Google recommends an x-default hint for unmatched locales; we
-        // point it at the English variant.
-        'x-default': enUrl,
+        // point it at the Spanish variant since ES is the primary audience.
+        'x-default': esUrl,
       },
     },
     openGraph: {
