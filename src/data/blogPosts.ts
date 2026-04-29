@@ -157,6 +157,44 @@ export const BLOG_POSTS: BlogPost[] = [
       "<strong>El reflejo del carácter de Cristo:</strong> Practicar el perdón y la búsqueda de la reconciliación en las relaciones personales.",
       "Ser de bendición trasciende lo material; implica brindar esperanza y luz en los momentos de dificultad."
     ]
+  },
+  {
+    id: '4',
+    slug: "the-servants-heart-love-in-action",
+    slugEn: "the-servants-heart-love-in-action",
+    slugEs: "el-corazon-de-siervo-amor-en-accion",
+    category: "faith",
+    titleEn: "The Servant's Heart: Love in Action",
+    titleEs: "El Corazón de Siervo: Amor en Acción",
+    dateEn: "April 27, 2026",
+    dateEs: "27 de Abril, 2026",
+    img: "/blog-servants-heart.png",
+    contentEn: [
+      "In a culture that exalts personal success, putting others first is an act of radical faith. For those who seek to walk in the Truth, service is not a burden, but the natural outcome of a heart transformed by grace.",
+      "<strong>Jesus's Example</strong>",
+      'Christian service is not merely a task, but an attitude of the soul. Jesus Christ, the King of the universe, set the supreme example: <em>&quot;For even the Son of Man did not come to be served, but to serve, and to give his life as a ransom for many&quot;</em> (Mark 10:45). If the Savior took the place of a servant, His followers are called to reflect that same character of humility and self-giving.',
+      "<strong>Transformation from Within</strong>",
+      "Serving one's neighbor has a profound effect on one's spiritual life. By focusing our gaze on the needs of others, the Holy Spirit works to:",
+      "<strong>Overcome selfishness:</strong> The pursuit of personal recognition is abandoned.",
+      "<strong>Cultivate compassion:</strong> One begins to see the world through God's eyes.",
+      "<strong>Reflect the light of Christ:</strong> Every act of kindness is a seed planted for eternity.",
+      "<strong>A Light That Glorifies the Father</strong>",
+      "This calling is vital for those who guide new generations. <strong>Parents and caregivers</strong> are invited to view their daily work as an offering of service that glorifies God. Matthew 5:16 encourages us to let that light shine before others—not to exalt human effort, but so that others may praise our heavenly Father for His love, as reflected in the care shown to children. Each day is an opportunity to demonstrate the well-being of the Kingdom through sacrifice and patience.",
+      'To delve deeper into this truth, we extend an invitation to watch the sing-along video for <strong>&quot;I Am Blessed&quot;</strong>, available on our YouTube channel. It illustrates how a heart that serves is a heart that proclaims—without words—the unconditional love of the Savior.'
+    ],
+    contentEs: [
+      "En una cultura que exalta el éxito personal, poner a otros primero es un acto de fe radical. Para quien busca caminar en la Verdad, el servicio no es una carga, sino el resultado natural de un corazón transformado por la gracia.",
+      "<strong>El Modelo de Cristo</strong>",
+      'El servicio cristiano no es una simple tarea, sino una actitud del alma. Jesucristo, el Rey del universo, dejó el ejemplo supremo: <em>&quot;Porque ni aun el Hijo del Hombre vino para ser servido, sino para servir, y para dar su vida en rescate por muchos&quot;</em> (Marcos 10:45). Si el Salvador tomó el lugar de siervo, Sus seguidores están llamados a reflejar ese mismo carácter de humildad y entrega.',
+      "<strong>Transformación desde el Interior</strong>",
+      "Servir al prójimo tiene un efecto profundo en la vida espiritual. Al centrar la mirada en las necesidades de los demás, el Espíritu Santo trabaja para:",
+      "<strong>Vencer el egoísmo:</strong> Se abandona la búsqueda del reconocimiento propio.",
+      "<strong>Cultivar la compasión:</strong> Se comienza a ver el mundo a través de los ojos de Dios.",
+      "<strong>Reflejar la luz de Cristo:</strong> Cada acto de bondad es una semilla plantada para la eternidad.",
+      "<strong>Luz que Glorifica al Padre</strong>",
+      "Este llamado es vital para quienes guían a las nuevas generaciones. Se invita a los <strong>padres y cuidadores</strong> a ver su labor diaria como una ofrenda de servicio que glorifica a Dios. Mateo 5:16 anima a dejar que esa luz brille ante los demás, no para exaltar el esfuerzo humano, sino para que otros alaben al Padre celestial por Su amor reflejado en el cuidado de los niños. Cada jornada es una oportunidad para mostrar el bienestar del Reino a través del sacrificio y la paciencia.",
+      'Para profundizar en esta verdad, se extiende la invitación a ver el video con letras <strong>&quot;Bendecido estoy&quot;</strong>, que está en nuestro canal. En él se refleja cómo un corazón que sirve es un corazón que anuncia, sin palabras, el amor incondicional del Salvador.'
+    ]
   }
 ];
 
