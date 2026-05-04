@@ -62,7 +62,7 @@ const CHARACTERS = [
     gradient: 'from-[#FFD700]/15 via-[#FFFDF0] to-[#FFF8DC]/20',
     blobColor: 'bg-[#FFD700]',
     ringColor: 'ring-[#FFD700]/30',
-    image: '/SK_Shiloh_Intro_Pose.png',
+    image: '/SK_Shiloh_Intro_Pose-removebg-preview.png',
     imageAlt: 'Shiloh – The Faithful Best Friend',
     icon: Star,
     funFact: 'Shiloh\'s favorite snack is apples straight from the tree!',
@@ -135,7 +135,7 @@ function CharacterImage({ char, index }: { char: typeof CHARACTERS[0]; index: nu
             src={char.image}
             alt={char.imageAlt}
             fill
-            className="object-contain p-4 drop-shadow-[0_20px_40px_rgba(0,0,0,0.1)] mix-blend-multiply"
+            className="object-contain p-4 drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)]"
             sizes="(max-width: 768px) 90vw, 420px"
             priority={index === 0}
           />

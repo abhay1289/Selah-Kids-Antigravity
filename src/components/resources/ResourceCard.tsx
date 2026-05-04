@@ -13,7 +13,7 @@ interface ResourceCardProps {
 }
 
 export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index, onDownloadAction }) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const x = useMotionValue(0);
@@ -156,15 +156,15 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, index, onD
             transition={{ delay: index * 0.1 + 0.5 }}
           >
             <span className="inline-block px-2.5 py-1 bg-selah-orange/[0.08] text-selah-orange rounded border border-selah-orange/10 text-[9px] uppercase font-black tracking-[0.15em] shrink-0">
-              {resource.category}
+              {language === 'ES' && resource.categoryEs ? resource.categoryEs : resource.category}
             </span>
           </motion.div>
 
           <h3 className="text-[22px] font-black font-display text-selah-dark tracking-tight mb-2 leading-snug line-clamp-2 group-hover:text-selah-orange transition-colors duration-400">
-            {resource.title}
+            {language === 'ES' && resource.titleEs ? resource.titleEs : resource.title}
           </h3>
           <p className="text-selah-muted/70 text-[15px] leading-relaxed line-clamp-2 font-medium pr-2">
-            {resource.description}
+            {language === 'ES' && resource.descriptionEs ? resource.descriptionEs : resource.description}
           </p>
         </div>
 

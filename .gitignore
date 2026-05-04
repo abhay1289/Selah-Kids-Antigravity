@@ -13,3 +13,4 @@ test_node_modules/
 .pnpm-store/
 .vercel
 .env*.local
+\n.npmrc\n.npm-cache/

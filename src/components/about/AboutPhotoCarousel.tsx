@@ -147,7 +147,7 @@ export const AboutPhotoCarousel = () => {
         <div className="relative mb-6 md:mb-8">
           <div className="absolute left-0 top-0 bottom-0 w-24 md:w-40 bg-gradient-to-r from-selah-bg to-transparent z-10 pointer-events-none" />
           <div className="absolute right-0 top-0 bottom-0 w-24 md:w-40 bg-gradient-to-l from-selah-bg to-transparent z-10 pointer-events-none" />
-          <motion.div className="flex will-change-transform" animate={{ x: ['0%', '-50%'] }} transition={{ x: { repeat: Infinity, repeatType: 'loop', duration: 120, ease: 'linear' } }} style={{ width: 'max-content' }}>
+          <motion.div className="flex will-change-transform" animate={{ x: ['0%', '-50%'] }} transition={{ x: { repeat: Infinity, repeatType: 'loop', duration: 260, ease: 'linear' } }} style={{ width: 'max-content' }}>
             {row1Items.map((src, i) => (<PhotoCard key={`r1-${i}`} src={src} index={i} onOpen={openLightbox} />))}
           </motion.div>
         </div>
@@ -155,7 +155,7 @@ export const AboutPhotoCarousel = () => {
         <div className="relative">
           <div className="absolute left-0 top-0 bottom-0 w-24 md:w-40 bg-gradient-to-r from-selah-bg to-transparent z-10 pointer-events-none" />
           <div className="absolute right-0 top-0 bottom-0 w-24 md:w-40 bg-gradient-to-l from-selah-bg to-transparent z-10 pointer-events-none" />
-          <motion.div className="flex will-change-transform" animate={{ x: ['-50%', '0%'] }} transition={{ x: { repeat: Infinity, repeatType: 'loop', duration: 130, ease: 'linear' } }} style={{ width: 'max-content' }}>
+          <motion.div className="flex will-change-transform" animate={{ x: ['-50%', '0%'] }} transition={{ x: { repeat: Infinity, repeatType: 'loop', duration: 280, ease: 'linear' } }} style={{ width: 'max-content' }}>
             {row2Items.map((src, i) => (<PhotoCard key={`r2-${i}`} src={src} index={i} onOpen={openLightbox} />))}
           </motion.div>
         </div>
