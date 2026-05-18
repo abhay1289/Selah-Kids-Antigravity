@@ -14,9 +14,9 @@ const CATEGORIES = ['All', 'Printables', 'Lessons', 'Devotionals'];
 // Each resource carries bilingual title/description and either a single
 // locale-agnostic `img` (line-art coloring pages — same artwork in both
 // locales) or `imgEn`/`imgEs` (activity sheets where the in-page text is
-// translated). resolveResource() flattens these per the active locale
-// before the card renders, so ResourceCard stays a dumb consumer of
-// `title`/`description`/`img`.
+// translated). Activity sheets also carry `pdfEn`/`pdfEs` — a multi-page
+// PDF download — separate from the preview thumbnail. resolveResource()
+// flattens these per the active locale before the card renders.
 type RawResource = {
   id: number;
   titleEn: string;
@@ -29,6 +29,8 @@ type RawResource = {
   img?: string;
   imgEn?: string;
   imgEs?: string;
+  pdfEn?: string;
+  pdfEs?: string;
   featured?: boolean;
   comingSoon?: boolean;
 };
@@ -81,65 +83,49 @@ const RESOURCES: RawResource[] = [
   },
 
   // ─── Activity sheets (locale-specific artwork, EN ↔ ES paired) ───
+  // Multi-page sheets are bundled into a single PDF; the card preview
+  // uses a portrait JPG thumbnail of the first page.
   {
     id: 9,
     titleEn: "Color by Number",
     titleEs: "Colorea por Número",
     descriptionEn: "A guided color-by-number printable for early learners.",
     descriptionEs: "Una hoja imprimible de colorear por números para los más pequeños.",
-    type: "PNG",
+    type: "PDF",
     category: "Printables",
     gradient: "from-[#FFB347] to-[#FF7F50]",
-    imgEn: "/SK_Activities/ENG/SK_ColoringActivity_ENG_ColorNumber_Page05_FN.png",
-    imgEs: "/SK_Activities/SPN/SK_ColoringActivity_SPN_ColorNumber_Page05_FN.png",
+    imgEn: "/SK_Activities/previews/Color_by_Number_EN.jpg",
+    imgEs: "/SK_Activities/previews/Color_by_Number_ES.jpg",
+    pdfEn: "/SK_Activities/pdf/Color_by_Number_EN.pdf",
+    pdfEs: "/SK_Activities/pdf/Color_by_Number_ES.pdf",
   },
   {
     id: 10,
-    titleEn: "Fruit of the Spirit — Page 1",
-    titleEs: "El Fruto del Espíritu — Página 1",
-    descriptionEn: "Coloring activity exploring love, joy, peace and more from Galatians 5.",
-    descriptionEs: "Actividad para colorear que explora amor, gozo, paz y más, desde Gálatas 5.",
-    type: "PNG",
+    titleEn: "Fruit of the Spirit",
+    titleEs: "El Fruto del Espíritu",
+    descriptionEn: "Two-page coloring activity exploring love, joy, peace and more from Galatians 5.",
+    descriptionEs: "Actividad de dos páginas para colorear que explora amor, gozo, paz y más, desde Gálatas 5.",
+    type: "PDF",
     category: "Printables",
     gradient: "from-[#A8E6CF] to-[#3AB795]",
-    imgEn: "/SK_Activities/ENG/SK_ColoringActivity_Fruit_of_the_Spirit_ENG_Page06_01_FN.png",
-    imgEs: "/SK_Activities/SPN/SK_ColoringActivity_Fruit_of_the_Spirit_SPN_Page06_01_FN.png",
-  },
-  {
-    id: 11,
-    titleEn: "Fruit of the Spirit — Page 2",
-    titleEs: "El Fruto del Espíritu — Página 2",
-    descriptionEn: "The companion sheet to page 1 — keep growing the fruit together.",
-    descriptionEs: "La hoja complementaria a la página 1 — sigamos cultivando el fruto juntos.",
-    type: "PNG",
-    category: "Printables",
-    gradient: "from-[#B5EAD7] to-[#5AC18E]",
-    imgEn: "/SK_Activities/ENG/SK_ColoringActivity_Fruit_of_the_Spirit_ENG_Page06_02_FN.png",
-    imgEs: "/SK_Activities/SPN/SK_ColoringActivity_Fruit_of_the_Spirit_SPN_Page06_02_FN.png",
+    imgEn: "/SK_Activities/previews/Fruit_of_the_Spirit_EN.jpg",
+    imgEs: "/SK_Activities/previews/Fruit_of_the_Spirit_ES.jpg",
+    pdfEn: "/SK_Activities/pdf/Fruit_of_the_Spirit_EN.pdf",
+    pdfEs: "/SK_Activities/pdf/Fruit_of_the_Spirit_ES.pdf",
   },
   {
     id: 12,
-    titleEn: "My Tiny Dancer — Page 1",
-    titleEs: "Mi Pequeño Bailarín — Página 1",
-    descriptionEn: "Worship through movement — a coloring activity for little dancers.",
-    descriptionEs: "Adoración a través del movimiento — una actividad para pequeños bailarines.",
-    type: "PNG",
+    titleEn: "My Tiny Dancer",
+    titleEs: "Mi Pequeño Bailarín",
+    descriptionEn: "Two-page coloring activity for little worshippers who love to move.",
+    descriptionEs: "Actividad de dos páginas para colorear, para pequeños adoradores que aman moverse.",
+    type: "PDF",
     category: "Printables",
     gradient: "from-[#FFD3E0] to-[#FF85B3]",
-    imgEn: "/SK_Activities/ENG/SK_ColoringActivity_MyTinyDancer_ENG_Page07_01_FN.png",
-    imgEs: "/SK_Activities/SPN/SK_ColoringActivity_Bailarin_SPN_Page07_01_FN.png",
-  },
-  {
-    id: 13,
-    titleEn: "My Tiny Dancer — Page 2",
-    titleEs: "Mi Pequeño Bailarín — Página 2",
-    descriptionEn: "Continue the dance — page 2 of the My Tiny Dancer activity set.",
-    descriptionEs: "Continúa el baile — página 2 del set Mi Pequeño Bailarín.",
-    type: "PNG",
-    category: "Printables",
-    gradient: "from-[#FFC1D9] to-[#FF6FA3]",
-    imgEn: "/SK_Activities/ENG/SK_ColoringActivity_MyTinyDancer_ENG_Page07_02_FN.png",
-    imgEs: "/SK_Activities/SPN/SK_ColoringActivity_Bailarin_SPN_Page07_02_FN.png",
+    imgEn: "/SK_Activities/previews/My_Tiny_Dancer_EN.jpg",
+    imgEs: "/SK_Activities/previews/My_Tiny_Dancer_ES.jpg",
+    pdfEn: "/SK_Activities/pdf/My_Tiny_Dancer_EN.pdf",
+    pdfEs: "/SK_Activities/pdf/My_Tiny_Dancer_ES.pdf",
   },
 
   // ─── Coming-soon placeholders ───
@@ -175,6 +161,7 @@ function resolveResource(raw: RawResource, language: 'EN' | 'ES') {
     title: isEs ? raw.titleEs : raw.titleEn,
     description: isEs ? raw.descriptionEs : raw.descriptionEn,
     img: raw.img ?? (isEs ? raw.imgEs : raw.imgEn),
+    pdf: isEs ? raw.pdfEs : raw.pdfEn,
   };
 }
 
@@ -196,9 +183,9 @@ export default function ResourcesPageClient({ fields }: { fields?: PageFieldMap 
   };
 
   const executeDownload = (resource: any) => {
-    // For now, if the resource is an activity sheet/PDF, we would typically trigger the file download here.
-    // If it has an img, maybe they can download the image for now.
-    const fileUrl = resource.img || "/sample-download.pdf";
+    // Activity sheets ship as PDFs (pdf field); coloring pages ship as PNGs
+    // (img field). Fall back to a generic sample if neither is present.
+    const fileUrl = resource.pdf || resource.img || "/sample-download.pdf";
 
     const a = document.createElement("a");
     a.href = fileUrl;
